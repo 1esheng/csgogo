@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Layers, Sparkles, Star } from 'lucide-react';
 import clsx from 'clsx';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { RARITY_TABLE, STAR_CONFIG } from '@/data/config';
 import { RARITIES, ROLE_LABEL, starsOf } from '@/types';
 import type { CardTemplate, Rarity, Role } from '@/types';
@@ -29,6 +30,7 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 const RARITY_RANK: Record<Rarity, number> = { N: 0, R: 1, SR: 2, SSR: 3, UR: 4 };
 
 export function GalleryPage() {
+  const { t } = useT();
   const cards = useGameStore((s) => s.cards);
   const templates = useGameStore((s) => s.templates());
   const nameOf = useGameStore((s) => s.nameOf);
@@ -109,7 +111,7 @@ export function GalleryPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='选手图鉴'
+        title={t('page.gallery.title')}
         subtitle={`全部 ${all.length} 名选手 · 已收集 ${ownedCount} 名 · 已有照片 ${withPhoto} 张`}
         right={<Tabs tabs={[{ id: 'owned', label: '我的卡牌' }, { id: 'gallery', label: '全部图鉴' }, { id: 'fuse', label: '卡牌合成' }]} active={tab} onChange={(id) => setTab(id as Tab)} />}
       />
