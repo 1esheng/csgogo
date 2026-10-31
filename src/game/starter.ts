@@ -97,8 +97,6 @@ export function createNewGame(clubName: string): GameSnapshot {
     tournaments: [],
     settings: { ...DEFAULT_SETTINGS },
     tasks: defaultTasks(),
-    market: [],
-    marketSeed: 1,
     claimedAchievements: [],
     customTemplates: [],
     customPlayers: [],
