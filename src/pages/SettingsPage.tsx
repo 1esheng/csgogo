@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import clsx from "clsx";
 import { AlertTriangle, Database, Gauge, HardDrive, Info, ShieldCheck, Sliders } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { listBackups, restoreBackup, type BackupInfo } from '@/db/db';
 import { ENABLE_DEV_PANEL } from '@/data/devFlags';
 import { GAME_VERSION } from '@/data/config';
 import { Badge, Button, Divider, Input, Panel, SectionTitle } from "@/components/ui";
@@ -23,6 +24,9 @@ export function SettingsPage() {
   const renameClub = useGameStore((s) => s.renameClub);
   const setClubLook = useGameStore((s) => s.setClubLook);
   const toast = useGameStore((s) => s.toast);
+  const reloadFromDisk = useGameStore((s) => s.init);
+  const [backups, setBackups] = React.useState<BackupInfo[]>([]);
+  React.useEffect(() => { void listBackups().then(setBackups); }, []);
   const [nameDraft, setNameDraft] = useState(club.name);
   const [badgeDraft, setBadgeDraft] = useState<{ badge?: string; color?: string }>({ badge: club.badge, color: club.color });
 
@@ -259,6 +263,39 @@ export function SettingsPage() {
           </Panel>
         </div>
       </div>
+
+      <Panel>
+        <SectionTitle
+          title='存档备份'
+          subtitle='每次保存都会保留上一版存档（最多 5 份），误覆盖或存档损坏时可以在这里恢复。'
+        />
+        {backups.length === 0 ? (
+          <p className='text-xs text-txt-muted'>还没有备份——保存一次后这里就会出现记录。</p>
+        ) : (
+          <div className='space-y-1.5'>
+            {backups.map((b) => (
+              <div key={b.id} className='flex flex-wrap items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-xs'>
+                <span className='font-semibold text-txt'>{b.clubName}</span>
+                <span className='text-txt-muted'>{new Date(b.savedAt).toLocaleString('zh-CN')}</span>
+                <span className='text-txt-muted'>{b.cards} 张卡 · {b.coins.toLocaleString()} 金币</span>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  className='ml-auto'
+                  onClick={async () => {
+                    const restored = await restoreBackup(b.id);
+                    if (!restored) { toast('这份备份无法读取。', 'error'); return; }
+                    await reloadFromDisk();
+                    toast('已恢复备份存档。', 'success');
+                  }}
+                >
+                  恢复
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </Panel>
     </div>
   );
 }
