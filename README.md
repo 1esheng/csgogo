@@ -109,10 +109,12 @@ scripts/          头像导入等维护脚本
 
 ## 数据与图片来源
 
-- 选手昵称、真实姓名、国籍、年龄：公开资料整理
-- 头像：**259 张**来自 [prosettings.gg](https://www.prosettings.gg/counterstrike/)、[prosettings.net](https://prosettings.net/lists/cs2/)、[profilerr.net](https://profilerr.net/cs-go/pro-players/) 与 Wikimedia Commons / Wikipedia，逐张记录来源在 `src/assets/avatars/credits.json`；其余选手使用程序生成的剪影头像
-- 地图参数、经济参数、赛制规则：本作原创平衡值
-- 未使用任何游戏内资源、贴图或 HLTV 数据
+- 选手昵称、真实姓名、国籍、年龄：公开资料整理（不包含任何隐藏或非公开信息）
+- 头像：**仅收录自由许可（CC BY / CC BY-SA / 公有领域）图片，共 39 张**，全部来自 Wikimedia Commons 与 Wikipedia，逐张在 `src/assets/avatars/credits.json` 记录原始文件名；其余 266 名选手使用**程序生成的剪影头像**（无版权问题）
+- 数值：选手属性由本地脚本按公开的选手统计（Rating）混合校准，但最终数值是**本作原创平衡数据**，不复制任何站点的表格
+- 地图参数、经济与赛制规则：本作原创
+- 未使用任何游戏内素材、贴图，也未打包 HLTV / prosettings 等站点的图片
+
 
 ---
 
