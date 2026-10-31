@@ -30,6 +30,7 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 const RARITY_RANK: Record<Rarity, number> = { N: 0, R: 1, SR: 2, SSR: 3, UR: 4 };
 
 export function GalleryPage() {
+  const { tr } = useT();
   const { t } = useT();
   const cards = useGameStore((s) => s.cards);
   const templates = useGameStore((s) => s.templates());
@@ -122,7 +123,7 @@ export function GalleryPage() {
       ) : tab === 'gallery' ? (
         <Panel>
           <div className='mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
-            <Input value={query} onChange={setQuery} placeholder='搜索选手昵称…' />
+            <Input value={query} onChange={setQuery} placeholder={tr('搜索选手昵称…')} />
             <Select
               value={rarity}
               onChange={(v) => setRarity(v as 'ALL' | Rarity)}
@@ -139,7 +140,7 @@ export function GalleryPage() {
             <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={SORT_OPTIONS} />
           </div>
           {filtered.length === 0 ? (
-            <EmptyState title='没有符合条件的选手' hint='换个筛选条件，或先去卡包抽几张。' />
+            <EmptyState title={tr('没有符合条件的选手')} hint={tr('换个筛选条件，或先去卡包抽几张。')} />
           ) : (
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6'>
               {sorted(filtered).map(({ template: t }) => {
@@ -165,7 +166,7 @@ export function GalleryPage() {
         <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]'>
           <Panel>
             <SectionTitle
-              title='卡牌合成'
+              title={tr('卡牌合成')}
               subtitle={`${STAR_CONFIG.copiesRequired} 张同名卡合成 1 星，每星全能力 +${STAR_CONFIG.bonusPerStar}，星级不设上限。当前 ${fusionTargets.length} 个可合成/待凑齐的选手。`}
               right={
                 <div className='flex flex-wrap items-center gap-2'>
@@ -180,7 +181,7 @@ export function GalleryPage() {
               }
             />
             {fusionTargets.length === 0 ? (
-              <EmptyState title='暂时没有可合成的重复卡' hint='抽到重复卡片后，这里会出现升星按钮。' />
+              <EmptyState title={tr('暂时没有可合成的重复卡')} hint={tr('抽到重复卡片后，这里会出现升星按钮。')} />
             ) : (
               <div className='space-y-2'>
                 {sorted(fusableOnly ? fusionTargets.filter((x) => (x.owned?.count ?? 0) >= STAR_CONFIG.copiesRequired && (x.owned?.best ?? 1) < STAR_CONFIG.maxStars) : fusionTargets).map(({ template, owned }) => {
@@ -222,13 +223,13 @@ export function GalleryPage() {
             )}
           </Panel>
           <Panel>
-            <SectionTitle title='合成规则' />
+            <SectionTitle title={tr('合成规则')} />
             <ul className='space-y-2 text-xs leading-relaxed text-txt-muted'>
               <li>· {STAR_CONFIG.copiesRequired} 张同名卡（同一选手同赛季版本）→ 升 1 星</li>
               <li>· 每升 1 星，8 项能力全部 +{STAR_CONFIG.bonusPerStar}，**属性上限同步提高 {STAR_CONFIG.bonusPerStar}**（基础 99），所以 5 星强者会明显强于低星</li>
-              <li>· 星级没有上限；保留等级/经验最高的那一张，其余被消耗</li>
-              <li>· 若被消耗的卡在首发阵容里，位置会自动切到保留下来的那张</li>
-              <li>· 升星同时提升 10 点精通</li>
+              <li>{tr('· 星级没有上限；保留等级/经验最高的那一张，其余被消耗')}</li>
+              <li>{tr('· 若被消耗的卡在首发阵容里，位置会自动切到保留下来的那张')}</li>
+              <li>{tr('· 升星同时提升 10 点精通')}</li>
             </ul>
           </Panel>
         </div>
