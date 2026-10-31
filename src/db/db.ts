@@ -32,7 +32,7 @@ export const SAVE_KEY = 'current';
 export const MAX_REPLAYS = 20;
 /// 每次写入前把上一份正式存档留成备份，最多保留 5 份（防止误覆盖 / 坏存档）。
 export const BACKUP_PREFIX = 'backup-';
-export const MAX_BACKUPS = 5;
+export const MAX_BACKUPS = 20;
 
 export async function loadSave(): Promise<GameSnapshot | null> {
   try {
@@ -45,7 +45,7 @@ export async function loadSave(): Promise<GameSnapshot | null> {
 }
 
 export async function writeSave(snapshot: GameSnapshot): Promise<void> {
-  await rotateBackup();
+  await rotateBackup(snapshot);
   await db.saves.put({
     id: SAVE_KEY,
     savedAt: Date.now(),
@@ -54,17 +54,33 @@ export async function writeSave(snapshot: GameSnapshot): Promise<void> {
   });
 }
 
-/** 把当前正式存档复制成一份带时间戳的备份，并裁剪到 MAX_BACKUPS 份。 */
-async function rotateBackup(): Promise<void> {
+/** 用一份轻量指纹判断两份存档是否是同一个状态，避免把 5 个槽位全部塞满重复内容。 */
+function fingerprint(s: GameSnapshot): string {
+  const parts = [
+    s.club?.name, s.club?.coins, s.club?.xp, s.club?.wins, s.club?.losses, s.club?.level,
+    s.cards?.length, s.career?.titles, s.career?.tier, s.matches?.length,
+    s.cards?.reduce((sum, c) => sum + (c.level ?? 0) * 7 + ((c.stars ?? 1) - 1) * 13, 0),
+    s.squad?.igl, Object.values(s.squad?.slots ?? {}).join(','),
+  ];
+  return parts.join('|');
+}
+
+/** 把当前正式存档复制成一份带时间戳的备份（内容相同则跳过），并裁剪到 MAX_BACKUPS 份。 */
+async function rotateBackup(next?: GameSnapshot): Promise<void> {
   try {
     const current = await db.saves.get(SAVE_KEY);
     if (!current) return;
-    const id = BACKUP_PREFIX + current.savedAt.toString(36) + '-' + Math.random().toString(36).slice(2, 6);
-    await db.saves.put({ ...current, id });
+    if (next && fingerprint(current.data) === fingerprint(next)) return;
+    const fp = fingerprint(current.data);
     const all = await db.saves.toArray();
     const backups = all.filter((r) => r.id.startsWith(BACKUP_PREFIX)).sort((a, b) => b.savedAt - a.savedAt);
-    const excess = backups.slice(MAX_BACKUPS);
-    if (excess.length) await db.saves.bulkDelete(excess.map((r) => r.id));
+    if (backups.some((r) => fingerprint(r.data) === fp)) return;
+    const id = BACKUP_PREFIX + current.savedAt.toString(36) + '-' + Math.random().toString(36).slice(2, 6);
+    await db.saves.put({ ...current, id });
+    const trimmed = [...backups, { ...current, id }].sort((a, b) => b.savedAt - a.savedAt).slice(MAX_BACKUPS);
+    const keep = new Set(trimmed.map((r) => r.id));
+    const drop = all.filter((r) => r.id.startsWith(BACKUP_PREFIX) && !keep.has(r.id)).map((r) => r.id);
+    if (drop.length) await db.saves.bulkDelete(drop);
   } catch (err) {
     console.error('backup failed', err);
   }
