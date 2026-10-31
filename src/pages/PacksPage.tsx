@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Coins, GraduationCap, Star } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { PACK_CONFIG, RARITY_TABLE } from '@/data/config';
 import { COACH_MAP, COACH_PACK, COACH_TIER_META } from '@/data/coaches';
 import { RARITIES } from '@/types';
@@ -45,6 +46,7 @@ function PackCard({
 }
 
 export function PacksPage() {
+  const { t } = useT();
   const navigate = useNavigate();
   const club = useGameStore((s) => s.club);
   const pack = useGameStore((s) => s.pack);
@@ -66,7 +68,7 @@ export function PacksPage() {
     <div className='space-y-5'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>卡包中心</h1>
+          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.packs.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>选手包与教练包是两个独立图池，概率各自计算。</p>
         </div>
         <div className='flex items-center gap-2'>
