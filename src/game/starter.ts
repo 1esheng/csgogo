@@ -8,6 +8,7 @@ import { AI_TEAMS } from '@/data/aiTeams';
 import { makeId } from '@/engine/rng';
 
 export const DEFAULT_SETTINGS: GameSettings = {
+  language: 'zh',
   autoSave: true,
   packSkipAnimation: false,
   compactCards: false,
