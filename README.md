@@ -9,6 +9,13 @@
 
 > **数值免责声明**：选手昵称指向真实 CS 职业选手，但**所有属性、评分、能力值都是本作原创的平衡数据**，不代表 HLTV 统计、也不构成对真实水平的判断。
 
+## 在线游玩 / 下载
+
+| 方式 | 链接 |
+| --- | --- |
+| 浏览器直接玩 | https://1esheng.github.io/csgogo/ |
+| Windows 单文件 exe | [CS2Dynasty.exe v1.0.0](https://github.com/1esheng/csgogo/releases/download/v1.0.0/CS2Dynasty.exe)（98 MB，双击即玩，无需安装 Node） |
+
 ---
 
 ## 截图
