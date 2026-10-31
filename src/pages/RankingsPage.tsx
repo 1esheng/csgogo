@@ -15,6 +15,7 @@ const TABS = [
 ];
 
 export function RankingsPage() {
+  const { tr } = useT();
   const { t } = useT();
   const liveWorld = useGameStore((s) => s.liveWorld);
   const setLiveWorld = useGameStore((s) => s.setLiveWorld);
@@ -54,33 +55,33 @@ export function RankingsPage() {
     <div className='space-y-5'>
       <SectionTitle
         title={t('page.rankings.title')}
-        subtitle='本存档的实时排名——榜单上的每个评分都来自真实模拟的比赛。'
+        subtitle={tr('本存档的实时排名——榜单上的每个评分都来自真实模拟的比赛。')}
         right={<Badge tone='accent'>{CAREER_TIERS[career.tier]?.name ?? '联赛'}</Badge>}
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
-        <StatTile label='你的积分' value={rating} hint='Elo，K=28' tone='accent' icon={<Medal size={16} />} />
-        <StatTile label='巡回赛排名' value={playerRank > 0 ? '#' + playerRank : '—'} hint={'共 ' + sorted.length + ' 支俱乐部'} />
-        <StatTile label='你的战绩' value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} />
-        <StatTile label='榜首积分' value={sorted[0]?.rating ?? '—'} hint={sorted[0]?.name ?? '暂无俱乐部'} />
+        <StatTile label={tr('你的积分')} value={rating} hint='Elo，K=28' tone='accent' icon={<Medal size={16} />} />
+        <StatTile label={tr('巡回赛排名')} value={playerRank > 0 ? '#' + playerRank : '—'} hint={'共 ' + sorted.length + ' 支俱乐部'} />
+        <StatTile label={tr('你的战绩')} value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} />
+        <StatTile label={tr('榜首积分')} value={sorted[0]?.rating ?? '—'} hint={sorted[0]?.name ?? '暂无俱乐部'} />
       </div>
 
       <div className='grid gap-4 xl:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)]'>
         <Panel>
-          <SectionTitle title='积分榜' right={<Tabs tabs={TABS} active={tab} onChange={setTab} />} />
+          <SectionTitle title={tr('积分榜')} right={<Tabs tabs={TABS} active={tab} onChange={setTab} />} />
           {rows.length === 0 ? (
             <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
-              本联赛暂无已评分的俱乐部——打一场比赛即可让积分上榜。
+              {tr('本联赛暂无已评分的俱乐部——打一场比赛即可让积分上榜。')}
             </p>
           ) : (
             <div className='space-y-1.5'>
               <div className='hidden grid-cols-[44px_minmax(0,1fr)_80px_88px_120px_160px] gap-2 px-3 text-[10px] uppercase tracking-[0.16em] text-txt-muted sm:grid'>
                 <span>#</span>
-                <span>俱乐部</span>
-                <span className='text-right'>积分</span>
-                <span className='text-right'>胜-负</span>
-                <span>联赛</span>
-                <span>胜率</span>
+                <span>{tr('俱乐部')}</span>
+                <span className='text-right'>{tr('积分')}</span>
+                <span className='text-right'>{tr('胜-负')}</span>
+                <span>{tr('联赛')}</span>
+                <span>{tr('胜率')}</span>
               </div>
               {rows.map((entry) => {
                 const isPlayer = entry.id === 'player';
@@ -111,7 +112,7 @@ export function RankingsPage() {
                     <div className='min-w-0'>
                       <div className='flex min-w-0 items-center gap-2'>
                         <span className='truncate text-sm font-semibold text-txt'>{entry.name}</span>
-                        {isPlayer ? <Badge tone='accent'>我</Badge> : null}
+                        {isPlayer ? <Badge tone='accent'>{tr('我')}</Badge> : null}
                       </div>
                       <div className='text-[11px] text-txt-muted sm:hidden'>
                         {entry.wins}-{entry.losses} · {league}
@@ -141,7 +142,7 @@ export function RankingsPage() {
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title='下一场积分变化' subtitle='当前评分最接近的对手' />
+            <SectionTitle title={tr('下一场积分变化')} subtitle={tr('当前评分最接近的对手')} />
             <div className='space-y-2'>
               {upcoming.map(({ spec, gain, loss }) => (
                 <div key={spec.id} className='rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2'>
@@ -168,7 +169,7 @@ export function RankingsPage() {
       </div>
       <Panel>
         <SectionTitle
-          title='实时电竞世界'
+          title={tr('实时电竞世界')}
           subtitle={liveWorld.enabled ? '每 60 秒自动推进一轮国际赛事并刷新排行榜' : '已暂停实时更新'}
           right={<Button size='sm' variant={liveWorld.enabled ? 'outline' : 'primary'} onClick={() => setLiveWorld(!liveWorld.enabled)}>{liveWorld.enabled ? '暂停' : '继续'}</Button>}
         />
@@ -178,7 +179,7 @@ export function RankingsPage() {
             {liveWorld.enabled ? '运行中' : '已暂停'}
           </span>
           <span>已推进 {liveWorld.ticks} 轮</span>
-          {secondsAgo !== null ? <span>{secondsAgo} 秒前同步</span> : <span>等待首次同步…</span>}
+          {secondsAgo !== null ? <span>{secondsAgo} 秒前同步</span> : <span>{tr('等待首次同步…')}</span>}
         </div>
         {liveWorld.feed.length > 0 ? (
           <div className='mt-3 space-y-1.5'>
@@ -187,7 +188,7 @@ export function RankingsPage() {
             ))}
           </div>
         ) : (
-          <p className='mt-3 text-xs text-txt-muted'>还没有动态——等待第一轮世界赛结果。</p>
+          <p className='mt-3 text-xs text-txt-muted'>{tr('还没有动态——等待第一轮世界赛结果。')}</p>
         )}
       </Panel>
     </div>
