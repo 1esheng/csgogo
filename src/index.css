@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: #0B0E13;
+  color: #F5F6FA;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .surface {
+    @apply rounded-2xl border border-white/5 bg-ink-800/80 backdrop-blur-sm shadow-card;
+  }
+  .surface-raised {
+    @apply rounded-2xl border border-white/10 bg-ink-700/70 backdrop-blur-md shadow-card;
+  }
+  .label-xs {
+    @apply text-[11.5px] font-semibold uppercase tracking-[0.12em] text-txt-muted;
+  }
+  .stat-number {
+    @apply font-display text-3xl font-bold leading-none tracking-tight;
+  }
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900;
+  }
+  .grid-noise {
+    background-image: radial-gradient(circle at 20% 10%, rgba(245,166,35,0.10), transparent 45%),
+      radial-gradient(circle at 85% 0%, rgba(229,72,77,0.10), transparent 40%);
+  }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0B0E13; }
+::-webkit-scrollbar-thumb { background: #252E3D; border-radius: 999px; border: 2px solid #0B0E13; }
+::-webkit-scrollbar-thumb:hover { background: #35404f; }
+
+.card-face {
+  position: relative;
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card-face:hover { transform: translateY(-3px); }
+
+.card-sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,0.12) 46%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform .6s ease;
+  pointer-events: none;
+}
+.card-sheen:hover::after { transform: translateX(120%); }
+
+.timeline-line::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(245,166,35,0.55), rgba(37,46,61,0.2));
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+/* 联赛阶梯滚动区：保持细窄的暗色滚动条 */
+.tier-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.tier-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tier-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+}
+
+.tier-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
