@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { CalendarDays, MapPin, Swords, TrendingUp, Trophy, Users } from 'lucide-react';
 import { useGameStore, aiOpponents } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { MAPS } from '@/data/maps';
 import { COACH_MAP } from '@/data/coaches';
 import { coachEffects } from '@/engine/coach';
@@ -18,6 +19,7 @@ const ROLE_SHORT: Record<CombatRole, string> = {
 };
 
 export function DashboardPage() {
+  const { t } = useT();
   const navigate = useNavigate();
   const club = useGameStore((s) => s.club);
   const cards = useGameStore((s) => s.cards);
@@ -79,7 +81,7 @@ export function DashboardPage() {
     <div className='space-y-4'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>俱乐部总览</h1>
+          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.dashboard.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>第 {club.season} 赛季 · 巡回赛积分 {rating} · 阵容战力 {breakdown.ovr}</p>
         </div>
         <div className='flex items-center gap-2'>
@@ -98,7 +100,7 @@ export function DashboardPage() {
         <div className='space-y-4'>
           <Panel>
             <SectionTitle
-              title='首发五人'
+              title={t('page.dashboard.starters')}
               subtitle={'当前地图 ' + MAPS[mapId].name + ' · 团队默契 ' + Math.round(breakdown.chemistry) + '%'}
               right={<Button size='sm' variant='outline' onClick={() => navigate('/squad')}>调整阵容</Button>}
             />
@@ -163,7 +165,7 @@ export function DashboardPage() {
 
           <Panel>
             <SectionTitle
-              title='主教练'
+              title={t('page.dashboard.coach')}
               subtitle={headInfo ? headInfo.style + '型 · 执教能力 ' + headInfo.ability : '尚未任命主教练'}
               right={<Button size='sm' variant='outline' onClick={() => navigate('/coaches')}>{headInfo ? '进入教练组' : '去任命'}</Button>}
             />
@@ -190,7 +192,7 @@ export function DashboardPage() {
 
           <Panel>
             <SectionTitle
-              title='战队荣誉'
+              title={t('page.dashboard.honors')}
               subtitle={'夺冠 ' + careerTitles + ' 次 · MAJOR 冠军 ' + majors + ' 次'}
               right={<Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>奖杯墙</Button>}
             />
@@ -217,7 +219,7 @@ export function DashboardPage() {
 
           <Panel>
             <SectionTitle
-              title='选手收藏预览'
+              title={t('page.dashboard.preview')}
               subtitle={'已拥有 ' + owned.length + ' 张卡 · 按综合评分排序'}
               right={<Button size='sm' variant='ghost' onClick={() => navigate('/collection')}>查看全部</Button>}
             />
@@ -266,7 +268,7 @@ export function DashboardPage() {
             <div className='pointer-events-none absolute inset-0 grid-noise opacity-60' />
             <div className='relative'>
               <SectionTitle
-                title='比赛中心'
+                title={t('page.dashboard.matchCenter')}
                 subtitle='下一场对手按你的积分匹配'
                 right={<Badge tone='accent'>准备就绪</Badge>}
               />
@@ -302,7 +304,7 @@ export function DashboardPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title='最近战绩' subtitle={'总战绩 ' + club.wins + ' 胜 ' + club.losses + ' 负 · 胜率 ' + winRate + '%'} />
+            <SectionTitle title={t('page.dashboard.recent')} subtitle={'总战绩 ' + club.wins + ' 胜 ' + club.losses + ' 负 · 胜率 ' + winRate + '%'} />
             {recent.length === 0 ? (
               <p className='text-xs text-txt-muted'>还没有比赛记录——去生涯打第一场吧。</p>
             ) : (
@@ -320,7 +322,7 @@ export function DashboardPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title='状态走势' subtitle='最近 8 场的比分' right={<TrendingUp size={16} className='text-txt-muted' />} />
+            <SectionTitle title={t('page.dashboard.form')} subtitle='最近 8 场的比分' right={<TrendingUp size={16} className='text-txt-muted' />} />
             {form.length === 0 ? (
               <p className='text-xs text-txt-muted'>打几场之后这里会显示走势。</p>
             ) : (
