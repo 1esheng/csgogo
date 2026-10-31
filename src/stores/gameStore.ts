@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { SEASON_DAYS, monthDayLabel, seasonEvents } from '@/game/calendar';
 import { CLUB_PRICES } from "@/data/clubCosmetics";
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from "@/data/coaches";
-import { makeOffers } from '@/data/market';
 import { ACHIEVEMENTS } from '@/data/achievements';
 import type {
   AITeamSpec, BuyType, CardTemplate, ClubState, CombatRole, GameSettings, GameSnapshot,
@@ -70,7 +69,6 @@ function tickLeaderboard(leaders: LeaderboardEntry[], rng: Rng): LeaderboardEntr
   ranked.forEach((l) => { l.weeks = (l.weeks ?? 0) + 1; });
   return [...next.values()];
 }
-const MARKET_REFRESH_COST = 400;
 let recoveryDone = false;
 
 /** 把赛事里 AI 之间的胜负记进排行榜（只统计还没计过的那一场）。 */
@@ -138,8 +136,6 @@ export interface GameStore {
   tournaments: Tournament[];
   settings: GameSettings;
   tasks: TaskProgress[];
-  market: { id: string; templateId: string; price: number; sold: boolean }[];
-  marketSeed: number;
   claimedAchievements: string[];
   teamHonors: Record<string, import("@/types").Honor[]>;
   coaches: OwnedCoach[];
@@ -234,9 +230,7 @@ export interface GameStore {
   /** 调试用：直接加金币（仅开发者面板调用，正式玩法不应使用）。 */
   grantTestCoins: (amount: number) => void;
   /** 刷新转会市场（花费金币）。 */
-  refreshMarket: () => { ok: boolean; error?: string };
   /** 买下一名球员。 */
-  buyOffer: (offerId: string) => { ok: boolean; error?: string };
   /** 领取成就奖励。 */
   claimAchievement: (id: string) => { ok: boolean; error?: string };
 }
@@ -256,8 +250,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   tournaments: [],
   settings: bootstrap.settings,
   tasks: bootstrap.tasks,
-  market: [],
-  marketSeed: 1,
   claimedAchievements: [],
   teamHonors: {},
   coaches: [],
@@ -292,8 +284,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       tournaments: s.tournaments,
       settings: s.settings,
       tasks: s.tasks,
-      market: s.market,
-      marketSeed: s.marketSeed,
       claimedAchievements: s.claimedAchievements,
       teamHonors: s.teamHonors,
       coaches: s.coaches,
@@ -1178,41 +1168,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().toast(played > 0 ? '已模拟 ' + played + ' 场 AI 对局。' : '当前赛程已经全部结算完毕。', 'info');
   },
 
-  refreshMarket: () => {
-    const s = get();
-    const cost = MARKET_REFRESH_COST;
-    if (s.club.coins < cost) return { ok: false, error: '金币不足，刷新需要 ' + cost + ' 金币。' };
-    const seed = randomSeed();
-    const owned = new Set(s.cards.map((c) => c.templateId));
-    const pool = Object.values(s.templates()).filter((t) => !owned.has(t.id));
-    if (pool.length === 0) return { ok: false, error: '你已经拥有全部选手卡了。' };
-    const offers = makeOffers(pool, (t) => cardOVR(t, 1, 1), seed, 6);
-    set({
-      market: offers,
-      marketSeed: seed,
-      club: { ...s.club, coins: s.club.coins - cost },
-      coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: -cost, reason: '刷新转会市场', at: Date.now() }]),
-    });
-    get().toast('转会市场已刷新。', 'success');
-    void writeSave(get().snapshot());
-    return { ok: true };
-  },  buyOffer: (offerId) => {
-    const s = get();
-    const offer = s.market.find((o) => o.id === offerId);
-    if (!offer || offer.sold) return { ok: false, error: '这条报价已经失效。' };
-    if (s.club.coins < offer.price) return { ok: false, error: '金币不足，需要 ' + offer.price + ' 金币。' };
-    const tpl = s.templates()[offer.templateId];
-    if (!tpl) return { ok: false, error: '这名球员不存在。' };
-    set({
-      cards: [...s.cards, makeCard(offer.templateId, 1)],
-      market: s.market.map((o) => (o.id === offerId ? { ...o, sold: true } : o)),
-      club: { ...s.club, coins: s.club.coins - offer.price },
-      coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: -offer.price, reason: '转会签约', at: Date.now() }]),
-    });
-    get().toast('已签下 ' + s.nameOf(tpl.playerId) + '。', 'success');
-    void writeSave(get().snapshot());
-    return { ok: true };
-  },
   claimAchievement: (id) => {
     const s = get();
     const ach = ACHIEVEMENTS.find((a) => a.id === id);
