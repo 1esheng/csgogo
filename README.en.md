@@ -106,10 +106,12 @@ Tech stack: React 18 · TypeScript 5 (strict) · Vite 5 · Tailwind 3 · Zustand
 
 ## Data and image credits
 
-- Player nicknames, real names, countries and ages: public information
-- Avatars: 259 real photos from prosettings.gg, prosettings.net, profilerr.net and Wikimedia Commons / Wikipedia, credited per file; the rest are procedurally generated silhouettes
-- Map parameters, economy and tournament rules: original balance values for this game
-- No game assets, textures or HLTV data are used
+- Player nicknames, real names, countries and ages: public information only
+- Avatars: **only free-licensed images are bundled (CC BY / CC BY-SA / public domain), 39 in total**, all from Wikimedia Commons and Wikipedia, credited per file in `src/assets/avatars/credits.json`; the other 266 players use **procedurally generated silhouettes** (no licensing risk)
+- Ratings: attributes are calibrated locally from public player stats (Rating) by a script, but the shipped numbers are **original balance values for this game** — no site's tables are copied
+- Map parameters, economy and tournament rules: original to this project
+- No game assets or third-party site images are bundled
+
 
 ---
 
