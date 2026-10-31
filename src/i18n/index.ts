@@ -2,6 +2,8 @@
  * 极简 i18n：中文为默认语言，英文覆盖「界面外壳 + 主要页面标题 + 关键按钮」。
  * 未翻译的深层文案（球员简介、赛事说明等）自动回退中文。
  */
+import { trPhrase } from '@/i18n/phrases';
+
 export type Lang = 'zh' | 'en';
 
 type Entry = { zh: string; en: string };
@@ -111,6 +113,11 @@ export function translate(lang: Lang, key: string, vars?: Record<string, string 
     Object.entries(vars).forEach(([k, v]) => { text = text.replace(new RegExp('\\{' + k + '\\}', 'g'), String(v)); });
   }
   return text;
+}
+
+/** 中文文案直译：有英文词条就换成英文，否则原样返回。 */
+export function tr(zh: string): string {
+  return trPhrase(current, zh);
 }
 
 /** 组件内使用：t('nav.dashboard') */
