@@ -522,6 +522,8 @@ export interface Tournament {
 }
 
 export interface GameSettings {
+  /** 界面语言：中文（默认）/ 英文。 */
+  language: 'zh' | 'en';
   autoSave: boolean;
   packSkipAnimation: boolean;
   compactCards: boolean;
