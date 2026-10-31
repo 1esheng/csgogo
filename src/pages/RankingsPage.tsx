@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useT } from '@/hooks/useLang';
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { Info, Medal, Radio, TrendingDown, TrendingUp } from 'lucide-react';
@@ -14,6 +15,7 @@ const TABS = [
 ];
 
 export function RankingsPage() {
+  const { t } = useT();
   const liveWorld = useGameStore((s) => s.liveWorld);
   const setLiveWorld = useGameStore((s) => s.setLiveWorld);
   const navigate = useNavigate();
@@ -51,7 +53,7 @@ export function RankingsPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='排行榜'
+        title={t('page.rankings.title')}
         subtitle='本存档的实时排名——榜单上的每个评分都来自真实模拟的比赛。'
         right={<Badge tone='accent'>{CAREER_TIERS[career.tier]?.name ?? '联赛'}</Badge>}
       />
