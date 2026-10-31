@@ -104,6 +104,7 @@ function normalise(s: GameSnapshot): GameSnapshot {
     customPlayers: s.customPlayers ?? [],
     settings: {
       ...({
+        language: 'zh' as const,
         autoSave: true,
         packSkipAnimation: false,
         compactCards: false,
