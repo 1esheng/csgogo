@@ -10,6 +10,9 @@ Collect player cards, build a five-man lineup, hire a head coach, call tactics r
 - Round-by-round match engine (MR12 + overtime); a match is replayable from one seed
 - UI language: **English** or **简体中文** (Settings → Language)
 
+
+> **Image copyright**: every player photograph here belongs to **prosettings.gg / prosettings.net / profilerr.net / Wikimedia Commons / Wikipedia and their photographers**. This project claims **no copyright** and holds **no commercial licence**; photos are included for **personal study and free sharing only**. **If you are a rights holder and object to any use, please open an Issue and the image will be removed immediately after verification.** See [NOTICE.md](NOTICE.md).
+
 > **Numbers disclaimer** — Player nicknames refer to real CS professionals, but **every attribute, rating and ability value is original in-game balance data**, not HLTV statistics and not a claim about real performance.
 
 ---
