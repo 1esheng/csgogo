@@ -6,6 +6,7 @@ import { ACHIEVEMENTS } from '@/data/achievements';
 import { Badge, Button, Panel, Progress, SectionTitle, StatTile } from '@/components/ui';
 
 export function AchievementsPage() {
+  const { tr } = useT();
   const { t } = useT();
   const snapshotOf = useGameStore((s) => s.snapshot);
   const claimed = useGameStore((s) => s.claimedAchievements);
@@ -37,10 +38,10 @@ export function AchievementsPage() {
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
-        <StatTile label='已完成' value={claimedCount + ' / ' + rows.length} hint='已领取的成就' tone='accent' icon={<Award size={16} />} />
-        <StatTile label='待领取' value={claimable} hint='达成但还没领取' tone={claimable > 0 ? 'accent' : 'default'} icon={<CheckCircle2 size={16} />} />
-        <StatTile label='已获得奖励' value={totalReward.toLocaleString()} hint='金币' tone='accent' icon={<Coins size={16} />} />
-        <StatTile label='待领取奖励' value={pendingReward.toLocaleString()} hint='金币' tone={pendingReward > 0 ? 'accent' : 'default'} icon={<Coins size={16} />} />
+        <StatTile label={tr('已完成')} value={claimedCount + ' / ' + rows.length} hint={tr('已领取的成就')} tone='accent' icon={<Award size={16} />} />
+        <StatTile label={tr('待领取')} value={claimable} hint={tr('达成但还没领取')} tone={claimable > 0 ? 'accent' : 'default'} icon={<CheckCircle2 size={16} />} />
+        <StatTile label={tr('已获得奖励')} value={totalReward.toLocaleString()} hint={tr('金币')} tone='accent' icon={<Coins size={16} />} />
+        <StatTile label={tr('待领取奖励')} value={pendingReward.toLocaleString()} hint={tr('金币')} tone={pendingReward > 0 ? 'accent' : 'default'} icon={<Coins size={16} />} />
       </div>
 
       <Panel>
@@ -74,7 +75,7 @@ export function AchievementsPage() {
                 <Coins size={12} /> {row.reward.toLocaleString()}
               </span>
               {row.isClaimed ? (
-                <Badge tone='muted'>已领取</Badge>
+                <Badge tone='muted'>{tr('已领取')}</Badge>
               ) : (
                 <Button
                   size='sm'
