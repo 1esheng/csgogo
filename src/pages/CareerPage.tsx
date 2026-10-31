@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CalendarDays, Coins, FastForward, Flame, Rocket, Swords, Trophy } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { CAREER_TIERS, RATING_CONFIG } from '@/data/config';
 import { MAPS } from '@/data/maps';
 import { opponentOf, playerNextMatch, tierSpec } from '@/game/career';
@@ -16,6 +17,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export function CareerPage() {
+  const { t } = useT();
   const navigate = useNavigate();
   const career = useGameStore((s) => s.career);
   const club = useGameStore((s) => s.club);
@@ -62,7 +64,7 @@ export function CareerPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='生涯'
+        title={t('page.career.title')}
         subtitle={'第 ' + career.season + ' 赛季 · ' + club.name}
         right={<div className='flex items-center gap-2'><Badge tone='accent'>{currentTier.name}</Badge><Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>战队详情</Button></div>}
       />
