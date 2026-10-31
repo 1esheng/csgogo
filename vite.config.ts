@@ -2,7 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
-export default defineConfig({
+// GitHub Pages 项目站点部署在 /<repo>/ 下，构建时用 base 指定资源前缀；本地 dev 保持 '/'。
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/csgogo/' : '/',
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 700,
@@ -28,4 +30,4 @@ export default defineConfig({
     include: ['src/tests/**/*.test.ts', 'src/tests/**/*.test.tsx'],
     testTimeout: 120000,
   },
-} as any);
+} as any));
