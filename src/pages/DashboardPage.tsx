@@ -19,6 +19,7 @@ const ROLE_SHORT: Record<CombatRole, string> = {
 };
 
 export function DashboardPage() {
+  const { tr } = useT();
   const { t } = useT();
   const navigate = useNavigate();
   const club = useGameStore((s) => s.club);
@@ -87,7 +88,7 @@ export function DashboardPage() {
         <div className='flex items-center gap-2'>
           {breakdown.filled < 5 ? (
             <Button size='sm' variant='outline' onClick={() => autoFillSquad()}>
-              一键自动填充阵容
+              {tr('一键自动填充阵容')}
             </Button>
           ) : null}
           <Badge tone={breakdown.filled === 5 ? 'success' : 'danger'}>
@@ -102,7 +103,7 @@ export function DashboardPage() {
             <SectionTitle
               title={t('page.dashboard.starters')}
               subtitle={'当前地图 ' + MAPS[mapId].name + ' · 团队默契 ' + Math.round(breakdown.chemistry) + '%'}
-              right={<Button size='sm' variant='outline' onClick={() => navigate('/squad')}>调整阵容</Button>}
+              right={<Button size='sm' variant='outline' onClick={() => navigate('/squad')}>{tr('调整阵容')}</Button>}
             />
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5'>
               {starters.map(({ role, card, tpl }) => {
@@ -116,7 +117,7 @@ export function DashboardPage() {
                     >
                       <Users size={20} className='text-txt-muted' />
                       <span className='text-xs font-semibold text-txt-muted'>{ROLE_SHORT[role]}</span>
-                      <span className='text-[11px] text-txt-muted/70'>空缺 · 点击指派</span>
+                      <span className='text-[11px] text-txt-muted/70'>{tr('空缺 · 点击指派')}</span>
                     </button>
                   );
                 }
@@ -135,7 +136,7 @@ export function DashboardPage() {
                     <div className='flex items-start justify-between'>
                       <div>
                         <div className='font-display text-2xl font-black leading-none' style={{ color: rarity.color }}>{ovr}</div>
-                        <div className='text-[10px] uppercase tracking-wider text-txt-muted'>综合</div>
+                        <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr('综合')}</div>
                       </div>
                       {(card.stars ?? 1) > 1 ? (
                         <span className='rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-bold text-accent'>{card.stars}★</span>
@@ -186,7 +187,7 @@ export function DashboardPage() {
                 </div>
               </div>
             ) : (
-              <p className='text-xs text-txt-muted'>任命一位主教练可以获得属性加成、训练提速或开局经济优势。</p>
+              <p className='text-xs text-txt-muted'>{tr('任命一位主教练可以获得属性加成、训练提速或开局经济优势。')}</p>
             )}
           </Panel>
 
@@ -194,10 +195,10 @@ export function DashboardPage() {
             <SectionTitle
               title={t('page.dashboard.honors')}
               subtitle={'夺冠 ' + careerTitles + ' 次 · MAJOR 冠军 ' + majors + ' 次'}
-              right={<Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>奖杯墙</Button>}
+              right={<Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('奖杯墙')}</Button>}
             />
             {recentHonors.length === 0 ? (
-              <p className='text-xs text-txt-muted'>还没有奖杯——打进生涯联赛夺冠后会记录在这里。</p>
+              <p className='text-xs text-txt-muted'>{tr('还没有奖杯——打进生涯联赛夺冠后会记录在这里。')}</p>
             ) : (
               <div className='grid gap-2 sm:grid-cols-2'>
                 {recentHonors.map((h) => (
@@ -221,7 +222,7 @@ export function DashboardPage() {
             <SectionTitle
               title={t('page.dashboard.preview')}
               subtitle={'已拥有 ' + owned.length + ' 张卡 · 按综合评分排序'}
-              right={<Button size='sm' variant='ghost' onClick={() => navigate('/collection')}>查看全部</Button>}
+              right={<Button size='sm' variant='ghost' onClick={() => navigate('/collection')}>{tr('查看全部')}</Button>}
             />
             <div className='mb-3 flex flex-wrap gap-1.5'>
               {(['all', ...COMBAT_ROLES] as const).map((key) => (
@@ -269,8 +270,8 @@ export function DashboardPage() {
             <div className='relative'>
               <SectionTitle
                 title={t('page.dashboard.matchCenter')}
-                subtitle='下一场对手按你的积分匹配'
-                right={<Badge tone='accent'>准备就绪</Badge>}
+                subtitle={tr('下一场对手按你的积分匹配')}
+                right={<Badge tone='accent'>{tr('准备就绪')}</Badge>}
               />
               <div className='rounded-xl border border-white/10 bg-black/25 p-3'>
                 <div className='flex items-center justify-between text-xs text-txt-muted'>
@@ -294,10 +295,10 @@ export function DashboardPage() {
               </div>
               <div className='mt-3 grid gap-2'>
                 <Button onClick={() => navigate('/career')}>
-                  <Trophy size={15} /> 去生涯打联赛
+                  <Trophy size={15} /> {tr('去生涯打联赛')}
                 </Button>
                 <Button variant='outline' onClick={() => navigate('/match')}>
-                  <Swords size={15} /> 安排训练赛
+                  <Swords size={15} /> {tr('安排训练赛')}
                 </Button>
               </div>
             </div>
@@ -306,7 +307,7 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle title={t('page.dashboard.recent')} subtitle={'总战绩 ' + club.wins + ' 胜 ' + club.losses + ' 负 · 胜率 ' + winRate + '%'} />
             {recent.length === 0 ? (
-              <p className='text-xs text-txt-muted'>还没有比赛记录——去生涯打第一场吧。</p>
+              <p className='text-xs text-txt-muted'>{tr('还没有比赛记录——去生涯打第一场吧。')}</p>
             ) : (
               <ul className='space-y-1.5'>
                 {recent.map((m) => (
@@ -322,9 +323,9 @@ export function DashboardPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title={t('page.dashboard.form')} subtitle='最近 8 场的比分' right={<TrendingUp size={16} className='text-txt-muted' />} />
+            <SectionTitle title={t('page.dashboard.form')} subtitle={tr('最近 8 场的比分')} right={<TrendingUp size={16} className='text-txt-muted' />} />
             {form.length === 0 ? (
-              <p className='text-xs text-txt-muted'>打几场之后这里会显示走势。</p>
+              <p className='text-xs text-txt-muted'>{tr('打几场之后这里会显示走势。')}</p>
             ) : (
               <div className='flex h-24 items-end gap-1.5'>
                 {form.map((m) => (
@@ -336,8 +337,8 @@ export function DashboardPage() {
               </div>
             )}
             <div className='mt-3 grid grid-cols-2 gap-2 text-[11px] text-txt-muted'>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>进攻 <span className='font-display text-sm font-bold text-txt'>{breakdown.attack}</span></div>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>防守 <span className='font-display text-sm font-bold text-txt'>{breakdown.defense}</span></div>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-sm font-bold text-txt'>{breakdown.attack}</span></div>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('防守')} <span className='font-display text-sm font-bold text-txt'>{breakdown.defense}</span></div>
             </div>
           </Panel>
         </div>
