@@ -1,0 +1,10 @@
+# HLTV 选手统计导出模板（示例行，任意删改）
+# nickname 必须是卡片里已有的选手昵称（大小写不敏感）
+# rating = HLTV Rating 2.1；kast/adr/impact 可选，目前只用于报告
+nickname,rating,kast,adr,impact
+zywoo,1.28,74.5,84.2,1.35
+donk,1.31,71.8,88.1,1.42
+m0nesy,1.24,72.0,79.5,1.28
+ropz,1.15,75.1,74.4,1.10
+niko,1.14,73.9,76.0,1.12
+sh1ro,1.12,74.0,73.1,1.08
