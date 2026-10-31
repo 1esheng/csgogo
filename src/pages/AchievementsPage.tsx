@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { Award, CheckCircle2, Coins } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { ACHIEVEMENTS } from '@/data/achievements';
 import { Badge, Button, Panel, Progress, SectionTitle, StatTile } from '@/components/ui';
 
 export function AchievementsPage() {
+  const { t } = useT();
   const snapshotOf = useGameStore((s) => s.snapshot);
   const claimed = useGameStore((s) => s.claimedAchievements);
   const claim = useGameStore((s) => s.claimAchievement);
@@ -29,7 +31,7 @@ export function AchievementsPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='成就'
+        title={t('page.achievements.title')}
         subtitle={'共 ' + rows.length + ' 个里程碑 · 已领取 ' + claimedCount + ' 个'}
         right={<Badge tone={claimable > 0 ? 'accent' : 'muted'}>{claimable > 0 ? claimable + ' 个可领取' : '暂无待领取'}</Badge>}
       />
