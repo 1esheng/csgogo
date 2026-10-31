@@ -1,6 +1,7 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Celebration } from '@/components/Celebration';
 import { useLiveWorld } from '@/hooks/useLiveWorld';
+import { useT } from '@/hooks/useLang';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -48,6 +49,7 @@ function Toasts() {
 }
 
 function TopBar({ onMenu }: { onMenu: () => void }) {
+  const { t } = useT();
   const club = useGameStore((s) => s.club);
   const squad = useGameStore((s) => s.squad);
   const squadRating = useGameStore((s) => s.squadRating);
@@ -90,12 +92,12 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <div className='ml-auto flex items-center gap-2 overflow-x-auto no-scrollbar lg:gap-3'>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm sm:flex'>
           <Swords size={14} className='text-txt-muted' />
-          <span className='text-[10px] uppercase tracking-wider text-txt-muted'>阵容战力</span>
+          <span className='text-[10px] uppercase tracking-wider text-txt-muted'>{t('common.lineupPower')}</span>
           <span className='font-display font-bold text-accent'>{breakdown.ovr}</span>
         </div>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm md:flex'>
           <Trophy size={14} className='text-txt-muted' />
-          <span className='font-semibold'>{club.wins}胜 {club.losses}负</span>
+          <span className='font-semibold'>{club.wins}W {club.losses}L</span>
           <span className='text-[11px] text-accent'>{winRate}%</span>
         </div>
       </div>
@@ -104,6 +106,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
 }
 
 function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useT();
   return (
     <>
       {open ? <div className='fixed inset-0 z-40 bg-black/60 lg:hidden' onClick={onClose} /> : null}
@@ -122,9 +125,9 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
         </div>
         <nav className='flex flex-1 flex-col gap-4 overflow-y-auto pb-2'>
-          {['俱乐部', '比赛', '系统'].map((group) => (
+          {['nav.group.club', 'nav.group.match', 'nav.group.system'].map((group) => (
             <div key={group}>
-              <div className='mb-1.5 px-3 text-[11px] font-bold uppercase tracking-[0.2em] text-txt-muted/60'>{group}</div>
+              <div className='mb-1.5 px-3 text-[11px] font-bold uppercase tracking-[0.2em] text-txt-muted/60'>{t(group)}</div>
               <div className='flex flex-col gap-0.5'>
                 {NAV_ITEMS.filter((item) => item.group === group).map((item) => (
                   <NavLink
@@ -144,7 +147,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                       <>
                         {isActive ? <span className='absolute left-0 h-6 w-[3px] rounded-r bg-accent' /> : null}
                         <item.icon size={21} className='shrink-0' />
-                        <span className='truncate'>{item.label}</span>
+                        <span className='truncate'>{t(item.labelKey)}</span>
                       </>
                     )}
                   </NavLink>
