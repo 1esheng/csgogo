@@ -17,6 +17,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export function CareerPage() {
+  const { tr } = useT();
   const { t } = useT();
   const navigate = useNavigate();
   const career = useGameStore((s) => s.career);
@@ -66,19 +67,19 @@ export function CareerPage() {
       <SectionTitle
         title={t('page.career.title')}
         subtitle={'第 ' + career.season + ' 赛季 · ' + club.name}
-        right={<div className='flex items-center gap-2'><Badge tone='accent'>{currentTier.name}</Badge><Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>战队详情</Button></div>}
+        right={<div className='flex items-center gap-2'><Badge tone='accent'>{currentTier.name}</Badge><Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('战队详情')}</Button></div>}
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
-        <StatTile label='巡回赛积分' value={rating} hint='来自模拟对局的 Elo 分' tone='accent' icon={<Rocket size={16} />} />
-        <StatTile label='冠军' value={career.titles} hint='夺冠赛事数' icon={<Trophy size={16} />} />
-        <StatTile label='参赛赛事' value={career.completedTournaments} hint='已结束的赛程' icon={<Swords size={16} />} />
-        <StatTile label='战绩' value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} icon={<Flame size={16} />} />
+        <StatTile label={tr('巡回赛积分')} value={rating} hint={tr('来自模拟对局的 Elo 分')} tone='accent' icon={<Rocket size={16} />} />
+        <StatTile label={tr('冠军')} value={career.titles} hint={tr('夺冠赛事数')} icon={<Trophy size={16} />} />
+        <StatTile label={tr('参赛赛事')} value={career.completedTournaments} hint={tr('已结束的赛程')} icon={<Swords size={16} />} />
+        <StatTile label={tr('战绩')} value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} icon={<Flame size={16} />} />
       </div>
 
       <div className='grid gap-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]'>
         <Panel>
-          <SectionTitle title='联赛阶梯' subtitle='离线巡回赛的十级赛事。赢下比赛提升积分，解锁下一级联赛。' />
+          <SectionTitle title={tr('联赛阶梯')} subtitle={tr('离线巡回赛的十级赛事。赢下比赛提升积分，解锁下一级联赛。')} />
           <TierLadder
             rating={rating}
             currentTier={career.tier}
@@ -91,7 +92,7 @@ export function CareerPage() {
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title='下一级联赛' subtitle={nextTier ? nextTier.name : '已是最高级别'} />
+            <SectionTitle title={tr('下一级联赛')} subtitle={nextTier ? nextTier.name : '已是最高级别'} />
             <div className='flex items-end justify-between gap-2'>
               <div className='stat-number text-accent'>{rating}</div>
               <div className='text-right text-xs text-txt-muted'>
@@ -101,7 +102,7 @@ export function CareerPage() {
                     <div>目标 {nextTier.ratingFloor}</div>
                   </>
                 ) : (
-                  <div>你已站在最高级别。</div>
+                  <div>{tr('你已站在最高级别。')}</div>
                 )}
               </div>
             </div>
@@ -119,7 +120,7 @@ export function CareerPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title='进行中的赛事' subtitle={active ? '你的赛程正在进行' : '暂无进行中的赛程'} />
+            <SectionTitle title={tr('进行中的赛事')} subtitle={active ? '你的赛程正在进行' : '暂无进行中的赛程'} />
             {active ? (
               <div className='space-y-3'>
                 <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2'>
@@ -129,7 +130,7 @@ export function CareerPage() {
                   </div>
                 </div>
                 <div className='text-sm'>
-                  <div className='label-xs'>下一个对手</div>
+                  <div className='label-xs'>{tr('下一个对手')}</div>
                   {nextOpponent ? (
                     <div className='mt-1 flex flex-wrap items-center gap-2'>
                       <span className='font-semibold text-txt'>{nextOpponent.name}</span>
@@ -137,7 +138,7 @@ export function CareerPage() {
                       {nextMatch ? <Badge tone='muted'>{MAPS[nextMatch.mapId]?.name ?? nextMatch.mapId}</Badge> : null}
                     </div>
                   ) : (
-                    <div className='mt-1 text-xs text-txt-muted'>暂无你的对局——可在赛程中模拟剩余比赛。</div>
+                    <div className='mt-1 text-xs text-txt-muted'>{tr('暂无你的对局——可在赛程中模拟剩余比赛。')}</div>
                   )}
                 </div>
                 <div className='grid gap-2 sm:grid-cols-2'>
@@ -145,7 +146,7 @@ export function CareerPage() {
                     variant='outline'
                     onClick={() => document.getElementById('career-bracket')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                   >
-                    查看完整赛程
+                    {tr('查看完整赛程')}
                   </Button>
                   <Button
                     disabled={fastSim}
@@ -160,12 +161,12 @@ export function CareerPage() {
                   </Button>
                 </div>
                 <p className='text-[11px] leading-relaxed text-txt-muted'>
-                  快速模拟会用同一套引擎替你打完本赛事的所有对局（含 AI 赛程），奖励、积分与战绩照常结算。
+                  {tr('快速模拟会用同一套引擎替你打完本赛事的所有对局（含 AI 赛程），奖励、积分与战绩照常结算。')}
                 </p>
               </div>
             ) : (
               <p className='text-sm text-txt-muted'>
-                在联赛阶梯上选择已解锁的联赛，点击「进入」参赛。一次只能进行一项赛事。
+                {tr('在联赛阶梯上选择已解锁的联赛，点击「进入」参赛。一次只能进行一项赛事。')}
               </p>
             )}
           </Panel>
@@ -180,7 +181,7 @@ export function CareerPage() {
 
       <Panel>
         <SectionTitle
-          title='赛事记录'
+          title={tr('赛事记录')}
           subtitle={history.length > 5 ? '最近参赛的 ' + Math.min(5, history.length) + ' 项（共 ' + history.length + ' 项）。' : '本存档中你参加过的全部赛事。'}
           right={
             history.length > 5 ? (
@@ -195,7 +196,7 @@ export function CareerPage() {
           }
         />
         {history.length === 0 ? (
-          <EmptyState title='暂无赛事记录' hint='进入业余联赛开启巡回赛之旅——它没有积分要求。' />
+          <EmptyState title={tr('暂无赛事记录')} hint={tr('进入业余联赛开启巡回赛之旅——它没有积分要求。')} />
         ) : (
           <div className='space-y-2'>
             {visibleHistory.map((t) => {
@@ -210,7 +211,7 @@ export function CareerPage() {
                   <span className='font-semibold text-txt'>{t.name}</span>
                   <span className='text-xs text-txt-muted'>{CAREER_TIERS[t.tier]?.name ?? '联赛'}</span>
                   <span className='ml-auto text-xs text-txt-muted'>
-                    {champion ? (wonByPlayer ? <span className='font-semibold text-accent'>你夺冠了</span> : champion.name) : '进行中'}
+                    {champion ? (wonByPlayer ? <span className='font-semibold text-accent'>{tr('你夺冠了')}</span> : champion.name) : '进行中'}
                   </span>
                   <span className='inline-flex items-center gap-1 text-xs font-semibold text-accent'>
                     <Trophy size={12} /> {t.prizePool.toLocaleString()}
