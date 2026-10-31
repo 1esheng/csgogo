@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { GraduationCap, Star, UserPlus } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from '@/data/coaches';
 import { AI_TEAM_MAP } from '@/data/aiTeams';
 import { coachEffects } from '@/engine/coach';
@@ -10,6 +11,7 @@ import { Badge, Button, Panel, Progress, SectionTitle, Tabs } from '@/components
 type Tab = 'owned' | 'all';
 
 export function CoachPage() {
+  const { t } = useT();
   const coaches = useGameStore((s) => s.coaches);
   const headCoachId = useGameStore((s) => s.headCoachId);
   const setHeadCoach = useGameStore((s) => s.setHeadCoach);
@@ -33,7 +35,7 @@ export function CoachPage() {
     <div className='space-y-4'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>教练组</h1>
+          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.coaches.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>
             共 {allRows.length} 位真实教练 · 已签下 {ownedRows.length} 位 · 执教能力决定排名与全队加成
           </p>
