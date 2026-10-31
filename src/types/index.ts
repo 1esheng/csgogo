@@ -572,9 +572,7 @@ export interface GameSnapshot {
   settings: GameSettings;
   tasks: TaskProgress[];
   /** 转会市场当前报价。 */
-  market: { id: string; templateId: string; price: number; sold: boolean }[];
   /** 转会市场的刷新种子（每周刷新）。 */
-  marketSeed: number;
   /** 已领取的成就 id。 */
   claimedAchievements: string[];
   /** AI 战队的奖杯墙（战队详情页展示）。 */
