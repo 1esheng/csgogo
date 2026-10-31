@@ -11,6 +11,7 @@ import { Badge, Button, Panel, Progress, SectionTitle, Tabs } from '@/components
 type Tab = 'owned' | 'all';
 
 export function CoachPage() {
+  const { tr } = useT();
   const { t } = useT();
   const coaches = useGameStore((s) => s.coaches);
   const headCoachId = useGameStore((s) => s.headCoachId);
@@ -52,7 +53,7 @@ export function CoachPage() {
 
       <Panel>
         <SectionTitle
-          title='现任主教练'
+          title={tr('现任主教练')}
           subtitle={head ? '执教能力 ' + head.info!.ability + ' · ' + head.info!.style + '型' : '尚未任命——任命一位教练可以给全队加成'}
           right={<GraduationCap size={16} className='text-txt-muted' />}
         />
@@ -71,16 +72,16 @@ export function CoachPage() {
             {effects.trainingXpPct > 0 ? <Badge tone='success'>训练经验 +{Math.round(effects.trainingXpPct * 100)}%</Badge> : null}
             {effects.opponentAdaptivityCut > 0 ? <Badge tone='muted'>对手适应力 -{Math.round(effects.opponentAdaptivityCut * 100)}%</Badge> : null}
             {effects.economyBonus > 0 ? <Badge tone='muted'>开局每人 +{effects.economyBonus} 金币</Badge> : null}
-            <Button size='sm' variant='ghost' onClick={() => setHeadCoach(null)}>卸任</Button>
+            <Button size='sm' variant='ghost' onClick={() => setHeadCoach(null)}>{tr('卸任')}</Button>
           </div>
         ) : (
-          <p className='text-xs text-txt-muted'>去下方列表点「任命」即可上任。</p>
+          <p className='text-xs text-txt-muted'>{tr('去下方列表点「任命」即可上任。')}</p>
         )}
       </Panel>
 
       <Panel>
         <div className='mb-3 flex flex-wrap items-center justify-between gap-2'>
-          <SectionTitle title='教练排名' subtitle='按执教能力从高到低' />
+          <SectionTitle title={tr('教练排名')} subtitle={tr('按执教能力从高到低')} />
           <Tabs tabs={[{ id: 'owned', label: '我的教练' }, { id: 'all', label: '全部教练' }]} active={tab} onChange={(id) => setTab(id as Tab)} />
         </div>
         <div className='space-y-1.5'>
@@ -106,8 +107,8 @@ export function CoachPage() {
                 <div className='min-w-0 flex-1'>
                   <div className='flex items-center gap-2'>
                     <span className='truncate font-semibold text-txt'>{row.info.nickname}</span>
-                    <Badge tone='muted'>{meta.label}</Badge>
-                    {isHead ? <Badge tone='accent'>现任</Badge> : null}
+                    <Badge tone='muted'>{tr(meta.label)}</Badge>
+                    {isHead ? <Badge tone='accent'>{tr('现任')}</Badge> : null}
                   </div>
                   <div className='truncate text-[11px] text-txt-muted'>
                     {row.info.country} · {row.info.style} · {AI_TEAM_MAP[row.info.teamId ?? '']?.name ?? '自由教练'}
@@ -125,7 +126,7 @@ export function CoachPage() {
                     {isHead ? '卸任' : '任命'}
                   </Button>
                 ) : (
-                  <span className='w-14 shrink-0 text-right text-[11px] text-txt-muted'>未签下</span>
+                  <span className='w-14 shrink-0 text-right text-[11px] text-txt-muted'>{tr('未签下')}</span>
                 )}
               </div>
             );
@@ -133,7 +134,7 @@ export function CoachPage() {
           {tab === 'owned' && ownedRows.length === 0 ? (
             <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
               <UserPlus size={16} className='mx-auto mb-2 text-txt-muted' />
-              还没有教练——用上方的教练包签一位吧。
+              {tr('还没有教练——用上方的教练包签一位吧。')}
             </p>
           ) : null}
         </div>
