@@ -19,6 +19,8 @@ import { CareerPage } from '@/pages/CareerPage';
 import { RankingsPage } from '@/pages/RankingsPage';
 import { TeamPage } from '@/pages/TeamPage';
 import { CoachPage } from '@/pages/CoachPage';
+import { AchievementsPage } from '@/pages/AchievementsPage';
+import { MarketPage } from '@/pages/MarketPage';
 import { RecordsPage } from '@/pages/RecordsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 
@@ -215,6 +217,8 @@ function Layout() {
             <Route path='/rankings' element={<RankingsPage />} />
             <Route path='/team/:teamId' element={<TeamPage />} />
 <Route path='/coaches' element={<CoachPage />} />
+            <Route path='/market' element={<MarketPage />} />
+            <Route path='/achievements' element={<AchievementsPage />} />
             <Route path='/records' element={<RecordsPage />} />
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<DashboardPage />} />
