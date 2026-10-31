@@ -131,6 +131,21 @@ export function SettingsPage() {
         <div className='space-y-4'>
           <Panel>
             <SectionTitle title='偏好设置' subtitle='保存在存档中，立即生效。' right={<Sliders size={16} className='text-txt-muted' />} />
+            <div className='mb-2 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2'>
+              <span className='text-xs font-semibold text-txt'>界面语言 / Language</span>
+              <div className='ml-auto flex gap-1 rounded-lg border border-white/10 p-0.5'>
+                {([['zh', '中文'], ['en', 'English']] as const).map(([code, label]) => (
+                  <button
+                    key={code}
+                    type='button'
+                    onClick={() => updateSettings({ language: code })}
+                    className={'rounded-md px-2.5 py-1 text-xs font-semibold transition-colors ' + ((settings.language ?? 'zh') === code ? 'bg-accent text-ink-950' : 'text-txt-muted hover:text-txt')}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className='space-y-2'>
               <ToggleRow
                 label='自动保存'
