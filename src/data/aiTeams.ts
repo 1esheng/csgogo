@@ -8,7 +8,7 @@ const L = (templateId: string, role: CombatRole, isIGL = false) => ({ templateId
  */
 export const AI_TEAMS: AITeamSpec[] = [
   {
-    id: 'navi', name: 'Natus Vincere', shortName: 'NAVI', tier: 4, rating: 1280,
+    id: 'navi', name: 'Natus Vincere', shortName: 'NAVI', tier: 4, rating: 1099,
     lineup: [
       L('tpl-zywoo-2026', 'AWPer', true),
       L('tpl-donk-2026', 'Entry'),
@@ -22,7 +22,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '独联体豪门，Major 冠军与青训体系并重。',
   },
   {
-    id: 'vitality', name: 'Team Vitality', shortName: 'VIT', tier: 4, rating: 1202,
+    id: 'vitality', name: 'Team Vitality', shortName: 'VIT', tier: 4, rating: 1279,
     lineup: [
       L('tpl-w0nderful-2026', 'AWPer'),
       L('tpl-kyousuke-2026', 'Entry'),
@@ -36,7 +36,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '法国豪门，以 ZywOo 为核心打造的夺冠机器。',
   },
   {
-    id: 'spirit', name: 'Team Spirit', shortName: 'SPR', tier: 4, rating: 1166,
+    id: 'spirit', name: 'Team Spirit', shortName: 'SPR', tier: 4, rating: 1237,
     lineup: [
       L('tpl-molodoy-2026', 'AWPer'),
       L('tpl-ropz-2026', 'Entry'),
@@ -50,7 +50,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: 'donk 领衔的新王，枪法与纪律兼备。',
   },
   {
-    id: 'mouz', name: 'MOUZ', shortName: 'MOUZ', tier: 4, rating: 1166,
+    id: 'mouz', name: 'MOUZ', shortName: 'MOUZ', tier: 4, rating: 1300,
     lineup: [
       L('tpl-markeloff-2026', 'AWPer'),
       L('tpl-xantares-2026', 'Entry', true),
@@ -64,7 +64,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '德国青训工厂，年轻阵容平均年龄极低。',
   },
   {
-    id: 'faze', name: 'FaZe Clan', shortName: 'FAZE', tier: 4, rating: 1150,
+    id: 'faze', name: 'FaZe Clan', shortName: 'FAZE', tier: 4, rating: 1069,
     lineup: [
       L('tpl-device-2026', 'AWPer'),
       L('tpl-fer-2026', 'Entry'),
@@ -78,7 +78,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '国际纵队标杆，Major 冠军与流量并存的超级队。',
   },
   {
-    id: 'g2', name: 'G2 Esports', shortName: 'G2', tier: 4, rating: 1145,
+    id: 'g2', name: 'G2 Esports', shortName: 'G2', tier: 4, rating: 1113,
     lineup: [
       L('tpl-s1mple-2026', 'AWPer'),
       L('tpl-makazze-2026', 'Entry'),
@@ -92,7 +92,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: 'NiKo 与 m0NESY 的火力组合，进攻端的艺术流派。',
   },
   {
-    id: 'falcons', name: 'Team Falcons', shortName: 'FLC', tier: 3, rating: 1114,
+    id: 'falcons', name: 'Team Falcons', shortName: 'FLC', tier: 3, rating: 1195,
     lineup: [
       L('tpl-broky-2026', 'AWPer'),
       L('tpl-kjaerbye-2026', 'Entry'),
@@ -106,7 +106,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '沙特资本打造的全明星阵容，Major 冠军争夺者。',
   },
   {
-    id: 'furia', name: 'FURIA Esports', shortName: 'FUR', tier: 3, rating: 1119,
+    id: 'furia', name: 'FURIA Esports', shortName: 'FUR', tier: 3, rating: 1273,
     lineup: [
       L('tpl-malbsmd-2026', 'AWPer'),
       L('tpl-friberg-2026', 'Entry'),
@@ -120,7 +120,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西激进派代表，敢于在每一回合打节奏。',
   },
   {
-    id: 'astralis', name: 'Astralis', shortName: 'AST', tier: 3, rating: 1119,
+    id: 'astralis', name: 'Astralis', shortName: 'AST', tier: 3, rating: 1085,
     lineup: [
       L('tpl-jl-2026', 'AWPer', true),
       L('tpl-k0nfig-2026', 'Entry'),
@@ -134,7 +134,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '四届 Major 冠军，道具与体系的教科书。',
   },
   {
-    id: 'heroic', name: 'Heroic', shortName: 'HER', tier: 3, rating: 1119,
+    id: 'heroic', name: 'Heroic', shortName: 'HER', tier: 3, rating: 1069,
     lineup: [
       L('tpl-karrigan-2026', 'AWPer'),
       L('tpl-sergej-2026', 'Entry'),
@@ -162,7 +162,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '北美老牌俱乐部，长期在国际赛场亮相。',
   },
   {
-    id: 'virtuspro', name: 'Virtus.pro', shortName: 'VP', tier: 3, rating: 1083,
+    id: 'virtuspro', name: 'Virtus.pro', shortName: 'VP', tier: 3, rating: 1003,
     lineup: [
       L('tpl-chrisj-2026', 'AWPer'),
       L('tpl-yuurih-2026', 'Entry'),
@@ -176,7 +176,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '独联体劲旅，慢节奏与残局处理的代表。',
   },
   {
-    id: 'liquid', name: 'Team Liquid', shortName: 'TL', tier: 2, rating: 1083,
+    id: 'liquid', name: 'Team Liquid', shortName: 'TL', tier: 2, rating: 1062,
     lineup: [
       L('tpl-torzsi-2026', 'AWPer'),
       L('tpl-im-2026', 'Entry'),
@@ -204,7 +204,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '芬兰劲旅，靠体系与团队默契立足。',
   },
   {
-    id: 'big', name: 'BIG', shortName: 'BIG', tier: 2, rating: 1078,
+    id: 'big', name: 'BIG', shortName: 'BIG', tier: 2, rating: 999,
     lineup: [
       L('tpl-degster-2026', 'AWPer'),
       L('tpl-elige-2026', 'Entry'),
@@ -218,7 +218,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '德国代表，主场作战时格外难缠。',
   },
   {
-    id: 'fnatic', name: 'fnatic', shortName: 'FNC', tier: 2, rating: 1072,
+    id: 'fnatic', name: 'fnatic', shortName: 'FNC', tier: 2, rating: 1038,
     lineup: [
       L('tpl-adren-2026', 'AWPer'),
       L('tpl-ax1le-2026', 'Entry'),
@@ -232,7 +232,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '瑞典王朝的继承者，历史底蕴深厚。',
   },
   {
-    id: 'nip', name: 'Ninjas in Pyjamas', shortName: 'NIP', tier: 2, rating: 1041,
+    id: 'nip', name: 'Ninjas in Pyjamas', shortName: 'NIP', tier: 2, rating: 1081,
     lineup: [
       L('tpl-art-2026', 'AWPer'),
       L('tpl-tarik-2026', 'Entry', true),
@@ -246,7 +246,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '87 连胜神话的缔造者，如今仍在重建。',
   },
   {
-    id: 'pain', name: 'paiN Gaming', shortName: 'paiN', tier: 2, rating: 1020,
+    id: 'pain', name: 'paiN Gaming', shortName: 'paiN', tier: 2, rating: 934,
     lineup: [
       L('tpl-woxic-2026', 'AWPer'),
       L('tpl-krimbo-2026', 'Entry', true),
@@ -260,7 +260,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西老牌俱乐部，南美赛区的稳定力量。',
   },
   {
-    id: 'imperial', name: 'Imperial', shortName: 'IMP', tier: 1, rating: 1020,
+    id: 'imperial', name: 'Imperial', shortName: 'IMP', tier: 1, rating: 1000,
     lineup: [
       L('tpl-hen1-2026', 'AWPer'),
       L('tpl-mzinho-2026', 'Entry'),
@@ -274,7 +274,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: 'FalleN 与老将们的最后一舞。',
   },
   {
-    id: 'mibr', name: 'MIBR', shortName: 'MIBR', tier: 1, rating: 1020,
+    id: 'mibr', name: 'MIBR', shortName: 'MIBR', tier: 1, rating: 1073,
     lineup: [
       L('tpl-maikelele-2026', 'AWPer'),
       L('tpl-fl1t-2026', 'Entry'),
@@ -288,7 +288,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西传奇品牌，重建中的南美劲旅。',
   },
   {
-    id: 'mongolz', name: 'The MongolZ', shortName: 'MGZ', tier: 1, rating: 1031,
+    id: 'mongolz', name: 'The MongolZ', shortName: 'MGZ', tier: 1, rating: 1078,
     lineup: [
       L('tpl-hallzerk-2026', 'AWPer'),
       L('tpl-nex-2026', 'Entry'),
@@ -302,7 +302,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '蒙古铁骑，亚洲赛区近年的最强音。',
   },
   {
-    id: 'tyloo', name: 'TYLOO', shortName: 'TYL', tier: 1, rating: 1031,
+    id: 'tyloo', name: 'TYLOO', shortName: 'TYL', tier: 1, rating: 920,
     lineup: [
       L('tpl-smooya-2026', 'AWPer', true),
       L('tpl-k1to-2026', 'Entry'),
@@ -316,7 +316,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '中国最强战队，亚洲赛场的常青树。',
   },
   {
-    id: 'betboom', name: 'BetBoom Team', shortName: 'BB', tier: 1, rating: 1026,
+    id: 'betboom', name: 'BetBoom Team', shortName: 'BB', tier: 1, rating: 1205,
     lineup: [
       L('tpl-kngv-2026', 'AWPer'),
       L('tpl-jkaem-2026', 'Entry', true),
@@ -330,7 +330,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '独联体新锐，线上赛成绩亮眼。',
   },
   {
-    id: 'gamerlegion', name: 'GamerLegion', shortName: 'GL', tier: 1, rating: 1020,
+    id: 'gamerlegion', name: 'GamerLegion', shortName: 'GL', tier: 1, rating: 988,
     lineup: [
       L('tpl-smithzz-2026', 'AWPer'),
       L('tpl-blitz-2026', 'Entry'),
@@ -358,7 +358,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '独联体二级赛区的硬骨头。',
   },
   {
-    id: 'b8', name: 'B8 Esports', shortName: 'B8', tier: 0, rating: 958,
+    id: 'b8', name: 'B8 Esports', shortName: 'B8', tier: 0, rating: 1031,
     lineup: [
       L('tpl-soulfly-2026', 'AWPer'),
       L('tpl-patsi-2026', 'Entry'),
@@ -372,7 +372,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '乌克兰俱乐部，青年军为主。',
   },
   {
-    id: 'nemiga', name: 'Nemiga Gaming', shortName: 'NEM', tier: 0, rating: 974,
+    id: 'nemiga', name: 'Nemiga Gaming', shortName: 'NEM', tier: 0, rating: 1127,
     lineup: [
       L('tpl-twist-2026', 'AWPer'),
       L('tpl-ultimate-2026', 'Entry'),
@@ -386,7 +386,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '白俄罗斯队伍，擅长线上赛爆冷。',
   },
   {
-    id: 'aurora', name: 'Aurora Gaming', shortName: 'AUR', tier: 0, rating: 942,
+    id: 'aurora', name: 'Aurora Gaming', shortName: 'AUR', tier: 0, rating: 1243,
     lineup: [
       L('tpl-acor-2026', 'AWPer'),
       L('tpl-sl1m3-2026', 'Entry'),
@@ -456,7 +456,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '挪威劲旅，Major 常客。',
   },
   {
-    id: 'eternalfire', name: 'Eternal Fire', shortName: 'EF', tier: 3, rating: 1202,
+    id: 'eternalfire', name: 'Eternal Fire', shortName: 'EF', tier: 3, rating: 1052,
     lineup: [
       L('tpl-m0nesy-2026', 'AWPer'),
       L('tpl-kyousuke-2026', 'Entry'),
@@ -470,7 +470,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '土耳其最强代表，XANTARES 领衔。',
   },
   {
-    id: 'saw', name: 'SAW', shortName: 'SAW', tier: 2, rating: 1135,
+    id: 'saw', name: 'SAW', shortName: 'SAW', tier: 2, rating: 896,
     lineup: [
       L('tpl-markeloff-2026', 'AWPer'),
       L('tpl-flamie-2026', 'Entry'),
@@ -484,7 +484,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '葡萄牙黑马，靠体系打出名号。',
   },
   {
-    id: 'monte', name: 'Monte', shortName: 'MON', tier: 2, rating: 1145,
+    id: 'monte', name: 'Monte', shortName: 'MON', tier: 2, rating: 818,
     lineup: [
       L('tpl-s1mple-2026', 'AWPer'),
       L('tpl-xantares-2026', 'Entry'),
@@ -498,7 +498,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '乌克兰新军，Major 八强黑马。',
   },
   {
-    id: 'forze', name: 'FORZE', shortName: 'FRZ', tier: 2, rating: 1145,
+    id: 'forze', name: 'FORZE', shortName: 'FRZ', tier: 2, rating: 822,
     lineup: [
       L('tpl-molodoy-2026', 'AWPer'),
       L('tpl-malbsmd-2026', 'Entry'),
@@ -512,7 +512,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '俄罗斯老牌俱乐部，本土赛场常客。',
   },
   {
-    id: 'sangal', name: 'Sangal', shortName: 'SNG', tier: 1, rating: 1072,
+    id: 'sangal', name: 'Sangal', shortName: 'SNG', tier: 1, rating: 968,
     lineup: [
       L('tpl-dycha-2026', 'AWPer'),
       L('tpl-makazze-2026', 'Entry'),
@@ -526,7 +526,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '土耳其新锐，进攻节奏凶狠。',
   },
   {
-    id: 'zerotenacity', name: 'Zero Tenacity', shortName: 'Z10', tier: 1, rating: 1078,
+    id: 'zerotenacity', name: 'Zero Tenacity', shortName: 'Z10', tier: 1, rating: 843,
     lineup: [
       L('tpl-nqz-2026', 'AWPer'),
       L('tpl-im-2026', 'Entry'),
@@ -540,7 +540,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '塞尔维亚队伍，欧洲二级赛区硬骨头。',
   },
   {
-    id: 'nexus', name: 'Nexus', shortName: 'NEX', tier: 1, rating: 1052,
+    id: 'nexus', name: 'Nexus', shortName: 'NEX', tier: 1, rating: 876,
     lineup: [
       L('tpl-cajunb-2026', 'AWPer'),
       L('tpl-rain-2026', 'Entry', true),
@@ -694,7 +694,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '北美老牌品牌，重建中的豪门。',
   },
   {
-    id: 'nrg', name: 'NRG', shortName: 'NRG', tier: 2, rating: 1109,
+    id: 'nrg', name: 'NRG', shortName: 'NRG', tier: 2, rating: 958,
     lineup: [
       L('tpl-kjaerbye-2026', 'AWPer', true),
       L('tpl-k0nfig-2026', 'Entry'),
@@ -708,7 +708,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '北美俱乐部，曾打进 Major 淘汰赛。',
   },
   {
-    id: 'm80', name: 'M80', shortName: 'M80', tier: 1, rating: 1052,
+    id: 'm80', name: 'M80', shortName: 'M80', tier: 1, rating: 1041,
     lineup: [
       L('tpl-syrson-2026', 'AWPer'),
       L('tpl-calyx-2026', 'Entry'),
@@ -722,7 +722,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '北美新势力，年轻选手为主。',
   },
   {
-    id: 'wildcard', name: 'Wildcard', shortName: 'WC', tier: 1, rating: 1041,
+    id: 'wildcard', name: 'Wildcard', shortName: 'WC', tier: 1, rating: 974,
     lineup: [
       L('tpl-draken-2026', 'AWPer'),
       L('tpl-nex-2026', 'Entry'),
@@ -778,7 +778,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西新军，进攻节奏极快。',
   },
   {
-    id: 'legacy', name: 'Legacy', shortName: 'LEG', tier: 1, rating: 1031,
+    id: 'legacy', name: 'Legacy', shortName: 'LEG', tier: 1, rating: 1138,
     lineup: [
       L('tpl-xccurate-2026', 'AWPer'),
       L('tpl-attacker-2026', 'Entry'),
@@ -792,7 +792,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西老将组合，经验丰富。',
   },
   {
-    id: 'fluxo', name: 'Fluxo', shortName: 'FLX', tier: 0, rating: 958,
+    id: 'fluxo', name: 'Fluxo', shortName: 'FLX', tier: 0, rating: 909,
     lineup: [
       L('tpl-acor-2026', 'AWPer', true),
       L('tpl-r3salt-2026', 'Entry'),
@@ -806,7 +806,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '巴西俱乐部，本土联赛常客。',
   },
   {
-    id: '9z', name: '9z Team', shortName: '9z', tier: 1, rating: 1036,
+    id: '9z', name: '9z Team', shortName: '9z', tier: 1, rating: 1045,
     lineup: [
       L('tpl-junior-2026', 'AWPer'),
       L('tpl-bondik-2026', 'Entry'),
@@ -820,7 +820,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '阿根廷劲旅，南美赛场老牌强队。',
   },
   {
-    id: 'bestia', name: 'BESTIA', shortName: 'BEA', tier: 0, rating: 963,
+    id: 'bestia', name: 'BESTIA', shortName: 'BEA', tier: 0, rating: 939,
     lineup: [
       L('tpl-afro-2026', 'AWPer'),
       L('tpl-demqq-2026', 'Entry'),
@@ -834,7 +834,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     blurb: '阿根廷队伍，靠团队配合取胜。',
   },
   {
-    id: 'lynnvision', name: 'Lynn Vision', shortName: 'LVG', tier: 1, rating: 1026,
+    id: 'lynnvision', name: 'Lynn Vision', shortName: 'LVG', tier: 1, rating: 919,
     lineup: [
       L('tpl-danking-2026', 'AWPer'),
       L('tpl-jackz-2026', 'Entry'),
