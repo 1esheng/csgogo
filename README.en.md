@@ -3,7 +3,7 @@
 An **offline, frontend-only** CS2 club-manager and player-card game.
 Collect player cards, build a five-man lineup, hire a head coach, call tactics round by round — and climb from the Open Qualifier all the way to the **MAJOR**.
 
-[中文说明](README.md) · [Play online](https://1esheng.github.io/csgogo/) · [Download exe](https://github.com/1esheng/csgogo/releases/download/v1.0.0/CS2Dynasty.exe)
+[中文说明](README.md) · [Play online](https://1esheng.github.io/csgogo/) · [Download exe](https://github.com/1esheng/csgogo/releases/download/v1.2.1/CS2Dynasty.exe)
 
 - Fully offline: no backend, no account, no network calls
 - Saves live in IndexedDB, exportable/importable as JSON
@@ -53,7 +53,7 @@ Collect player cards, build a five-man lineup, hire a head coach, call tactics r
 - OVR = 62% individual + 20% role proficiency + 18% team contribution, with a full breakdown panel
 - **Level cap 30**, **no star cap**: 3 duplicate cards give +1 star, each star adds +3 to all attributes
 - Training, catalog and star fusion in one page (My cards / Full catalog / Star fusion)
-- 259 players use real photos (credited in src/assets/avatars/credits.json); the rest use generated silhouette avatars
+- 212 players use real photos (each credited in src/assets/avatars/credits.json); the rest use generated silhouette avatars
 
 ### Lineup and staff
 - Five roles: AWPer / Entry / Lurker / Support / Anchor, with IGL as a badge
@@ -93,7 +93,7 @@ On Windows you can also double-click the batch files in the repository root:
 
 ### Single-file desktop build
 
-The release ships a 98 MB CS2Dynasty.exe produced with **Node SEA**: all 264 frontend assets are embedded into the executable and served from memory, so it needs neither Node nor a network connection.
+The release ships a 97 MB CS2Dynasty.exe produced with **Node SEA**: all 217 frontend assets are embedded into the executable and served from memory, so it needs neither Node nor a network connection.
 
     npm run build
     node --experimental-sea-config tools/exe/sea-config.json
