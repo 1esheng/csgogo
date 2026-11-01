@@ -157,7 +157,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           ))}
         </nav>
         <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[10px] leading-relaxed text-txt-muted/80'>
-          本作所有评分均为游戏内原创平衡数值，并非真实 HLTV 统计。
+          All ratings in this game are original balance values, not real HLTV statistics.
         </div>
       </aside>
     </>
