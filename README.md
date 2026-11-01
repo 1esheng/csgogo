@@ -22,17 +22,32 @@
 
 ---
 
-## 截图
+## 截图（英文界面，均取自线上站点）
 
-| 俱乐部总览 | 选手图鉴 |
+| 俱乐部总览 | 阵容 |
 | --- | --- |
-| ![dashboard](docs/screenshots/160-dashboard-trophies.png) | ![gallery](docs/screenshots/164-avatars-259.png) |
+| ![俱乐部总览](docs/screenshots/173-en-dashboard.png) | ![阵容](docs/screenshots/174-en-lineup.png) |
 
-| 卡包中心 | 教练组 |
+| 选手图鉴 | 卡包 |
 | --- | --- |
-| ![packs](docs/screenshots/136-coach-droptable.png) | ![coaches](docs/screenshots/157-coach-effects.png) |
+| ![选手图鉴](docs/screenshots/175-en-collection.png) | ![卡包](docs/screenshots/176-en-packs.png) |
 
-更多截图见 [`docs/screenshots/`](docs/screenshots)。
+| 训练 | 教练组 |
+| --- | --- |
+| ![训练](docs/screenshots/177-en-training.png) | ![教练组](docs/screenshots/178-en-coaching.png) |
+
+| 对局 | 生涯 |
+| --- | --- |
+| ![对局](docs/screenshots/179-en-match.png) | ![生涯](docs/screenshots/180-en-career.png) |
+
+| 排行榜 | 成就 |
+| --- | --- |
+| ![排行榜](docs/screenshots/181-en-rankings.png) | ![成就](docs/screenshots/182-en-achievements.png) |
+
+| 设置 |  |
+| --- | --- |
+| ![设置](docs/screenshots/183-en-settings.png) |  |
+
 
 ---
 
