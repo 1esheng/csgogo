@@ -18,7 +18,8 @@
 | 方式 | 链接 |
 | --- | --- |
 | 浏览器直接玩 | https://1esheng.github.io/csgogo/ |
-| Windows 单文件 exe | [CS2Dynasty.exe v1.0.0](https://github.com/1esheng/csgogo/releases/download/v1.0.0/CS2Dynasty.exe)（98 MB，双击即玩，无需安装 Node） |
+| Windows 单文件 exe | [CS2Dynasty.exe v1.2.1](https://github.com/1esheng/csgogo/releases/download/v1.2.1/CS2Dynasty.exe)（97 MB，双击即玩，无需安装 Node） |
+| 版本说明 | [v1.2.1 Release Notes](https://github.com/1esheng/csgogo/releases/tag/v1.2.1)（英文界面细节修复） |
 
 ---
 
@@ -58,7 +59,7 @@
 - 综合评分 = 个人能力 62% + 位置熟练 20% + 团队贡献 18%，拆分明细可查
 - **等级上限 30**、**星级无上限**：3 张同名卡升 1 星，每星全属性 +3
 - 训练、图鉴、卡牌合成三合一页面（我的卡牌 / 全部图鉴 / 卡牌合成）
-- 259 名选手使用真实照片（来源见下文），其余使用生成的剪影头像
+- 212 名选手使用真实照片（逐张标注来源），其余使用程序生成的剪影头像
 
 ### 阵容与教练
 - 5 个位置：狙击手 / 突破手 / 自由人 / 辅助 / 主防，指挥（IGL）为兼任标记
