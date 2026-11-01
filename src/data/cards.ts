@@ -318,19 +318,19 @@ export const PLAYERS: PlayerIdentity[] = [
 
 export const PLAYER_MAP: Record<string, PlayerIdentity> = Object.fromEntries(PLAYERS.map((p) => [p.id, p]));
 
-const SKILLS: Record<string, Skill & { nameEn: string }> = {
-  duelist: { id: 'duelist', name: '精准直觉', nameEn: 'Precision instinct', icon: 'crosshair', description: '对枪判定时 +4 枪法。', kind: 'attribute', key: 'aim', value: 4 },
-  clutchGene: { id: 'clutchGene', name: '残局基因', nameEn: 'Clutch gene', icon: 'heart-pulse', description: '末段局面 +6 残局。', kind: 'clutch', key: 'clutch', value: 6 },
-  iceVeins: { id: 'iceVeins', name: '大心脏', nameEn: 'Big-game nerve', icon: 'snowflake', description: '+8 残局，1vX 时最强。', kind: 'clutch', key: 'clutch', value: 8 },
-  utilityLib: { id: 'utilityLib', name: '道具库', nameEn: 'Utility library', icon: 'flame', description: '执行与回防时 +5 道具。', kind: 'attribute', key: 'utility', value: 5 },
-  architect: { id: 'architect', name: '战术大脑', nameEn: 'Tactical brain', icon: 'brain', description: '+6 指挥，中期决策更稳。', kind: 'attribute', key: 'leadership', value: 6 },
-  tradeArtist: { id: 'tradeArtist', name: '补枪纪律', nameEn: 'Trade discipline', icon: 'users', description: '补枪时 +5 团队。', kind: 'attribute', key: 'teamwork', value: 5 },
-  mirager: { id: 'mirager', name: 'Mirage 老兵', nameEn: 'Mirage veteran', icon: 'map', description: 'Mirage 地图适应度 +8。', kind: 'map', key: 'Mirage', value: 8 },
-  infernist: { id: 'infernist', name: '香蕉道老兵', nameEn: 'Banana veteran', icon: 'map', description: 'Inferno 地图适应度 +8。', kind: 'map', key: 'Inferno', value: 8 },
-  nuker: { id: 'nuker', name: 'Nuke 熟手', nameEn: 'Nuke specialist', icon: 'map', description: 'Nuke 地图适应度 +8。', kind: 'map', key: 'Nuke', value: 8 },
-  sponsor: { id: 'sponsor', name: '赞助磁石', nameEn: 'Sponsor magnet', icon: 'coins', description: '每场胜利额外 +80 金币。', kind: 'economy', key: 'coins', value: 80 },
-  glue: { id: 'glue', name: '更衣室粘合剂', nameEn: 'Locker-room glue', icon: 'link', description: '在场时 +4 团队默契。', kind: 'synergy', key: 'synergy', value: 4 },
-  serverRat: { id: 'serverRat', name: '服务器老鼠', nameEn: 'Server rat', icon: 'bug', description: '+3 反应与 +3 意识（按反应结算）。', kind: 'attribute', key: 'reflex', value: 3 },
+const SKILLS: Record<string, Skill & { nameEn: string; descriptionEn: string }> = {
+  duelist: { id: 'duelist', name: '精准直觉', nameEn: 'Precision instinct', icon: 'crosshair', description: '对枪判定时 +4 枪法。', descriptionEn: '+4 Aim on duels.', kind: 'attribute', key: 'aim', value: 4 },
+  clutchGene: { id: 'clutchGene', name: '残局基因', nameEn: 'Clutch gene', icon: 'heart-pulse', description: '末段局面 +6 残局。', descriptionEn: '+6 Clutch in late-round situations.', kind: 'clutch', key: 'clutch', value: 6 },
+  iceVeins: { id: 'iceVeins', name: '大心脏', nameEn: 'Big-game nerve', icon: 'snowflake', description: '+8 残局，1vX 时最强。', descriptionEn: '+8 Clutch; strongest in 1vX.', kind: 'clutch', key: 'clutch', value: 8 },
+  utilityLib: { id: 'utilityLib', name: '道具库', nameEn: 'Utility library', icon: 'flame', description: '执行与回防时 +5 道具。', descriptionEn: '+5 Utility on executes and retakes.', kind: 'attribute', key: 'utility', value: 5 },
+  architect: { id: 'architect', name: '战术大脑', nameEn: 'Tactical brain', icon: 'brain', description: '+6 指挥，中期决策更稳。', descriptionEn: '+6 IGL; steadier mid-round calls.', kind: 'attribute', key: 'leadership', value: 6 },
+  tradeArtist: { id: 'tradeArtist', name: '补枪纪律', nameEn: 'Trade discipline', icon: 'users', description: '补枪时 +5 团队。', descriptionEn: '+5 Teamwork when trading.', kind: 'attribute', key: 'teamwork', value: 5 },
+  mirager: { id: 'mirager', name: 'Mirage 老兵', nameEn: 'Mirage veteran', icon: 'map', description: 'Mirage 地图适应度 +8。', descriptionEn: '+8 map comfort on Mirage.', kind: 'map', key: 'Mirage', value: 8 },
+  infernist: { id: 'infernist', name: '香蕉道老兵', nameEn: 'Banana veteran', icon: 'map', description: 'Inferno 地图适应度 +8。', descriptionEn: '+8 map comfort on Inferno.', kind: 'map', key: 'Inferno', value: 8 },
+  nuker: { id: 'nuker', name: 'Nuke 熟手', nameEn: 'Nuke specialist', icon: 'map', description: 'Nuke 地图适应度 +8。', descriptionEn: '+8 map comfort on Nuke.', kind: 'map', key: 'Nuke', value: 8 },
+  sponsor: { id: 'sponsor', name: '赞助磁石', nameEn: 'Sponsor magnet', icon: 'coins', description: '每场胜利额外 +80 金币。', descriptionEn: '+80 extra coins per win.', kind: 'economy', key: 'coins', value: 80 },
+  glue: { id: 'glue', name: '更衣室粘合剂', nameEn: 'Locker-room glue', icon: 'link', description: '在场时 +4 团队默契。', descriptionEn: '+4 team chemistry while on the field.', kind: 'synergy', key: 'synergy', value: 4 },
+  serverRat: { id: 'serverRat', name: '服务器老鼠', nameEn: 'Server rat', icon: 'bug', description: '+3 反应与 +3 意识（按反应结算）。', descriptionEn: '+3 Reflex and +3 Awareness (scored as reflex).', kind: 'attribute', key: 'reflex', value: 3 },
 };
 
 /** 青训特质英文名（数据层）：与 game/prospects.ts 的 TRAITS 对应，渲染期 pick(中文, 英文)。 */
@@ -346,6 +346,12 @@ export const PROSPECT_TRAIT_NAME_EN: Record<string, string> = {
 };
 
 /** 天赋技能英文名：技能条目自带 nameEn；青训选手的技能名取自特质，回退到特质表。 */
+/** 技能英文描述；未命中回退中文。 */
+export function skillDescEn(skill: Skill): string {
+  const own = Object.values(SKILLS).find((s) => s.id === skill.id);
+  return own ? own.descriptionEn : skill.description;
+}
+
 export function skillNameEn(skill: Skill): string {
   const own = Object.values(SKILLS).find((s) => s.id === skill.id);
   return own ? own.nameEn : (PROSPECT_TRAIT_NAME_EN[skill.name] ?? skill.name);

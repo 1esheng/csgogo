@@ -6,7 +6,7 @@ import { LEVEL_CONFIG, RARITY_TABLE } from '@/data/config';
 import { MAPS } from '@/data/maps';
 import { Avatar } from '@/components/Avatar';
 import { avatarCredit } from '@/data/avatars';
-import { playerBio, playerRetired, skillNameEn } from '@/data/cards';
+import { playerBio, playerRetired, skillDescEn, skillNameEn } from '@/data/cards';
 import { effectiveAttributes, ovrBreakdown } from '@/engine/rating';
 import { Badge, Divider, Progress } from '@/components/ui';
 import { Star } from 'lucide-react';
@@ -148,7 +148,7 @@ export function CardDetailBody({
         <div className='mt-4 rounded-xl border border-accent/20 bg-accent/5 p-3'>
           <div className='label-xs text-accent'>{tr('天赋技能')}</div>
           <div className='mt-1 font-display text-sm font-bold'>{pick(template.skill.name, skillNameEn(template.skill))}</div>
-          <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{template.skill.description}</p>
+          <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{pick(template.skill.description, skillDescEn(template.skill))}</p>
         </div>
       </div>
 
