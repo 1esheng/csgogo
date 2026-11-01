@@ -15,7 +15,7 @@ const TABS = [
 ];
 
 export function RankingsPage() {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const { t } = useT();
   const liveWorld = useGameStore((s) => s.liveWorld);
   const setLiveWorld = useGameStore((s) => s.setLiveWorld);
@@ -184,7 +184,7 @@ export function RankingsPage() {
         {liveWorld.feed.length > 0 ? (
           <div className='mt-3 space-y-1.5'>
             {liveWorld.feed.slice(0, 5).map((f) => (
-              <div key={f.id} className='animate-fade-up rounded-lg border border-white/5 bg-white/[0.02] px-3 py-1.5 text-xs text-txt-muted'>{f.text}</div>
+              <div key={f.id} className='animate-fade-up rounded-lg border border-white/5 bg-white/[0.02] px-3 py-1.5 text-xs text-txt-muted'>{pick(f.text, f.textEn ?? f.text)}</div>
             ))}
           </div>
         ) : (

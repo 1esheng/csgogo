@@ -1,5 +1,6 @@
 import React from 'react';
 import { useT } from '@/hooks/useLang';
+import { skillNameEn } from '@/data/cards';
 import clsx from 'clsx';
 import { Sparkles, Star } from 'lucide-react';
 import type { CardTemplate, Rarity, Role } from '@/types';
@@ -36,7 +37,7 @@ export function PlayerCard({
   cornerLabel?: string;
   dimmed?: boolean;
 }) {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const rarity = RARITY_TABLE[card.template.rarity as Rarity];
   const s = SIZE[size];
   const role: Role = card.template.primaryRole;
@@ -98,7 +99,7 @@ export function PlayerCard({
       <div className={clsx('relative flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-t border-white/10 pt-2 text-txt-muted', s.meta)}>
         <span className='inline-flex min-w-0 items-center gap-1 font-semibold'>
           <Sparkles size={12} className='shrink-0 text-accent' />
-          <span className='truncate'>{card.template.skill.name}</span>
+          <span className='truncate'>{pick(card.template.skill.name, skillNameEn(card.template.skill))}</span>
         </span>
         <span className='inline-flex shrink-0 items-center gap-1 font-semibold'>
           <Star size={12} className='text-accent' />

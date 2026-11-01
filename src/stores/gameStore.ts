@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { SEASON_DAYS, monthDayLabel, seasonEvents } from '@/game/calendar';
+import { pick as pickText, t as i18nT } from '@/i18n';
 import { CLUB_PRICES } from "@/data/clubCosmetics";
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from "@/data/coaches";
 import { ACHIEVEMENTS } from '@/data/achievements';
@@ -153,7 +154,7 @@ export interface GameStore {
   lastPackResults: PullResult[] | null;
   lastCoachResults: CoachPull[] | null;
   /** 实时电竞世界：每分钟推进一轮 AI 对局并刷新排行榜。 */
-  liveWorld: { enabled: boolean; lastTickAt: number; ticks: number; feed: { id: string; text: string; at: number }[] };
+  liveWorld: { enabled: boolean; lastTickAt: number; ticks: number; feed: { id: string; text: string; /** 英文动态（渲染处 pick(text, textEn)）。 */ textEn?: string; at: number }[] };
   tickLiveWorld: () => void;
   setLiveWorld: (enabled: boolean) => void;
   renameClub: (name: string) => { ok: boolean; error?: string };
@@ -1002,10 +1003,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const s = get();
     const playerRating = s.leaders.find((l) => l.id === 'player')?.rating ?? 1000;
     if (!canEnterTier(playerRating, tier)) {
-      return { ok: false, error: '你还差 ' + (tierSpec(tier).ratingFloor - playerRating) + ' 分才能报名' + tierSpec(tier).name + '（需要 ' + tierSpec(tier).ratingFloor + ' 分）。' };
+      return { ok: false, error: pickText('你还差 ' + (tierSpec(tier).ratingFloor - playerRating) + ' 分才能报名' + tierSpec(tier).name + '（需要 ' + tierSpec(tier).ratingFloor + ' 分）。', 'You need ' + (tierSpec(tier).ratingFloor - playerRating) + ' more rating to enter ' + i18nT('tier.' + tier) + ' (requires ' + tierSpec(tier).ratingFloor + ').') };
     }
     const active = s.tournaments.find((t) => t.status === 'active');
-    if (active) return { ok: false, error: '先打完当前赛事再报名新的。' };
+    if (active) return { ok: false, error: pickText('先打完当前赛事再报名新的。', 'Finish the current event before entering a new one.') };
 
     const tournament = createTournament({
       tier, playerTeamName: s.club.name, playerRating, seed: randomSeed(),
@@ -1017,7 +1018,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       // Keep the leaderboard row's league in sync with the career ladder.
       leaders: applyAiResults(s.leaders.map((l) => (l.id === 'player' ? { ...l, tier } : l)), null, settled),
     });
-    get().toast('已报名' + tierSpec(tier).name + '。', 'success');
+    get().toast(pickText('已报名' + tierSpec(tier).name + '。', 'Entered ' + i18nT('tier.' + tier) + '.'), 'success');
     void writeSave(get().snapshot());
     return { ok: true };
   },
@@ -1025,15 +1026,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
   registerEvent: (eventId: string) => {
     const s = get();
     const event = seasonEvents(s.club.season).find((e) => e.id === eventId);
-    if (!event) return { ok: false, error: '找不到这站赛事。' };
-    if (s.club.day > event.closeDay) return { ok: false, error: '报名已经截止了（截止日 ' + monthDayLabel(event.closeDay) + '）。' };
+    if (!event) return { ok: false, error: pickText('找不到这站赛事。', 'Event not found.') };
+    if (s.club.day > event.closeDay) return { ok: false, error: pickText('报名已经截止了（截止日 ' + monthDayLabel(event.closeDay) + '）。', 'Registration has closed (deadline ' + monthDayLabel(event.closeDay) + ').') };
     const playerRating = s.leaders.find((l) => l.id === 'player')?.rating ?? 1000;
     if (!canEnterTier(playerRating, event.tier)) {
-      return { ok: false, error: '你的积分还不够参加' + tierSpec(event.tier).name + '（需要 ' + tierSpec(event.tier).ratingFloor + ' 分）。' };
+      return { ok: false, error: pickText('你的积分还不够参加' + tierSpec(event.tier).name + '（需要 ' + tierSpec(event.tier).ratingFloor + ' 分）。', 'Your rating is too low for ' + i18nT('tier.' + event.tier) + ' (needs ' + tierSpec(event.tier).ratingFloor + ').') };
     }
-    if ((s.career.registeredEventIds ?? []).includes(eventId)) return { ok: false, error: '这一站你已经报名了。' };
+    if ((s.career.registeredEventIds ?? []).includes(eventId)) return { ok: false, error: pickText('这一站你已经报名了。', 'You are already registered for this event.') };
     set({ career: { ...s.career, registeredEventIds: [...(s.career.registeredEventIds ?? []), eventId] } });
-    get().toast('已报名' + event.name + '，比赛日 ' + monthDayLabel(event.day) + '。', 'success');
+    get().toast(pickText('已报名' + event.name + '，比赛日 ' + monthDayLabel(event.day) + '。', 'Registered for ' + event.nameEn + ' — race day ' + monthDayLabel(event.day) + '.'), 'success');
     void writeSave(get().snapshot());
     return { ok: true };
   },
@@ -1047,10 +1048,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startEvent: (eventId: string) => {
     const s = get();
     const event = seasonEvents(s.club.season).find((e) => e.id === eventId);
-    if (!event) return { ok: false, error: '找不到这站赛事。' };
-    if (!(s.career.registeredEventIds ?? []).includes(eventId)) return { ok: false, error: '还没有报名这一站。' };
+    if (!event) return { ok: false, error: pickText('找不到这站赛事。', 'Event not found.') };
+    if (!(s.career.registeredEventIds ?? []).includes(eventId)) return { ok: false, error: pickText('还没有报名这一站。', 'You are not registered for this event.') };
     if (s.club.day < event.day) {
-      return { ok: false, error: '比赛日还没到：' + monthDayLabel(event.day) + '，当前 ' + monthDayLabel(s.club.day) + '。' };
+      return { ok: false, error: pickText('比赛日还没到：' + monthDayLabel(event.day) + '，当前 ' + monthDayLabel(s.club.day) + '。', 'Race day has not arrived yet: ' + monthDayLabel(event.day) + ', currently ' + monthDayLabel(s.club.day) + '.') };
     }
     return get().enterTournament(event.tier, eventId);
   },
@@ -1067,7 +1068,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const events = seasonEvents(s.club.season).filter((e) => (s.career.registeredEventIds ?? []).includes(e.id));
     const ready = events.find((e) => s.club.day >= e.day);
     if (!ready) {
-      return { ok: false, error: events.length ? '比赛日还没到，先把时间推进到比赛日。' : '还没有报名任何赛事。' };
+      return { ok: false, error: events.length ? pickText('比赛日还没到，先把时间推进到比赛日。', 'Race day has not arrived — advance the calendar first.') : pickText('还没有报名任何赛事。', 'You are not registered for any event.') };
     }
     return get().startEvent(ready.id);
   },
@@ -1093,11 +1094,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   simulateCareerSeason: (tournamentId: string) => {
     const s = get();
     const start = s.tournaments.find((t) => t.id === tournamentId);
-    if (!start) return { ok: false, error: '没有找到这场赛事。' };
-    if (start.status === 'completed') return { ok: false, error: '这场赛事已经结束了。' };
+    if (!start) return { ok: false, error: pickText('没有找到这场赛事。', 'Event not found.') };
+    if (start.status === 'completed') return { ok: false, error: pickText('这场赛事已经结束了。', 'This event has already finished.') };
     if (isEliminated(start)) {
       get().simulateTournamentRemainder(tournamentId);
-      return { ok: false, error: '你已经在这轮赛事中被淘汰了，仅结算了剩余赛程。' };
+      return { ok: false, error: pickText('你已经在这轮赛事中被淘汰了，仅结算了剩余赛程。', 'You were eliminated from this event; only the remaining fixtures were settled.') };
     }
 
     let played = 0;
@@ -1171,15 +1172,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
   claimAchievement: (id) => {
     const s = get();
     const ach = ACHIEVEMENTS.find((a) => a.id === id);
-    if (!ach) return { ok: false, error: '不存在的成就。' };
-    if (s.claimedAchievements.includes(id)) return { ok: false, error: '已经领取过了。' };
-    if (ach.value(s.snapshot()) < ach.target) return { ok: false, error: '成就还没达成。' };
+    if (!ach) return { ok: false, error: pickText('不存在的成就。', 'No such achievement.') };
+    if (s.claimedAchievements.includes(id)) return { ok: false, error: pickText('已经领取过了。', 'Already claimed.') };
+    if (ach.value(s.snapshot()) < ach.target) return { ok: false, error: pickText('成就还没达成。', 'Achievement not reached yet.') };
     set({
       claimedAchievements: [...s.claimedAchievements, id],
       club: { ...s.club, coins: s.club.coins + ach.reward },
       coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: ach.reward, reason: '成就：' + ach.name, at: Date.now() }]),
     });
-    get().toast('成就「' + ach.name + '」+ ' + ach.reward + ' 金币。', 'success');
+    get().toast(pickText('成就「' + ach.name + '」+ ' + ach.reward + ' 金币。', 'Achievement "' + ach.nameEn + '" + ' + ach.reward + ' coins.'), 'success');
     void writeSave(get().snapshot());
     return { ok: true };
   },
@@ -1234,6 +1235,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const feed = moved.map((l) => ({
       id: makeId('feed'),
       text: l.name + ' 升至 ' + l.rating + ' 分（' + (l.rating - (before.get(l.id) ?? l.rating) > 0 ? '+' : '') + (l.rating - (before.get(l.id) ?? l.rating)) + '）',
+      textEn: l.name + ' climbs to ' + l.rating + ' pts (' + (l.rating - (before.get(l.id) ?? l.rating) > 0 ? '+' : '') + (l.rating - (before.get(l.id) ?? l.rating)) + ')',
       at: now,
     }));
     set({

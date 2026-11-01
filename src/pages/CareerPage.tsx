@@ -17,7 +17,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export function CareerPage() {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const { t } = useT();
   const navigate = useNavigate();
   const career = useGameStore((s) => s.career);
@@ -57,7 +57,7 @@ export function CareerPage() {
     const result = enterTournament(tier);
     setBusyTier(null);
     if (!result.ok) {
-      setError({ tier, text: result.error ?? tr('无法进入该联赛。') });
+      setError({ tier, text: result.error ?? pick('无法进入该联赛。', 'Cannot enter this tier.') });
       return;
     }
   };

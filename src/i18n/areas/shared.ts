@@ -11,4 +11,9 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "分钟前", en: "min ago" },
   { zh: "小时前", en: "h ago" },
   { zh: "天前", en: "d ago" },
+  { zh: "主防", en: "Anchor" },
+  { zh: "明显不在位置上", en: "clearly out of position" },
+  { zh: "张卡牌", en: "cards" },
+  { zh: "赛季", en: "season" },
+  { zh: "稀有", en: "Rare" },
 ];

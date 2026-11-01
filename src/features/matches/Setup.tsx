@@ -268,7 +268,7 @@ function OpponentCard({
         <span className='rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-txt-muted'>Elo {spec.rating}</span>
         <span className='rounded bg-white/5 px-1.5 py-0.5'>{tr(ECON_STYLE_LABEL[spec.econStyle])}</span>
       </div>
-      <p className='mt-1 text-[11px] leading-snug text-txt-muted'>{spec.blurb}</p>
+      <p className='mt-1 text-[11px] leading-snug text-txt-muted'>{pick(spec.blurb, spec.blurbEn ?? spec.blurb)}</p>
       <div className='mt-1 flex flex-wrap items-center gap-1 text-[10px] text-txt-muted'>
         <span className='inline-flex items-center gap-1 rounded bg-white/5 px-1.5 py-0.5'>
           <MapPin size={9} /> {spec.mapPref.map((m) => MAPS[m]?.name ?? m).join(' / ')}

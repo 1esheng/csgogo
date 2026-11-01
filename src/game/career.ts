@@ -279,18 +279,26 @@ export function reportPlayerMatch(t: Tournament, matchId: string, playerWon: boo
 }
 
 /** 多败赛制的状态说明（给界面用）。 */
+const PLACEMENT_EN: Record<string, string> = {
+  冠军: 'Champion', 亚军: 'Runner-up', 四强: 'Semi-finalist', 十六强: 'Top 16',
+};
+
 export function tournamentOutlook(t: Tournament): {
-  lives: number; wins: number; losses: number; winsNeeded: number; text: string;
+  lives: number; wins: number; losses: number; winsNeeded: number; text: string; textEn: string;
 } {
   const lives = Math.max(0, (t.lossLimit ?? 1) - (t.playerLosses ?? 0));
   const wins = t.playerWins ?? 0;
   const losses = t.playerLosses ?? 0;
   const winsNeeded = t.winsNeeded ?? 3;
   const label = t.format === 'double' ? '双败淘汰' : t.format === 'swiss' ? '瑞士轮（三败出局）' : '单败淘汰';
+  const labelEn = t.format === 'double' ? 'Double elimination' : t.format === 'swiss' ? 'Swiss (three losses)' : 'Single elimination';
   const text = t.status === 'completed'
     ? (t.championId === 'player' ? '你赢下了这届赛事。' : '本届已结束，你的名次：' + (t.placement ?? '—') + '。')
     : label + '：还需 ' + Math.max(0, winsNeeded - wins) + ' 胜，或再输 ' + lives + ' 场出局。';
-  return { lives, wins, losses, winsNeeded, text };
+  const textEn = t.status === 'completed'
+    ? (t.championId === 'player' ? 'You won this event.' : 'This event is over — your placement: ' + (PLACEMENT_EN[t.placement ?? ''] ?? t.placement ?? '—') + '.')
+    : labelEn + ': ' + Math.max(0, winsNeeded - wins) + ' more wins needed, or ' + lives + ' more losses to be eliminated.';
+  return { lives, wins, losses, winsNeeded, text, textEn };
 }
 
 export function finaliseTournament(t: Tournament): void {

@@ -2,11 +2,14 @@ import type { AITeamSpec, CombatRole, MapId } from '@/types';
 
 const L = (templateId: string, role: CombatRole, isIGL = false) => ({ templateId, role, isIGL });
 
+/** 侦查文案的双语形态：中文原文不变，blurbEn 为赛前情报风格的英文。 */
+export type AITeamSpecI18n = AITeamSpec & { blurbEn: string };
+
 /**
  * 真实战队：NAVI / Vitality / Spirit / MOUZ / FaZe / G2 等，按 2026 赛季实力分档。
  * 阵容从全部卡牌池按分档抽人，退役传奇不会出现在 AI 队里；rating 由阵容实力推导。
  */
-export const AI_TEAMS: AITeamSpec[] = [
+export const AI_TEAMS: AITeamSpecI18n[] = [
   {
     id: 'navi', name: 'Natus Vincere', shortName: 'NAVI', tier: 4, rating: 1099,
     lineup: [
@@ -20,6 +23,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: '独联体豪门，Major 冠军与青训体系并重。',
+    blurbEn: 'CIS powerhouse — Major titles built on a world-class academy pipeline.',
   },
   {
     id: 'vitality', name: 'Team Vitality', shortName: 'VIT', tier: 4, rating: 1279,
@@ -34,6 +38,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: '法国豪门，以 ZywOo 为核心打造的夺冠机器。',
+    blurbEn: 'French superpower — a title machine built around ZywOo.',
   },
   {
     id: 'spirit', name: 'Team Spirit', shortName: 'SPR', tier: 4, rating: 1237,
@@ -48,6 +53,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: 'donk 领衔的新王，枪法与纪律兼备。',
+    blurbEn: 'The new kings led by donk — aim and discipline in equal measure.',
   },
   {
     id: 'mouz', name: 'MOUZ', shortName: 'MOUZ', tier: 4, rating: 1300,
@@ -62,6 +68,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: '德国青训工厂，年轻阵容平均年龄极低。',
+    blurbEn: 'German academy factory — the youngest average age on tour.',
   },
   {
     id: 'faze', name: 'FaZe Clan', shortName: 'FAZE', tier: 4, rating: 1069,
@@ -76,6 +83,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: '国际纵队标杆，Major 冠军与流量并存的超级队。',
+    blurbEn: 'The international benchmark — Major silverware and main-stage hype.',
   },
   {
     id: 'g2', name: 'G2 Esports', shortName: 'G2', tier: 4, rating: 1113,
@@ -90,6 +98,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'balanced', adaptivity: 0.52,
     blurb: 'NiKo 与 m0NESY 的火力组合，进攻端的艺术流派。',
+    blurbEn: 'NiKo and m0NESY form a firepower pairing that turns offense into an art form.',
   },
   {
     id: 'falcons', name: 'Team Falcons', shortName: 'FLC', tier: 3, rating: 1195,
@@ -104,6 +113,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '沙特资本打造的全明星阵容，Major 冠军争夺者。',
+    blurbEn: 'Saudi-funded all-star roster and a genuine Major title contender.',
   },
   {
     id: 'furia', name: 'FURIA Esports', shortName: 'FUR', tier: 3, rating: 1273,
@@ -118,6 +128,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '巴西激进派代表，敢于在每一回合打节奏。',
+    blurbEn: 'The aggressive standard-bearer of Brazil — they force tempo every round.',
   },
   {
     id: 'astralis', name: 'Astralis', shortName: 'AST', tier: 3, rating: 1085,
@@ -132,6 +143,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '四届 Major 冠军，道具与体系的教科书。',
+    blurbEn: 'Four-time Major champions — the textbook on utility and structure.',
   },
   {
     id: 'heroic', name: 'Heroic', shortName: 'HER', tier: 3, rating: 1069,
@@ -146,6 +158,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Nuke', 'Inferno'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '丹麦体系强队，以纪律和细节著称。',
+    blurbEn: 'Danish system team, known for discipline and small details.',
   },
   {
     id: 'complexity', name: 'Complexity', shortName: 'COL', tier: 3, rating: 1083,
@@ -160,6 +173,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '北美老牌俱乐部，长期在国际赛场亮相。',
+    blurbEn: 'Veteran North American club with a long international record.',
   },
   {
     id: 'virtuspro', name: 'Virtus.pro', shortName: 'VP', tier: 3, rating: 1003,
@@ -174,6 +188,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '独联体劲旅，慢节奏与残局处理的代表。',
+    blurbEn: 'CIS contender built on slow pacing and elite clutch play.',
   },
   {
     id: 'liquid', name: 'Team Liquid', shortName: 'TL', tier: 2, rating: 1062,
@@ -188,6 +203,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '北美豪门，Major 决赛常客。',
+    blurbEn: 'North American heavyweight and a regular in Major finals.',
   },
   {
     id: 'ence', name: 'ENCE', shortName: 'ENCE', tier: 2, rating: 1078,
@@ -202,6 +218,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '芬兰劲旅，靠体系与团队默契立足。',
+    blurbEn: 'Finnish contender thriving on structure and team chemistry.',
   },
   {
     id: 'big', name: 'BIG', shortName: 'BIG', tier: 2, rating: 999,
@@ -216,6 +233,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '德国代表，主场作战时格外难缠。',
+    blurbEn: 'German representative, especially awkward on home soil.',
   },
   {
     id: 'fnatic', name: 'fnatic', shortName: 'FNC', tier: 2, rating: 1038,
@@ -230,6 +248,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Mirage', 'Nuke', 'Inferno'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '瑞典王朝的继承者，历史底蕴深厚。',
+    blurbEn: 'Heir to the Swedish dynasty, with deep history behind it.',
   },
   {
     id: 'nip', name: 'Ninjas in Pyjamas', shortName: 'NIP', tier: 2, rating: 1081,
@@ -244,6 +263,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '87 连胜神话的缔造者，如今仍在重建。',
+    blurbEn: 'Authors of the 87-map win streak, still rebuilding.',
   },
   {
     id: 'pain', name: 'paiN Gaming', shortName: 'paiN', tier: 2, rating: 934,
@@ -258,6 +278,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '巴西老牌俱乐部，南美赛区的稳定力量。',
+    blurbEn: 'Veteran Brazilian club, a steady force in South America.',
   },
   {
     id: 'imperial', name: 'Imperial', shortName: 'IMP', tier: 1, rating: 1000,
@@ -272,6 +293,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: 'FalleN 与老将们的最后一舞。',
+    blurbEn: 'FalleN and the veterans, playing their last dance.',
   },
   {
     id: 'mibr', name: 'MIBR', shortName: 'MIBR', tier: 1, rating: 1073,
@@ -286,6 +308,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '巴西传奇品牌，重建中的南美劲旅。',
+    blurbEn: 'A legendary Brazilian brand, now a South American side in rebuild.',
   },
   {
     id: 'mongolz', name: 'The MongolZ', shortName: 'MGZ', tier: 1, rating: 1078,
@@ -300,6 +323,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '蒙古铁骑，亚洲赛区近年的最强音。',
+    blurbEn: 'Mongolian cavalry — the loudest Asian voice in recent years.',
   },
   {
     id: 'tyloo', name: 'TYLOO', shortName: 'TYL', tier: 1, rating: 920,
@@ -314,6 +338,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '中国最强战队，亚洲赛场的常青树。',
+    blurbEn: 'Strongest lineup out of China, a perennial on the Asian stage.',
   },
   {
     id: 'betboom', name: 'BetBoom Team', shortName: 'BB', tier: 1, rating: 1205,
@@ -328,6 +353,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '独联体新锐，线上赛成绩亮眼。',
+    blurbEn: 'CIS rising side with a strong online record.',
   },
   {
     id: 'gamerlegion', name: 'GamerLegion', shortName: 'GL', tier: 1, rating: 988,
@@ -342,6 +368,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '黑马工厂，屡次在 Major 上掀翻豪门。',
+    blurbEn: 'A dark-horse factory that keeps toppling giants at Majors.',
   },
   {
     id: '9pandas', name: '9 Pandas', shortName: '9P', tier: 0, rating: 974,
@@ -356,6 +383,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '独联体二级赛区的硬骨头。',
+    blurbEn: 'A tough nut from the CIS second tier.',
   },
   {
     id: 'b8', name: 'B8 Esports', shortName: 'B8', tier: 0, rating: 1031,
@@ -370,6 +398,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '乌克兰俱乐部，青年军为主。',
+    blurbEn: 'Ukrainian club built around a youth core.',
   },
   {
     id: 'nemiga', name: 'Nemiga Gaming', shortName: 'NEM', tier: 0, rating: 1127,
@@ -384,6 +413,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '白俄罗斯队伍，擅长线上赛爆冷。',
+    blurbEn: 'Belarusian side and dangerous online upset specialists.',
   },
   {
     id: 'aurora', name: 'Aurora Gaming', shortName: 'AUR', tier: 0, rating: 1243,
@@ -398,6 +428,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '土耳其新势力，本土选手为主。',
+    blurbEn: 'Rising force out of Turkey, built on domestic talent.',
   },
   {
     id: 'passionua', name: 'Passion UA', shortName: 'PUA', tier: 0, rating: 974,
@@ -412,6 +443,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '乌克兰青年军，冲击力十足。',
+    blurbEn: 'Ukrainian youth squad with real punch.',
   },
   {
     id: '3dmax', name: '3DMAX', shortName: '3DM', tier: 0, rating: 974,
@@ -426,6 +458,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '欧洲混编队伍，靠战术吃饭。',
+    blurbEn: 'European mix that lives on tactics.',
   },
   {
     id: 'og', name: 'OG', shortName: 'OG', tier: 3, rating: 1265,
@@ -440,6 +473,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '国际纵队，年轻阵容与流量并存。',
+    blurbEn: 'International roster pairing youth with main-stage hype.',
   },
   {
     id: 'apeks', name: 'Apeks', shortName: 'APK', tier: 2, rating: 1161,
@@ -454,6 +488,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Nuke', 'Mirage', 'Inferno'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '挪威劲旅，Major 常客。',
+    blurbEn: 'Norwegian contender and a regular Major attendee.',
   },
   {
     id: 'eternalfire', name: 'Eternal Fire', shortName: 'EF', tier: 3, rating: 1052,
@@ -468,6 +503,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['aggressive_push', 'stack_site'],
     mapPref: ['Mirage', 'Nuke', 'Inferno'], econStyle: 'aggressive', adaptivity: 0.44,
     blurb: '土耳其最强代表，XANTARES 领衔。',
+    blurbEn: 'Top side out of Turkey, led by XANTARES.',
   },
   {
     id: 'saw', name: 'SAW', shortName: 'SAW', tier: 2, rating: 896,
@@ -482,6 +518,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '葡萄牙黑马，靠体系打出名号。',
+    blurbEn: 'Portuguese dark horse that made its name on structure.',
   },
   {
     id: 'monte', name: 'Monte', shortName: 'MON', tier: 2, rating: 818,
@@ -496,6 +533,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '乌克兰新军，Major 八强黑马。',
+    blurbEn: 'New outfit out of Ukraine, a Major quarterfinal dark horse.',
   },
   {
     id: 'forze', name: 'FORZE', shortName: 'FRZ', tier: 2, rating: 822,
@@ -510,6 +548,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '俄罗斯老牌俱乐部，本土赛场常客。',
+    blurbEn: 'Veteran Russian club and a fixture on the domestic scene.',
   },
   {
     id: 'sangal', name: 'Sangal', shortName: 'SNG', tier: 1, rating: 968,
@@ -524,6 +563,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '土耳其新锐，进攻节奏凶狠。',
+    blurbEn: 'New blood out of Turkey with a brutal attacking tempo.',
   },
   {
     id: 'zerotenacity', name: 'Zero Tenacity', shortName: 'Z10', tier: 1, rating: 843,
@@ -538,6 +578,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '塞尔维亚队伍，欧洲二级赛区硬骨头。',
+    blurbEn: 'Serbian side, a hard nut of the European second tier.',
   },
   {
     id: 'nexus', name: 'Nexus', shortName: 'NEX', tier: 1, rating: 876,
@@ -552,6 +593,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '罗马尼亚代表，欧洲线上赛常客。',
+    blurbEn: 'Romanian representative and a regular on the European online circuit.',
   },
   {
     id: 'betera', name: 'Betera', shortName: 'BTR', tier: 1, rating: 1088,
@@ -566,6 +608,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '白俄罗斯新军，敢打敢拼。',
+    blurbEn: 'New squad out of Belarus, fearless fight-first CS.',
   },
   {
     id: 'insilio', name: 'Insilio', shortName: 'INS', tier: 1, rating: 1072,
@@ -580,6 +623,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '俄罗斯青年军，线上赛成绩亮眼。',
+    blurbEn: 'Russian youth squad with a bright online record.',
   },
   {
     id: 'rebels', name: 'Rebels', shortName: 'RBL', tier: 1, rating: 1067,
@@ -594,6 +638,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '欧洲混编队，战术执行力强。',
+    blurbEn: 'European mix with sharp tactical execution.',
   },
   {
     id: 'attax', name: 'ALTERNATE aTTaX', shortName: 'aTTaX', tier: 1, rating: 1052,
@@ -608,6 +653,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '德国老牌俱乐部，青训体系扎实。',
+    blurbEn: 'Veteran German club with a solid academy system.',
   },
   {
     id: 'havu', name: 'HAVU', shortName: 'HAVU', tier: 0, rating: 1015,
@@ -622,6 +668,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '芬兰队伍，北欧赛场的老面孔。',
+    blurbEn: 'Finnish side and a familiar face on the Nordic scene.',
   },
   {
     id: 'jano', name: 'JANO', shortName: 'JANO', tier: 0, rating: 1036,
@@ -636,6 +683,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '芬兰新锐，靠枪法吃饭。',
+    blurbEn: 'New blood out of Finland where raw aim carries them.',
   },
   {
     id: 'ecstatic', name: 'ECSTATIC', shortName: 'ECS', tier: 1, rating: 1104,
@@ -650,6 +698,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '丹麦青年军，北欧赛区搅局者。',
+    blurbEn: 'Danish youth squad and a Nordic spoiler.',
   },
   {
     id: 'sashi', name: 'Sashi', shortName: 'SAS', tier: 0, rating: 984,
@@ -664,6 +713,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '丹麦俱乐部，青训出身为主。',
+    blurbEn: 'Danish club built mostly from its own academy.',
   },
   {
     id: 'preasy', name: 'Preasy', shortName: 'PRE', tier: 0, rating: 1000,
@@ -678,6 +728,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '丹麦队伍，擅长线上赛爆冷。',
+    blurbEn: 'Danish side and online upset specialists.',
   },
   {
     id: 'tsm', name: 'TSM', shortName: 'TSM', tier: 2, rating: 1124,
@@ -692,6 +743,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '北美老牌品牌，重建中的豪门。',
+    blurbEn: 'A veteran North American brand, a giant in rebuild.',
   },
   {
     id: 'nrg', name: 'NRG', shortName: 'NRG', tier: 2, rating: 958,
@@ -706,6 +758,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['passive_defense', 'retake_setup'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'conservative', adaptivity: 0.36,
     blurb: '北美俱乐部，曾打进 Major 淘汰赛。',
+    blurbEn: 'North American club with Major playoff pedigree.',
   },
   {
     id: 'm80', name: 'M80', shortName: 'M80', tier: 1, rating: 1041,
@@ -720,6 +773,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '北美新势力，年轻选手为主。',
+    blurbEn: 'Rising North American force built on young talent.',
   },
   {
     id: 'wildcard', name: 'Wildcard', shortName: 'WC', tier: 1, rating: 974,
@@ -734,6 +788,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '北美黑马，敢与豪门对枪。',
+    blurbEn: 'North American dark horse willing to trade shots with anyone.',
   },
   {
     id: 'nouns', name: 'Nouns', shortName: 'NNS', tier: 0, rating: 994,
@@ -748,6 +803,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '北美青年队，Major 舞台初体验。',
+    blurbEn: 'A North American youth team tasting the Major stage.',
   },
   {
     id: 'sharks', name: 'Sharks', shortName: 'SHK', tier: 1, rating: 1026,
@@ -762,6 +818,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '巴西队伍，南美赛区的强势力量。',
+    blurbEn: 'Brazilian side and a dominant force in South America.',
   },
   {
     id: 'oddik', name: 'ODDIK', shortName: 'ODK', tier: 1, rating: 1046,
@@ -776,6 +833,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '巴西新军，进攻节奏极快。',
+    blurbEn: 'New Brazilian squad with blistering attacking tempo.',
   },
   {
     id: 'legacy', name: 'Legacy', shortName: 'LEG', tier: 1, rating: 1138,
@@ -790,6 +848,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Nuke', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '巴西老将组合，经验丰富。',
+    blurbEn: 'A Brazilian veteran core, deep on experience.',
   },
   {
     id: 'fluxo', name: 'Fluxo', shortName: 'FLX', tier: 0, rating: 909,
@@ -804,6 +863,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Mirage', 'Inferno'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '巴西俱乐部，本土联赛常客。',
+    blurbEn: 'Brazilian club and a fixture in the domestic league.',
   },
   {
     id: '9z', name: '9z Team', shortName: '9z', tier: 1, rating: 1045,
@@ -818,6 +878,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '阿根廷劲旅，南美赛场老牌强队。',
+    blurbEn: 'Argentine contender and a long-standing South American power.',
   },
   {
     id: 'bestia', name: 'BESTIA', shortName: 'BEA', tier: 0, rating: 939,
@@ -832,6 +893,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '阿根廷队伍，靠团队配合取胜。',
+    blurbEn: 'Argentine side that wins through team play.',
   },
   {
     id: 'lynnvision', name: 'Lynn Vision', shortName: 'LVG', tier: 1, rating: 919,
@@ -846,6 +908,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '中国队伍，亚洲赛区的中坚力量。',
+    blurbEn: 'Chinese side and a backbone of the Asian scene.',
   },
   {
     id: 'endpoint', name: 'Endpoint', shortName: 'END', tier: 1, rating: 1088,
@@ -860,6 +923,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Nuke', 'Inferno', 'Ancient'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '英国队伍，欧洲线上赛常客。',
+    blurbEn: 'British side and a regular on the European online circuit.',
   },
   {
     id: 'itb', name: 'Into the Breach', shortName: 'ITB', tier: 1, rating: 1072,
@@ -874,6 +938,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '英国新锐，曾打进 Major 正赛。',
+    blurbEn: 'Rising British side with a Major main stage appearance behind them.',
   },
   {
     id: 'guild', name: 'Guild Eagles', shortName: 'GE', tier: 1, rating: 1104,
@@ -888,6 +953,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '欧洲混编队，战术执行力不错。',
+    blurbEn: 'European mix with dependable tactical execution.',
   },
   {
     id: 'sampi', name: 'Sampi', shortName: 'SAM', tier: 0, rating: 1072,
@@ -902,6 +968,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '芬兰青年军，北欧赛场搅局者。',
+    blurbEn: 'Finnish youth squad and a Nordic spoiler.',
   },
   {
     id: 'rareatom', name: 'Rare Atom', shortName: 'RA', tier: 1, rating: 1114,
@@ -916,6 +983,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'stack_site'],
     mapPref: ['Mirage', 'Inferno', 'Dust2'], econStyle: 'balanced', adaptivity: 0.28,
     blurb: '中国队伍，亚洲赛区的中坚力量。',
+    blurbEn: 'Chinese side and a backbone of the Asian scene.',
   },
   {
     id: 'atox', name: 'ATOX', shortName: 'ATOX', tier: 0, rating: 1041,
@@ -930,6 +998,7 @@ export const AI_TEAMS: AITeamSpec[] = [
     ctTactics: ['standard_defense', 'aggressive_push'],
     mapPref: ['Inferno', 'Mirage', 'Dust2'], econStyle: 'aggressive', adaptivity: 0.20,
     blurb: '蒙古队伍，亚洲赛场的新面孔。',
+    blurbEn: 'Mongolian side and a new face on the Asian stage.',
   },
 ];
 

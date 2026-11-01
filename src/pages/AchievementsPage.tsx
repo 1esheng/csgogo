@@ -6,7 +6,7 @@ import { ACHIEVEMENTS } from '@/data/achievements';
 import { Badge, Button, Panel, Progress, SectionTitle, StatTile } from '@/components/ui';
 
 export function AchievementsPage() {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const { t } = useT();
   const snapshotOf = useGameStore((s) => s.snapshot);
   const claimed = useGameStore((s) => s.claimedAchievements);
@@ -63,8 +63,8 @@ export function AchievementsPage() {
               </span>
               <div className='min-w-0 flex-1'>
                 <div className='flex flex-wrap items-center gap-2'>
-                  <span className={'font-display text-sm font-bold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{row.name}</span>
-                  <span className='text-[11px] text-txt-muted'>{row.desc}</span>
+                  <span className={'font-display text-sm font-bold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{pick(row.name, row.nameEn)}</span>
+                  <span className='text-[11px] text-txt-muted'>{pick(row.desc, row.descEn)}</span>
                 </div>
                 <div className='mt-1 flex items-center gap-2'>
                   <span className='min-w-0 flex-1'><Progress value={row.pct} max={100} height='h-1.5' tone={row.done ? 'accent' : 'blue'} /></span>

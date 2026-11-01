@@ -546,6 +546,8 @@ export interface AITeamSpec {
   econStyle: 'conservative' | 'balanced' | 'aggressive';
   adaptivity: number;
   blurb: string;
+  /** 英文侦查 blurb（可选，缺失时回退中文）。 */
+  blurbEn?: string;
 }
 
 export interface TaskProgress {

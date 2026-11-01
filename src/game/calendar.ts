@@ -1,3 +1,4 @@
+import { getLang } from '@/i18n';
 import type { MapId } from '@/types';
 
 /** 一个赛季的天数：从 1 月 1 日到 12 月 31 日。 */
@@ -10,6 +11,8 @@ export interface SeasonEvent {
   id: string;
   tier: number;
   name: string;
+  /** 英文名（渲染处 pick(name, nameEn)）。 */
+  nameEn: string;
   /** 比赛日（1-365）。 */
   day: number;
   /** 报名截止日（比赛日之前）。 */
@@ -17,16 +20,18 @@ export interface SeasonEvent {
 }
 
 const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-/** 把 1-365 的天数换成 3月14日 这样的日期。 */
+/** 把 1-365 的天数换成 3月14日（英文 Mar 14）这样的日期。 */
 export function monthDayLabel(day: number): string {
   const clamped = Math.max(1, Math.min(SEASON_DAYS, Math.round(day)));
+  const en = getLang() === 'en';
   let rest = clamped;
   for (let m = 0; m < MONTH_DAYS.length; m += 1) {
-    if (rest <= MONTH_DAYS[m]) return m + 1 + '月' + rest + '日';
+    if (rest <= MONTH_DAYS[m]) return en ? MONTH_EN[m] + ' ' + rest : m + 1 + '月' + rest + '日';
     rest -= MONTH_DAYS[m];
   }
-  return '12月31日';
+  return en ? 'Dec 31' : '12月31日';
 }
 
 const SCHEDULE: { tier: number; day: number }[] = [
@@ -43,6 +48,10 @@ const TIER_NAME: Record<number, string> = {
   0: '业余联赛', 1: '区域联赛', 2: '挑战者联赛', 3: '国际邀请赛', 4: '特级锦标赛',
 };
 
+const TIER_NAME_EN: Record<number, string> = {
+  0: 'Amateur League', 1: 'Regional League', 2: 'Challenger League', 3: 'International Invitational', 4: 'Premier Championship',
+};
+
 /** 一个赛季的赛程：日期固定，必须先报名再等比赛日。 */
 export function seasonEvents(season: number): SeasonEvent[] {
   return SCHEDULE.map((item, index) => {
@@ -51,6 +60,7 @@ export function seasonEvents(season: number): SeasonEvent[] {
       id: 's' + season + '-e' + index,
       tier: item.tier,
       name: (TIER_NAME[item.tier] ?? '联赛') + ' · 第 ' + round + ' 站',
+      nameEn: (TIER_NAME_EN[item.tier] ?? 'League') + ' · Stop ' + round,
       day: item.day,
       closeDay: item.day - REGISTRATION_LEAD_DAYS,
     };

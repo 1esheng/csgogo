@@ -11,7 +11,7 @@ const TEAMS = AI_TEAMS.map((t) => ({ id: t.id, name: t.name }));
 
 /** 赛季日程：可以同时报名多站；报名前能看到参赛队伍；到比赛日才能开赛。 */
 export function SeasonCalendar() {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const club = useGameStore((s) => s.club);
   const career = useGameStore((s) => s.career);
   const leaders = useGameStore((s) => s.leaders);
@@ -66,7 +66,7 @@ export function SeasonCalendar() {
             <div key={event.id} className='rounded-xl border border-white/8 bg-white/[0.02] p-2.5'>
               <div className='flex flex-wrap items-center gap-2'>
                 <span className='w-16 shrink-0 text-[11px] font-semibold text-txt-muted'>{monthDayLabel(event.day)}</span>
-                <span className='min-w-0 flex-1 truncate text-sm font-semibold text-txt'>{event.name}</span>
+                <span className='min-w-0 flex-1 truncate text-sm font-semibold text-txt'>{pick(event.name, event.nameEn)}</span>
                 <Badge tone='muted'>{tr(spec.name)}</Badge>
                 <Badge tone='accent'>{tr('奖金 ')}{spec.prize.toLocaleString()}</Badge>
                 <Badge tone={reachable ? 'muted' : 'neutral'}>{spec.teams ?? 8}{tr(' 队')}</Badge>

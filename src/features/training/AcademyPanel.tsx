@@ -6,6 +6,7 @@ import { ROLE_LABEL } from '@/types';
 import { useGameStore } from '@/stores/gameStore';
 import { Badge, Button, EmptyState, Panel, Progress } from '@/components/ui';
 import { PROSPECT_CONFIG } from '@/data/config';
+import { PROSPECT_TRAIT_NAME_EN } from '@/data/cards';
 import { initials, relativeTime } from '@/features/training/format';
 
 function ProspectCard({
@@ -17,7 +18,7 @@ function ProspectCard({
   onRelease: () => void;
   onConfirm: () => void;
 }) {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   return (
     <div className='surface-raised flex flex-col gap-2.5 p-3'>
       <div className='flex items-start justify-between gap-2'>
@@ -50,7 +51,7 @@ function ProspectCard({
 
       <div className='flex flex-wrap gap-1'>
         {prospect.traits.map((trait) => (
-          <Badge key={trait} tone='neutral'>{tr(trait)}</Badge>
+          <Badge key={trait} tone='neutral'>{pick(trait, PROSPECT_TRAIT_NAME_EN[trait] ?? trait)}</Badge>
         ))}
         <Badge tone='muted'>{tr(ROLE_LABEL[prospect.secondaryRole])} {tr('副位')}</Badge>
       </div>

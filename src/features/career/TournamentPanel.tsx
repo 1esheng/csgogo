@@ -90,7 +90,7 @@ export function TournamentPanel() {
           <SectionTitle title={tr('赛程')} subtitle={tr('胜者全取。比分由与你自己的比赛完全相同的回合引擎模拟得出。')} />
           {outlook ? (
             <div className='mb-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-txt-muted'>
-              <span className='font-semibold text-txt'>{tr(outlook.text)}</span>
+              <span className='font-semibold text-txt'>{pick(outlook.text, outlook.textEn)}</span>
               {active.format !== 'single' ? (
                 <span className='ml-2'>{tr('胜')} {outlook.wins} · {tr('负')} {outlook.losses}{tr(' · 剩余生命 ')}{outlook.lives}</span>
               ) : null}

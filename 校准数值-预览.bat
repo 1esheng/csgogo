@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-set NODE=C:\Users\leshe\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe
+set NODE=node
 if not exist "scripts\hltv-player-stats.csv" (
   echo [缺少数据] 请先把 HLTV 统计存成 scripts\hltv-player-stats.csv （表头需含 nickname,rating）
   pause

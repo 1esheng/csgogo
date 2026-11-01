@@ -6,7 +6,7 @@ title CS2 Dynasty
 where node >nul 2>nul
 if not errorlevel 1 goto haveNode
 
-set "BUNDLED=C:\Users\leshe\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin"
+set "BUNDLED=%DSH_NODE_BIN%"
 if not exist "%BUNDLED%\node.exe" goto noNode
 set "PATH=%BUNDLED%;%PATH%"
 echo [i] node was not on PATH - switched to the bundled runtime.
