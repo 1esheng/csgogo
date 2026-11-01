@@ -116,7 +116,7 @@ export function DashboardPage() {
                       className='flex h-[230px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/15 text-center'
                     >
                       <Users size={20} className='text-txt-muted' />
-                      <span className='text-xs font-semibold text-txt-muted'>{ROLE_SHORT[role]}</span>
+                      <span className='text-xs font-semibold text-txt-muted'>{tr(ROLE_SHORT[role])}</span>
                       <span className='text-[11px] text-txt-muted/70'>{tr('空缺 · 点击指派')}</span>
                     </button>
                   );
@@ -146,11 +146,11 @@ export function DashboardPage() {
                       <Avatar nickname={identity?.nickname ?? tpl.playerId} playerId={tpl.playerId} size={64} />
                     </div>
                     <div className='mt-2 truncate font-display text-sm font-bold text-txt'>{identity?.nickname ?? tpl.playerId}</div>
-                    <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{ROLE_SHORT[role]} · {card.level} 级</div>
+                    <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_SHORT[role])} · {card.level} 级</div>
                     <div className='mt-2 space-y-1'>
                       {bars.map((bar) => (
                         <div key={bar.key} className='flex items-center gap-1.5'>
-                          <span className='w-6 shrink-0 text-[9px] text-txt-muted'>{bar.label}</span>
+                          <span className='w-6 shrink-0 text-[9px] text-txt-muted'>{tr(bar.label)}</span>
                           <span className='h-1 flex-1 overflow-hidden rounded-full bg-white/10'>
                             <span className='block h-full rounded-full' style={{ width: Math.min(100, attrs[bar.key] / 1.2) + '%', background: rarity.color }} />
                           </span>
@@ -235,7 +235,7 @@ export function DashboardPage() {
                     filter === key ? 'bg-accent text-ink-950' : 'bg-white/5 text-txt-muted hover:bg-white/10',
                   )}
                 >
-                  {key === 'all' ? '全部' : ROLE_SHORT[key as CombatRole]}
+                  {key === 'all' ? tr('全部') : tr(ROLE_SHORT[key as CombatRole])}
                 </button>
               ))}
             </div>
@@ -253,10 +253,10 @@ export function DashboardPage() {
                   >
                     <div className='flex items-center justify-between'>
                       <span className='font-display text-lg font-black' style={{ color: rarity.color }}>{cardOVR(tpl!, card.level, card.stars ?? 1)}</span>
-                      <span className='text-[9px] uppercase tracking-wider text-txt-muted'>{rarity.label}</span>
+                      <span className='text-[9px] uppercase tracking-wider text-txt-muted'>{tr(rarity.label)}</span>
                     </div>
                     <div className='mt-1 truncate text-xs font-semibold text-txt'>{identity?.nickname ?? tpl!.playerId}</div>
-                    <div className='text-[10px] text-txt-muted'>{ROLE_SHORT[tpl!.primaryRole as CombatRole] ?? '选手'}</div>
+                    <div className='text-[10px] text-txt-muted'>{tr(ROLE_SHORT[tpl!.primaryRole as CombatRole] ?? '选手')}</div>
                   </button>
                 );
               })}
