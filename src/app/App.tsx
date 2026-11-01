@@ -49,7 +49,7 @@ function Toasts() {
 }
 
 function TopBar({ onMenu }: { onMenu: () => void }) {
-  const { t } = useT();
+  const { t, tr } = useT();
   const club = useGameStore((s) => s.club);
   const squad = useGameStore((s) => s.squad);
   const squadRating = useGameStore((s) => s.squadRating);
@@ -66,14 +66,14 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         <div className='flex h-10 w-10 items-center justify-center rounded-xl' style={{ background: (club.color ?? '#F5A623') + '22', border: '1px solid ' + (club.color ?? '#F5A623') + '55' }}>{React.createElement(badgeIcon(club.badge).icon, { size: 20, style: { color: club.color ?? '#F5A623' } })}</div>
         <div className='min-w-0'>
           <div className='truncate font-display text-[15px] font-bold tracking-wide'>{club.name}</div>
-          <div className='text-[10px] uppercase tracking-[0.16em] text-txt-muted'>齐心协力 · 第 {club.season} 赛季</div>
+          <div className='text-[10px] uppercase tracking-[0.16em] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
         </div>
       </div>
 
       <div className='hidden w-40 shrink-0 flex-col gap-1 sm:flex'>
         <div className='flex items-center justify-between text-[10px] text-txt-muted'>
-          <span>俱乐部等级 {club.level}</span>
-          <span>{club.xp} / {xpNeed} 经验</span>
+          <span>{tr('俱乐部等级')} {club.level}</span>
+          <span>{club.xp} / {xpNeed} {tr('经验')}</span>
         </div>
         <div className='h-1.5 overflow-hidden rounded-full bg-white/10'>
           <div className='h-full rounded-full bg-accent' style={{ width: xpPct + '%' }} />
