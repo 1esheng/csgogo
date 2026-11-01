@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { Sparkles, Star } from 'lucide-react';
 import type { CardTemplate, Rarity, Role } from '@/types';
@@ -35,6 +36,7 @@ export function PlayerCard({
   cornerLabel?: string;
   dimmed?: boolean;
 }) {
+  const { tr } = useT();
   const rarity = RARITY_TABLE[card.template.rarity as Rarity];
   const s = SIZE[size];
   const role: Role = card.template.primaryRole;
@@ -65,7 +67,7 @@ export function PlayerCard({
           <span className='font-display text-[11px] font-bold uppercase tracking-[0.18em]' style={{ color: rarity.color }}>
             {card.template.rarity}
           </span>
-          <span className={clsx('truncate font-semibold tracking-wide text-txt-muted', s.meta)}>{ROLE_LABEL[role]}</span>
+          <span className={clsx('truncate font-semibold tracking-wide text-txt-muted', s.meta)}>{tr(ROLE_LABEL[role])}</span>
         </div>
         <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-bold text-txt'>
           {card.countryCode}
@@ -89,7 +91,7 @@ export function PlayerCard({
         </div>
         <div className='shrink-0 text-right'>
           <div className={clsx('font-display font-black leading-none', s.ovr)} style={{ color: rarity.color }}>{card.ovr}</div>
-          <div className='text-[10px] font-semibold uppercase tracking-[0.14em] text-txt-muted'>综合</div>
+          <div className='text-[10px] font-semibold uppercase tracking-[0.14em] text-txt-muted'>{tr('综合')}</div>
         </div>
       </div>
 
@@ -100,7 +102,7 @@ export function PlayerCard({
         </span>
         <span className='inline-flex shrink-0 items-center gap-1 font-semibold'>
           <Star size={12} className='text-accent' />
-          <span className='whitespace-nowrap'>{card.level} 级</span>
+          <span className='whitespace-nowrap'>{card.level} {tr('级')}</span>
           {stars > 1 ? <span className='rounded bg-accent/15 px-1 font-bold text-accent'>{stars}★</span> : null}
         </span>
       </div>
