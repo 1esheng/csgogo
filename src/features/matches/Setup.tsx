@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { pick, tr } from '@/i18n';
+import { localizeDynamic, pick, tr } from '@/i18n';
 import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
@@ -85,7 +85,7 @@ export function Setup() {
         {breakdown.warnings.length > 0 ? (
           <ul className='mt-3 space-y-1'>
             {breakdown.warnings.map((w) => (
-              <li key={w} className='text-xs text-danger'>- {w}</li>
+              <li key={localizeDynamic(w)} className='text-xs text-danger'>- {localizeDynamic(w)}</li>
             ))}
           </ul>
         ) : null}

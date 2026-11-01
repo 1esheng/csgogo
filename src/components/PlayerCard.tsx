@@ -87,7 +87,7 @@ export function PlayerCard({
         <div className='min-w-0'>
           <div className={clsx('truncate font-display font-bold tracking-wide text-txt', s.name)}>{card.nickname}</div>
           <div className={clsx('truncate tracking-wider text-txt-muted', s.meta)}>
-            {card.template.season}{retired ? ' 生涯终章' : ' 赛季'}
+            {card.template.season} {retired ? tr('生涯终章') : tr('赛季')}
           </div>
         </div>
         <div className='shrink-0 text-right'>

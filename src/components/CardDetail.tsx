@@ -109,7 +109,7 @@ export function CardDetailBody({
           </div>
           <div className='mt-3 font-display text-2xl font-black'>{nickname}</div>
           <div className='text-xs tracking-wider text-txt-muted'>
-            {template.season} {retired ? '生涯终章' : '赛季'}
+            {template.season} {retired ? tr('生涯终章') : tr('赛季')}
             {retired ? <Badge tone='danger' className='ml-2'>{tr('已退役')}</Badge> : null}
           </div>
           {credit?.source ? (

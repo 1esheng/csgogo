@@ -234,7 +234,7 @@ export function RosterTraining() {
               <div>
                 <div className='flex flex-wrap items-center gap-1.5'>
                   <h3 className='font-display text-lg font-bold text-txt'>{selected.nickname}</h3>
-                  <Badge tone='accent'>{rarity.label}</Badge>
+                  <Badge tone='accent'>{tr(rarity.label)}</Badge>
                   <Badge tone={atCap ? 'success' : 'muted'}>
                     {atCap ? tr('已满级') : selected.card.level + '/' + LEVEL_CONFIG.maxLevel + ' ' + tr('级')}
                   </Badge>

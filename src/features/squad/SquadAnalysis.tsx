@@ -131,7 +131,7 @@ export function SquadAnalysis({
             </div>
             <ul className='space-y-1'>
               {breakdown.warnings.map((warning) => (
-                <li key={localizeDynamic(warning)} className='text-[11px] leading-snug text-accent/90'>· {warning}</li>
+                <li key={warning} className='text-[11px] leading-snug text-accent/90'>· {localizeDynamic(warning)}</li>
               ))}
             </ul>
           </div>
