@@ -49,7 +49,7 @@ Collect player cards, build a five-man lineup, hire a head coach, call tactics r
 ## Features
 
 ### Cards and progression
-- **305 player cards** across 5 rarities (UR 8 / SSR 20 / SR 45 / R 90 / N 142), ordered strictly by overall rating
+- **305 player cards** across 5 rarities (UR 11 / SSR 17 / SR 45 / R 90 / N 142), ordered strictly by overall rating
 - OVR = 62% individual + 20% role proficiency + 18% team contribution, with a full breakdown panel
 - **Level cap 30**, **no star cap**: 3 duplicate cards give +1 star, each star adds +3 to all attributes
 - Training, catalog and star fusion in one page (My cards / Full catalog / Star fusion)
@@ -93,7 +93,7 @@ On Windows you can also double-click the batch files in the repository root:
 
 ### Single-file desktop build
 
-The release ships a 97 MB CS2Dynasty.exe produced with **Node SEA**: all 217 frontend assets are embedded into the executable and served from memory, so it needs neither Node nor a network connection.
+The release ships a 97 MB CS2Dynasty.exe produced with **Node SEA**: all 215 frontend assets are embedded into the executable and served from memory, so it needs neither Node nor a network connection.
 
     npm run build
     node --experimental-sea-config tools/exe/sea-config.json
