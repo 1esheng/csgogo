@@ -134,16 +134,22 @@ export function pick(zh: string, en: string): string {
 }
 
 /** engine/data 返回的中文模板句，按模式在渲染期英文化；zh 下原样返回。 */
+const ROLE_EN: Record<string, string> = { 狙击手: 'AWPer', 突破手: 'Entry', 自由人: 'Lurker', 辅助: 'Support', 主防: 'Anchor', 指挥: 'IGL' };
+function roleEn(zh: string): string { return ROLE_EN[zh] ?? zh; }
+
 export function localizeDynamic(text: string): string {
   if (current !== 'en') return text;
-  const rules: Array<[RegExp, string]> = [
+  const rules: Array<[RegExp, string | ((...args: string[]) => string)]> = [
     [/^位置 (.+) 指向的卡牌已经不在收藏里了。$/, 'The card assigned to $1 is no longer in your collection.'],
     [/^(.+) 被重复上场——不允许。$/, '$1 is already on the field — duplicates are not allowed.'],
     [/^还差 (\d+) 人才能开赛$/, 'Need $1 more players to play'],
     [/^只填了 (\d+)\/(\d+) 个位置——阵容补齐前无法开赛。$/, 'Only $1/$2 slots filled — finish the lineup before playing.'],
+    [/^(.+) 打 (.+) 明显不在位置上。$/, (m, p1, role) => p1 + ' on ' + roleEn(role) + ' is clearly out of position.'],
+    [/^(.+) 被重复上场——不允许。$/, (m, p1) => p1 + ' is already on the field — duplicates are not allowed.'],
   ];
   for (const [re, out] of rules) {
-    if (re.test(text)) return text.replace(re, out).replace(/（/g, ' (').replace(/）/g, ')').replace(/。/g, '.');
+    if (re.test(text)) return text.replace(re, out as unknown as string).replace(/（/g, ' (').replace(/）/g, ')').replace(/。/g, '.');
+
   }
   return tr(text);
 }

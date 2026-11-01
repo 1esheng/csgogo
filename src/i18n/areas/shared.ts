@@ -16,4 +16,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "张卡牌", en: "cards" },
   { zh: "赛季", en: "season" },
   { zh: "稀有", en: "Rare" },
+  { zh: " 张卡牌", en: " cards" },
+  { zh: " 赛季", en: " season" },
+  { zh: "史诗", en: "Epic" },
 ];
