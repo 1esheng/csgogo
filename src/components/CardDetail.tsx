@@ -127,7 +127,7 @@ export function CardDetailBody({
                 {Array.from({ length: Math.max(1, Math.min(5, stars)) }).map((_x, i) => (
                   <Star key={i} size={12} fill='currentColor' />
                 ))}
-                <span className='ml-1 text-[11px] text-txt-muted'>{stars} 星</span>
+                <span className='ml-1 text-[11px] text-txt-muted'>{stars} {tr('星')}</span>
               </div>
             </div>
           </div>

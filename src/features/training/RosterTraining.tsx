@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useT } from '@/hooks/useLang';
+import { levelText } from '@/i18n';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Sparkles } from 'lucide-react';
@@ -114,7 +115,7 @@ export function RosterTraining() {
     const after = useGameStore.getState().cards.find((c) => c.templateId === selected.template.id);
     if (after && after.level > before) {
       celebrate({
-        title: selected.nickname + pick(' 升到 ', ' reached level ') + after.level + pick(' 级', ''),
+        title: selected.nickname + pick(' 升到 ', ' reached ') + levelText(after.level) + pick('', ''),
         subtitle: pick('全属性成长 +', 'All attributes +') + (after.level - before) * 3 + pick(' 点', ' pts'),
         tone: 'level',
       });

@@ -153,3 +153,8 @@ export function localizeDynamic(text: string): string {
   }
   return tr(text);
 }
+
+/** 等级文案：中文 “12 级”，英文 “Lv 12”。 */
+export function levelText(n: number): string {
+  return current === 'en' ? 'Lv ' + n : n + ' 级';
+}

@@ -2,6 +2,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Celebration } from '@/components/Celebration';
 import { useLiveWorld } from '@/hooks/useLiveWorld';
 import { useT } from '@/hooks/useLang';
+import { tr } from '@/i18n';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -173,13 +174,13 @@ function Onboarding() {
       <Panel className='w-full max-w-lg'>
         <div className='mb-1 font-display text-3xl font-black tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
         <p className='mb-6 text-sm text-txt-muted'>
-          一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。
+          {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
         </p>
         <Input label='俱乐部名称' value={name} onChange={setName} maxLength={28} placeholder='王朝电竞' />
         <div className='mt-4 space-y-2 text-xs text-txt-muted'>
-          <div>· 初始 5,000 金币与五张选手卡</div>
-          <div>· 全离线存档（IndexedDB），无需账号、不联网</div>
-          <div>· 真正的逐回合比赛引擎（MR12 与加时）</div>
+          <div>{tr('· 初始 5,000 金币与五张选手卡')}</div>
+          <div>{tr('· 全离线存档（IndexedDB），无需账号、不联网')}</div>
+          <div>{tr('· 真正的逐回合比赛引擎（MR12 与加时）')}</div>
         </div>
         <Button
           className='mt-6 w-full'
@@ -187,7 +188,7 @@ function Onboarding() {
           disabled={busy}
           onClick={async () => { setBusy(true); await newGame(name); setBusy(false); }}
         >
-          创建俱乐部
+          {tr('创建俱乐部')}
         </Button>
       </Panel>
     </div>
@@ -244,7 +245,7 @@ export function App() {
   if (!ready) {
     return (
       <div className='flex min-h-screen items-center justify-center bg-ink-900'>
-        <div className='animate-pulse-soft font-display text-sm uppercase tracking-[0.3em] text-txt-muted'>正在载入王朝…</div>
+        <div className='animate-pulse-soft font-display text-sm uppercase tracking-[0.3em] text-txt-muted'>{tr('正在载入王朝…')}</div>
       </div>
     );
   }

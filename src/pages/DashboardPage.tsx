@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { CalendarDays, MapPin, Swords, TrendingUp, Trophy, Users } from 'lucide-react';
 import { useGameStore, aiOpponents } from '@/stores/gameStore';
 import { useT } from '@/hooks/useLang';
+import { levelText } from '@/i18n';
 import { MAPS } from '@/data/maps';
 import { COACH_MAP } from '@/data/coaches';
 import { coachEffects } from '@/engine/coach';
@@ -146,11 +147,11 @@ export function DashboardPage() {
                       <Avatar nickname={identity?.nickname ?? tpl.playerId} playerId={tpl.playerId} size={64} />
                     </div>
                     <div className='mt-2 truncate font-display text-sm font-bold text-txt'>{identity?.nickname ?? tpl.playerId}</div>
-                    <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_SHORT[role])} · {card.level} 级</div>
+                    <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_SHORT[role])} · {levelText(card.level)}</div>
                     <div className='mt-2 space-y-1'>
                       {bars.map((bar) => (
                         <div key={bar.key} className='flex items-center gap-1.5'>
-                          <span className='w-6 shrink-0 text-[9px] text-txt-muted'>{tr(bar.label)}</span>
+                          <span className='w-[52px] shrink-0 truncate text-[9px] text-txt-muted'>{tr(bar.label)}</span>
                           <span className='h-1 flex-1 overflow-hidden rounded-full bg-white/10'>
                             <span className='block h-full rounded-full' style={{ width: Math.min(100, attrs[bar.key] / 1.2) + '%', background: rarity.color }} />
                           </span>
