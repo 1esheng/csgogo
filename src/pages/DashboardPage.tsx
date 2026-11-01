@@ -102,7 +102,7 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle
               title={t('page.dashboard.starters')}
-              subtitle={'当前地图 ' + MAPS[mapId].name + ' · 团队默契 ' + Math.round(breakdown.chemistry) + '%'}
+              subtitle={tr('当前地图') + ' ' + MAPS[mapId].name + ' · ' + tr('团队默契') + ' ' + Math.round(breakdown.chemistry) + '%'}
               right={<Button size='sm' variant='outline' onClick={() => navigate('/squad')}>{tr('调整阵容')}</Button>}
             />
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5'>
@@ -167,8 +167,8 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle
               title={t('page.dashboard.coach')}
-              subtitle={headInfo ? headInfo.style + '型 · 执教能力 ' + headInfo.ability : '尚未任命主教练'}
-              right={<Button size='sm' variant='outline' onClick={() => navigate('/coaches')}>{headInfo ? '进入教练组' : '去任命'}</Button>}
+              subtitle={headInfo ? tr(headInfo.style) + tr('型') + ' · ' + tr('执教能力') + ' ' + headInfo.ability : tr('尚未任命主教练')}
+              right={<Button size='sm' variant='outline' onClick={() => navigate('/coaches')}>{headInfo ? tr('进入教练组') : tr('去任命')}</Button>}
             />
             {headInfo ? (
               <div className='flex flex-wrap items-center gap-3'>
@@ -194,7 +194,7 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle
               title={t('page.dashboard.honors')}
-              subtitle={'夺冠 ' + careerTitles + ' 次 · MAJOR 冠军 ' + majors + ' 次'}
+              subtitle={tr('夺冠') + ' ' + careerTitles + ' · ' + tr('MAJOR 冠军') + ' ' + majors}
               right={<Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('奖杯墙')}</Button>}
             />
             {recentHonors.length === 0 ? (
@@ -221,7 +221,7 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle
               title={t('page.dashboard.preview')}
-              subtitle={'已拥有 ' + owned.length + ' 张卡 · 按综合评分排序'}
+              subtitle={tr('已拥有') + ' ' + owned.length + ' ' + tr('张卡 · 按综合评分排序')}
               right={<Button size='sm' variant='ghost' onClick={() => navigate('/collection')}>{tr('查看全部')}</Button>}
             />
             <div className='mb-3 flex flex-wrap gap-1.5'>
@@ -305,7 +305,7 @@ export function DashboardPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title={t('page.dashboard.recent')} subtitle={'总战绩 ' + club.wins + ' 胜 ' + club.losses + ' 负 · 胜率 ' + winRate + '%'} />
+            <SectionTitle title={t('page.dashboard.recent')} subtitle={tr('总战绩') + ' ' + club.wins + 'W ' + club.losses + 'L · ' + tr('胜率') + ' ' + winRate + '%'} />
             {recent.length === 0 ? (
               <p className='text-xs text-txt-muted'>{tr('还没有比赛记录——去生涯打第一场吧。')}</p>
             ) : (
