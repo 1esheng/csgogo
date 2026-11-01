@@ -83,7 +83,7 @@ export function DashboardPage() {
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
           <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.dashboard.title')}</h1>
-          <p className='mt-0.5 text-xs text-txt-muted'>第 {club.season} 赛季 · 巡回赛积分 {rating} · 阵容战力 {breakdown.ovr}</p>
+          <p className='mt-0.5 text-xs text-txt-muted'>{tr('第')} {club.season} {tr('赛季')} · {tr('巡回赛积分')} {rating} · {tr('阵容战力')} {breakdown.ovr}</p>
         </div>
         <div className='flex items-center gap-2'>
           {breakdown.filled < 5 ? (
@@ -92,7 +92,7 @@ export function DashboardPage() {
             </Button>
           ) : null}
           <Badge tone={breakdown.filled === 5 ? 'success' : 'danger'}>
-          {breakdown.filled === 5 ? '阵容齐整 · 可以开赛' : '还差 ' + (5 - breakdown.filled) + ' 人才能开赛'}
+          {breakdown.filled === 5 ? tr('阵容齐整 · 可以开赛') : tr('还差') + ' ' + (5 - breakdown.filled) + ' ' + tr('人才能开赛')}
           </Badge>
         </div>
       </div>
@@ -276,21 +276,21 @@ export function DashboardPage() {
               <div className='rounded-xl border border-white/10 bg-black/25 p-3'>
                 <div className='flex items-center justify-between text-xs text-txt-muted'>
                   <span>{MAPS[mapId].name}</span>
-                  <span className='inline-flex items-center gap-1'><CalendarDays size={11} /> 第 {club.season} 赛季</span>
+                  <span className='inline-flex items-center gap-1'><CalendarDays size={11} /> {tr('第')} {club.season} {tr('赛季')}</span>
                 </div>
                 <div className='mt-2 flex items-center justify-between gap-2'>
                   <div className='min-w-0'>
                     <div className='truncate font-display text-base font-bold text-txt'>{club.name}</div>
-                    <div className='text-[11px] text-txt-muted'>战力 {breakdown.ovr}</div>
+                    <div className='text-[11px] text-txt-muted'>{tr('战力')} {breakdown.ovr}</div>
                   </div>
                   <div className='font-display text-xl font-black text-txt-muted'>VS</div>
                   <div className='min-w-0 text-right'>
                     <div className='truncate font-display text-base font-bold text-txt'>{nextOpponent?.name ?? '待定'}</div>
-                    <div className='text-[11px] text-txt-muted'>评分 {nextOpponent?.rating ?? '—'}</div>
+                    <div className='text-[11px] text-txt-muted'>{tr('评分')} {nextOpponent?.rating ?? '—'}</div>
                   </div>
                 </div>
                 <div className='mt-2 flex items-center gap-1 text-[11px] text-txt-muted'>
-                  <MapPin size={11} /> {nextOpponent ? '第 ' + (nextOpponent.tier + 1) + ' 档战队' : '—'}
+                  <MapPin size={11} /> {nextOpponent ? tr('第') + ' ' + (nextOpponent.tier + 1) + ' ' + tr('档战队') : '—'}
                 </div>
               </div>
               <div className='mt-3 grid gap-2'>
