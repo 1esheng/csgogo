@@ -21,7 +21,7 @@ Collect player cards, build a five-man lineup, hire a head coach, call tactics r
 
 | Overview (English UI) | Player collection |
 | --- | --- |
-| ![dashboard](docs/screenshots/167-english-ui.png) | ![collection](docs/screenshots/168-english-gallery.png) |
+| ![dashboard](docs/screenshots/173-en-dashboard.png) | ![collection](docs/screenshots/175-en-collection.png) |
 
 | Packs | Coaching staff |
 | --- | --- |
