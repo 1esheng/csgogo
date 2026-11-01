@@ -74,7 +74,7 @@ export function PacksPage() {
           <p className='mt-0.5 text-xs text-txt-muted'>{tr('选手包与教练包是两个独立图池，概率各自计算。')}</p>
         </div>
         <div className='flex items-center gap-2'>
-          <Badge tone='accent'>金币 {club.coins.toLocaleString()}</Badge>
+          <Badge tone='accent'>{tr('金币')} {club.coins.toLocaleString()}</Badge>
           <Button size='sm' variant='ghost' onClick={() => navigate('/collection')}>{tr('查看卡册')} <ArrowRight size={14} /></Button>
         </div>
       </div>
@@ -84,16 +84,16 @@ export function PacksPage() {
 
       <div className='grid gap-4 lg:grid-cols-3'>
         <PackCard
-          kind='单抽'
+          kind={tr('单抽')}
           title={tr('1 张选手卡')}
           price={PACK_CONFIG.singlePrice}
           desc={tr('按掉落表抽取一次，并结算保底计数。')}
-          button='开启 1 个卡包'
+          button={tr('开启 1 个卡包')}
           disabled={club.coins < PACK_CONFIG.singlePrice}
           onClick={() => openPack(1)}
         />
         <PackCard
-          kind='十连抽'
+          kind={tr('十连抽')}
           title={tr('10 张卡')}
           price={PACK_CONFIG.tenPrice}
           badge='-10%'
@@ -103,10 +103,10 @@ export function PacksPage() {
           onClick={() => openPack(10)}
         />
         <PackCard
-          kind='百连抽'
+          kind={tr('百连抽')}
           title={tr('100 张卡')}
           price={PACK_CONFIG.hundredPrice}
-          badge='最划算'
+          badge={tr('最划算')}
           desc={tr('一次开满 100 张，几乎必出 UR。')}
           button={<><Star size={15} /> {tr('开启 100 个卡包')}</>}
           disabled={club.coins < PACK_CONFIG.hundredPrice}
@@ -124,20 +124,20 @@ export function PacksPage() {
 
       <div className='grid gap-4 lg:grid-cols-3'>
         <PackCard
-          kind='教练单抽'
+          kind={tr('教练单抽')}
           title={tr('1 位教练')}
           price={COACH_PACK.single}
           desc={tr('按教练掉落表抽取一次，重复教练转为 25 点执教经验。')}
-          button='签下 1 位教练'
+          button={tr('签下 1 位教练')}
           disabled={club.coins < COACH_PACK.single}
           onClick={() => openCoachPack(1)}
         />
         <PackCard
-          kind='教练十连'
+          kind={tr('教练十连')}
           title={tr('10 位教练')}
           price={COACH_PACK.ten}
           badge='-10%'
-          desc={'十次单抽共需 ' + (COACH_PACK.single * 10).toLocaleString() + ' 金币，本批次可省 ' + (COACH_PACK.single * 10 - COACH_PACK.ten).toLocaleString() + ' 金币。'}
+          desc={tr('十次单抽共需 ') + (COACH_PACK.single * 10).toLocaleString() + tr(' 金币，本批次可省 ') + (COACH_PACK.single * 10 - COACH_PACK.ten).toLocaleString() + tr(' 金币。')}
           button={<><Star size={15} /> {tr('签下 10 位教练')}</>}
           disabled={club.coins < COACH_PACK.ten}
           onClick={() => openCoachPack(10)}
@@ -147,7 +147,7 @@ export function PacksPage() {
             <div>
               <div className='label-xs'>{tr('现任主教练')}</div>
               <div className='mt-1 font-display text-xl font-bold text-txt'>
-                {headCoach ? headCoach.nickname : '尚未任命'}
+                {headCoach ? headCoach.nickname : tr('尚未任命')}
               </div>
             </div>
             <GraduationCap size={20} className='text-txt-muted' />
@@ -155,16 +155,16 @@ export function PacksPage() {
           <div className='mt-3 space-y-1 text-[11px] leading-relaxed text-txt-muted'>
             {headCoach ? (
               <>
-                <div>· 国籍 {headCoach.country} · 风格 {headCoach.style}</div>
-                <div>{tr('· 执教能力')} <span className='font-semibold text-txt'>{headCoach.ability}</span> · 全队 +{Math.round(headCoach.ability / 25)} 属性</div>
+                <div>· {tr('国籍')} {headCoach.country} · {tr('风格')} {headCoach.style}</div>
+                <div>{tr('· 执教能力')} <span className='font-semibold text-txt'>{headCoach.ability}</span> · {tr('全队')} +{Math.round(headCoach.ability / 25)} {tr('属性')}</div>
               </>
             ) : (
               <div>{tr('· 任命一位主教练即可获得全队属性加成')}</div>
             )}
-            <div>· 已签下 {(coaches ?? []).length} 位教练</div>
+            <div>· {tr('已签下')} {(coaches ?? []).length} {tr('位教练')}</div>
           </div>
           <Button className='mt-3 w-full' variant='outline' onClick={() => navigate('/coaches')}>
-            {headCoach ? '进入教练组' : '去任命主教练'}
+            {headCoach ? tr('进入教练组') : tr('去任命主教练')}
           </Button>
         </Panel>
       </div>
@@ -214,14 +214,14 @@ export function PacksPage() {
               <div>
                 <div className='flex items-center justify-between text-[11px] text-txt-muted'>
                   <span>{tr('SR 及以上')}</span>
-                  <span className='font-semibold text-txt'>{pity.srIn} 抽</span>
+                  <span className='font-semibold text-txt'>{pity.srIn} {tr('抽')}</span>
                 </div>
                 <Progress value={pity.srProgress * 100} tone='accent' height='h-1.5' />
               </div>
               <div>
                 <div className='flex items-center justify-between text-[11px] text-txt-muted'>
                   <span>{tr('SSR 及以上')}</span>
-                  <span className='font-semibold text-txt'>{pity.ssrIn} 抽</span>
+                  <span className='font-semibold text-txt'>{pity.ssrIn} {tr('抽')}</span>
                 </div>
                 <Progress value={pity.ssrProgress * 100} tone='danger' height='h-1.5' />
               </div>

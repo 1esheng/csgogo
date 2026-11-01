@@ -57,7 +57,7 @@ export function CareerPage() {
     const result = enterTournament(tier);
     setBusyTier(null);
     if (!result.ok) {
-      setError({ tier, text: result.error ?? '无法进入该联赛。' });
+      setError({ tier, text: result.error ?? tr('无法进入该联赛。') });
       return;
     }
   };
@@ -66,15 +66,15 @@ export function CareerPage() {
     <div className='space-y-5'>
       <SectionTitle
         title={t('page.career.title')}
-        subtitle={'第 ' + career.season + ' 赛季 · ' + club.name}
-        right={<div className='flex items-center gap-2'><Badge tone='accent'>{currentTier.name}</Badge><Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('战队详情')}</Button></div>}
+        subtitle={tr('第') + ' ' + career.season + tr(' 赛季 · ') + club.name}
+        right={<div className='flex items-center gap-2'><Badge tone='accent'>{tr(currentTier.name)}</Badge><Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('战队详情')}</Button></div>}
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
         <StatTile label={tr('巡回赛积分')} value={rating} hint={tr('来自模拟对局的 Elo 分')} tone='accent' icon={<Rocket size={16} />} />
         <StatTile label={tr('冠军')} value={career.titles} hint={tr('夺冠赛事数')} icon={<Trophy size={16} />} />
         <StatTile label={tr('参赛赛事')} value={career.completedTournaments} hint={tr('已结束的赛程')} icon={<Swords size={16} />} />
-        <StatTile label={tr('战绩')} value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} icon={<Flame size={16} />} />
+        <StatTile label={tr('战绩')} value={club.wins + '-' + club.losses} hint={tr('近况 ') + (club.streak > 0 ? '+' : '') + club.streak} icon={<Flame size={16} />} />
       </div>
 
       <div className='grid gap-4 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]'>
@@ -92,14 +92,14 @@ export function CareerPage() {
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title={tr('下一级联赛')} subtitle={nextTier ? nextTier.name : '已是最高级别'} />
+            <SectionTitle title={tr('下一级联赛')} subtitle={nextTier ? tr(nextTier.name) : tr('已是最高级别')} />
             <div className='flex items-end justify-between gap-2'>
               <div className='stat-number text-accent'>{rating}</div>
               <div className='text-right text-xs text-txt-muted'>
                 {nextTier ? (
                   <>
-                    <div>还差 {toNext} 积分</div>
-                    <div>目标 {nextTier.ratingFloor}</div>
+                    <div>{tr('还差 ')}{toNext}{tr(' 积分')}</div>
+                    <div>{tr('目标 ')}{nextTier.ratingFloor}</div>
                   </>
                 ) : (
                   <div>{tr('你已站在最高级别。')}</div>
@@ -107,26 +107,26 @@ export function CareerPage() {
               </div>
             </div>
             <div className='mt-3'>
-              <Progress value={progress} max={span} tone='accent' label={nextTier ? nextTier.name + ' 进度' : '已满级'} />
+              <Progress value={progress} max={span} tone='accent' label={nextTier ? tr(nextTier.name) + tr(' 进度') : tr('已满级')} />
             </div>
             <div className='mt-3 space-y-1 text-xs text-txt-muted'>
               <div className='flex items-center gap-1.5'>
-                <Coins size={12} className='text-accent' /> 下一级奖金池 {(nextTier ?? currentTier).prize.toLocaleString()} 金币
+                <Coins size={12} className='text-accent' /> {tr('下一级奖金池 ')}{(nextTier ?? currentTier).prize.toLocaleString()}{tr(' 金币')}
               </div>
               <div className='flex items-center gap-1.5'>
-                <CalendarDays size={12} /> 已完赛 {career.completedTournaments} 场 · 夺冠 {career.titles} 次
+                <CalendarDays size={12} /> {tr('已完赛 ')}{career.completedTournaments}{tr(' 场 · 夺冠 ')}{career.titles}{tr(' 次')}
               </div>
             </div>
           </Panel>
 
           <Panel>
-            <SectionTitle title={tr('进行中的赛事')} subtitle={active ? '你的赛程正在进行' : '暂无进行中的赛程'} />
+            <SectionTitle title={tr('进行中的赛事')} subtitle={active ? tr('你的赛程正在进行') : tr('暂无进行中的赛程')} />
             {active ? (
               <div className='space-y-3'>
                 <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2'>
                   <div className='font-display text-sm font-bold text-txt'>{active.name}</div>
                   <div className='mt-1 text-xs text-txt-muted'>
-                    {(CAREER_TIERS[active.tier]?.name ?? '联赛') + ' · 奖金 ' + active.prizePool.toLocaleString() + ' 金币'}
+                    {tr(CAREER_TIERS[active.tier]?.name ?? '联赛') + tr(' · 奖金 ') + active.prizePool.toLocaleString() + tr(' 金币')}
                   </div>
                 </div>
                 <div className='text-sm'>
@@ -134,7 +134,7 @@ export function CareerPage() {
                   {nextOpponent ? (
                     <div className='mt-1 flex flex-wrap items-center gap-2'>
                       <span className='font-semibold text-txt'>{nextOpponent.name}</span>
-                      <Badge tone='neutral'>评分 {nextOpponent.rating}</Badge>
+                      <Badge tone='neutral'>{tr('评分 ')}{nextOpponent.rating}</Badge>
                       {nextMatch ? <Badge tone='muted'>{MAPS[nextMatch.mapId]?.name ?? nextMatch.mapId}</Badge> : null}
                     </div>
                   ) : (
@@ -157,7 +157,7 @@ export function CareerPage() {
                       if (!res.ok && res.error) setError({ tier: active.tier, text: res.error });
                     }}
                   >
-                    <FastForward size={14} /> {fastSim ? '模拟中…' : '快速模拟到结束'}
+                    <FastForward size={14} /> {fastSim ? tr('模拟中…') : tr('快速模拟到结束')}
                   </Button>
                 </div>
                 <p className='text-[11px] leading-relaxed text-txt-muted'>
@@ -182,7 +182,7 @@ export function CareerPage() {
       <Panel>
         <SectionTitle
           title={tr('赛事记录')}
-          subtitle={history.length > 5 ? '最近参赛的 ' + Math.min(5, history.length) + ' 项（共 ' + history.length + ' 项）。' : '本存档中你参加过的全部赛事。'}
+          subtitle={history.length > 5 ? tr('最近参赛的 ') + Math.min(5, history.length) + tr(' 项（共 ') + history.length + tr(' 项）。') : tr('本存档中你参加过的全部赛事。')}
           right={
             history.length > 5 ? (
               <Button
@@ -190,7 +190,7 @@ export function CareerPage() {
                 variant='ghost'
                 onClick={() => setRecordLimit((v) => (v >= history.length ? 5 : v + 5))}
               >
-                {hasMoreRecords ? '查看更多（还有 ' + (history.length - visibleHistory.length) + ' 项）' : '收起'}
+                {hasMoreRecords ? tr('查看更多（还有 ') + (history.length - visibleHistory.length) + tr(' 项）') : tr('收起')}
               </Button>
             ) : undefined
           }
@@ -207,11 +207,11 @@ export function CareerPage() {
                   key={t.id}
                   className='flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2 text-sm transition-colors hover:border-accent/25'
                 >
-                  <Badge tone={t.status === 'active' ? 'accent' : t.status === 'completed' ? 'success' : 'neutral'}>{STATUS_LABEL[t.status] ?? t.status}</Badge>
+                  <Badge tone={t.status === 'active' ? 'accent' : t.status === 'completed' ? 'success' : 'neutral'}>{tr(STATUS_LABEL[t.status] ?? t.status)}</Badge>
                   <span className='font-semibold text-txt'>{t.name}</span>
-                  <span className='text-xs text-txt-muted'>{CAREER_TIERS[t.tier]?.name ?? '联赛'}</span>
+                  <span className='text-xs text-txt-muted'>{tr(CAREER_TIERS[t.tier]?.name ?? '联赛')}</span>
                   <span className='ml-auto text-xs text-txt-muted'>
-                    {champion ? (wonByPlayer ? <span className='font-semibold text-accent'>{tr('你夺冠了')}</span> : champion.name) : '进行中'}
+                    {champion ? (wonByPlayer ? <span className='font-semibold text-accent'>{tr('你夺冠了')}</span> : champion.name) : tr('进行中')}
                   </span>
                   <span className='inline-flex items-center gap-1 text-xs font-semibold text-accent'>
                     <Trophy size={12} /> {t.prizePool.toLocaleString()}

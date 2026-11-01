@@ -1,3 +1,4 @@
+import { useT } from '@/hooks/useLang';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Activity } from 'lucide-react';
 import type { MatchState } from '@/types';
@@ -6,6 +7,7 @@ import { moneyLabel } from './matchUi';
 
 /** Per-round bank of each side, straight from RoundRecord.economy. */
 export function EconomyTab({ match }: { match: MatchState }) {
+  const { tr } = useT();
   const data = match.rounds.map((r) => ({
     round: r.roundNumber,
     t: r.economy.t,
@@ -20,24 +22,24 @@ export function EconomyTab({ match }: { match: MatchState }) {
   return (
     <div className='space-y-3'>
       <div className='grid grid-cols-2 gap-2 sm:grid-cols-4'>
-        <StatTile label='我方资金' value={moneyLabel(yourBank)} hint={'第 ' + match.roundNumber + ' 回合'} />
-        <StatTile label='对手资金' value={moneyLabel(theirBank)} hint={match.teams.B.name} />
+        <StatTile label={tr('我方资金')} value={moneyLabel(yourBank)} hint={tr('第 ') + match.roundNumber + tr(' 回合')} />
+        <StatTile label={tr('对手资金')} value={moneyLabel(theirBank)} hint={match.teams.B.name} />
         <StatTile
-          label='我方上回合结算'
+          label={tr('我方上回合结算')}
           value={lastIndex >= 0 ? moneyLabel(yourHistory[lastIndex]) : '—'}
-          hint='回合结束后的团队资金'
+          hint={tr('回合结束后的团队资金')}
         />
         <StatTile
-          label='对手上回合结算'
+          label={tr('对手上回合结算')}
           value={lastIndex >= 0 ? moneyLabel(theirHistory[lastIndex]) : '—'}
-          hint='回合结束后的团队资金'
+          hint={tr('回合结束后的团队资金')}
         />
       </div>
       {data.length === 0 ? (
         <div className='flex h-[220px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 text-center'>
           <Activity size={18} className='text-txt-muted' />
           <p className='text-xs text-txt-muted'>
-            暂无经济记录。打完第一回合后图表就会填充。
+            {tr('暂无经济记录。打完第一回合后图表就会填充。')}
           </p>
         </div>
       ) : (
@@ -70,16 +72,16 @@ export function EconomyTab({ match }: { match: MatchState }) {
                   borderRadius: 12,
                   fontSize: 12,
                 }}
-                labelFormatter={(v) => '第 ' + v + ' 回合'}
+                labelFormatter={(v) => tr('第 ') + v + tr(' 回合')}
               />
-              <Area type='monotone' dataKey='t' name='T 方资金' stroke='#F5A623' fill='url(#econT)' strokeWidth={2} />
-              <Area type='monotone' dataKey='ct' name='CT 方资金' stroke='#60A5FA' fill='url(#econCT)' strokeWidth={2} />
+              <Area type='monotone' dataKey='t' name={tr('T 方资金')} stroke='#F5A623' fill='url(#econT)' strokeWidth={2} />
+              <Area type='monotone' dataKey='ct' name={tr('CT 方资金')} stroke='#60A5FA' fill='url(#econCT)' strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       )}
       <p className='text-[10px] leading-snug text-txt-muted'>
-        数值为双方回合结束时的资金，由引擎在下一次购买前记录。半场后交换阵营，所以 T 与 CT 两条线代表阵营，而不是队伍。
+        {tr('数值为双方回合结束时的资金，由引擎在下一次购买前记录。半场后交换阵营，所以 T 与 CT 两条线代表阵营，而不是队伍。')}
       </p>
     </div>
   );

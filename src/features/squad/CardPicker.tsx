@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { Search, UserMinus } from 'lucide-react';
 import type { CardTemplate, CombatRole, OwnedCard } from '@/types';
@@ -29,6 +30,7 @@ function fitTone(fit: number): 'accent' | 'danger' | 'success' | 'blue' {
 }
 
 export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose: () => void }) {
+  const { tr } = useT();
   const cards = useGameStore((s) => s.cards);
   const squad = useGameStore((s) => s.squad);
   const customTemplates = useGameStore((s) => s.customTemplates);
@@ -90,7 +92,7 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
     if (!role) return;
     const result = assignSlot(role, instanceId);
     if (!result.ok) {
-      toast(result.error ?? '这张卡牌无法胜任该位置。', 'error');
+      toast(result.error ?? tr('这张卡牌无法胜任该位置。'), 'error');
       return;
     }
     onClose();
@@ -107,28 +109,28 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
       open={role !== null}
       onClose={onClose}
       wide
-      title={role ? '选择' + ROLE_LABEL[role] : '选择选手'}
+      title={role ? tr('选择') + tr(ROLE_LABEL[role]) : tr('选择选手')}
     >
       <div className='mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'>
         <div className='relative flex-1'>
           <Search size={14} className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-txt-muted' />
-          <Input value={query} onChange={setQuery} placeholder='搜索你的收藏' className='[&>input]:pl-8' />
+          <Input value={query} onChange={setQuery} placeholder={tr('搜索你的收藏')} className='[&>input]:pl-8' />
         </div>
         {role && occupied ? (
           <Button size='sm' variant='danger' onClick={clearSlot}>
-            <UserMinus size={14} /> 从此位置移除
+            <UserMinus size={14} /> {tr('从此位置移除')}
           </Button>
         ) : null}
       </div>
 
       <p className='mb-3 text-[11px] leading-relaxed text-txt-muted'>
-        按每张卡牌在当前等级、当前{role ? ROLE_LABEL[role] : '位置'}下的适配度排序。同一名选手不能同时占据两个位置，不同赛季的版本视为同一名选手。
+        {tr('按每张卡牌在当前等级、当前')}{role ? tr(ROLE_LABEL[role]) : tr('位置')}{tr('下的适配度排序。同一名选手不能同时占据两个位置，不同赛季的版本视为同一名选手。')}
       </p>
 
       {rows.length === 0 ? (
         <EmptyState
-          title={cards.length === 0 ? '你的收藏是空的' : '没有符合条件的卡牌'}
-          hint={cards.length === 0 ? '开启卡包签下第一位选手，然后组建阵容。' : '清空搜索框即可看到全部收藏。'}
+          title={cards.length === 0 ? tr('你的收藏是空的') : tr('没有符合条件的卡牌')}
+          hint={cards.length === 0 ? tr('开启卡包签下第一位选手，然后组建阵容。') : tr('清空搜索框即可看到全部收藏。')}
         />
       ) : (
         <div className='max-h-[58vh] space-y-1.5 overflow-y-auto pr-1'>
@@ -166,7 +168,7 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
                     </span>
                   </span>
                   <span className='mt-0.5 block text-[10px] uppercase tracking-wider text-txt-muted'>
-                    {ROLE_LABEL[row.template.primaryRole]} · {row.card.level} 级
+                    {tr(ROLE_LABEL[row.template.primaryRole])} · {row.card.level} {tr('级')}
                   </span>
                 </span>
                 <span className='hidden w-28 shrink-0 sm:block'>
@@ -182,7 +184,7 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
                 {row.copies > 1 ? (
                   <span className='shrink-0 rounded bg-white/10 px-1 text-[10px] font-semibold text-txt-muted'>×{row.copies}</span>
                 ) : null}
-                {row.blocked ? <Badge tone='danger'>已上场</Badge> : null}
+                {row.blocked ? <Badge tone='danger'>{tr('已上场')}</Badge> : null}
               </button>
             );
           })}

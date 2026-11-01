@@ -117,7 +117,10 @@ export function translate(lang: Lang, key: string, vars?: Record<string, string 
 
 /** 中文文案直译：有英文词条就换成英文，否则原样返回。 */
 export function tr(zh: string): string {
-  return trPhrase(current, zh);
+  const out = trPhrase(current, zh);
+  if (current !== 'en') return out;
+  // 英文下的标点收口：全角括号/句号换成半角，避免 Rename club（2000 Coins）这种混排
+  return out.replace(/（/g, ' (').replace(/）/g, ')').replace(/。/g, '.');
 }
 
 /** 组件内使用：t('nav.dashboard') */
@@ -128,4 +131,19 @@ export function t(key: string, vars?: Record<string, string | number>): string {
 /** 语言无关的辅助：按当前语言取中文/英文字段 */
 export function pick(zh: string, en: string): string {
   return current === 'en' ? en : zh;
+}
+
+/** engine/data 返回的中文模板句，按模式在渲染期英文化；zh 下原样返回。 */
+export function localizeDynamic(text: string): string {
+  if (current !== 'en') return text;
+  const rules: Array<[RegExp, string]> = [
+    [/^位置 (.+) 指向的卡牌已经不在收藏里了。$/, 'The card assigned to $1 is no longer in your collection.'],
+    [/^(.+) 被重复上场——不允许。$/, '$1 is already on the field — duplicates are not allowed.'],
+    [/^还差 (\d+) 人才能开赛$/, 'Need $1 more players to play'],
+    [/^只填了 (\d+)\/(\d+) 个位置——阵容补齐前无法开赛。$/, 'Only $1/$2 slots filled — finish the lineup before playing.'],
+  ];
+  for (const [re, out] of rules) {
+    if (re.test(text)) return text.replace(re, out).replace(/（/g, ' (').replace(/）/g, ')').replace(/。/g, '.');
+  }
+  return tr(text);
 }

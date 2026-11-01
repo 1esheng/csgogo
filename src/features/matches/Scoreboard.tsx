@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { ChevronDown, ChevronUp, Crown } from 'lucide-react';
 import type { MatchStatLine } from '@/types';
 import { Badge } from '@/components/ui';
+import { tr } from '@/i18n';
 import { sideTone } from './matchUi';
 
 type SortKey =
@@ -15,22 +17,26 @@ interface Column {
   hint: string;
 }
 
-const COLUMNS: Column[] = [
-  { key: 'kills', label: 'K', hint: '击杀' },
-  { key: 'deaths', label: 'D', hint: '阵亡' },
-  { key: 'assists', label: 'A', hint: '助攻' },
-  { key: 'adr', label: 'ADR', hint: '每回合平均伤害' },
-  { key: 'kast', label: 'KAST%', hint: '有击杀、助攻、存活或补枪的回合占比' },
-  { key: 'kd', label: 'K/D', hint: '击杀阵亡比' },
-  { key: 'rating', label: '评分', hint: '由 K/D、ADR 与助攻算出的引擎评分' },
-  { key: 'openingKills', label: 'OK', hint: '首杀数' },
-  { key: 'multiKills', label: 'MK', hint: '单回合 2 杀及以上的次数' },
-  { key: 'clutches', label: '1vX', hint: '残局获胜次数' },
-];
+/** Built per render so the header hints follow the active language. */
+function columns(): Column[] {
+  return [
+    { key: 'kills', label: 'K', hint: tr('击杀') },
+    { key: 'deaths', label: 'D', hint: tr('阵亡') },
+    { key: 'assists', label: 'A', hint: tr('助攻') },
+    { key: 'adr', label: 'ADR', hint: tr('每回合平均伤害') },
+    { key: 'kast', label: 'KAST%', hint: tr('有击杀、助攻、存活或补枪的回合占比') },
+    { key: 'kd', label: 'K/D', hint: tr('击杀阵亡比') },
+    { key: 'rating', label: tr('评分'), hint: tr('由 K/D、ADR 与助攻算出的引擎评分') },
+    { key: 'openingKills', label: 'OK', hint: tr('首杀数') },
+    { key: 'multiKills', label: 'MK', hint: tr('单回合 2 杀及以上的次数') },
+    { key: 'clutches', label: '1vX', hint: tr('残局获胜次数') },
+  ];
+}
 
 export function ScoreTable({
   lines, highlightTeamId, mvpId,
 }: { lines: MatchStatLine[]; highlightTeamId?: string; mvpId?: string | null }) {
+  const { tr } = useT();
   const [sortKey, setSortKey] = useState<SortKey>('rating');
   const [dir, setDir] = useState<'asc' | 'desc'>('desc');
 
@@ -60,7 +66,7 @@ export function ScoreTable({
   if (lines.length === 0) {
     return (
       <div className='rounded-xl border border-dashed border-white/10 p-6 text-center text-xs text-txt-muted'>
-        暂无计分板数据 —— 打完一回合后就会填充。
+        {tr('暂无计分板数据 —— 打完一回合后就会填充。')}
       </div>
     );
   }
@@ -74,13 +80,13 @@ export function ScoreTable({
               <button
                 onClick={() => toggle('nickname')}
                 className='focus-ring inline-flex items-center gap-1 rounded hover:text-txt'
-                title='按昵称排序'
+                title={tr('按昵称排序')}
               >
-                选手
+                {tr('选手')}
                 {sortKey === 'nickname' ? (dir === 'asc' ? <ChevronUp size={11} /> : <ChevronDown size={11} />) : null}
               </button>
             </th>
-            {COLUMNS.map((col) => (
+            {columns().map((col) => (
               <th key={col.key} className='px-1.5 py-2 text-right'>
                 <button
                   onClick={() => toggle(col.key)}
@@ -134,7 +140,7 @@ export function ScoreTable({
         </tbody>
       </table>
       <p className='mt-2 px-2 text-[10px] text-txt-muted'>
-        评分、ADR 与 KAST 都由引擎根据模拟事件计算。点击表头即可排序。
+        {tr('评分、ADR 与 KAST 都由引擎根据模拟事件计算。点击表头即可排序。')}
       </p>
     </div>
   );

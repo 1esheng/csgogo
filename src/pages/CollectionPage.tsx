@@ -4,6 +4,7 @@ import { ArrowRight, Package, Users } from 'lucide-react';
 import { Button, EmptyState, Panel, SectionTitle } from '@/components/ui';
 import { PlayerCard } from '@/components/PlayerCard';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { CollectionFiltersBar } from '@/features/collection/CollectionFilters';
 import { CardDetailModal } from '@/features/collection/CardDetailModal';
 import {
@@ -14,6 +15,7 @@ import { ROLE_LABEL } from '@/types';
 import type { CombatRole } from '@/types';
 
 export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}) {
+  const { tr } = useT();
   const navigate = useNavigate();
   const cards = useGameStore((s) => s.cards);
   const squad = useGameStore((s) => s.squad);
@@ -41,23 +43,23 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
   const handleAssign = (role: CombatRole) => {
     if (!selected) return;
     const result = assignSlot(role, selected.instanceId);
-    if (result.ok) toast(selected.nickname + ' 已指派为 ' + ROLE_LABEL[role] + '。', 'success');
-    else toast(result.error ?? '无法指派该卡牌。', 'error');
+    if (result.ok) toast(selected.nickname + ' ' + tr('已指派为') + ' ' + tr(ROLE_LABEL[role]) + tr('。'), 'success');
+    else toast(result.error ?? tr('无法指派该卡牌。'), 'error');
   };
 
   const handleSetIGL = () => {
     if (!selected) return;
     setIGL(selected.instanceId);
-    toast(selected.nickname + ' 已成为队内指挥。', 'success');
+    toast(selected.nickname + ' ' + tr('已成为队内指挥。'), 'success');
   };
 
   return (
     <div className='space-y-5'>
       {embedded ? null : (
       <SectionTitle
-        title='卡册'
-        subtitle={all.length + ' 张卡牌 · ' + uniqueTemplates + ' 名不同选手 · ' + inSquadCount + ' 人在首发'}
-        right={<Button onClick={() => navigate('/packs')}><Package size={15} /> 开启卡包</Button>}
+        title={tr('卡册')}
+        subtitle={all.length + ' ' + tr('张卡牌') + ' · ' + uniqueTemplates + ' ' + tr('名不同选手') + ' · ' + inSquadCount + ' ' + tr('人在首发')}
+        right={<Button onClick={() => navigate('/packs')}><Package size={15} /> {tr('开启卡包')}</Button>}
       />
       )}
 
@@ -67,17 +69,17 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
         all.length === 0 ? (
           <Panel>
             <EmptyState
-              title='卡册还是空的'
-              hint='卡包是签下选手的唯一途径，每次抽取都会立即入库。'
-              action={<Button onClick={() => navigate('/packs')}>前往卡包 <ArrowRight size={14} /></Button>}
+              title={tr('卡册还是空的')}
+              hint={tr('卡包是签下选手的唯一途径，每次抽取都会立即入库。')}
+              action={<Button onClick={() => navigate('/packs')}>{tr('前往卡包')} <ArrowRight size={14} /></Button>}
             />
           </Panel>
         ) : (
           <Panel>
             <EmptyState
-              title='没有符合条件的卡牌'
-              hint='试着放宽搜索词、稀有度、位置或首发筛选。'
-              action={<Button variant='outline' onClick={() => setFilters(DEFAULT_FILTERS)}>重置筛选</Button>}
+              title={tr('没有符合条件的卡牌')}
+              hint={tr('试着放宽搜索词、稀有度、位置或首发筛选。')}
+              action={<Button variant='outline' onClick={() => setFilters(DEFAULT_FILTERS)}>{tr('重置筛选')}</Button>}
             />
           </Panel>
         )
@@ -101,9 +103,9 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
               />
               <div className='flex h-4 items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-txt-muted'>
                 {item.squadRole ? (
-                  <span className='inline-flex items-center gap-1 text-accent'><Users size={10} />{ROLE_LABEL[item.squadRole]}</span>
+                  <span className='inline-flex items-center gap-1 text-accent'><Users size={10} />{tr(ROLE_LABEL[item.squadRole])}</span>
                 ) : (
-                  <span>替补</span>
+                  <span>{tr('替补')}</span>
                 )}
                 {item.isIGL ? <span className='text-accent'>&#183; IGL</span> : null}
               </div>

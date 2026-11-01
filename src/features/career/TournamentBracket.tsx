@@ -1,3 +1,4 @@
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { MapPin } from 'lucide-react';
 import type { Tournament, TournamentMatch } from '@/types';
@@ -10,6 +11,7 @@ import { Badge } from '@/components/ui';
 function TeamRow({
   name, score, won, decided, isPlayer,
 }: { name: string; score: number; won: boolean; decided: boolean; isPlayer: boolean }) {
+  const { tr } = useT();
   return (
     <div
       className={clsx(
@@ -25,7 +27,7 @@ function TeamRow({
       >
         {name}
       </span>
-      {isPlayer ? <Badge tone='accent' className='shrink-0'>我</Badge> : null}
+      {isPlayer ? <Badge tone='accent' className='shrink-0'>{tr('我')}</Badge> : null}
       <span className={clsx('w-6 shrink-0 text-right font-display text-sm font-bold', won && decided ? 'text-accent' : 'text-txt-muted')}>
         {decided ? score : '–'}
       </span>
@@ -34,6 +36,7 @@ function TeamRow({
 }
 
 function MatchCard({ tournament, match }: { tournament: Tournament; match: TournamentMatch }) {
+  const { tr } = useT();
   const a = tournament.teams.find((t) => t.id === match.aId);
   const b = tournament.teams.find((t) => t.id === match.bId);
   const decided = match.winnerId !== null;
@@ -41,8 +44,8 @@ function MatchCard({ tournament, match }: { tournament: Tournament; match: Tourn
   return (
     <div className='rounded-xl border border-white/8 bg-ink-700/40 p-2 transition-colors duration-150 hover:border-accent/30'>
       <div className='space-y-1'>
-        <TeamRow name={a?.name ?? '待定'} score={match.scoreA} won={match.winnerId === match.aId} decided={decided} isPlayer={Boolean(a?.isPlayer)} />
-        <TeamRow name={b?.name ?? '待定'} score={match.scoreB} won={match.winnerId === match.bId} decided={decided} isPlayer={Boolean(b?.isPlayer)} />
+        <TeamRow name={a?.name ?? tr('待定')} score={match.scoreA} won={match.winnerId === match.aId} decided={decided} isPlayer={Boolean(a?.isPlayer)} />
+        <TeamRow name={b?.name ?? tr('待定')} score={match.scoreB} won={match.winnerId === match.bId} decided={decided} isPlayer={Boolean(b?.isPlayer)} />
       </div>
       <div className='mt-1.5 flex items-center gap-1 px-1 text-[10px] uppercase tracking-wider text-txt-muted'>
         <MapPin size={10} /> {mapName}
@@ -61,6 +64,7 @@ function EmptySlot({ label }: { label: string }) {
 
 /** 单败淘汰对阵表（8 队或 16 队），全部读自存档里的赛事数据。 */
 export function TournamentBracket({ tournament }: { tournament: Tournament }) {
+  const { tr } = useT();
   const size = tournament.size || tournament.teams.length || 8;
   const total = tournamentRounds(tournament);
   const rounds = Array.from({ length: total }, (_x, i) => i + 1);
@@ -74,7 +78,7 @@ export function TournamentBracket({ tournament }: { tournament: Tournament }) {
         return (
           <div key={round} className='flex flex-col gap-2'>
             <div className='label-xs mb-1 flex items-center justify-between'>
-              <span>{tournamentRoundName(round, size)}</span>
+              <span>{tr(tournamentRoundName(round, size))}</span>
               <span className='text-txt-muted/70'>{matches.filter((m) => m.winnerId).length}/{slotCount}</span>
             </div>
             <div className={clsx('flex flex-1 flex-col gap-2', round > 1 && 'lg:justify-center')}>
@@ -83,7 +87,7 @@ export function TournamentBracket({ tournament }: { tournament: Tournament }) {
                 return match ? (
                   <MatchCard key={match.id} tournament={tournament} match={match} />
                 ) : (
-                  <EmptySlot key={round + '-' + index} label='等待结果' />
+                  <EmptySlot key={round + '-' + index} label={tr('等待结果')} />
                 );
               })}
             </div>

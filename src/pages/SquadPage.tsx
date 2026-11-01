@@ -7,6 +7,7 @@ import type { PlayerCardView } from '@/components/PlayerCard';
 import { PlayerCard } from '@/components/PlayerCard';
 import { Button, EmptyState, Panel, SectionTitle } from '@/components/ui';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { roleFit } from '@/engine/rating';
 import { CardPicker } from '@/features/squad/CardPicker';
 import { SlotTile } from '@/features/squad/SlotTile';
@@ -22,6 +23,7 @@ interface BenchEntry {
 }
 
 export function SquadPage() {
+  const { tr } = useT();
   const cards = useGameStore((s) => s.cards);
   const squad = useGameStore((s) => s.squad);
   const customTemplates = useGameStore((s) => s.customTemplates);
@@ -90,7 +92,7 @@ export function SquadPage() {
   const iglFielded = squad.igl !== null && COMBAT_ROLES.some((role) => squad.slots[role] === squad.igl);
 
   const startBlockedReason = breakdown.filled < 5
-    ? '还需补齐 ' + (5 - breakdown.filled) + ' 个位置才能开赛。'
+    ? tr('还需补齐') + ' ' + (5 - breakdown.filled) + ' ' + tr('个位置才能开赛。')
     : null;
 
   function handleDrop(role: CombatRole) {
@@ -104,11 +106,11 @@ export function SquadPage() {
     })();
     const result = assignSlot(role, instanceId);
     if (!result.ok) {
-      toast(result.error ?? '这张卡牌无法胜任该位置。', 'error');
+      toast(result.error ?? tr('这张卡牌无法胜任该位置。'), 'error');
       return;
     }
     toast(
-      (template ? playerMap[template.playerId]?.nickname ?? template.playerId : '选手') + ' 已就位：' + ROLE_LABEL[role] + '。',
+      (template ? playerMap[template.playerId]?.nickname ?? template.playerId : tr('选手')) + tr(' 已就位：') + tr(ROLE_LABEL[role]) + tr('。'),
       'success',
     );
   }
@@ -119,7 +121,7 @@ export function SquadPage() {
     if (!template) return;
     const open = COMBAT_ROLES.filter((role) => !squad.slots[role]);
     if (open.length === 0) {
-      toast('阵容已满——点击某个位置即可替换选手。', 'error');
+      toast(tr('阵容已满——点击某个位置即可替换选手。'), 'error');
       return;
     }
     const best = open.reduce((current, candidate) => (
@@ -127,21 +129,21 @@ export function SquadPage() {
     ), open[0]);
     const result = assignSlot(best, instanceId);
     if (!result.ok) {
-      toast(result.error ?? '这张卡牌无法胜任该位置。', 'error');
+      toast(result.error ?? tr('这张卡牌无法胜任该位置。'), 'error');
       return;
     }
-    toast((playerMap[template.playerId]?.nickname ?? template.playerId) + ' 进入首发 · ' + ROLE_LABEL[best] + '。', 'success');
+    toast((playerMap[template.playerId]?.nickname ?? template.playerId) + tr(' 进入首发 · ') + tr(ROLE_LABEL[best]) + tr('。'), 'success');
   }
 
   function clearLineup() {
     const filled = COMBAT_ROLES.some((role) => squad.slots[role] !== null);
     if (!filled) {
-      toast('阵容已经是空的。', 'info');
+      toast(tr('阵容已经是空的。'), 'info');
       return;
     }
     COMBAT_ROLES.forEach((role) => { assignSlot(role, null); });
     if (squad.igl) setIGL(null);
-    toast('阵容已清空。', 'info');
+    toast(tr('阵容已清空。'), 'info');
   }
 
   function clearSlot(role: CombatRole, wasIGL: boolean) {
@@ -152,15 +154,15 @@ export function SquadPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='阵容'
-        subtitle='五个位置，一套体系。把卡牌拖到位置上，或点击位置从收藏中挑选。'
+        title={tr('阵容')}
+        subtitle={tr('五个位置，一套体系。把卡牌拖到位置上，或点击位置从收藏中挑选。')}
         right={(
           <div className='flex flex-wrap items-center gap-2'>
             <Button size='sm' variant='outline' onClick={autoFillSquad}>
-              <Wand2 size={14} /> 自动填充
+              <Wand2 size={14} /> {tr('自动填充')}
             </Button>
             <Button size='sm' variant='ghost' onClick={clearLineup}>
-              <Eraser size={14} /> 全部清空
+              <Eraser size={14} /> {tr('全部清空')}
             </Button>
           </div>
         )}
@@ -170,9 +172,9 @@ export function SquadPage() {
         <div className='space-y-5'>
           <Panel>
             <div className='mb-3 flex flex-wrap items-center justify-between gap-2'>
-              <div className='label-xs'>首发五人</div>
+              <div className='label-xs'>{tr('首发五人')}</div>
               <div className='text-[11px] text-txt-muted'>
-                {breakdown.filled}/5 已就位 · 平均适配 {breakdown.averageFit}%
+                {breakdown.filled}/5 {tr('已就位')} · {tr('平均适配')} {breakdown.averageFit}%
               </div>
             </div>
             <div className='space-y-2'>
@@ -201,15 +203,15 @@ export function SquadPage() {
 
           <Panel>
             <div className='mb-3 flex flex-wrap items-center justify-between gap-2'>
-              <div className='label-xs'>替补席 · {bench.length} 名可用</div>
+              <div className='label-xs'>{tr('替补席')} · {bench.length} {tr('名可用')}</div>
               <div className='flex items-center gap-1 text-[11px] text-txt-muted'>
-                <MousePointerClick size={12} /> 拖到位置上，或点击自动分配
+                <MousePointerClick size={12} /> {tr('拖到位置上，或点击自动分配')}
               </div>
             </div>
             {bench.length === 0 ? (
               <EmptyState
-                title='没有替补卡牌'
-                hint='你拥有的卡牌都已上场，或收藏还是空的。开启卡包签下更多选手。'
+                title={tr('没有替补卡牌')}
+                hint={tr('你拥有的卡牌都已上场，或收藏还是空的。开启卡包签下更多选手。')}
               />
             ) : (
               <div className='no-scrollbar flex gap-3 overflow-x-auto pb-2'>
@@ -233,7 +235,7 @@ export function SquadPage() {
                         ? `×${entry.copies}`
                         : entry.template.primaryRole === entry.template.secondaryRole
                           ? undefined
-                          : ROLE_LABEL[entry.template.secondaryRole]}
+                          : tr(ROLE_LABEL[entry.template.secondaryRole])}
                     />
                   </div>
                 ))}

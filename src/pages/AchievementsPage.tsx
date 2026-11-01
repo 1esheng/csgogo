@@ -33,8 +33,8 @@ export function AchievementsPage() {
     <div className='space-y-5'>
       <SectionTitle
         title={t('page.achievements.title')}
-        subtitle={'共 ' + rows.length + ' 个里程碑 · 已领取 ' + claimedCount + ' 个'}
-        right={<Badge tone={claimable > 0 ? 'accent' : 'muted'}>{claimable > 0 ? claimable + ' 个可领取' : '暂无待领取'}</Badge>}
+        subtitle={tr('共 ') + rows.length + tr(' 个里程碑 · 已领取 ') + claimedCount + tr(' 个')}
+        right={<Badge tone={claimable > 0 ? 'accent' : 'muted'}>{claimable > 0 ? claimable + tr(' 个可领取') : tr('暂无待领取')}</Badge>}
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
@@ -85,7 +85,7 @@ export function AchievementsPage() {
                     if (!res.ok && res.error) toast(res.error, 'error');
                   }}
                 >
-                  {row.done ? '领取' : '未达成'}
+                  {row.done ? tr('领取') : tr('未达成')}
                 </Button>
               )}
             </div>

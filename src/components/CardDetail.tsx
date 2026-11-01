@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT } from '@/hooks/useLang';
 import { ATTRIBUTE_KEYS, ATTRIBUTE_LABEL, ALL_ROLES, MAP_IDS } from '@/types';
 import type { CardTemplate } from '@/types';
 import { LEVEL_CONFIG, RARITY_TABLE } from '@/data/config';
@@ -11,6 +12,7 @@ import { Badge, Divider, Progress } from '@/components/ui';
 import { Star } from 'lucide-react';
 
 export function AttributeRadar({ values, labels, size = 244 }: { values: number[]; labels?: string[]; size?: number }) {
+  const { tr } = useT();
   const cx = size / 2;
   const cy = size / 2;
   const radius = size / 2 - 46;
@@ -77,6 +79,7 @@ export function CardDetailBody({
   xpLabel: string;
   actions?: React.ReactNode;
 }) {
+  const { tr } = useT();
   const rarity = RARITY_TABLE[template.rarity];
   const credit = avatarCredit(template.playerId);
   const bio = playerBio(template.playerId);
@@ -107,18 +110,18 @@ export function CardDetailBody({
           <div className='mt-3 font-display text-2xl font-black'>{nickname}</div>
           <div className='text-xs tracking-wider text-txt-muted'>
             {template.season} {retired ? '生涯终章' : '赛季'}
-            {retired ? <Badge tone='danger' className='ml-2'>已退役</Badge> : null}
+            {retired ? <Badge tone='danger' className='ml-2'>{tr('已退役')}</Badge> : null}
           </div>
           {credit?.source ? (
             <div className='mt-1 text-[10px] text-txt-muted'>头像来源：{credit.source}</div>
           ) : null}
           <div className='mt-4 flex items-end justify-between'>
             <div>
-              <div className='label-xs'>综合评分</div>
+              <div className='label-xs'>{tr('综合评分')}</div>
               <div className='font-display text-4xl font-black' style={{ color: rarity.color }}>{ovr}</div>
             </div>
             <div className='text-right'>
-              <div className='label-xs'>等级 / 星级</div>
+              <div className='label-xs'>{tr('等级 / 星级')}</div>
               <div className='font-display text-2xl font-bold'>{level}/{LEVEL_CONFIG.maxLevel}</div>
               <div className='mt-0.5 flex items-center justify-end gap-0.5 text-accent'>
                 {Array.from({ length: Math.max(1, Math.min(5, stars)) }).map((_x, i) => (
@@ -129,21 +132,21 @@ export function CardDetailBody({
             </div>
           </div>
           <div className='mt-3 space-y-1 rounded-lg bg-black/25 p-2 text-[11px] text-txt-muted'>
-            <div className='flex justify-between'><span>个人能力 × 0.62</span><span className='font-semibold text-txt'>{breakdown.attributes}</span></div>
-            <div className='flex justify-between'><span>位置熟练 × 0.20</span><span className='font-semibold text-txt'>{breakdown.proficiency}</span></div>
-            <div className='flex justify-between'><span>指挥与团队 × 0.18</span><span className='font-semibold text-accent'>{breakdown.team}</span></div>
+            <div className='flex justify-between'><span>{tr('个人能力 × 0.62')}</span><span className='font-semibold text-txt'>{breakdown.attributes}</span></div>
+            <div className='flex justify-between'><span>{tr('位置熟练 × 0.20')}</span><span className='font-semibold text-txt'>{breakdown.proficiency}</span></div>
+            <div className='flex justify-between'><span>{tr('指挥与团队 × 0.18')}</span><span className='font-semibold text-accent'>{breakdown.team}</span></div>
           </div>
-          <div className='mt-3'><Progress value={xpPct * 100} label='卡牌经验' /></div>
+          <div className='mt-3'><Progress value={xpPct * 100} label={tr('卡牌经验')} /></div>
           <div className='mt-1 text-[11px] text-txt-muted'>{xpLabel}</div>
         </div>
         {bio ? (
           <div className='mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3'>
-            <div className='label-xs'>生涯简介</div>
+            <div className='label-xs'>{tr('生涯简介')}</div>
             <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{bio}</p>
           </div>
         ) : null}
         <div className='mt-4 rounded-xl border border-accent/20 bg-accent/5 p-3'>
-          <div className='label-xs text-accent'>天赋技能</div>
+          <div className='label-xs text-accent'>{tr('天赋技能')}</div>
           <div className='mt-1 font-display text-sm font-bold'>{template.skill.name}</div>
           <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{template.skill.description}</p>
         </div>
@@ -152,15 +155,15 @@ export function CardDetailBody({
       <div className='space-y-5'>
         <div className='grid gap-4 sm:grid-cols-2'>
           <div className='surface p-4'>
-            <div className='label-xs mb-1'>能力雷达</div>
+            <div className='label-xs mb-1'>{tr('能力雷达')}</div>
             <AttributeRadar values={ATTRIBUTE_KEYS.map((k) => liveAttrs[k])} labels={ATTRIBUTE_KEYS.map((k) => ATTRIBUTE_LABEL[k])} />
           </div>
           <div className='surface space-y-2 p-4'>
-            <div className='label-xs'>基础能力</div>
+            <div className='label-xs'>{tr('基础能力')}</div>
             {ATTRIBUTE_KEYS.map((key) => (
               <div key={key}>
                 <div className='flex justify-between text-xs'>
-                  <span className='text-txt-muted'>{ATTRIBUTE_LABEL[key]}</span>
+                  <span className='text-txt-muted'>{tr(ATTRIBUTE_LABEL[key])}</span>
                   <span className='font-semibold text-txt'>{liveAttrs[key]}</span>
                 </div>
                 <Progress value={liveAttrs[key]} max={attrMax} height='h-1.5' tone={liveAttrs[key] >= attrMax * 0.9 ? 'accent' : 'blue'} />
@@ -171,7 +174,7 @@ export function CardDetailBody({
         <Divider />
         <div className='grid gap-4 sm:grid-cols-2'>
           <div>
-            <div className='label-xs mb-2'>位置熟练度</div>
+            <div className='label-xs mb-2'>{tr('位置熟练度')}</div>
             <div className='space-y-1.5'>
               {ALL_ROLES.map((role) => (
                 <div key={role} className='flex items-center gap-2'>
@@ -183,7 +186,7 @@ export function CardDetailBody({
             </div>
           </div>
           <div>
-            <div className='label-xs mb-2'>地图适应度</div>
+            <div className='label-xs mb-2'>{tr('地图适应度')}</div>
             <div className='space-y-1.5'>
               {MAP_IDS.map((id) => (
                 <div key={id} className='flex items-center gap-2'>

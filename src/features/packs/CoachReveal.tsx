@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import type { CoachPull } from '@/types';
@@ -9,6 +10,7 @@ import { Badge, Button, Panel } from '@/components/ui';
 export function CoachReveal({
   results, skipAnimation = false, onClose,
 }: { results: CoachPull[]; skipAnimation?: boolean; onClose: () => void }) {
+  const { tr } = useT();
   const newCount = results.filter((r) => r.isNew).length;
   const duplicates = results.length - newCount;
   const xp = results.reduce((sum, r) => sum + r.xpGained, 0);
@@ -18,14 +20,14 @@ export function CoachReveal({
       <div className='pointer-events-none absolute inset-0 grid-noise opacity-70' />
       <div className='relative flex flex-wrap items-center justify-between gap-3'>
         <div>
-          <div className='label-xs'>开包结果</div>
+          <div className='label-xs'>{tr('开包结果')}</div>
           <div className='font-display text-xl font-bold text-txt'>
             {results.length} 位教练 · 新签 {newCount} · 重复 {duplicates}
           </div>
         </div>
         <div className='flex items-center gap-2'>
           {duplicates > 0 ? <Badge tone='success'>执教经验 +{xp}</Badge> : null}
-          <Button variant='outline' onClick={onClose}>继续 <ArrowRight size={14} /></Button>
+          <Button variant='outline' onClick={onClose}>{tr('继续')} <ArrowRight size={14} /></Button>
         </div>
       </div>
 
@@ -56,7 +58,7 @@ export function CoachReveal({
                     result.isNew ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-txt-muted',
                   )}
                 >
-                  {result.isNew ? '新教练' : '重复 · +25 经验'}
+                  {result.isNew ? tr('新教练') : tr('重复 · +25 经验')}
                 </span>
               </div>
               <div className='mt-2 flex items-center gap-2'>
@@ -72,8 +74,8 @@ export function CoachReveal({
                 </div>
               </div>
               <div className='mt-2 border-t border-white/10 pt-1.5 text-[10px] text-txt-muted'>
-                执教能力 <span className='font-semibold' style={{ color: meta.color }}>{info.ability}</span>
-                {' · '}{result.isNew ? '已进入教练组' : '执教经验 +' + result.xpGained}
+                {tr('执教能力')} <span className='font-semibold' style={{ color: meta.color }}>{info.ability}</span>
+                {' · '}{result.isNew ? tr('已进入教练组') : tr('执教经验 +') + result.xpGained}
               </div>
             </div>
           );
@@ -81,7 +83,7 @@ export function CoachReveal({
       </div>
 
       <div className='relative mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-3 text-[11px] leading-relaxed text-txt-muted'>
-        <span className='inline-flex items-center gap-1 font-semibold text-accent'><Sparkles size={11} /> 教练抽卡</span>{' '}
+        <span className='inline-flex items-center gap-1 font-semibold text-accent'><Sparkles size={11} /> {tr('教练抽卡')}</span>{' '}
         与选手包完全独立：重复教练转为执教经验（每次 +25），可在「教练组」页面任命为主教练，给全队带来属性加成。
       </div>
     </Panel>

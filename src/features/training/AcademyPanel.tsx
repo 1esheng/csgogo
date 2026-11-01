@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useT } from '@/hooks/useLang';
 import { ArrowUpRight, GraduationCap, Radar, ShieldAlert, Trash2 } from 'lucide-react';
 import type { Prospect } from '@/types';
 import { ROLE_LABEL } from '@/types';
@@ -16,6 +17,7 @@ function ProspectCard({
   onRelease: () => void;
   onConfirm: () => void;
 }) {
+  const { tr } = useT();
   return (
     <div className='surface-raised flex flex-col gap-2.5 p-3'>
       <div className='flex items-start justify-between gap-2'>
@@ -26,14 +28,14 @@ function ProspectCard({
           <div className='min-w-0'>
             <div className='truncate font-display text-sm font-bold text-txt'>{prospect.nickname}</div>
             <div className='text-[10px] uppercase tracking-wider text-txt-muted'>
-              {prospect.countryCode} · {prospect.age} 岁 · {ROLE_LABEL[prospect.primaryRole]}
+              {prospect.countryCode} · {prospect.age} {tr('岁')} · {tr(ROLE_LABEL[prospect.primaryRole])}
             </div>
           </div>
         </div>
         <div className='shrink-0 text-right'>
           <div className='font-display text-xl font-black leading-none text-accent'>{prospect.ovr}</div>
           <div className='text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>
-            潜力 {prospect.potential}
+            {tr('潜力')} {prospect.potential}
           </div>
         </div>
       </div>
@@ -41,38 +43,39 @@ function ProspectCard({
       <div>
         <Progress value={prospect.ovr} max={Math.max(1, prospect.potential)} tone='accent' height='h-1.5' />
         <div className='mt-1 flex items-center justify-between text-[10px] text-txt-muted'>
-          <span>当前 {prospect.ovr} / 上限 {prospect.potential}</span>
-          <span>成长倍率 ×{prospect.growthRate.toFixed(2)}</span>
+          <span>{tr('当前')} {prospect.ovr} / {tr('上限')} {prospect.potential}</span>
+          <span>{tr('成长倍率')} ×{prospect.growthRate.toFixed(2)}</span>
         </div>
       </div>
 
       <div className='flex flex-wrap gap-1'>
         {prospect.traits.map((trait) => (
-          <Badge key={trait} tone='neutral'>{trait}</Badge>
+          <Badge key={trait} tone='neutral'>{tr(trait)}</Badge>
         ))}
-        <Badge tone='muted'>{ROLE_LABEL[prospect.secondaryRole]} 副位</Badge>
+        <Badge tone='muted'>{tr(ROLE_LABEL[prospect.secondaryRole])} {tr('副位')}</Badge>
       </div>
 
       <div className='mt-auto flex items-center gap-2'>
         <Button size='sm' className='flex-1' onClick={onPromote}>
-          <ArrowUpRight size={13} /> 提拔
+          <ArrowUpRight size={13} /> {tr('提拔')}
         </Button>
         {confirming ? (
           <Button size='sm' variant='danger' onClick={onConfirm}>
-            <Trash2 size={13} /> 确认
+            <Trash2 size={13} /> {tr('确认')}
           </Button>
         ) : (
-          <Button size='sm' variant='outline' onClick={onRelease} title='从青训营释放'>
-            释放
+          <Button size='sm' variant='outline' onClick={onRelease} title={tr('从青训营释放')}>
+            {tr('释放')}
           </Button>
         )}
       </div>
-      <div className='text-[10px] text-txt-muted'>发掘于 {relativeTime(prospect.createdAt)}</div>
+      <div className='text-[10px] text-txt-muted'>{tr('发掘于')} {relativeTime(prospect.createdAt)}</div>
     </div>
   );
 }
 
 export function AcademyPanel() {
+  const { tr } = useT();
   const prospects = useGameStore((s) => s.prospects);
   const coins = useGameStore((s) => s.club.coins);
   const scoutProspect = useGameStore((s) => s.scoutProspect);
@@ -85,33 +88,33 @@ export function AcademyPanel() {
   const promoted = prospects.filter((p) => p.status === 'promoted');
   const full = academy.length >= PROSPECT_CONFIG.maxProspects;
   const affordable = coins >= PROSPECT_CONFIG.scoutCost;
-  const scoutBlurb = '一次球探花费 ' + PROSPECT_CONFIG.scoutCost
-    + ' 金币，带回 1 名 16-19 岁的待签约选手，综合 '
+  const scoutBlurb = tr('一次球探花费 ') + PROSPECT_CONFIG.scoutCost
+    + tr(' 金币，带回 1 名 16-19 岁的待签约选手，综合 ')
     + PROSPECT_CONFIG.minOvr + '-' + PROSPECT_CONFIG.maxOvr
-    + '，潜力上限 ' + PROSPECT_CONFIG.minPotential + '-' + PROSPECT_CONFIG.maxPotential
-    + '。青训营容量为 ' + PROSPECT_CONFIG.maxProspects + ' 名选手。';
+    + tr('，潜力上限 ') + PROSPECT_CONFIG.minPotential + '-' + PROSPECT_CONFIG.maxPotential
+    + tr('。青训营容量为 ') + PROSPECT_CONFIG.maxProspects + tr(' 名选手。');
 
   const blockedReason = full
-    ? '青训营已满（' + academy.length + '/' + PROSPECT_CONFIG.maxProspects + '）——请先提拔或释放一名选手。'
+    ? tr('青训营已满（') + academy.length + '/' + PROSPECT_CONFIG.maxProspects + tr('）——请先提拔或释放一名选手。')
     : !affordable
-      ? '需要 ' + PROSPECT_CONFIG.scoutCost + ' 金币才能派出球探。'
+      ? tr('需要 ') + PROSPECT_CONFIG.scoutCost + tr(' 金币才能派出球探。')
       : null;
 
   function scout() {
     const result = scoutProspect();
-    if (!result.ok) toast(result.error ?? '球探行动失败。', 'error');
+    if (!result.ok) toast(result.error ?? tr('球探行动失败。'), 'error');
   }
 
   function promote(id: string) {
     const result = promoteProspect(id);
-    if (!result.ok) toast(result.error ?? '提拔失败。', 'error');
+    if (!result.ok) toast(result.error ?? tr('提拔失败。'), 'error');
     else setConfirmId(null);
   }
 
   function release(id: string) {
     releaseProspect(id);
     setConfirmId(null);
-    toast('该选手已被移出青训营。', 'info');
+    toast(tr('该选手已被移出青训营。'), 'info');
   }
 
   return (
@@ -121,19 +124,19 @@ export function AcademyPanel() {
           <div className='min-w-0'>
             <div className='flex items-center gap-1.5'>
               <Radar size={14} className='text-accent' />
-              <span className='label-xs'>球探网络</span>
+              <span className='label-xs'>{tr('球探网络')}</span>
             </div>
             <p className='mt-1.5 max-w-xl text-[12px] leading-relaxed text-txt-muted'>{scoutBlurb}</p>
             <div className='mt-2 flex flex-wrap items-center gap-2'>
               <Badge tone={full ? 'danger' : 'neutral'}>
-                青训营 {academy.length}/{PROSPECT_CONFIG.maxProspects}
+                {tr('青训营')} {academy.length}/{PROSPECT_CONFIG.maxProspects}
               </Badge>
-              <Badge tone='muted'>花费 {PROSPECT_CONFIG.scoutCost}</Badge>
+              <Badge tone='muted'>{tr('花费')} {PROSPECT_CONFIG.scoutCost}</Badge>
             </div>
           </div>
           <div className='flex flex-col items-end gap-1'>
-            <Button disabled={blockedReason !== null} title={blockedReason ?? '派出球探'} onClick={scout}>
-              <Radar size={14} /> 派遣球探
+            <Button disabled={blockedReason !== null} title={blockedReason ?? tr('派出球探')} onClick={scout}>
+              <Radar size={14} /> {tr('派遣球探')}
             </Button>
             {blockedReason ? <span className='max-w-[240px] text-right text-[10px] text-txt-muted'>{blockedReason}</span> : null}
           </div>
@@ -143,8 +146,8 @@ export function AcademyPanel() {
       {academy.length === 0 ? (
         <Panel>
           <EmptyState
-            title='青训营里还没有选手'
-            hint='派出球探去寻找年轻选手。提拔后的选手会以收藏卡牌的形式进入你的收藏。'
+            title={tr('青训营里还没有选手')}
+            hint={tr('派出球探去寻找年轻选手。提拔后的选手会以收藏卡牌的形式进入你的收藏。')}
           />
         </Panel>
       ) : (
@@ -166,14 +169,14 @@ export function AcademyPanel() {
         <Panel>
           <div className='mb-2 flex items-center gap-1.5'>
             <GraduationCap size={13} className='text-accent' />
-            <span className='label-xs'>已毕业入队 · {promoted.length}</span>
+            <span className='label-xs'>{tr('已毕业入队')} · {promoted.length}</span>
           </div>
           <ul className='space-y-1'>
             {promoted.map((prospect) => (
               <li key={prospect.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-ink-900/50 px-2.5 py-1.5'>
                 <span className='min-w-0 flex-1 truncate text-[12px] text-txt'>{prospect.nickname}</span>
-                <span className='text-[10px] uppercase tracking-wider text-txt-muted'>{ROLE_LABEL[prospect.primaryRole]}</span>
-                <Badge tone='success'>已入收藏</Badge>
+                <span className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_LABEL[prospect.primaryRole])}</span>
+                <Badge tone='success'>{tr('已入收藏')}</Badge>
               </li>
             ))}
           </ul>
@@ -184,11 +187,11 @@ export function AcademyPanel() {
         <div className='flex items-start gap-2'>
           <ShieldAlert size={14} className='mt-0.5 shrink-0 text-accent' />
           <div className='space-y-1 text-[11px] leading-relaxed text-txt-muted'>
-            <p className='font-semibold uppercase tracking-wider text-accent'>潜力是上限，不是保证</p>
+            <p className='font-semibold uppercase tracking-wider text-accent'>{tr('潜力是上限，不是保证')}</p>
             <p>
-              球探给出的潜力数值是这名选手能达到的上限，提拔并不会直接把潜力兑现。提拔后的卡牌保留自己的成长倍率，因此永久属性点累积缓慢，并且受等级系统限制（5 级、8 点基础点、每项属性 99）——这就是为什么没有任何卡牌可以单纯靠升级刷到 99。
+              {tr('球探给出的潜力数值是这名选手能达到的上限，提拔并不会直接把潜力兑现。提拔后的卡牌保留自己的成长倍率，因此永久属性点累积缓慢，并且受等级系统限制（5 级、8 点基础点、每项属性 99）——这就是为什么没有任何卡牌可以单纯靠升级刷到 99。')}
             </p>
-            <p>被释放的选手会永久移出青训营，无法找回。</p>
+            <p>{tr('被释放的选手会永久移出青训营，无法找回。')}</p>
           </div>
         </div>
       </Panel>

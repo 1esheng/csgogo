@@ -1,3 +1,4 @@
+import { useT } from '@/hooks/useLang';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft, Coins, Crown, History, RotateCcw, Star, TrendingUp, Trophy } from 'lucide-react';
@@ -8,6 +9,7 @@ import { MODE_LABEL } from '@/features/career/RecordDetail';
 import { ScoreTable } from './Scoreboard';
 
 export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: () => void }) {
+  const { pick, tr } = useT();
   const navigate = useNavigate();
   const map = MAPS[summary.mapId];
   const mvp = summary.mvp;
@@ -21,22 +23,22 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
         <div className='flex flex-wrap items-center justify-between gap-4'>
           <div className='min-w-0'>
             <div className='flex items-center gap-2'>
-              <Badge tone={summary.won ? 'accent' : 'danger'}>{summary.won ? '胜利' : '失利'}</Badge>
+              <Badge tone={summary.won ? 'accent' : 'danger'}>{summary.won ? tr('胜利') : tr('失利')}</Badge>
               <Badge tone='muted'>{MODE_LABEL[summary.mode]}</Badge>
-              <Badge tone='muted'>{summary.roundsPlayed} 回合</Badge>
+              <Badge tone='muted'>{pick(summary.roundsPlayed + ' 回合', summary.roundsPlayed + ' rounds')}</Badge>
             </div>
             <h2 className={clsx('mt-2 font-display text-3xl font-bold tracking-tight', summary.won ? 'text-accent' : 'text-danger')}>
-              {summary.won ? '比赛获胜' : '比赛失利'}
+              {summary.won ? tr('比赛获胜') : tr('比赛失利')}
             </h2>
             <div className='mt-1 text-sm text-txt-muted'>
-              {summary.teamName} 对阵 {summary.opponentName} · {map ? map.name : summary.mapId}
+              {summary.teamName}{tr(' 对阵 ')}{summary.opponentName}{tr(' · ')}{map ? map.name : summary.mapId}
             </div>
             <div className='mt-1 text-[11px] text-txt-muted'>
-              比赛时间 {played.toLocaleDateString()} {played.toLocaleTimeString()}
+              {tr('比赛时间 ')}{played.toLocaleDateString()}{' '}{played.toLocaleTimeString()}
             </div>
           </div>
           <div className='text-right'>
-            <div className='label-xs'>最终比分</div>
+            <div className='label-xs'>{tr('最终比分')}</div>
             <div className='font-display text-5xl font-bold leading-none tracking-tight'>
               <span className={summary.won ? 'text-accent' : 'text-txt'}>{summary.scoreFor}</span>
               <span className='mx-1.5 text-2xl text-txt-muted'>:</span>
@@ -45,12 +47,12 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
           </div>
         </div>
         <div className='mt-4 grid gap-2 sm:grid-cols-3'>
-          <StatTile label='获得金币' value={'+' + summary.coins} icon={<Coins size={18} />} tone='accent' />
-          <StatTile label='战队经验' value={'+' + summary.xp} icon={<TrendingUp size={18} />} />
+          <StatTile label={tr('获得金币')} value={'+' + summary.coins} icon={<Coins size={18} />} tone='accent' />
+          <StatTile label={tr('战队经验')} value={'+' + summary.xp} icon={<TrendingUp size={18} />} />
           <StatTile
             label='MVP'
             value={mvp ? mvp.nickname : '—'}
-            hint={mvp ? '评分 ' + mvp.rating.toFixed(2) : '暂无 MVP'}
+            hint={mvp ? tr('评分 ') + mvp.rating.toFixed(2) : tr('暂无 MVP')}
             icon={<Star size={18} />}
           />
         </div>
@@ -58,7 +60,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
 
       <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]'>
         <Panel>
-          <SectionTitle title='计分板' subtitle='下面每个数字都来自这场模拟比赛。' />
+          <SectionTitle title={tr('计分板')} subtitle={tr('下面每个数字都来自这场模拟比赛。')} />
           <ScoreTable
             lines={summary.scoreboard}
             highlightTeamId='player'
@@ -68,7 +70,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title='MVP' subtitle={mvp ? mvp.nickname : '没有突出表现'} />
+            <SectionTitle title='MVP' subtitle={mvp ? mvp.nickname : tr('没有突出表现')} />
             {mvp ? (
               <div className='space-y-3'>
                 <div className='flex items-center justify-between rounded-xl border border-accent/30 bg-accent/10 px-3 py-2'>
@@ -76,7 +78,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
                     <Crown size={16} className='text-accent' />
                     <span className='font-display text-base font-bold text-txt'>{mvp.nickname}</span>
                   </div>
-                  <Badge tone='accent'>评分 {mvp.rating.toFixed(2)}</Badge>
+                  <Badge tone='accent'>{tr('评分 ')}{mvp.rating.toFixed(2)}</Badge>
                 </div>
                 <KeyValue
                   items={[
@@ -84,20 +86,20 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
                     { label: 'ADR', value: mvp.adr.toFixed(1) },
                     { label: 'KAST', value: mvp.kast.toFixed(0) + '%' },
                     { label: 'K/D', value: mvp.kd.toFixed(2) },
-                    { label: '首杀', value: mvp.openingKills + ' / ' + mvp.openingDeaths },
-                    { label: '多杀', value: mvp.multiKills },
+                    { label: tr('首杀'), value: mvp.openingKills + ' / ' + mvp.openingDeaths },
+                    { label: tr('多杀'), value: mvp.multiKills },
                   ]}
                 />
               </div>
             ) : (
-              <p className='text-sm text-txt-muted'>引擎没有为这场比赛记录 MVP。</p>
+              <p className='text-sm text-txt-muted'>{tr('引擎没有为这场比赛记录 MVP。')}</p>
             )}
           </Panel>
 
           <Panel>
-            <SectionTitle title='关键回合' subtitle='引擎标记出的安包、拆包与团灭回合。' right={<Trophy size={16} className='text-txt-muted' />} />
+            <SectionTitle title={tr('关键回合')} subtitle={tr('引擎标记出的安包、拆包与团灭回合。')} right={<Trophy size={16} className='text-txt-muted' />} />
             {summary.keyRounds.length === 0 ? (
-              <p className='text-sm text-txt-muted'>本场比赛没有标记出关键回合。</p>
+              <p className='text-sm text-txt-muted'>{tr('本场比赛没有标记出关键回合。')}</p>
             ) : (
               <ul className='space-y-1.5'>
                 {summary.keyRounds.map((k) => (
@@ -114,15 +116,15 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
 
       <div className='flex flex-wrap justify-end gap-2'>
         <Button variant='outline' onClick={() => navigate('/records')}>
-          <History size={15} /> 查看战绩
+          <History size={15} /> {tr('查看战绩')}
         </Button>
         {fromCareer ? (
           <Button onClick={() => navigate('/career')}>
-            <ArrowLeft size={15} /> 返回生涯
+            <ArrowLeft size={15} /> {tr('返回生涯')}
           </Button>
         ) : (
           <Button onClick={onExit}>
-            <RotateCcw size={15} /> 返回赛前准备
+            <RotateCcw size={15} /> {tr('返回赛前准备')}
           </Button>
         )}
       </div>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { getLang, translate } from '@/i18n';
+import { useT } from '@/hooks/useLang';
 
 interface State { error: Error | null }
 
@@ -19,8 +21,8 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
     if (!this.state.error) return this.props.children;
     return (
       <div className='mx-auto max-w-xl space-y-3 rounded-2xl border border-danger/30 bg-danger/10 p-5 text-sm text-danger'>
-        <div className='font-display text-base font-bold'>这个页面出错了</div>
-        <p className='text-txt-muted'>已捕获异常，存档没有损坏。可以返回总览继续游戏。</p>
+        <div className='font-display text-base font-bold'>{translate(getLang(), '这个页面出错了')}</div>
+        <p className='text-txt-muted'>{translate(getLang(), '已捕获异常，存档没有损坏。可以返回总览继续游戏。')}</p>
         <pre className='max-h-40 overflow-auto rounded-lg bg-black/30 p-2 text-[11px] text-txt-muted'>
           {this.state.error.message}
         </pre>
@@ -29,7 +31,7 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
           className='rounded-lg bg-accent px-3 py-1.5 text-xs font-bold text-ink-950'
           onClick={() => { window.location.hash = '#/'; this.setState({ error: null }); }}
         >
-          返回总览
+          {translate(getLang(), '返回总览')}
         </button>
       </div>
     );

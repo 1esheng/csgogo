@@ -1,3 +1,4 @@
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { Skull, Star } from 'lucide-react';
 import { ROLE_LABEL, type TeamState } from '@/types';
@@ -9,6 +10,7 @@ import { hpTone, hpWidth, moneyLabel, sideTone } from './matchUi';
 export function TeamRoster({
   team, label, compact,
 }: { team: TeamState; label: string; compact?: boolean }) {
+  const { tr } = useT();
   const alive = team.players.filter((p) => p.alive).length;
   const bank = team.players.reduce((sum, p) => sum + p.money, 0);
   return (
@@ -21,7 +23,7 @@ export function TeamRoster({
         <Badge tone={sideTone(team.side)}>{team.side}</Badge>
       </div>
       <div className='mb-2 flex items-center justify-between text-[11px] text-txt-muted'>
-        <span>{alive}/5 存活</span>
+        <span>{alive}/5 {tr('存活')}</span>
         <span className='font-mono'>{moneyLabel(bank)}</span>
       </div>
       <div className={clsx('flex-1 space-y-1.5 overflow-auto', compact ? 'text-[11px]' : '')}>
@@ -43,7 +45,7 @@ export function TeamRoster({
                     {p.nickname}
                   </span>
                   {p.isIGL ? (
-                    <span title='场上指挥' className='shrink-0'>
+                    <span title={tr('场上指挥')} className='shrink-0'>
                       <Star size={10} className='text-accent' />
                     </span>
                   ) : null}
@@ -58,8 +60,8 @@ export function TeamRoster({
               </div>
               <div className='mt-1 flex items-center justify-between gap-1 text-[10px] text-txt-muted'>
                 <span className='truncate'>
-                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[9px] uppercase tracking-wide text-txt-muted'>{ROLE_LABEL[p.role]}</span>
-                  {weapon ? weapon.name : '空手'}
+                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[9px] uppercase tracking-wide text-txt-muted'>{tr(ROLE_LABEL[p.role])}</span>
+                  {weapon ? weapon.name : tr('空手')}
                 </span>
                 <span className='shrink-0 font-mono'>
                   {p.stats.kills}/{p.stats.deaths}/{p.stats.assists}
@@ -71,12 +73,12 @@ export function TeamRoster({
         })}
         {team.players.length === 0 ? (
           <div className='rounded-lg border border-dashed border-white/10 px-2 py-4 text-center text-[11px] text-txt-muted'>
-            暂无阵容数据。
+            {tr('暂无阵容数据。')}
           </div>
         ) : null}
       </div>
       <div className='mt-2 flex items-center justify-between border-t border-white/5 pt-2 text-[10px] text-txt-muted'>
-        <span>连败奖励</span>
+        <span>{tr('连败奖励')}</span>
         <span className='font-mono'>{moneyLabel(team.lossBonus)}</span>
       </div>
     </div>

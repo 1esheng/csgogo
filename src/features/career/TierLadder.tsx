@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { ChevronDown, ChevronRight, Lock, Trophy } from 'lucide-react';
 import { CAREER_TIERS } from '@/data/config';
@@ -18,6 +19,7 @@ export interface TierLadderProps {
 
 /** 十级联赛阶梯：视口高度固定为 5 行，其余用滚轮下滑查看（含 MAJOR）。 */
 export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTournament, onEnter }: TierLadderProps) {
+  const { tr } = useT();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const currentRef = useRef<HTMLDivElement | null>(null);
 
@@ -64,22 +66,22 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
                 <div className='min-w-0 flex-1'>
                   <div className='flex flex-wrap items-center gap-2'>
                     <span className={clsx('font-display text-sm font-bold tracking-wide', unlocked ? 'text-txt' : 'text-txt-muted')}>
-                      {tier.name}
+                      {tr(tier.name)}
                     </span>
-                    {isCurrent ? <Badge tone='accent'>当前</Badge> : null}
+                    {isCurrent ? <Badge tone='accent'>{tr('当前')}</Badge> : null}
                     {!unlocked ? (
                       <Badge tone='muted'>
-                        <Lock size={10} /> 需 {tier.ratingFloor} 积分
+                        <Lock size={10} /> {tr('需 ')}{tier.ratingFloor}{tr(' 积分')}
                       </Badge>
                     ) : null}
                   </div>
-                  <p className='mt-0.5 text-xs leading-snug text-txt-muted'>{tier.blurb}</p>
+                  <p className='mt-0.5 text-xs leading-snug text-txt-muted'>{tr(tier.blurb)}</p>
                   <div className='mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-txt-muted'>
                     <span className='inline-flex items-center gap-1'>
-                      <Trophy size={11} className='text-accent' /> {tier.prize.toLocaleString()} 金币
+                      <Trophy size={11} className='text-accent' /> {tier.prize.toLocaleString()}{tr(' 金币')}
                     </span>
-                    <span>{tier.teams} 支队伍</span>
-                    <span>评分 {tier.ratingFloor}+</span>
+                    <span>{tier.teams}{tr(' 支队伍')}</span>
+                    <span>{tr('评分 ')}{tier.ratingFloor}+</span>
                   </div>
                 </div>
                 <div className='ml-auto shrink-0'>
@@ -88,18 +90,18 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
                       size='sm'
                       variant={isCurrent ? 'primary' : 'outline'}
                       disabled={busyTier !== null}
-                      title={hasActiveTournament ? '请先完成当前赛事' : undefined}
+                      title={hasActiveTournament ? tr('请先完成当前赛事') : undefined}
                       onClick={() => onEnter(tier.tier)}
                     >
-                      {busyTier === tier.tier ? '进入中…' : '进入'} <ChevronRight size={14} />
+                      {busyTier === tier.tier ? tr('进入中…') : tr('进入')} <ChevronRight size={14} />
                     </Button>
                   ) : (
-                    <span className='text-[11px] font-semibold uppercase tracking-wider text-txt-muted'>未解锁</span>
+                    <span className='text-[11px] font-semibold uppercase tracking-wider text-txt-muted'>{tr('未解锁')}</span>
                   )}
                 </div>
               </div>
               {rowError ? (
-                <p className='mt-2 rounded-lg border border-danger/30 bg-danger/10 px-2 py-1 text-xs text-danger'>{rowError}</p>
+                <p className='mt-2 rounded-lg border border-danger/30 bg-danger/10 px-2 py-1 text-xs text-danger'>{tr(rowError)}</p>
               ) : null}
             </div>
           );
@@ -107,7 +109,7 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
       </div>
       <div className='pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-1'>
         <span className='flex items-center gap-1 rounded-full border border-white/10 bg-ink-900/85 px-2 py-0.5 text-[10px] text-txt-muted backdrop-blur'>
-          <ChevronDown size={11} /> 向下滚动查看 MAJOR
+          <ChevronDown size={11} /> {tr('向下滚动查看 MAJOR')}
         </span>
       </div>
     </div>

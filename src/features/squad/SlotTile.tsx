@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import { Crown, Plus, Trash2 } from 'lucide-react';
 import type { CombatRole } from '@/types';
@@ -28,6 +29,7 @@ export function SlotTile({
   onDragLeave: () => void;
   onDrop: () => void;
 }) {
+  const { tr } = useT();
   const rarity = info ? RARITY_TABLE[info.template.rarity] : null;
   return (
     <div
@@ -41,14 +43,14 @@ export function SlotTile({
     >
       <div className='flex items-center gap-2.5'>
         <div className='w-[62px] shrink-0 pl-1'>
-          <div className='font-display text-[11px] font-bold uppercase tracking-[0.14em] text-txt'>{ROLE_LABEL[slot]}</div>
+          <div className='font-display text-[11px] font-bold uppercase tracking-[0.14em] text-txt'>{tr(ROLE_LABEL[slot])}</div>
           <div
             className={clsx(
               'text-[9px] font-semibold uppercase tracking-wider',
               info ? (info.natural ? 'text-emerald-400/90' : 'text-accent/80') : 'text-txt-muted/70',
             )}
           >
-            {info ? (info.natural ? '本命位' : '非本命位') : '空位'}
+            {info ? (info.natural ? tr('本命位') : tr('非本命位')) : tr('空位')}
           </div>
         </div>
 
@@ -73,16 +75,16 @@ export function SlotTile({
                   {info.countryCode}
                 </span>
                 <span className='text-[9px] font-semibold uppercase tracking-wider' style={{ color: rarity.color }}>
-                  {rarity.label}
+                  {tr(rarity.label)}
                 </span>
               </span>
               <span className='mt-1 flex items-center gap-2'>
                 <span className='w-20 shrink-0'>
                   <Progress value={info.fit} tone={fitTone(info.fit)} height='h-1.5' />
                 </span>
-                <span className='text-[10px] font-semibold text-txt-muted'>适配 {info.fit}%</span>
+                <span className='text-[10px] font-semibold text-txt-muted'>{tr('适配')} {info.fit}%</span>
                 {info.mapComfort !== null ? (
-                  <span className='hidden text-[10px] text-txt-muted sm:inline'>· 地图适应 {info.mapComfort}</span>
+                  <span className='hidden text-[10px] text-txt-muted sm:inline'>· {tr('地图适应')} {info.mapComfort}</span>
                 ) : null}
               </span>
             </span>
@@ -90,7 +92,7 @@ export function SlotTile({
               <span className='block font-display text-xl font-black leading-none' style={{ color: rarity.color }}>
                 {info.ovr}
               </span>
-              <span className='text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>{info.level} 级</span>
+              <span className='text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>{info.level} {tr('级')}</span>
             </span>
           </button>
         ) : (
@@ -99,7 +101,7 @@ export function SlotTile({
             onClick={onOpen}
             className='focus-ring flex flex-1 items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 px-3 py-4 text-[11px] font-semibold uppercase tracking-wider text-txt-muted transition-colors hover:border-accent/60 hover:bg-accent/5 hover:text-accent'
           >
-            <Plus size={14} /> 指派{ROLE_LABEL[slot]}
+            <Plus size={14} /> {tr('指派')}{tr(ROLE_LABEL[slot])}
           </button>
         )}
 
@@ -108,7 +110,7 @@ export function SlotTile({
             <button
               type='button'
               onClick={onToggleIGL}
-              title={info.isIGL ? '取消场上指挥' : '设为场上指挥'}
+              title={info.isIGL ? tr('取消场上指挥') : tr('设为场上指挥')}
               className={clsx(
                 'focus-ring rounded-lg border p-1.5 transition-colors',
                 info.isIGL
@@ -121,7 +123,7 @@ export function SlotTile({
             <button
               type='button'
               onClick={onClear}
-              title='从此位置移除'
+              title={tr('从此位置移除')}
               className='focus-ring rounded-lg border border-white/10 p-1.5 text-txt-muted transition-colors hover:border-danger/60 hover:text-danger'
             >
               <Trash2 size={13} />

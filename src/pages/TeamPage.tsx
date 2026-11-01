@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft, Crosshair, Trophy, UserCog } from 'lucide-react';
 import { useGameStore, aiOpponents } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { TEAM_COACH, TEAM_REGION } from '@/data/teams';
 import { CAREER_TIERS, RARITY_TABLE } from '@/data/config';
 import type { CombatRole } from '@/types';
@@ -14,6 +15,7 @@ const ROLE_SHORT: Record<CombatRole, string> = {
 };
 
 export function TeamPage() {
+  const { tr } = useT();
   const { teamId } = useParams();
   const navigate = useNavigate();
   const leaders = useGameStore((s) => s.leaders);
@@ -60,7 +62,7 @@ export function TeamPage() {
   return (
     <div className='space-y-4'>
       <div className='flex items-center gap-2'>
-        <Button size='sm' variant='ghost' onClick={() => navigate(-1)}><ArrowLeft size={14} /> 返回</Button>
+        <Button size='sm' variant='ghost' onClick={() => navigate(-1)}><ArrowLeft size={14} /> {tr('返回')}</Button>
       </div>
 
       <Panel className='relative overflow-hidden'>
@@ -81,18 +83,18 @@ export function TeamPage() {
         </div>
 
         <div className='relative mt-4 grid gap-x-6 gap-y-2 text-xs sm:grid-cols-2'>
-          <Row label='Valve 排名' value={'#' + (rank || '—') + ' / ' + leaders.length} />
-          <Row label='世界排名' value={'#' + (rank || '—')} />
-          <Row label='留在前 30 的周数' value={String(weeks)} />
-          <Row label='平均年龄' value={avgAge ? avgAge.toFixed(1) : '—'} />
-          <Row label='战绩' value={(entry ? (entry.wins + ' 胜 ' + entry.losses + ' 负') : '—')} />
-          <Row label='教练' value={coach} />
+          <Row label={tr('Valve 排名')} value={'#' + (rank || '—') + ' / ' + leaders.length} />
+          <Row label={tr('世界排名')} value={'#' + (rank || '—')} />
+          <Row label={tr('留在前 30 的周数')} value={String(weeks)} />
+          <Row label={tr('平均年龄')} value={avgAge ? avgAge.toFixed(1) : '—'} />
+          <Row label={tr('战绩')} value={(entry ? (entry.wins + ' 胜 ' + entry.losses + ' 负') : '—')} />
+          <Row label={tr('教练')} value={coach} />
         </div>
       </Panel>
 
       <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]'>
         <Panel>
-          <SectionTitle title='现役阵容' subtitle={roster.length + ' 人'} right={<Crosshair size={16} className='text-txt-muted' />} />
+          <SectionTitle title={tr('现役阵容')} subtitle={roster.length + ' 人'} right={<Crosshair size={16} className='text-txt-muted' />} />
           <div className='space-y-1.5'>
             {roster.map((r) => {
               const identity = players[r.tpl!.playerId];
@@ -109,15 +111,15 @@ export function TeamPage() {
                 </div>
               );
             })}
-            {roster.length === 0 ? <p className='text-xs text-txt-muted'>暂无阵容数据。</p> : null}
+            {roster.length === 0 ? <p className='text-xs text-txt-muted'>{tr('暂无阵容数据。')}</p> : null}
           </div>
         </Panel>
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title='战队荣誉' subtitle={'共 ' + honors.length + ' 座奖杯'} right={<Trophy size={16} className='text-txt-muted' />} />
+            <SectionTitle title={tr('战队荣誉')} subtitle={'共 ' + honors.length + ' 座奖杯'} right={<Trophy size={16} className='text-txt-muted' />} />
             {honors.length === 0 ? (
-              <p className='text-xs text-txt-muted'>还没有夺冠记录。</p>
+              <p className='text-xs text-txt-muted'>{tr('还没有夺冠记录。')}</p>
             ) : (
               <div className='space-y-1.5'>
                 {honors.slice().reverse().map((h) => (
@@ -132,7 +134,7 @@ export function TeamPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title='奖杯墙' subtitle='按档位统计' />
+            <SectionTitle title={tr('奖杯墙')} subtitle={tr('按档位统计')} />
             <div className='space-y-1.5'>
               {CAREER_TIERS.map((tier) => {
                 const count = honors.filter((h) => h.tier === tier.tier).length;

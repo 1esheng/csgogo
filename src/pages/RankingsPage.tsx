@@ -56,19 +56,19 @@ export function RankingsPage() {
       <SectionTitle
         title={t('page.rankings.title')}
         subtitle={tr('本存档的实时排名——榜单上的每个评分都来自真实模拟的比赛。')}
-        right={<Badge tone='accent'>{CAREER_TIERS[career.tier]?.name ?? '联赛'}</Badge>}
+        right={<Badge tone='accent'>{tr(CAREER_TIERS[career.tier]?.name ?? '联赛')}</Badge>}
       />
 
       <div className='grid grid-cols-2 gap-3 xl:grid-cols-4'>
         <StatTile label={tr('你的积分')} value={rating} hint='Elo，K=28' tone='accent' icon={<Medal size={16} />} />
-        <StatTile label={tr('巡回赛排名')} value={playerRank > 0 ? '#' + playerRank : '—'} hint={'共 ' + sorted.length + ' 支俱乐部'} />
-        <StatTile label={tr('你的战绩')} value={club.wins + '-' + club.losses} hint={'近况 ' + (club.streak > 0 ? '+' : '') + club.streak} />
-        <StatTile label={tr('榜首积分')} value={sorted[0]?.rating ?? '—'} hint={sorted[0]?.name ?? '暂无俱乐部'} />
+        <StatTile label={tr('巡回赛排名')} value={playerRank > 0 ? '#' + playerRank : '—'} hint={tr('共 ') + sorted.length + tr(' 支俱乐部')} />
+        <StatTile label={tr('你的战绩')} value={club.wins + '-' + club.losses} hint={tr('近况 ') + (club.streak > 0 ? '+' : '') + club.streak} />
+        <StatTile label={tr('榜首积分')} value={sorted[0]?.rating ?? '—'} hint={sorted[0]?.name ?? tr('暂无俱乐部')} />
       </div>
 
       <div className='grid gap-4 xl:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)]'>
         <Panel>
-          <SectionTitle title={tr('积分榜')} right={<Tabs tabs={TABS} active={tab} onChange={setTab} />} />
+          <SectionTitle title={tr('积分榜')} right={<Tabs tabs={TABS.map((item) => ({ ...item, label: tr(item.label) }))} active={tab} onChange={setTab} />} />
           {rows.length === 0 ? (
             <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
               {tr('本联赛暂无已评分的俱乐部——打一场比赛即可让积分上榜。')}
@@ -87,7 +87,7 @@ export function RankingsPage() {
                 const isPlayer = entry.id === 'player';
                 const played = entry.wins + entry.losses;
                 const winPct = played > 0 ? (entry.wins / played) * 100 : 0;
-                const league = CAREER_TIERS[tierOf(entry.id, entry.tier)]?.name ?? '未定级';
+                const league = tr(CAREER_TIERS[tierOf(entry.id, entry.tier)]?.name ?? '未定级');
                 const rank = sorted.indexOf(entry) + 1;
                 return (
                   <button
@@ -135,7 +135,7 @@ export function RankingsPage() {
           <div className='mt-3 flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
             <Info size={13} className='mt-0.5 shrink-0' />
             <span>
-              积分榜由真实模拟结果推导：每支俱乐部的评分都按引擎赛后的同一套 Elo 公式变动，AI 俱乐部也会依据其实际参加的赛事重新评分。
+              {tr('积分榜由真实模拟结果推导：每支俱乐部的评分都按引擎赛后的同一套 Elo 公式变动，AI 俱乐部也会依据其实际参加的赛事重新评分。')}
             </span>
           </div>
         </Panel>
@@ -152,17 +152,17 @@ export function RankingsPage() {
                   </div>
                   <div className='mt-1 flex items-center gap-3 text-xs'>
                     <span className='inline-flex items-center gap-1 font-semibold text-emerald-300'>
-                      <TrendingUp size={12} /> 胜 {signed(gain)}
+                      <TrendingUp size={12} /> {tr('胜')} {signed(gain)}
                     </span>
                     <span className='inline-flex items-center gap-1 font-semibold text-danger'>
-                      <TrendingDown size={12} /> 负 {signed(loss)}
+                      <TrendingDown size={12} /> {tr('负')} {signed(loss)}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
             <p className='mt-3 text-[11px] leading-relaxed text-txt-muted'>
-              采用 K=28 的 Elo 算法，单场最低加分 {RATING_CONFIG.winFloor}。击败高评分俱乐部收益更高，输给弱旅损失更大。
+              {tr('采用 K=28 的 Elo 算法，单场最低加分 ')}{RATING_CONFIG.winFloor}{tr('。击败高评分俱乐部收益更高，输给弱旅损失更大。')}
             </p>
           </Panel>
         </div>
@@ -170,16 +170,16 @@ export function RankingsPage() {
       <Panel>
         <SectionTitle
           title={tr('实时电竞世界')}
-          subtitle={liveWorld.enabled ? '每 60 秒自动推进一轮国际赛事并刷新排行榜' : '已暂停实时更新'}
-          right={<Button size='sm' variant={liveWorld.enabled ? 'outline' : 'primary'} onClick={() => setLiveWorld(!liveWorld.enabled)}>{liveWorld.enabled ? '暂停' : '继续'}</Button>}
+          subtitle={liveWorld.enabled ? tr('每 60 秒自动推进一轮国际赛事并刷新排行榜') : tr('已暂停实时更新')}
+          right={<Button size='sm' variant={liveWorld.enabled ? 'outline' : 'primary'} onClick={() => setLiveWorld(!liveWorld.enabled)}>{liveWorld.enabled ? tr('暂停') : tr('继续')}</Button>}
         />
         <div className='flex flex-wrap items-center gap-3 text-[11px] text-txt-muted'>
           <span className='inline-flex items-center gap-1'>
             <Radio size={12} className={liveWorld.enabled ? 'text-emerald-300' : 'text-txt-muted'} />
-            {liveWorld.enabled ? '运行中' : '已暂停'}
+            {liveWorld.enabled ? tr('运行中') : tr('已暂停')}
           </span>
-          <span>已推进 {liveWorld.ticks} 轮</span>
-          {secondsAgo !== null ? <span>{secondsAgo} 秒前同步</span> : <span>{tr('等待首次同步…')}</span>}
+          <span>{tr('已推进 ')}{liveWorld.ticks}{tr(' 轮')}</span>
+          {secondsAgo !== null ? <span>{secondsAgo}{tr(' 秒前同步')}</span> : <span>{tr('等待首次同步…')}</span>}
         </div>
         {liveWorld.feed.length > 0 ? (
           <div className='mt-3 space-y-1.5'>

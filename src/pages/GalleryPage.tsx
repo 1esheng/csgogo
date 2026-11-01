@@ -32,6 +32,7 @@ const RARITY_RANK: Record<Rarity, number> = { N: 0, R: 1, SR: 2, SSR: 3, UR: 4 }
 export function GalleryPage() {
   const { tr } = useT();
   const { t } = useT();
+  const sortOptions = SORT_OPTIONS.map((o) => ({ ...o, label: tr(o.label) }));
   const cards = useGameStore((s) => s.cards);
   const templates = useGameStore((s) => s.templates());
   const nameOf = useGameStore((s) => s.nameOf);
@@ -113,8 +114,8 @@ export function GalleryPage() {
     <div className='space-y-5'>
       <SectionTitle
         title={t('page.gallery.title')}
-        subtitle={`全部 ${all.length} 名选手 · 已收集 ${ownedCount} 名 · 已有照片 ${withPhoto} 张`}
-        right={<Tabs tabs={[{ id: 'owned', label: '我的卡牌' }, { id: 'gallery', label: '全部图鉴' }, { id: 'fuse', label: '卡牌合成' }]} active={tab} onChange={(id) => setTab(id as Tab)} />}
+        subtitle={`${tr('全部')} ${all.length} ${tr('名选手')} · ${tr('已收集')} ${ownedCount}${tr(' 名 · 已有照片')} ${withPhoto}${tr(' 张')}`}
+        right={<Tabs tabs={[{ id: 'owned', label: tr('我的卡牌') }, { id: 'gallery', label: tr('全部图鉴') }, { id: 'fuse', label: tr('卡牌合成') }]} active={tab} onChange={(id) => setTab(id as Tab)} />}
       />
 
       <div key={tab} data-tab-panel className='animate-fade-up space-y-5'>
@@ -127,17 +128,17 @@ export function GalleryPage() {
             <Select
               value={rarity}
               onChange={(v) => setRarity(v as 'ALL' | Rarity)}
-              options={[{ value: 'ALL', label: '全部稀有度' }, ...RARITIES.map((r) => ({ value: r, label: RARITY_TABLE[r].label }))]}
+              options={[{ value: 'ALL', label: tr('全部稀有度') }, ...RARITIES.map((r) => ({ value: r, label: tr(RARITY_TABLE[r].label) }))]}
             />
             <Select
               value={role}
               onChange={(v) => setRole(v as 'ALL' | Role)}
-              options={[{ value: 'ALL', label: '全部位置' }, ...(['AWPer', 'Entry', 'Lurker', 'Support', 'Anchor', 'IGL'] as Role[]).map((r) => ({ value: r, label: ROLE_LABEL[r] }))]}
+              options={[{ value: 'ALL', label: tr('全部位置') }, ...(['AWPer', 'Entry', 'Lurker', 'Support', 'Anchor', 'IGL'] as Role[]).map((r) => ({ value: r, label: tr(ROLE_LABEL[r]) }))]}
             />
             <Button variant={ownedOnly ? 'primary' : 'ghost'} onClick={() => setOwnedOnly((v) => !v)}>
-              <Layers size={14} /> {ownedOnly ? '只看已拥有' : '显示全部'}
+              <Layers size={14} /> {ownedOnly ? tr('只看已拥有') : tr('显示全部')}
             </Button>
-            <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={SORT_OPTIONS} />
+            <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={sortOptions} />
           </div>
           {filtered.length === 0 ? (
             <EmptyState title={tr('没有符合条件的选手')} hint={tr('换个筛选条件，或先去卡包抽几张。')} />
@@ -152,10 +153,10 @@ export function GalleryPage() {
                       card={{ template: t, nickname: nameOf(t.playerId), countryCode: identities[t.playerId]?.countryCode ?? '', ovr: cardOVR(t, owned?.level ?? 1, owned?.best ?? 1), level: owned?.level ?? 1, stars: owned?.best ?? 1 }}
                       size='sm'
                       dimmed={!owned}
-                      cornerLabel={owned ? (owned.best > 1 ? `${owned.best}★` : `×${owned.count}`) : '未拥有'}
+                      cornerLabel={owned ? (owned.best > 1 ? `${owned.best}★` : `×${owned.count}`) : tr('未拥有')}
                       onClick={() => setDetail(t)}
                     />
-                    {c ? <div className='truncate text-[10px] text-txt-muted'>图源 {c.source}</div> : null}
+                    {c ? <div className='truncate text-[10px] text-txt-muted'>{tr('图源')} {c.source}</div> : null}
                   </div>
                 );
               })}
@@ -167,16 +168,16 @@ export function GalleryPage() {
           <Panel>
             <SectionTitle
               title={tr('卡牌合成')}
-              subtitle={`${STAR_CONFIG.copiesRequired} 张同名卡合成 1 星，每星全能力 +${STAR_CONFIG.bonusPerStar}，星级不设上限。当前 ${fusionTargets.length} 个可合成/待凑齐的选手。`}
+              subtitle={`${STAR_CONFIG.copiesRequired} ${tr('张同名卡合成 1 星，每星全能力 +')}${STAR_CONFIG.bonusPerStar}${tr('，星级不设上限。当前 ')}${fusionTargets.length} ${tr('个可合成/待凑齐的选手。')}`}
               right={
                 <div className='flex flex-wrap items-center gap-2'>
                   <Button size='sm' disabled={fusableCount === 0} onClick={() => fuseAll()}>
-                    <Sparkles size={13} /> 一键升星{fusableCount > 0 ? `（${fusableCount}）` : ''}
+                    <Sparkles size={13} /> {tr('一键升星')}{fusableCount > 0 ? `（${fusableCount}）` : ''}
                   </Button>
                   <Button size='sm' variant={fusableOnly ? 'primary' : 'ghost'} onClick={() => setFusableOnly((v) => !v)}>
-                    <Sparkles size={13} /> 仅显示可升星{fusableOnly ? ' ✓' : ''}
+                    <Sparkles size={13} /> {tr('仅显示可升星')}{fusableOnly ? ' ✓' : ''}
                   </Button>
-                  <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={SORT_OPTIONS} className='w-52' />
+                  <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={sortOptions} className='w-52' />
                 </div>
               }
             />
@@ -200,21 +201,21 @@ export function GalleryPage() {
                       <div className='min-w-0 flex-1'>
                         <div className='flex items-center gap-2'>
                           <span className='truncate font-display text-sm font-bold'>{nameOf(template.playerId)}</span>
-                          <Badge tone='muted'>{RARITY_TABLE[template.rarity].label}</Badge>
+                          <Badge tone='muted'>{tr(RARITY_TABLE[template.rarity].label)}</Badge>
                           <span className='inline-flex items-center gap-0.5 text-xs text-accent'>
                             {Array.from({ length: stars }).map((_x, i) => <Star key={i} size={11} fill='currentColor' />)}
                           </span>
                         </div>
                         <div className='mt-1 flex items-center gap-2 text-[11px] text-txt-muted'>
-                          <span>拥有 {count} 张</span>
+                          <span>{tr('拥有')} {count}{tr(' 张')}</span>
                           <span>·</span>
-                          <span>当前 OVR {now}</span>
+                          <span>{tr('当前')} OVR {now}</span>
                           {canFuse ? <span className='text-emerald-300'>→ {next}</span> : null}
                         </div>
                         <div className='mt-1'><Progress value={Math.min(count, STAR_CONFIG.copiesRequired)} max={STAR_CONFIG.copiesRequired} height='h-1.5' /></div>
                       </div>
                       <Button size='sm' disabled={!canFuse} onClick={() => handleFuse(template)}>
-                        <Sparkles size={13} /> {canFuse ? '升星' : `还差 ${STAR_CONFIG.copiesRequired - count} 张`}
+                        <Sparkles size={13} /> {canFuse ? tr('升星') : `${tr('还差')} ${STAR_CONFIG.copiesRequired - count}${tr(' 张')}`}
                       </Button>
                     </div>
                   );
@@ -225,8 +226,8 @@ export function GalleryPage() {
           <Panel>
             <SectionTitle title={tr('合成规则')} />
             <ul className='space-y-2 text-xs leading-relaxed text-txt-muted'>
-              <li>· {STAR_CONFIG.copiesRequired} 张同名卡（同一选手同赛季版本）→ 升 1 星</li>
-              <li>· 每升 1 星，8 项能力全部 +{STAR_CONFIG.bonusPerStar}，**属性上限同步提高 {STAR_CONFIG.bonusPerStar}**（基础 99），所以 5 星强者会明显强于低星</li>
+              <li>· {STAR_CONFIG.copiesRequired} {tr('张同名卡（同一选手同赛季版本）→ 升 1 星')}</li>
+              <li>· {tr('每升 1 星，8 项能力全部 +')}{STAR_CONFIG.bonusPerStar}{tr('，**属性上限同步提高 ')}{STAR_CONFIG.bonusPerStar}{tr('**（基础 99），所以 5 星强者会明显强于低星')}</li>
               <li>{tr('· 星级没有上限；保留等级/经验最高的那一张，其余被消耗')}</li>
               <li>{tr('· 若被消耗的卡在首发阵容里，位置会自动切到保留下来的那张')}</li>
               <li>{tr('· 升星同时提升 10 点精通')}</li>
@@ -247,7 +248,7 @@ export function GalleryPage() {
             level={byTemplate.get(detail.id)?.level ?? 1}
             stars={byTemplate.get(detail.id)?.best ?? 1}
             xpPct={0}
-            xpLabel={`${effectiveAttributes(detail, byTemplate.get(detail.id)?.level ?? 1, byTemplate.get(detail.id)?.best ?? 1).aim} 枪法`}
+            xpLabel={`${effectiveAttributes(detail, byTemplate.get(detail.id)?.level ?? 1, byTemplate.get(detail.id)?.best ?? 1).aim} ${tr('枪法')}`}
           />
         ) : null}
       </Modal>

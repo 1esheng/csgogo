@@ -55,7 +55,7 @@ export function SettingsPage() {
         <SectionTitle
           title={tr('战队形象')}
           subtitle={tr('改名或更换徽章会消耗金币，立即写入本地存档。')}
-          right={<Badge tone='accent'>金币 {club.coins.toLocaleString()}</Badge>}
+          right={<Badge tone='accent'>{tr('金币')} {club.coins.toLocaleString()}</Badge>}
         />
         <div className='flex flex-wrap items-center gap-4 rounded-xl border border-white/10 bg-ink-900/50 p-3'>
           <span
@@ -66,12 +66,12 @@ export function SettingsPage() {
           </span>
           <div className='min-w-0'>
             <div className='font-display text-lg font-bold text-txt'>{club.name}</div>
-            <div className='text-[11px] text-txt-muted'>当前徽章：{badgeIcon(club.badge).label} · 主色 {club.color ?? '#F5A623'}</div>
+            <div className='text-[11px] text-txt-muted'>{tr('当前徽章：')}{tr(badgeIcon(club.badge).label)} · {tr('主色')} {club.color ?? '#F5A623'}</div>
           </div>
         </div>
 
         <div className='mt-4'>
-          <div className='label-xs mb-2'>更改战队名称（{CLUB_PRICES.rename} 金币）</div>
+          <div className='label-xs mb-2'>{tr('更改战队名称')}（{CLUB_PRICES.rename} {tr('金币')}）</div>
           <div className='flex flex-wrap gap-2'>
             <Input className='max-w-xs' value={nameDraft} maxLength={12} onChange={setNameDraft} placeholder={tr('2-12 个字符')} />
             <Button
@@ -84,11 +84,11 @@ export function SettingsPage() {
               {tr('改名')}
             </Button>
           </div>
-          <p className='mt-1 text-[11px] text-txt-muted'>改名 {CLUB_PRICES.rename} 金币，长度 2-12 个字符。</p>
+          <p className='mt-1 text-[11px] text-txt-muted'>{tr('改名')} {CLUB_PRICES.rename} {tr('金币，长度 2-12 个字符。')}</p>
         </div>
 
         <div className='mt-4'>
-          <div className='label-xs mb-2'>选择徽章（{CLUB_PRICES.badge} 金币）</div>
+          <div className='label-xs mb-2'>{tr('选择徽章')}（{CLUB_PRICES.badge} {tr('金币')}）</div>
           <div className='flex flex-wrap gap-2'>
             {CLUB_BADGES.map((b) => {
               const active = b.id === (badgeDraft.badge ?? club.badge);
@@ -96,7 +96,7 @@ export function SettingsPage() {
                 <button
                   key={b.id}
                   type='button'
-                  title={b.label}
+                  title={tr(b.label)}
                   onClick={() => setBadgeDraft((d) => ({ ...d, badge: b.id }))}
                   className={clsx(
                     'grid h-11 w-11 place-items-center rounded-xl border transition-all duration-150 active:scale-95',
@@ -130,7 +130,7 @@ export function SettingsPage() {
               if (!res.ok && res.error) toast(res.error, 'error');
             }}
           >
-            应用徽章（{CLUB_PRICES.badge} 金币）
+            {tr('应用徽章')}（{CLUB_PRICES.badge} {tr('金币')}）
           </Button>
         </div>
       </Panel>
@@ -211,13 +211,13 @@ export function SettingsPage() {
 
         <div className='space-y-4'>
           <Panel>
-            <SectionTitle title={tr('存档管理')} subtitle={'俱乐部 ' + club.name} right={<HardDrive size={16} className='text-txt-muted' />} />
+            <SectionTitle title={tr('存档管理')} subtitle={tr('俱乐部') + ' ' + club.name} right={<HardDrive size={16} className='text-txt-muted' />} />
             <SaveTools />
             <Divider className='my-4' />
             <div className='grid grid-cols-2 gap-3'>
               {meta.map((item) => (
                 <div key={item.label}>
-                  <div className='label-xs'>{item.label}</div>
+                  <div className='label-xs'>{tr(item.label)}</div>
                   <div className='mt-0.5 font-display text-lg font-bold text-txt'>{item.value}</div>
                 </div>
               ))}
@@ -230,8 +230,7 @@ export function SettingsPage() {
               <p className='flex items-start gap-2'>
                 <Database size={13} className='mt-0.5 shrink-0 text-accent' />
                 <span>
-                  存档通过 Dexie 存放在浏览器的 IndexedDB 中，完全位于本机。刷新页面或重启开发服务器都不会丢失，也不会
-                  上传到任何地方。
+                  {tr('存档通过 Dexie 存放在浏览器的 IndexedDB 中，完全位于本机。刷新页面或重启开发服务器都不会丢失，也不会')} {tr('上传到任何地方。')}
                 </span>
               </p>
               <p className='flex items-start gap-2'>
@@ -249,8 +248,7 @@ export function SettingsPage() {
             <div className='flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
               <ShieldCheck size={14} className='mt-0.5 shrink-0 text-accent' />
               <span>
-                本作中的全部评分——选手 OVR、俱乐部 Elo、奖金池——都是原创的游戏平衡数值，并非 HLTV 数据，也不取自现实
-                比赛表现。
+                {tr('本作中的全部评分——选手 OVR、俱乐部 Elo、奖金池——都是原创的游戏平衡数值，并非 HLTV 数据，也不取自现实')} {tr('比赛表现。')}
               </span>
             </div>
           </Panel>
@@ -259,7 +257,7 @@ export function SettingsPage() {
             <div className='flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
               <Info size={14} className='mt-0.5 shrink-0' />
               <span>
-                构建版本 {GAME_VERSION}。存档带有版本号；不兼容的存档会在导入时被拒绝，而不会悄悄损坏俱乐部数据。
+                {tr('构建版本')} {GAME_VERSION}{tr('。存档带有版本号；不兼容的存档会在导入时被拒绝，而不会悄悄损坏俱乐部数据。')}
               </span>
             </div>
           </Panel>
@@ -279,16 +277,16 @@ export function SettingsPage() {
               <div key={b.id} className='flex flex-wrap items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-xs'>
                 <span className='font-semibold text-txt'>{b.clubName}</span>
                 <span className='text-txt-muted'>{new Date(b.savedAt).toLocaleString('zh-CN')}</span>
-                <span className='text-txt-muted'>{b.cards} 张卡 · {b.coins.toLocaleString()} 金币</span>
+                <span className='text-txt-muted'>{b.cards} {tr('张卡')} · {b.coins.toLocaleString()} {tr('金币')}</span>
                 <Button
                   size='sm'
                   variant='outline'
                   className='ml-auto'
                   onClick={async () => {
                     const restored = await restoreBackup(b.id);
-                    if (!restored) { toast('这份备份无法读取。', 'error'); return; }
+                    if (!restored) { toast(tr('这份备份无法读取。'), 'error'); return; }
                     await reloadFromDisk();
-                    toast('已恢复备份存档。', 'success');
+                    toast(tr('已恢复备份存档。'), 'success');
                   }}
                 >
                   {tr('恢复')}

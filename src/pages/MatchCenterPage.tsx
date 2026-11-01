@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swords } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
+import { useT } from '@/hooks/useLang';
 import { Badge, Button, EmptyState, Panel, SectionTitle } from '@/components/ui';
 import { Setup } from '@/features/matches/Setup';
 import { LiveBoard } from '@/features/matches/LiveBoard';
 import { PostMatch } from '@/features/matches/PostMatch';
 
 export function MatchCenterPage() {
+  const { tr } = useT();
   const ready = useGameStore((s) => s.ready);
   const hasGame = useGameStore((s) => s.hasGame);
   const activeMatch = useGameStore((s) => s.activeMatch);
@@ -21,30 +23,30 @@ export function MatchCenterPage() {
   return (
     <div className='space-y-5'>
       <SectionTitle
-        title='训练赛'
+        title={tr('训练赛')}
         subtitle={activeMatch
-        ? '实时战术指挥 —— 每个数字都来自引擎。'
-        : '自由对局（友谊赛）：侦查对手、选图、开打。联赛与赛事对局请到「生涯」开始。'}
+        ? tr('实时战术指挥 —— 每个数字都来自引擎。')
+        : tr('自由对局（友谊赛）：侦查对手、选图、开打。联赛与赛事对局请到「生涯」开始。')}
         right={
           activeMatch
-            ? <Badge tone='accent'>进行中 · 第 {activeMatch.roundNumber} 回合</Badge>
-            : <Badge tone='muted'>BO1 · 单图</Badge>
+            ? <Badge tone='accent'>{tr('进行中 · 第 ')}{activeMatch.roundNumber}{tr(' 回合')}</Badge>
+            : <Badge tone='muted'>{tr('BO1 · 单图')}</Badge>
         }
       />
 
       {!ready ? (
         <Panel>
-          <p className='text-sm text-txt-muted'>正在载入你的战队…</p>
+          <p className='text-sm text-txt-muted'>{tr('正在载入你的战队…')}</p>
         </Panel>
       ) : !hasGame ? (
         <Panel>
           <EmptyState
-            title='还没有战队'
-            hint='训练赛需要一个已创建的战队。先到主页创建战队，然后就能开赛。'
+            title={tr('还没有战队')}
+            hint={tr('训练赛需要一个已创建的战队。先到主页创建战队，然后就能开赛。')}
             action={
               <Link to='/'>
                 <Button variant='primary' size='sm'>
-                  <Swords size={14} /> 前往主页
+                  <Swords size={14} /> {tr('前往主页')}
                 </Button>
               </Link>
             }
@@ -58,7 +60,7 @@ export function MatchCenterPage() {
         <div className='space-y-3'>
           {fromCareer ? (
             <div className='rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-txt-muted'>
-              上一场是生涯/赛事的对局——结果请到「生涯」或「战绩」查看；这里只安排训练赛（友谊赛）。
+              {tr('上一场是生涯/赛事的对局——结果请到「生涯」或「战绩」查看；这里只安排训练赛（友谊赛）。')}
             </div>
           ) : null}
           <Setup />

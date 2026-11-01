@@ -1,0 +1,14 @@
+/** 跨页面共享的数据层文案（地图简介、相对时间等），只此一处维护。 */
+export const PHRASES: { zh: string; en: string }[] = [
+  { zh: "中路控制、窗户对狙，永恒的 pug 路线", en: "Mid control, window duels — the eternal pug route" },
+  { zh: "香蕉道控制、道具对轰、残酷回防", en: "Banana control, utility duels, brutal retakes" },
+  { zh: "立体攻防，上下层心理战", en: "Vertical play, mind games between floors" },
+  { zh: "丛林地形，中路与 A 洞的拉锯", en: "Jungle terrain, a tug of war over mid and A cave" },
+  { zh: "水路与中路双线，T 侧进攻空间充足", en: "Water and mid lanes, plenty of space for T-side executes" },
+  { zh: "长廊对狙，经典中的经典", en: "Long A duels — the classic of classics" },
+  { zh: "车厢顶与 Ivy，道具与站位的博弈", en: "Train yard and Ivy, a battle of utility and positioning" },
+  { zh: "刚刚", en: "just now" },
+  { zh: "分钟前", en: "min ago" },
+  { zh: "小时前", en: "h ago" },
+  { zh: "天前", en: "d ago" },
+];

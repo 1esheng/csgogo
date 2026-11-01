@@ -1,3 +1,4 @@
+import { tr } from '@/i18n';
 import type { TrainingRecord } from '@/types';
 
 export function initials(nickname: string): string {
@@ -7,12 +8,12 @@ export function initials(nickname: string): string {
 
 export function relativeTime(at: number): string {
   const minutes = Math.floor((Date.now() - at) / 60000);
-  if (minutes < 1) return '刚刚';
-  if (minutes < 60) return minutes + ' 分钟前';
+  if (minutes < 1) return tr('刚刚');
+  if (minutes < 60) return minutes + ' ' + tr('分钟前');
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return hours + ' 小时前';
+  if (hours < 24) return hours + ' ' + tr('小时前');
   const days = Math.floor(hours / 24);
-  return days + ' 天前';
+  return days + ' ' + tr('天前');
 }
 
 export const TRAINING_KIND_LABEL: Record<TrainingRecord['kind'], string> = {

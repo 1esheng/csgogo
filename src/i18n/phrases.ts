@@ -1,6 +1,13 @@
 import type { Lang } from '@/i18n';
 
 /** 中文文案 → 英文文案的短语表（用于界面外壳与常用按钮，未收录的自动回退中文）。 */
+import { PHRASES as squad } from '@/i18n/areas/squad';
+import { PHRASES as collection } from '@/i18n/areas/collection';
+import { PHRASES as career } from '@/i18n/areas/career';
+import { PHRASES as match } from '@/i18n/areas/match';
+import { PHRASES as misc } from '@/i18n/areas/misc';
+import { PHRASES as shared } from '@/i18n/areas/shared';
+
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
   { zh: "综合", en: "OVR" },
@@ -456,6 +463,12 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "经济", en: "Economy" },
   { zh: "买枪", en: "Buy" },
   { zh: "战术", en: "Tactic" },
+  ...squad,
+  ...collection,
+  ...career,
+  ...match,
+  ...misc,
+  ...shared,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));

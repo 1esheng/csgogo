@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useT } from '@/hooks/useLang';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Sparkles } from 'lucide-react';
@@ -24,6 +25,7 @@ interface TrainerEntry {
 }
 
 export function RosterTraining() {
+  const { tr, pick } = useT();
   const cards = useGameStore((s) => s.cards);
   const customTemplates = useGameStore((s) => s.customTemplates);
   const customPlayers = useGameStore((s) => s.customPlayers);
@@ -76,9 +78,9 @@ export function RosterTraining() {
     return (
       <Panel>
         <EmptyState
-          title='还没有可训练的卡牌'
-          hint='先从卡包签下第一位选手——之后每张卡牌都可以通过训练获得经验与永久属性成长。'
-          action={<Button className='mt-2' onClick={() => navigate('/packs')}>开启卡包</Button>}
+          title={tr('还没有可训练的卡牌')}
+          hint={tr('先从卡包签下第一位选手——之后每张卡牌都可以通过训练获得经验与永久属性成长。')}
+          action={<Button className='mt-2' onClick={() => navigate('/packs')}>{tr('开启卡包')}</Button>}
         />
       </Panel>
     );
@@ -87,7 +89,7 @@ export function RosterTraining() {
   if (!selected) {
     return (
       <Panel>
-        <EmptyState title='没有符合搜索条件的卡牌' hint='清空搜索框即可看到全部收藏。' />
+        <EmptyState title={tr('没有符合搜索条件的卡牌')} hint={tr('清空搜索框即可看到全部收藏。')} />
       </Panel>
     );
   }
@@ -111,7 +113,11 @@ export function RosterTraining() {
     if (!result.ok && result.error) { toast(result.error, 'error'); return; }
     const after = useGameStore.getState().cards.find((c) => c.templateId === selected.template.id);
     if (after && after.level > before) {
-      celebrate({ title: selected.nickname + ' 升到 ' + after.level + ' 级', subtitle: '全属性成长 +' + (after.level - before) * 3 + ' 点', tone: 'level' });
+      celebrate({
+        title: selected.nickname + pick(' 升到 ', ' reached level ') + after.level + pick(' 级', ''),
+        subtitle: pick('全属性成长 +', 'All attributes +') + (after.level - before) * 3 + pick(' 点', ' pts'),
+        tone: 'level',
+      });
     }
   }
 
@@ -119,12 +125,12 @@ export function RosterTraining() {
     <div className='grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)]'>
       <Panel className='xl:max-h-[calc(100vh-220px)] xl:overflow-y-auto'>
         <div className='mb-2 flex items-center justify-between'>
-          <div className='label-xs'>收藏 · {cards.length} 张 · {entries.length} 名选手</div>
-          <div className='text-[11px] text-txt-muted'>同名卡合并显示</div>
+          <div className='label-xs'>{tr('收藏')} · {cards.length} {tr('张')} · {entries.length} {tr('名选手')}</div>
+          <div className='text-[11px] text-txt-muted'>{tr('同名卡合并显示')}</div>
         </div>
-        <Input value={query} onChange={setQuery} placeholder='搜索选手' />
+        <Input value={query} onChange={setQuery} placeholder={tr('搜索选手')} />
         {entries.length === 0 ? (
-          <EmptyState title='没有符合搜索条件的卡牌' hint='清空搜索框即可看到全部收藏。' />
+          <EmptyState title={tr('没有符合搜索条件的卡牌')} hint={tr('清空搜索框即可看到全部收藏。')} />
         ) : (
           <div className='mt-2 space-y-1.5'>
             {entries.map((entry) => {
@@ -153,7 +159,7 @@ export function RosterTraining() {
                     <span className='flex items-center gap-1.5'>
                       <span className='truncate font-display text-[13px] font-bold text-txt'>{entry.nickname}</span>
                       <span className='rounded bg-black/40 px-1 text-[9px] font-bold uppercase tracking-wider text-txt-muted'>
-                        {ROLE_LABEL[entry.template.primaryRole]}
+                        {tr(ROLE_LABEL[entry.template.primaryRole])}
                       </span>
                       {entry.copies > 1 ? (
                         <span className='rounded bg-white/10 px-1 text-[9px] font-bold text-txt-muted'>×{entry.copies}</span>
@@ -163,7 +169,7 @@ export function RosterTraining() {
                       <span className='min-w-0 flex-1'>
                         <Progress value={rowXp.pct * 100} height='h-1' tone='blue' />
                       </span>
-                      <span className='shrink-0 text-[10px] text-txt-muted'>{entry.card.level} 级</span>
+                      <span className='shrink-0 text-[10px] text-txt-muted'>{entry.card.level} {tr('级')}</span>
                     </span>
                   </span>
                   <span className='shrink-0 font-display text-sm font-black' style={{ color: rowRarity.color }}>
@@ -179,15 +185,15 @@ export function RosterTraining() {
       <div className='space-y-4'>
         <Panel>
           <SectionTitle
-            title='现在阵容'
-            subtitle='按当前首发五人一键训练——同名卡一起升级，按人数扣费。'
+            title={tr('现在阵容')}
+            subtitle={tr('按当前首发五人一键训练——同名卡一起升级，按人数扣费。')}
           />
           {lineup.length === 0 ? (
-            <p className='text-xs text-txt-muted'>首发阵容还是空的——先到「阵容」页面指派 5 名选手。</p>
+            <p className='text-xs text-txt-muted'>{tr('首发阵容还是空的——先到「阵容」页面指派 5 名选手。')}</p>
           ) : (
             <div className='space-y-2'>
               <div className='flex flex-wrap items-center gap-1.5 text-xs text-txt-muted'>
-                <span className='text-txt'>{lineup.length} 人：</span>
+                <span className='text-txt'>{lineup.length} {tr('人：')}</span>
                 {lineupNames.map((name) => (
                   <span key={name} className='rounded bg-white/5 px-1.5 py-0.5'>{name}</span>
                 ))}
@@ -199,11 +205,11 @@ export function RosterTraining() {
                   className='rounded-lg border border-white/10 bg-ink-800 px-2 py-1.5 text-xs text-txt'
                 >
                   {TRAINING_DRILLS.map((drill) => (
-                    <option key={drill.id} value={drill.id}>{drill.label}（{drill.cost} 金币/人）</option>
+                    <option key={drill.id} value={drill.id}>{tr(drill.label)}{tr('（')}{drill.cost}{tr(' 金币/人）')}</option>
                   ))}
                 </select>
                 <Button size='sm' disabled={coins < squadDrillSpec.cost} onClick={() => trainSquad(squadDrill)}>
-                  <Sparkles size={13} /> 一键训练全队（{(squadDrillSpec.cost * lineup.length).toLocaleString()} 金币）
+                  <Sparkles size={13} /> {tr('一键训练全队')}{tr('（')}{(squadDrillSpec.cost * lineup.length).toLocaleString()}{tr(' 金币）')}
                 </Button>
               </div>
             </div>
@@ -230,27 +236,27 @@ export function RosterTraining() {
                   <h3 className='font-display text-lg font-bold text-txt'>{selected.nickname}</h3>
                   <Badge tone='accent'>{rarity.label}</Badge>
                   <Badge tone={atCap ? 'success' : 'muted'}>
-                    {atCap ? '已满级' : selected.card.level + '/' + LEVEL_CONFIG.maxLevel + ' 级'}
+                    {atCap ? tr('已满级') : selected.card.level + '/' + LEVEL_CONFIG.maxLevel + ' ' + tr('级')}
                   </Badge>
-                  {selected.copies > 1 ? <Badge tone='muted'>同名卡 ×{selected.copies}</Badge> : null}
+                  {selected.copies > 1 ? <Badge tone='muted'>{tr('同名卡')} ×{selected.copies}</Badge> : null}
                 </div>
                 <p className='mt-0.5 text-[11px] text-txt-muted'>
-                  {selected.template.season} · {ROLE_LABEL[selected.template.primaryRole]} / {ROLE_LABEL[selected.template.secondaryRole]} ·
-                  {' '}{selected.template.skill.name}
+                  {selected.template.season} · {tr(ROLE_LABEL[selected.template.primaryRole])} / {tr(ROLE_LABEL[selected.template.secondaryRole])} ·
+                  {' '}{tr(selected.template.skill.name)}
                 </p>
               </div>
 
               <div>
                 <div className='mb-1 flex items-center justify-between text-[11px] text-txt-muted'>
-                  <span>经验进度</span>
+                  <span>{tr('经验进度')}</span>
                   <span className='font-semibold text-txt'>
-                    {atCap ? '已满级' : xp.current + ' / ' + xp.required + ' XP'}
+                    {atCap ? tr('已满级') : xp.current + ' / ' + xp.required + ' XP'}
                   </span>
                 </div>
                 <Progress value={atCap ? 100 : xp.pct * 100} tone={atCap ? 'success' : 'accent'} height='h-2' />
                 <div className='mt-1 flex items-center justify-between text-[10px] text-txt-muted'>
-                  <span>累计 {selected.card.xp} XP · 成长倍率 ×{selected.template.growth.toFixed(2)}</span>
-                  <span>等级上限 {LEVEL_CONFIG.maxLevel}</span>
+                  <span>{tr('累计')} {selected.card.xp} XP · {tr('成长倍率')} ×{selected.template.growth.toFixed(2)}</span>
+                  <span>{tr('等级上限')} {LEVEL_CONFIG.maxLevel}</span>
                 </div>
               </div>
 
@@ -273,14 +279,14 @@ export function RosterTraining() {
                       )}
                     >
                       <div className='flex items-center justify-between gap-2'>
-                        <span className='font-display text-[13px] font-bold text-txt'>{drill.label}</span>
+                        <span className='font-display text-[13px] font-bold text-txt'>{tr(drill.label)}</span>
                         <span className='inline-flex items-center gap-1 text-[11px] font-semibold text-accent'>
                           <span>+{gain} XP</span>
                         </span>
                       </div>
                       <div className='mt-1 flex items-center justify-between text-[10px] text-txt-muted'>
-                        <span>主练 {ATTRIBUTE_LABEL[drill.focus]}</span>
-                        <span>{drill.cost} 金币</span>
+                        <span>{tr('主练')} {tr(ATTRIBUTE_LABEL[drill.focus])}</span>
+                        <span>{drill.cost} {tr('金币')}</span>
                       </div>
                     </button>
                   );
@@ -288,7 +294,7 @@ export function RosterTraining() {
               </div>
               {coins < Math.min(...TRAINING_DRILLS.map((drill) => drill.cost)) ? (
                 <p className='rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-[11px] text-danger'>
-                  金币不足，无法进行任何训练。打比赛可以赚取更多金币。
+                  {tr('金币不足，无法进行任何训练。打比赛可以赚取更多金币。')}
                 </p>
               ) : null}
             </div>
@@ -296,12 +302,12 @@ export function RosterTraining() {
         </Panel>
 
         <Panel>
-          <SectionTitle title='下一级将获得' subtitle='成长预估与永久属性上限。' />
+          <SectionTitle title={tr('下一级将获得')} subtitle={tr('成长预估与永久属性上限。')} />
           <GrowthPreview template={selected.template} level={selected.card.level} stars={selected.card.stars ?? 1} />
         </Panel>
 
         <Panel>
-          <SectionTitle title='最近训练记录' subtitle='最近 8 条。' />
+          <SectionTitle title={tr('最近训练记录')} subtitle={tr('最近 8 条。')} />
           <TrainingLog />
         </Panel>
       </div>
