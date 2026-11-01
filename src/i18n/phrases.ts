@@ -365,6 +365,11 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "档战队", en: "tier club" },
   { zh: "型", en: " type" },
   { zh: "执教能力", en: "Coaching ability" },
+  { zh: "阵容齐整 · 可以开赛", en: "Lineup ready" },
+  { zh: "还差", en: "Need" },
+  { zh: "人才能开赛", en: "more to play" },
+  { zh: "战力", en: "POWER" },
+  { zh: "评分", en: "RATING" },
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));
