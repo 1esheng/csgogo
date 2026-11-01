@@ -17,15 +17,32 @@ Collect player cards, build a five-man lineup, hire a head coach, call tactics r
 
 ---
 
-## Screenshots
+## Screenshots (English UI, captured from the live site)
 
-| Overview (English UI) | Player collection |
+| Overview | Lineup |
 | --- | --- |
-| ![dashboard](docs/screenshots/173-en-dashboard.png) | ![collection](docs/screenshots/175-en-collection.png) |
+| ![俱乐部总览](docs/screenshots/173-en-dashboard.png) | ![阵容](docs/screenshots/174-en-lineup.png) |
 
-| Packs | Coaching staff |
+| Collection | Packs |
 | --- | --- |
-| ![packs](docs/screenshots/136-coach-droptable.png) | ![coaches](docs/screenshots/157-coach-effects.png) |
+| ![选手图鉴](docs/screenshots/175-en-collection.png) | ![卡包](docs/screenshots/176-en-packs.png) |
+
+| Training | Coaching |
+| --- | --- |
+| ![训练](docs/screenshots/177-en-training.png) | ![教练组](docs/screenshots/178-en-coaching.png) |
+
+| Match | Career |
+| --- | --- |
+| ![对局](docs/screenshots/179-en-match.png) | ![生涯](docs/screenshots/180-en-career.png) |
+
+| Rankings | Achievements |
+| --- | --- |
+| ![排行榜](docs/screenshots/181-en-rankings.png) | ![成就](docs/screenshots/182-en-achievements.png) |
+
+| Settings |  |
+| --- | --- |
+| ![设置](docs/screenshots/183-en-settings.png) |  |
+
 
 ---
 
