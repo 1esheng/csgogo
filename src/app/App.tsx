@@ -67,7 +67,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         <div className='flex h-10 w-10 items-center justify-center rounded-xl' style={{ background: (club.color ?? '#F5A623') + '22', border: '1px solid ' + (club.color ?? '#F5A623') + '55' }}>{React.createElement(badgeIcon(club.badge).icon, { size: 20, style: { color: club.color ?? '#F5A623' } })}</div>
         <div className='min-w-0'>
           <div className='truncate font-display text-[15px] font-bold tracking-wide'>{club.name}</div>
-          <div className='text-[10px] uppercase tracking-[0.16em] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
+          <div className='text-[11px] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <div className='ml-auto flex items-center gap-2 overflow-x-auto no-scrollbar lg:gap-3'>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm sm:flex'>
           <Swords size={14} className='text-txt-muted' />
-          <span className='text-[10px] uppercase tracking-wider text-txt-muted'>{t('common.lineupPower')}</span>
+          <span className='text-[11px] text-txt-muted'>{t('common.lineupPower')}</span>
           <span className='font-display font-bold text-accent'>{breakdown.ovr}</span>
         </div>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm md:flex'>
@@ -121,14 +121,14 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-accent font-display text-sm font-black text-ink-900'>CS</div>
           <div>
             <div className='font-display text-[15px] font-black tracking-[0.18em] text-txt'>DYNASTY</div>
-            <div className='text-[10px] uppercase tracking-[0.22em] text-txt-muted'>CS2 Manager</div>
+            <div className='text-[10px] tracking-[0.14em] text-txt-muted/70'>CS2 Manager</div>
           </div>
           <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
         </div>
         <nav className='flex flex-1 flex-col gap-4 overflow-y-auto pb-2'>
           {['nav.group.club', 'nav.group.match', 'nav.group.system'].map((group) => (
             <div key={group}>
-              <div className='mb-1.5 px-3 text-[11px] font-bold uppercase tracking-[0.2em] text-txt-muted/60'>{t(group)}</div>
+              <div className='mb-1 mt-6 px-2.5 text-[11px] font-medium text-txt-muted/70 first:mt-0'>{t(group)}</div>
               <div className='flex flex-col gap-0.5'>
                 {NAV_ITEMS.filter((item) => item.group === group).map((item) => (
                   <NavLink
@@ -137,17 +137,17 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                     onClick={onClose}
                     className={({ isActive }) =>
                       clsx(
-                        'focus-ring group relative flex items-center gap-3 rounded-lg px-3 py-3 text-base leading-none transition-all duration-150 hover:translate-x-0.5',
+                        'focus-ring group relative flex h-[34px] items-center gap-2.5 rounded-lg px-2.5 text-[13px] leading-none transition-colors duration-150',
                         isActive
-                          ? 'bg-accent/12 font-semibold text-accent'
+                          ? 'bg-white/[0.06] font-medium text-txt'
                           : 'text-txt-muted hover:bg-white/[0.06] hover:text-txt',
                       )
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        {isActive ? <span className='absolute left-0 h-6 w-[3px] rounded-r bg-accent' /> : null}
-                        <item.icon size={21} className='shrink-0' />
+                        {isActive ? <span className='absolute left-0 h-4 w-[2px] rounded-r bg-accent' /> : null}
+                        <item.icon size={16} className='shrink-0 opacity-80' />
                         <span className='truncate'>{t(item.labelKey)}</span>
                       </>
                     )}
@@ -245,7 +245,7 @@ export function App() {
   if (!ready) {
     return (
       <div className='flex min-h-screen items-center justify-center bg-ink-900'>
-        <div className='animate-pulse-soft font-display text-sm uppercase tracking-[0.3em] text-txt-muted'>{tr('正在载入王朝…')}</div>
+        <div className='animate-pulse-soft font-display text-sm tracking-[0.14em] text-txt-muted'>{tr('正在载入王朝…')}</div>
       </div>
     );
   }

@@ -17,7 +17,7 @@ export function SectionTitle({
   return (
     <div className='mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-2'>
       <div>
-        <h2 className='font-display text-xl font-bold tracking-wide text-txt'>{title}</h2>
+        <h2 className='font-display text-lg font-semibold tracking-tight text-txt'>{title}</h2>
         {subtitle ? <p className='mt-1 text-sm text-txt-muted'>{subtitle}</p> : null}
       </div>
       {right}
@@ -76,7 +76,7 @@ export function Badge({
     muted: 'bg-white/5 text-txt-muted border-white/5',
   };
   return (
-    <span className={clsx('inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider', tones[tone], className)}>
+    <span className={clsx('inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold tracking-normal', tones[tone], className)}>
       {children}
     </span>
   );
@@ -149,7 +149,7 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-4 flex items-center justify-between'>
-          <h3 className='font-display text-lg font-bold'>{title}</h3>
+          <h3 className='font-display text-base font-semibold tracking-tight'>{title}</h3>
           <button onClick={onClose} className='focus-ring rounded-lg p-1 text-txt-muted hover:text-txt' aria-label='Close'>
             <X size={18} />
           </button>
@@ -164,7 +164,7 @@ export function Modal({
 export function EmptyState({ title, hint, action }: { title: string; hint?: string; action?: React.ReactNode }) {
   return (
     <div className='flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/10 p-10 text-center'>
-      <div className='font-display text-base font-semibold text-txt'>{title}</div>
+      <div className='font-display text-[15px] font-semibold tracking-tight text-txt'>{title}</div>
       {hint ? <div className='max-w-md text-sm text-txt-muted'>{hint}</div> : null}
       {action}
     </div>

@@ -16,23 +16,22 @@ body {
 
 @layer components {
   .surface {
-    @apply rounded-2xl border border-white/5 bg-ink-800/80 backdrop-blur-sm shadow-card;
+    @apply rounded-xl border border-white/[0.07] bg-ink-800;
   }
   .surface-raised {
-    @apply rounded-2xl border border-white/10 bg-ink-700/70 backdrop-blur-md shadow-card;
+    @apply rounded-xl border border-white/[0.09] bg-ink-700;
   }
   .label-xs {
-    @apply text-[11.5px] font-semibold uppercase tracking-[0.12em] text-txt-muted;
+    @apply text-[11px] font-medium tracking-normal text-txt-muted;
   }
   .stat-number {
-    @apply font-display text-3xl font-bold leading-none tracking-tight;
+    @apply font-display text-3xl font-medium leading-none tracking-tight tabular-nums;
   }
   .focus-ring {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900;
   }
   .grid-noise {
-    background-image: radial-gradient(circle at 20% 10%, rgba(245,166,35,0.10), transparent 45%),
-      radial-gradient(circle at 85% 0%, rgba(229,72,77,0.10), transparent 40%);
+    background-image: none;
   }
 }
 
@@ -87,4 +86,8 @@ body {
 
 .tier-scroll::-webkit-scrollbar-track {
   background: transparent;
+}
+
+@layer utilities {
+  .tnum { font-variant-numeric: tabular-nums; }
 }
