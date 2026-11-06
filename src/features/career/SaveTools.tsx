@@ -85,8 +85,8 @@ export function SaveTools() {
         <p
           className={
             status.kind === 'ok'
-              ? 'rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5 text-xs text-emerald-200'
-              : 'rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-xs text-danger'
+              ? 'rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5 text-[13px] text-emerald-200'
+              : 'rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-[13px] text-danger'
           }
         >
           {status.text}
@@ -95,7 +95,7 @@ export function SaveTools() {
 
       <Modal open={confirmReset} onClose={() => setConfirmReset(false)} title={tr('重置存档')}>
         <div className='space-y-4'>
-          <div className='flex items-start gap-2 rounded-xl border border-danger/30 bg-danger/10 p-3 text-sm text-danger'>
+          <div className='flex items-start gap-2 rounded-xl border border-danger/30 bg-danger/10 p-3 text-[15px] text-danger'>
             <AlertTriangle size={16} className='mt-0.5 shrink-0' />
             <span>
               {tr('这将从本地存储中删除当前俱乐部、全部选手卡、比赛与赛事，并返回初始引导流程。如需保留，请先导出存档。')}

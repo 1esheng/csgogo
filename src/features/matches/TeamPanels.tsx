@@ -18,15 +18,15 @@ export function TeamRoster({
       <div className='mb-2 flex items-center justify-between gap-2'>
         <div className='min-w-0'>
           <div className='label-xs truncate'>{label}</div>
-          <div className='truncate font-display text-sm font-semibold text-txt'>{team.name}</div>
+          <div className='truncate font-display text-[15px] font-semibold text-txt'>{team.name}</div>
         </div>
         <Badge tone={sideTone(team.side)}>{team.side}</Badge>
       </div>
-      <div className='mb-2 flex items-center justify-between text-[11px] text-txt-muted'>
+      <div className='mb-2 flex items-center justify-between text-[12px] text-txt-muted'>
         <span>{alive}/5 {tr('存活')}</span>
         <span className='font-mono'>{moneyLabel(bank)}</span>
       </div>
-      <div className={clsx('flex-1 space-y-1.5 overflow-auto', compact ? 'text-[11px]' : '')}>
+      <div className={clsx('flex-1 space-y-1.5 overflow-auto', compact ? 'text-[12px]' : '')}>
         {team.players.map((p) => {
           const weapon = WEAPON_MAP[p.equipment.weaponId];
           return (
@@ -50,7 +50,7 @@ export function TeamRoster({
                     </span>
                   ) : null}
                 </div>
-                <span className='shrink-0 font-mono text-[10px] text-txt-muted'>{moneyLabel(p.money)}</span>
+                <span className='shrink-0 font-mono text-[12px] text-txt-muted'>{moneyLabel(p.money)}</span>
               </div>
               <div className='mt-1 h-1 w-full overflow-hidden rounded-full bg-white/10'>
                 <div
@@ -58,9 +58,9 @@ export function TeamRoster({
                   style={{ width: hpWidth(p.hp) }}
                 />
               </div>
-              <div className='mt-1 flex items-center justify-between gap-1 text-[10px] text-txt-muted'>
+              <div className='mt-1 flex items-center justify-between gap-1 text-[12px] text-txt-muted'>
                 <span className='truncate'>
-                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[9px] text-txt-muted'>{tr(ROLE_LABEL[p.role])}</span>
+                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[11px] text-txt-muted'>{tr(ROLE_LABEL[p.role])}</span>
                   {weapon ? weapon.name : tr('空手')}
                 </span>
                 <span className='shrink-0 font-mono'>
@@ -72,12 +72,12 @@ export function TeamRoster({
           );
         })}
         {team.players.length === 0 ? (
-          <div className='rounded-lg border border-dashed border-white/10 px-2 py-4 text-center text-[11px] text-txt-muted'>
+          <div className='rounded-lg border border-dashed border-white/10 px-2 py-4 text-center text-[12px] text-txt-muted'>
             {tr('暂无阵容数据。')}
           </div>
         ) : null}
       </div>
-      <div className='mt-2 flex items-center justify-between border-t border-white/5 pt-2 text-[10px] text-txt-muted'>
+      <div className='mt-2 flex items-center justify-between border-t border-white/5 pt-2 text-[12px] text-txt-muted'>
         <span>{tr('连败奖励')}</span>
         <span className='font-mono'>{moneyLabel(team.lossBonus)}</span>
       </div>

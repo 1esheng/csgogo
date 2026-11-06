@@ -24,7 +24,7 @@ function StatRows({ lines }: { lines: MatchStatLine[] }) {
   const sorted = [...lines].sort((a, b) => b.rating - a.rating);
   return (
     <div className='space-y-1'>
-      <div className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] gap-1 px-2 text-[10px] text-txt-muted'>
+      <div className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] gap-1 px-2 text-[12px] text-txt-muted'>
         <span>{tr('选手')}</span>
         <span className='text-right'>K</span>
         <span className='text-right'>D</span>
@@ -36,7 +36,7 @@ function StatRows({ lines }: { lines: MatchStatLine[] }) {
       {sorted.map((line) => (
         <div
           key={line.cardInstanceId + line.playerId}
-          className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] items-center gap-1 rounded-lg bg-white/[0.03] px-2 py-1 text-xs'
+          className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] items-center gap-1 rounded-lg bg-white/[0.03] px-2 py-1 text-[13px]'
         >
           <span className='min-w-0 truncate font-semibold text-txt'>{line.nickname}</span>
           <span className='text-right text-txt'>{line.kills}</span>
@@ -60,16 +60,16 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
   });
   return (
     <div className='space-y-4'>
-      <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-sm'>
+      <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px]'>
         <Badge tone={summary.won ? 'success' : 'danger'}>{summary.won ? tr('胜利') : tr('失败')}</Badge>
         <span className='font-display text-lg font-semibold text-txt'>
           {summary.scoreFor} : {summary.scoreAgainst}
         </span>
         <span className='text-txt-muted'>{tr('对阵 ')}{summary.opponentName}</span>
-        <span className='ml-auto text-xs text-txt-muted'>{played}</span>
+        <span className='ml-auto text-[13px] text-txt-muted'>{played}</span>
       </div>
 
-      <div className='grid grid-cols-2 gap-3 text-xs sm:grid-cols-4'>
+      <div className='grid grid-cols-2 gap-3 text-[13px] sm:grid-cols-4'>
         <div>
           <div className='label-xs'>{tr('地图')}</div>
           <div className='mt-0.5 font-semibold text-txt'>{MAPS[summary.mapId]?.name ?? summary.mapId}</div>
@@ -92,46 +92,46 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
 
       <div>
         <div className='mb-2 flex items-center justify-between'>
-          <span className='font-display text-sm font-semibold text-txt'>{summary.teamName}</span>
-          <span className='text-xs text-txt-muted'>{tr('你的阵容')}</span>
+          <span className='font-display text-[15px] font-semibold text-txt'>{summary.teamName}</span>
+          <span className='text-[13px] text-txt-muted'>{tr('你的阵容')}</span>
         </div>
-        {mine.length ? <StatRows lines={mine} /> : <p className='text-xs text-txt-muted'>{tr('本场比赛未保存我方选手数据。')}</p>}
+        {mine.length ? <StatRows lines={mine} /> : <p className='text-[13px] text-txt-muted'>{tr('本场比赛未保存我方选手数据。')}</p>}
       </div>
 
       <div>
         <div className='mb-2 flex items-center justify-between'>
-          <span className='font-display text-sm font-semibold text-txt'>{summary.opponentName}</span>
-          <span className='text-xs text-txt-muted'>{tr('对手')}</span>
+          <span className='font-display text-[15px] font-semibold text-txt'>{summary.opponentName}</span>
+          <span className='text-[13px] text-txt-muted'>{tr('对手')}</span>
         </div>
-        {theirs.length ? <StatRows lines={theirs} /> : <p className='text-xs text-txt-muted'>{tr('本场比赛未保存对手数据。')}</p>}
+        {theirs.length ? <StatRows lines={theirs} /> : <p className='text-[13px] text-txt-muted'>{tr('本场比赛未保存对手数据。')}</p>}
       </div>
 
       <Divider />
 
       <div>
-        <div className='mb-1 text-sm font-semibold text-txt'>MVP</div>
+        <div className='mb-1 text-[15px] font-semibold text-txt'>MVP</div>
         {summary.mvp ? (
-          <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2 text-sm'>
+          <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2 text-[15px]'>
             <span className='font-semibold text-txt'>{summary.mvp.nickname}</span>
-            <span className='ml-2 text-xs text-txt-muted'>
+            <span className='ml-2 text-[13px] text-txt-muted'>
               {summary.mvp.kills}/{summary.mvp.deaths}/{summary.mvp.assists} · {tr('评分 ')}{summary.mvp.rating.toFixed(2)}
             </span>
           </div>
         ) : (
-          <p className='text-xs text-txt-muted'>{tr('本场比赛未记录 MVP。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('本场比赛未记录 MVP。')}</p>
         )}
       </div>
 
       <div>
-        <div className='mb-1 text-sm font-semibold text-txt'>{tr('关键回合')}</div>
+        <div className='mb-1 text-[15px] font-semibold text-txt'>{tr('关键回合')}</div>
         {summary.keyRounds.length === 0 ? (
-          <p className='text-xs text-txt-muted'>{tr('本场比赛没有标记下包、拆包或 ACE 回合。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('本场比赛没有标记下包、拆包或 ACE 回合。')}</p>
         ) : (
           <ul className='space-y-1'>
             {summary.keyRounds.map((round) => (
               <li
                 key={round.roundNumber + round.text}
-                className='flex items-center gap-2 rounded-lg bg-white/[0.03] px-2 py-1 text-xs text-txt-muted'
+                className='flex items-center gap-2 rounded-lg bg-white/[0.03] px-2 py-1 text-[13px] text-txt-muted'
               >
                 <span className='font-semibold text-txt'>R{round.roundNumber}</span>
                 <span className='min-w-0 flex-1 truncate'>{round.text}</span>

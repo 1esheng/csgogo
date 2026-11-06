@@ -93,18 +93,18 @@ export function RecordsPage() {
                   {match.scoreAgainst}
                 </span>
                 <span className='min-w-0 flex-1'>
-                  <span className='block truncate text-sm font-semibold text-txt'>{match.opponentName}</span>
-                  <span className='text-[11px] text-txt-muted'>
+                  <span className='block truncate text-[15px] font-semibold text-txt'>{match.opponentName}</span>
+                  <span className='text-[12px] text-txt-muted'>
                     {MAPS[match.mapId]?.name ?? match.mapId} · {match.roundsPlayed}{tr(' 回合 · ')}{tr(MODE_LABEL[match.mode])}
                   </span>
                 </span>
-                <span className='hidden text-xs text-txt-muted sm:block'>
+                <span className='hidden text-[13px] text-txt-muted sm:block'>
                   {match.mvp ? 'MVP ' + match.mvp.nickname + ' · ' + match.mvp.rating.toFixed(2) : tr('无 MVP')}
                 </span>
-                <span className='inline-flex items-center gap-1 text-xs font-semibold text-accent'>
+                <span className='inline-flex items-center gap-1 text-[13px] font-semibold text-accent'>
                   <Coins size={12} /> {match.coins.toLocaleString()}
                 </span>
-                <span className='text-[11px] text-txt-muted'>{formatDate(match.playedAt)}</span>
+                <span className='text-[12px] text-txt-muted'>{formatDate(match.playedAt)}</span>
               </button>
             ))}
           </div>
@@ -116,7 +116,7 @@ export function RecordsPage() {
             </Button>
           </div>
         ) : null}
-        <p className='mt-3 text-[11px] leading-relaxed text-txt-muted'>
+        <p className='mt-3 text-[12px] leading-relaxed text-txt-muted'>
           {tr('每场比赛仅保存摘要数据。完整回放（含每个回合事件）只在 IndexedDB 中保留最近 20 场，本页面不会加载。')}
         </p>
       </Panel>

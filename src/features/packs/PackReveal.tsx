@@ -58,24 +58,24 @@ export function PackReveal({
               }}
             >
               <div className='flex items-center justify-between gap-1'>
-                <span className='font-display text-[10px] font-semibold ' style={{ color: rarity.color }}>
+                <span className='font-display text-[12px] font-semibold ' style={{ color: rarity.color }}>
                   {rarity.label}
-                {result.pity ? <span className='ml-1 rounded bg-accent/20 px-1 py-0.5 text-[9px] text-accent'>{tr('保底')}</span> : null}
+                {result.pity ? <span className='ml-1 rounded bg-accent/20 px-1 py-0.5 text-[11px] text-accent'>{tr('保底')}</span> : null}
                 </span>
                 <span
                   className={clsx(
-                    'rounded px-1.5 py-0.5 text-[9px] font-semibold ',
+                    'rounded px-1.5 py-0.5 text-[11px] font-semibold ',
                     result.isNew ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-txt-muted',
                   )}
                 >
                   {result.isNew ? tr('新卡') : tr('重复 · 已入库')}
                 </span>
               </div>
-              <div className='mt-2 truncate font-display text-sm font-semibold text-txt'>{nickname}</div>
-              <div className='text-[10px] text-txt-muted'>
+              <div className='mt-2 truncate font-display text-[15px] font-semibold text-txt'>{nickname}</div>
+              <div className='text-[12px] text-txt-muted'>
                 {ROLE_LABEL[result.template.primaryRole]} · S{result.template.season}
               </div>
-              <div className='mt-2 border-t border-white/10 pt-1.5 text-[10px] text-txt-muted'>
+              <div className='mt-2 border-t border-white/10 pt-1.5 text-[12px] text-txt-muted'>
                 {result.isNew ? tr('已加入卡册') : tr('精通 +') + PACK_CONFIG.masteryPerDuplicate}
               </div>
             </div>
@@ -83,7 +83,7 @@ export function PackReveal({
         })}
       </div>
 
-      <div className='relative mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-3 text-[11px] leading-relaxed text-txt-muted'>
+      <div className='relative mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-3 text-[12px] leading-relaxed text-txt-muted'>
         <span className='inline-flex items-center gap-1 font-semibold text-accent'><Sparkles size={11} /> {tr('重复卡牌')}</span>{' '}
         也会入库，可用于「图鉴 → 卡牌合成」升星；仅在同名卡已满 5 星时才折算精通 +{PACK_CONFIG.masteryPerDuplicate}，其碎片按
         4 碎片 = 1 金币兑换{duplicates > 0 ? tr('（本次获得 ') + coinsBack + tr(' 金币）') : ''}。所有新卡已直接进入你的卡册。

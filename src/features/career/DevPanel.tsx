@@ -7,7 +7,7 @@ import { Button, Panel, SectionTitle } from '@/components/ui';
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className='flex items-center justify-between gap-3 border-b border-white/5 py-1 text-xs last:border-0'>
+    <div className='flex items-center justify-between gap-3 border-b border-white/5 py-1 text-[13px] last:border-0'>
       <span className='text-txt-muted'>{label}</span>
       <span className='font-semibold text-txt'>{value}</span>
     </div>
@@ -56,7 +56,7 @@ export function DevPanel() {
       </div>
       <div className='mt-3 rounded-xl border border-accent/25 bg-accent/5 p-3'>
         <div className='label-xs mb-1 text-accent'>{tr('测试工具（会修改存档）')}</div>
-        <div className='mb-2 flex flex-wrap items-center gap-2 text-xs text-txt-muted'>
+        <div className='mb-2 flex flex-wrap items-center gap-2 text-[13px] text-txt-muted'>
           <Coins size={13} className='text-accent' />
           {tr('当前金币')} <span className='font-semibold text-txt'>{club.coins.toLocaleString()}</span> {tr('· 用来反复测试抽卡与合成')}
         </div>
@@ -65,14 +65,14 @@ export function DevPanel() {
           <Button size='sm' variant='ghost' onClick={() => grantTestCoins(10000)}>{tr('+1 万金币')}</Button>
           <Button size='sm' variant='outline' onClick={() => grantTestCoins(50000)}>{tr('+5 万金币')}</Button>
         </div>
-        <div className='mt-2 text-[11px] text-txt-muted'>{tr('正式游玩请忽略此区块；金币流水里会记为「调试：测试金币」。')}</div>
+        <div className='mt-2 text-[12px] text-txt-muted'>{tr('正式游玩请忽略此区块；金币流水里会记为「调试：测试金币」。')}</div>
       </div>
       <div className='mt-3 rounded-xl border border-white/5 bg-ink-900/40 p-3'>
         <div className='label-xs mb-1'>{tr('最近一场比赛种子')}</div>
         {last ? (
           <div className='flex flex-wrap items-center gap-2'>
-            <code className='rounded-md bg-white/5 px-2 py-1 font-mono text-xs text-accent'>{last.seed}</code>
-            <span className='text-xs text-txt-muted'>
+            <code className='rounded-md bg-white/5 px-2 py-1 font-mono text-[13px] text-accent'>{last.seed}</code>
+            <span className='text-[13px] text-txt-muted'>
               {MAPS[last.mapId]?.name ?? last.mapId} · {last.scoreFor}:{last.scoreAgainst}{tr(' 对阵 ')}{last.opponentName}
             </span>
             <Button
@@ -92,9 +92,9 @@ export function DevPanel() {
             </Button>
           </div>
         ) : (
-          <p className='text-xs text-txt-muted'>{tr('尚未完成任何比赛。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('尚未完成任何比赛。')}</p>
         )}
-        <p className='mt-2 text-[11px] leading-relaxed text-txt-muted'>
+        <p className='mt-2 text-[12px] leading-relaxed text-txt-muted'>
           {tr('种子可复现整场模拟：在种子、地图与阵容固定的情况下，引擎的结果是确定的。')}
         </p>
       </div>

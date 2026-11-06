@@ -46,7 +46,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
             </div>
             <div className='mt-1 flex items-center gap-1.5'>
               <Badge tone={teamA.side === 'T' ? 'accent' : 'neutral'}>{teamA.side}</Badge>
-              <span className='text-[11px] text-txt-muted'>{tr('已胜 ')}{teamA.score}{tr(' 回合')}</span>
+              <span className='text-[12px] text-txt-muted'>{tr('已胜 ')}{teamA.score}{tr(' 回合')}</span>
             </div>
           </div>
 
@@ -57,11 +57,11 @@ export function LiveBoard({ match }: { match: MatchState }) {
               <span className={winner === 'B' ? 'text-danger' : 'text-txt'}>{teamB.score}</span>
             </div>
             <div className='mt-1.5 flex items-center justify-center gap-1.5'>
-              <span className='text-[11px] text-txt-muted'>{tr('第 ')}{match.roundNumber}{tr(' 回合')}</span>
+              <span className='text-[12px] text-txt-muted'>{tr('第 ')}{match.roundNumber}{tr(' 回合')}</span>
               {match.overtime > 0 ? <Badge tone='danger'>{tr('加时 ')}{match.overtime}</Badge> : null}
               {over ? <Badge tone='accent'>{tr('终局')}</Badge> : null}
             </div>
-            <div className='mt-1 flex items-center justify-center gap-1 text-[10px] text-txt-muted'>
+            <div className='mt-1 flex items-center justify-center gap-1 text-[12px] text-txt-muted'>
               <Target size={10} /> {tr('先到 ')}{targetScore(match)}{tr(' 回合')}
             </div>
           </div>
@@ -77,12 +77,12 @@ export function LiveBoard({ match }: { match: MatchState }) {
               {teamB.name}
             </div>
             <div className='mt-1 flex items-center justify-end gap-1.5'>
-              <span className='text-[11px] text-txt-muted'>{tr('已胜 ')}{teamB.score}{tr(' 回合')}</span>
+              <span className='text-[12px] text-txt-muted'>{tr('已胜 ')}{teamB.score}{tr(' 回合')}</span>
               <Badge tone={teamB.side === 'T' ? 'accent' : 'neutral'}>{teamB.side}</Badge>
             </div>
           </div>
         </div>
-        <div className='flex flex-wrap items-center justify-between gap-2 border-t border-white/5 bg-ink-900/50 px-4 py-1.5 text-[11px] text-txt-muted'>
+        <div className='flex flex-wrap items-center justify-between gap-2 border-t border-white/5 bg-ink-900/50 px-4 py-1.5 text-[12px] text-txt-muted'>
           <span className='inline-flex items-center gap-1'>
             <MapPin size={11} className='text-accent' /> {map.name} · {tr(map.tagline)}
           </span>
@@ -95,15 +95,15 @@ export function LiveBoard({ match }: { match: MatchState }) {
       {lastRound ? (
         <div className='surface flex flex-wrap items-center gap-2 px-3 py-2'>
           <Badge tone='neutral'>{tr('第 ')}{lastRound.roundNumber}{tr(' 回合')}</Badge>
-          <span className='text-sm text-txt'>
+          <span className='text-[15px] text-txt'>
             {lastRound.winner
               ? lastRound.winner + tr(' 方拿下 —— ') + tr(ROUND_REASON_LABEL[lastRound.reason])
               : tr('回合进行中')}
           </span>
-          <span className='font-mono text-xs text-txt-muted'>
+          <span className='font-mono text-[13px] text-txt-muted'>
             T {lastRound.scoreT} : {lastRound.scoreCT} CT
           </span>
-          <span className='ml-auto font-mono text-xs text-txt'>
+          <span className='ml-auto font-mono text-[13px] text-txt'>
             {teamA.name} {teamA.score} : {teamB.score} {teamB.name}
           </span>
           {lastRound.bombPlanted ? <Badge tone='danger'>{tr('已安包')}</Badge> : null}

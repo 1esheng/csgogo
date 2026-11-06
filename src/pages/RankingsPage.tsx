@@ -70,12 +70,12 @@ export function RankingsPage() {
         <Panel>
           <SectionTitle title={tr('积分榜')} right={<Tabs tabs={TABS.map((item) => ({ ...item, label: tr(item.label) }))} active={tab} onChange={setTab} />} />
           {rows.length === 0 ? (
-            <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
+            <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-[15px] text-txt-muted'>
               {tr('本联赛暂无已评分的俱乐部——打一场比赛即可让积分上榜。')}
             </p>
           ) : (
             <div className='space-y-1.5'>
-              <div className='hidden grid-cols-[44px_minmax(0,1fr)_80px_88px_120px_160px] gap-2 px-3 text-[10px] text-txt-muted sm:grid'>
+              <div className='hidden grid-cols-[44px_minmax(0,1fr)_80px_88px_120px_160px] gap-2 px-3 text-[12px] text-txt-muted sm:grid'>
                 <span>#</span>
                 <span>{tr('俱乐部')}</span>
                 <span className='text-right'>{tr('积分')}</span>
@@ -103,7 +103,7 @@ export function RankingsPage() {
                   >
                     <span
                       className={clsx(
-                        'font-display text-sm font-semibold',
+                        'font-display text-[15px] font-semibold',
                         rank <= 3 ? 'text-accent' : isPlayer ? 'text-accent' : 'text-txt-muted',
                       )}
                     >
@@ -111,28 +111,28 @@ export function RankingsPage() {
                     </span>
                     <div className='min-w-0'>
                       <div className='flex min-w-0 items-center gap-2'>
-                        <span className='truncate text-sm font-semibold text-txt'>{entry.name}</span>
+                        <span className='truncate text-[15px] font-semibold text-txt'>{entry.name}</span>
                         {isPlayer ? <Badge tone='accent'>{tr('我')}</Badge> : null}
                       </div>
-                      <div className='text-[11px] text-txt-muted sm:hidden'>
+                      <div className='text-[12px] text-txt-muted sm:hidden'>
                         {entry.wins}-{entry.losses} · {league}
                       </div>
                     </div>
-                    <span className='text-right font-display text-sm font-semibold text-txt'>{entry.rating}</span>
-                    <span className='hidden text-right text-sm text-txt-muted sm:block'>
+                    <span className='text-right font-display text-[15px] font-semibold text-txt'>{entry.rating}</span>
+                    <span className='hidden text-right text-[15px] text-txt-muted sm:block'>
                       {entry.wins}-{entry.losses}
                     </span>
-                    <span className='hidden truncate text-xs text-txt-muted sm:block'>{league}</span>
+                    <span className='hidden truncate text-[13px] text-txt-muted sm:block'>{league}</span>
                     <div className='hidden sm:block'>
                       <Progress value={winPct} max={100} tone={winPct >= 50 ? 'success' : 'danger'} height='h-1.5' />
-                      <div className='mt-0.5 text-right text-[10px] text-txt-muted'>{Math.round(winPct)}%</div>
+                      <div className='mt-0.5 text-right text-[12px] text-txt-muted'>{Math.round(winPct)}%</div>
                     </div>
                   </button>
                 );
               })}
             </div>
           )}
-          <div className='mt-3 flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
+          <div className='mt-3 flex items-start gap-2 text-[12px] leading-relaxed text-txt-muted'>
             <Info size={13} className='mt-0.5 shrink-0' />
             <span>
               {tr('积分榜由真实模拟结果推导：每支俱乐部的评分都按引擎赛后的同一套 Elo 公式变动，AI 俱乐部也会依据其实际参加的赛事重新评分。')}
@@ -147,10 +147,10 @@ export function RankingsPage() {
               {upcoming.map(({ spec, gain, loss }) => (
                 <div key={spec.id} className='rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2'>
                   <div className='flex items-center justify-between gap-2'>
-                    <span className='min-w-0 truncate text-sm font-semibold text-txt'>{spec.name}</span>
-                    <span className='shrink-0 text-xs text-txt-muted'>{spec.rating}</span>
+                    <span className='min-w-0 truncate text-[15px] font-semibold text-txt'>{spec.name}</span>
+                    <span className='shrink-0 text-[13px] text-txt-muted'>{spec.rating}</span>
                   </div>
-                  <div className='mt-1 flex items-center gap-3 text-xs'>
+                  <div className='mt-1 flex items-center gap-3 text-[13px]'>
                     <span className='inline-flex items-center gap-1 font-semibold text-emerald-300'>
                       <TrendingUp size={12} /> {tr('胜')} {signed(gain)}
                     </span>
@@ -161,7 +161,7 @@ export function RankingsPage() {
                 </div>
               ))}
             </div>
-            <p className='mt-3 text-[11px] leading-relaxed text-txt-muted'>
+            <p className='mt-3 text-[12px] leading-relaxed text-txt-muted'>
               {tr('采用 K=28 的 Elo 算法，单场最低加分 ')}{RATING_CONFIG.winFloor}{tr('。击败高评分俱乐部收益更高，输给弱旅损失更大。')}
             </p>
           </Panel>
@@ -173,7 +173,7 @@ export function RankingsPage() {
           subtitle={liveWorld.enabled ? tr('每 60 秒自动推进一轮国际赛事并刷新排行榜') : tr('已暂停实时更新')}
           right={<Button size='sm' variant={liveWorld.enabled ? 'outline' : 'primary'} onClick={() => setLiveWorld(!liveWorld.enabled)}>{liveWorld.enabled ? tr('暂停') : tr('继续')}</Button>}
         />
-        <div className='flex flex-wrap items-center gap-3 text-[11px] text-txt-muted'>
+        <div className='flex flex-wrap items-center gap-3 text-[12px] text-txt-muted'>
           <span className='inline-flex items-center gap-1'>
             <Radio size={12} className={liveWorld.enabled ? 'text-emerald-300' : 'text-txt-muted'} />
             {liveWorld.enabled ? tr('运行中') : tr('已暂停')}
@@ -184,11 +184,11 @@ export function RankingsPage() {
         {liveWorld.feed.length > 0 ? (
           <div className='mt-3 space-y-1.5'>
             {liveWorld.feed.slice(0, 5).map((f) => (
-              <div key={f.id} className='animate-fade-up rounded-lg border border-white/5 bg-white/[0.02] px-3 py-1.5 text-xs text-txt-muted'>{pick(f.text, f.textEn ?? f.text)}</div>
+              <div key={f.id} className='animate-fade-up rounded-lg border border-white/5 bg-white/[0.02] px-3 py-1.5 text-[13px] text-txt-muted'>{pick(f.text, f.textEn ?? f.text)}</div>
             ))}
           </div>
         ) : (
-          <p className='mt-3 text-xs text-txt-muted'>{tr('还没有动态——等待第一轮世界赛结果。')}</p>
+          <p className='mt-3 text-[13px] text-txt-muted'>{tr('还没有动态——等待第一轮世界赛结果。')}</p>
         )}
       </Panel>
     </div>

@@ -37,10 +37,10 @@ function PackCard({
         </div>
         <div className='text-right'>
           <PriceRow price={price} />
-          <div className='text-[10px] text-txt-muted'>{tr('金币')}</div>
+          <div className='text-[12px] text-txt-muted'>{tr('金币')}</div>
         </div>
       </div>
-      <p className='mt-3 text-xs leading-relaxed text-txt-muted'>{desc}</p>
+      <p className='mt-3 text-[13px] leading-relaxed text-txt-muted'>{desc}</p>
       <Button className='mt-4 w-full' disabled={disabled} onClick={onClick}>{button}</Button>
     </Panel>
   );
@@ -71,7 +71,7 @@ export function PacksPage() {
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
           <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.packs.title')}</h1>
-          <p className='mt-0.5 text-xs text-txt-muted'>{tr('选手包与教练包是两个独立图池，概率各自计算。')}</p>
+          <p className='mt-0.5 text-[13px] text-txt-muted'>{tr('选手包与教练包是两个独立图池，概率各自计算。')}</p>
         </div>
         <div className='flex items-center gap-2'>
           <Badge tone='accent'>{tr('金币')} {club.coins.toLocaleString()}</Badge>
@@ -117,7 +117,7 @@ export function PacksPage() {
       <div className='flex flex-wrap items-end justify-between gap-2 pt-1'>
         <div>
           <h2 className='font-display text-xl font-semibold tracking-wide text-txt'>{tr('教练包')}</h2>
-          <p className='mt-1 text-sm text-txt-muted'>{tr('独立图池 · 64 位真实教练，按执教能力划分稀有度')}</p>
+          <p className='mt-1 text-[15px] text-txt-muted'>{tr('独立图池 · 64 位真实教练，按执教能力划分稀有度')}</p>
         </div>
         <Button size='sm' variant='ghost' onClick={() => navigate('/coaches')}>{tr('查看教练组')}</Button>
       </div>
@@ -152,7 +152,7 @@ export function PacksPage() {
             </div>
             <GraduationCap size={20} className='text-txt-muted' />
           </div>
-          <div className='mt-3 space-y-1 text-[11px] leading-relaxed text-txt-muted'>
+          <div className='mt-3 space-y-1 text-[12px] leading-relaxed text-txt-muted'>
             {headCoach ? (
               <>
                 <div>· {tr('国籍')} {headCoach.country} · {tr('风格')} {headCoach.style}</div>
@@ -175,7 +175,7 @@ export function PacksPage() {
           {(['S', 'A', 'B', 'C'] as const).map((tier) => {
             const meta = COACH_TIER_META[tier];
             return (
-              <div key={tier} className='flex items-center gap-3 text-xs'>
+              <div key={tier} className='flex items-center gap-3 text-[13px]'>
                 <span className='w-16 shrink-0 font-semibold' style={{ color: meta.color }}>{tr(meta.label)}</span>
                 <span className='w-8 shrink-0 text-txt-muted'>{tier}</span>
                 <span className='min-w-0 flex-1'><Progress value={meta.weight} max={100} height='h-1.5' tone='accent' /></span>
@@ -184,7 +184,7 @@ export function PacksPage() {
             );
           })}
         </div>
-        <p className='mt-3 text-[11px] leading-relaxed text-txt-muted'>{tr('上述四档合计 100%。教练不会出现在选手卡里，选手包也不会产出教练。')}</p>
+        <p className='mt-3 text-[12px] leading-relaxed text-txt-muted'>{tr('上述四档合计 100%。教练不会出现在选手卡里，选手包也不会产出教练。')}</p>
       </Panel>
 
       <div className='grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]'>
@@ -195,7 +195,7 @@ export function PacksPage() {
               const meta = RARITY_TABLE[rarity];
               const pct = meta.rate * 100;
               return (
-                <div key={rarity} className='flex items-center gap-3 text-xs'>
+                <div key={rarity} className='flex items-center gap-3 text-[13px]'>
                   <span className='w-16 shrink-0 font-semibold' style={{ color: meta.color }}>{tr(meta.label)}</span>
                   <span className='w-8 shrink-0 text-txt-muted'>{rarity}</span>
                   <span className='min-w-0 flex-1'><Progress value={pct} max={100} height='h-1.5' tone='accent' /></span>
@@ -204,7 +204,7 @@ export function PacksPage() {
               );
             })}
           </div>
-          <p className='mt-3 text-[11px] leading-relaxed text-txt-muted'>{tr('以上合计 100%。计数达到上限时，保底会覆盖本次抽取结果。')}</p>
+          <p className='mt-3 text-[12px] leading-relaxed text-txt-muted'>{tr('以上合计 100%。计数达到上限时，保底会覆盖本次抽取结果。')}</p>
         </Panel>
 
         <div className='space-y-4'>
@@ -212,14 +212,14 @@ export function PacksPage() {
             <SectionTitle title={tr('保底')} subtitle={tr('达到上限时，那一抽会被强制为保底品质。')} />
             <div className='space-y-3'>
               <div>
-                <div className='flex items-center justify-between text-[11px] text-txt-muted'>
+                <div className='flex items-center justify-between text-[12px] text-txt-muted'>
                   <span>{tr('SR 及以上')}</span>
                   <span className='font-semibold text-txt'>{pity.srIn} {tr('抽')}</span>
                 </div>
                 <Progress value={pity.srProgress * 100} tone='accent' height='h-1.5' />
               </div>
               <div>
-                <div className='flex items-center justify-between text-[11px] text-txt-muted'>
+                <div className='flex items-center justify-between text-[12px] text-txt-muted'>
                   <span>{tr('SSR 及以上')}</span>
                   <span className='font-semibold text-txt'>{pity.ssrIn} {tr('抽')}</span>
                 </div>
@@ -230,7 +230,7 @@ export function PacksPage() {
 
           <Panel>
             <SectionTitle title={tr('说明')} />
-            <ul className='space-y-1.5 text-[11px] leading-relaxed text-txt-muted'>
+            <ul className='space-y-1.5 text-[12px] leading-relaxed text-txt-muted'>
               <li>{tr('· 抽到的卡直接进入卡册，没有单独的收件箱。')}</li>
               <li>{tr('· 重复卡也会入库，三张同名卡可在「选手图鉴 → 卡牌合成」升星。')}</li>
               <li>{tr('· 教练包与选手包互不影响，主教练在「教练组」页面任命。')}</li>

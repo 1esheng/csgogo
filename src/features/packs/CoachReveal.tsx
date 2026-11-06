@@ -49,12 +49,12 @@ export function CoachReveal({
               }}
             >
               <div className='flex items-center justify-between gap-1'>
-                <span className='font-display text-[10px] font-semibold ' style={{ color: meta.color }}>
+                <span className='font-display text-[12px] font-semibold ' style={{ color: meta.color }}>
                   {meta.label}
                 </span>
                 <span
                   className={clsx(
-                    'rounded px-1.5 py-0.5 text-[9px] font-semibold ',
+                    'rounded px-1.5 py-0.5 text-[11px] font-semibold ',
                     result.isNew ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-txt-muted',
                   )}
                 >
@@ -63,17 +63,17 @@ export function CoachReveal({
               </div>
               <div className='mt-2 flex items-center gap-2'>
                 <span
-                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-semibold'
+                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[12px] font-semibold'
                   style={{ background: meta.color + '22', color: meta.color }}
                 >
                   {info.nickname.slice(0, 2).toUpperCase()}
                 </span>
                 <div className='min-w-0'>
-                  <div className='truncate font-display text-sm font-semibold text-txt'>{info.nickname}</div>
-                  <div className='text-[10px] text-txt-muted'>{info.country} · {info.style}</div>
+                  <div className='truncate font-display text-[15px] font-semibold text-txt'>{info.nickname}</div>
+                  <div className='text-[12px] text-txt-muted'>{info.country} · {info.style}</div>
                 </div>
               </div>
-              <div className='mt-2 border-t border-white/10 pt-1.5 text-[10px] text-txt-muted'>
+              <div className='mt-2 border-t border-white/10 pt-1.5 text-[12px] text-txt-muted'>
                 {tr('执教能力')} <span className='font-semibold' style={{ color: meta.color }}>{info.ability}</span>
                 {' · '}{result.isNew ? tr('已进入教练组') : tr('执教经验 +') + result.xpGained}
               </div>
@@ -82,7 +82,7 @@ export function CoachReveal({
         })}
       </div>
 
-      <div className='relative mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-3 text-[11px] leading-relaxed text-txt-muted'>
+      <div className='relative mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-3 text-[12px] leading-relaxed text-txt-muted'>
         <span className='inline-flex items-center gap-1 font-semibold text-accent'><Sparkles size={11} /> {tr('教练抽卡')}</span>{' '}
         与选手包完全独立：重复教练转为执教经验（每次 +25），可在「教练组」页面任命为主教练，给全队带来属性加成。
       </div>

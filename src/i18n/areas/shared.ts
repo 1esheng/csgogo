@@ -49,7 +49,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "主防", en: "Anchor" },
   { zh: "枪法", en: "Aim" },
   { zh: "反应", en: "Reflex" },
-  { zh: "意识", en: "Awareness" },
+  { zh: "意识", en: "Sense" },
   { zh: "残局", en: "Clutch" },
   { zh: "道具", en: "Utility" },
   { zh: "团队", en: "Team" },

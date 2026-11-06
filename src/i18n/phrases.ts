@@ -352,7 +352,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "级", en: "Lv" },
   { zh: "枪法", en: "Aim" },
   { zh: "反应", en: "Reflex" },
-  { zh: "意识", en: "Awareness" },
+  { zh: "意识", en: "Sense" },
   { zh: "残局", en: "Clutch" },
   { zh: "站位", en: "Positioning" },
   { zh: "道具", en: "Utility" },

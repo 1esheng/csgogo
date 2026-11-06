@@ -18,7 +18,7 @@ export function SectionTitle({
     <div className='mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-2'>
       <div>
         <h2 className='font-display text-lg font-semibold tracking-tight text-txt'>{title}</h2>
-        {subtitle ? <p className='mt-1 text-sm text-txt-muted'>{subtitle}</p> : null}
+        {subtitle ? <p className='mt-1 text-[15px] text-txt-muted'>{subtitle}</p> : null}
       </div>
       {right}
     </div>
@@ -46,7 +46,7 @@ export function Button({
     danger: 'bg-danger/90 text-white hover:bg-danger',
     subtle: 'text-txt-muted hover:text-txt',
   };
-  const sizes = { sm: 'px-3 py-1.5 text-xs', md: 'px-4 py-2 text-sm', lg: 'px-5 py-2.5 text-base' };
+  const sizes = { sm: 'px-3 py-1.5 text-[13px]', md: 'px-4 py-2 text-[15px]', lg: 'px-5 py-2.5 text-base' };
   return (
     <button
       type={type}
@@ -76,7 +76,7 @@ export function Badge({
     muted: 'bg-white/5 text-txt-muted border-white/5',
   };
   return (
-    <span className={clsx('inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold tracking-normal', tones[tone], className)}>
+    <span className={clsx('inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[12px] font-semibold tracking-normal', tones[tone], className)}>
       {children}
     </span>
   );
@@ -94,7 +94,7 @@ export function Progress({
   };
   return (
     <div className='w-full'>
-      {label ? <div className='mb-1 flex justify-between text-[11px] text-txt-muted'><span>{label}</span><span>{Math.round(pct)}%</span></div> : null}
+      {label ? <div className='mb-1 flex justify-between text-[12px] text-txt-muted'><span>{label}</span><span>{Math.round(pct)}%</span></div> : null}
       <div className={clsx('w-full overflow-hidden rounded-full bg-white/8', height)}>
         <div className={clsx('h-full rounded-full bg-gradient-to-r transition-all duration-500', tones[tone])} style={{ width: pct + '%' }} />
       </div>
@@ -110,7 +110,7 @@ export function StatTile({
       <div>
         <div className='label-xs'>{label}</div>
         <div className={clsx('stat-number mt-1', tone === 'accent' && 'text-accent', tone === 'danger' && 'text-danger')}>{value}</div>
-        {hint ? <div className='mt-1 text-xs text-txt-muted'>{hint}</div> : null}
+        {hint ? <div className='mt-1 text-[13px] text-txt-muted'>{hint}</div> : null}
       </div>
       {icon ? <div className='text-txt-muted'>{icon}</div> : null}
     </div>
@@ -127,7 +127,7 @@ export function Tabs({
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={clsx(
-            'focus-ring rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors',
+            'focus-ring rounded-lg px-3 py-1.5 text-[13px] font-semibold transition-colors',
             active === tab.id ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt',
           )}
         >
@@ -165,7 +165,7 @@ export function EmptyState({ title, hint, action }: { title: string; hint?: stri
   return (
     <div className='flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/10 p-10 text-center'>
       <div className='font-display text-[15px] font-semibold tracking-tight text-txt'>{title}</div>
-      {hint ? <div className='max-w-md text-sm text-txt-muted'>{hint}</div> : null}
+      {hint ? <div className='max-w-md text-[15px] text-txt-muted'>{hint}</div> : null}
       {action}
     </div>
   );
@@ -186,7 +186,7 @@ export function Select<T extends string>({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-sm text-txt'
+        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt'
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -207,7 +207,7 @@ export function Input({
         maxLength={maxLength}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-sm text-txt placeholder:text-txt-muted/60'
+        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt placeholder:text-txt-muted/60'
       />
     </label>
   );
@@ -223,7 +223,7 @@ export function KeyValue({ items }: { items: { label: string; value: React.React
       {items.map((item) => (
         <div key={item.label}>
           <dt className='label-xs'>{item.label}</dt>
-          <dd className='mt-0.5 text-sm font-semibold text-txt'>{item.value}</dd>
+          <dd className='mt-0.5 text-[15px] font-semibold text-txt'>{item.value}</dd>
         </div>
       ))}
     </dl>

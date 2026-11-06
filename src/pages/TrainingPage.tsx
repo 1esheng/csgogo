@@ -22,7 +22,7 @@ export function TrainingPage() {
         subtitle={tr('把金币转化为卡牌的永久成长——或经营你的青训营。')}
         right={(
           <div className='flex flex-wrap items-center justify-end gap-2'>
-            <div className='flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent'>
+            <div className='flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-[15px] font-semibold text-accent'>
               <Coins size={14} /> {coins.toLocaleString()}
             </div>
             <Tabs tabs={TABS.map((item) => ({ ...item, label: tr(item.label) }))} active={tab} onChange={setTab} />

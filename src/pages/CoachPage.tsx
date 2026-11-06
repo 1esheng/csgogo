@@ -37,7 +37,7 @@ export function CoachPage() {
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
           <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.coaches.title')}</h1>
-          <p className='mt-0.5 text-xs text-txt-muted'>
+          <p className='mt-0.5 text-[13px] text-txt-muted'>
             {tr('共')} {allRows.length} {tr('位真实教练')} · {tr('已签下')} {ownedRows.length} {tr('位')} · {tr('执教能力决定排名与全队加成')}
           </p>
         </div>
@@ -59,12 +59,12 @@ export function CoachPage() {
         />
         {head ? (
           <div className='flex flex-wrap items-center gap-3 rounded-xl border border-accent/30 bg-accent/[0.06] px-3 py-2'>
-            <div className='grid h-11 w-11 place-items-center rounded-xl bg-accent/20 font-display text-sm font-semibold text-accent'>
+            <div className='grid h-11 w-11 place-items-center rounded-xl bg-accent/20 font-display text-[15px] font-semibold text-accent'>
               {head.info!.nickname.slice(0, 2).toUpperCase()}
             </div>
             <div className='min-w-0 flex-1'>
-              <div className='font-display text-sm font-semibold text-txt'>{head.info!.nickname}</div>
-              <div className='text-[11px] text-txt-muted'>
+              <div className='font-display text-[15px] font-semibold text-txt'>{head.info!.nickname}</div>
+              <div className='text-[12px] text-txt-muted'>
                 {head.info!.country} · {head.info!.style} · {tr('能力')} {head.info!.ability}
               </div>
             </div>
@@ -75,7 +75,7 @@ export function CoachPage() {
             <Button size='sm' variant='ghost' onClick={() => setHeadCoach(null)}>{tr('卸任')}</Button>
           </div>
         ) : (
-          <p className='text-xs text-txt-muted'>{tr('去下方列表点「任命」即可上任。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('去下方列表点「任命」即可上任。')}</p>
         )}
       </Panel>
 
@@ -97,9 +97,9 @@ export function CoachPage() {
                   isHead ? 'border-accent/40 bg-accent/[0.07]' : 'border-white/5 bg-white/[0.02]',
                 )}
               >
-                <span className='w-7 shrink-0 font-display text-sm font-semibold text-txt-muted'>#{index + 1}</span>
+                <span className='w-7 shrink-0 font-display text-[15px] font-semibold text-txt-muted'>#{index + 1}</span>
                 <span
-                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-semibold'
+                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[12px] font-semibold'
                   style={{ background: meta.color + '22', color: meta.color }}
                 >
                   {row.info.nickname.slice(0, 2).toUpperCase()}
@@ -110,7 +110,7 @@ export function CoachPage() {
                     <Badge tone='muted'>{tr(meta.label)}</Badge>
                     {isHead ? <Badge tone='accent'>{tr('现任')}</Badge> : null}
                   </div>
-                  <div className='truncate text-[11px] text-txt-muted'>
+                  <div className='truncate text-[12px] text-txt-muted'>
                     {row.info.country} · {row.info.style} · {AI_TEAM_MAP[row.info.teamId ?? '']?.name ?? tr('自由教练')}
                     {row.owned && row.owned.xp > 0 ? tr(' · 执教经验 ') + row.owned.xp : ''}
                   </div>
@@ -118,7 +118,7 @@ export function CoachPage() {
                 <div className='w-28 shrink-0'>
                   <Progress value={row.info.ability} max={100} height='h-1.5' tone='accent' />
                 </div>
-                <span className='w-8 shrink-0 text-right font-display text-sm font-semibold' style={{ color: meta.color }}>
+                <span className='w-8 shrink-0 text-right font-display text-[15px] font-semibold' style={{ color: meta.color }}>
                   {row.info.ability}
                 </span>
                 {row.owned ? (
@@ -126,13 +126,13 @@ export function CoachPage() {
                     {isHead ? tr('卸任') : tr('任命')}
                   </Button>
                 ) : (
-                  <span className='w-14 shrink-0 text-right text-[11px] text-txt-muted'>{tr('未签下')}</span>
+                  <span className='w-14 shrink-0 text-right text-[12px] text-txt-muted'>{tr('未签下')}</span>
                 )}
               </div>
             );
           })}
           {tab === 'owned' && ownedRows.length === 0 ? (
-            <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
+            <p className='rounded-xl border border-dashed border-white/10 p-6 text-center text-[15px] text-txt-muted'>
               <UserPlus size={16} className='mx-auto mb-2 text-txt-muted' />
               {tr('还没有教练——用上方的教练包签一位吧。')}
             </p>

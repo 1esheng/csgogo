@@ -72,9 +72,9 @@ export function TeamPage() {
             {name.slice(0, 2).toUpperCase()}
           </div>
           <div className='min-w-0 flex-1'>
-            <div className='text-[11px] text-txt-muted'>{region}</div>
+            <div className='text-[12px] text-txt-muted'>{region}</div>
             <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{name}</h1>
-            <div className='mt-1 flex flex-wrap items-center gap-2 text-[11px] text-txt-muted'>
+            <div className='mt-1 flex flex-wrap items-center gap-2 text-[12px] text-txt-muted'>
               <Badge tone='muted'>积分 {entry?.rating ?? '—'}</Badge>
               <Badge tone='muted'>阵容战力 {ovr}</Badge>
               <Badge tone={majors > 0 ? 'accent' : 'neutral'}>MAJOR 冠军 ×{majors}</Badge>
@@ -82,7 +82,7 @@ export function TeamPage() {
           </div>
         </div>
 
-        <div className='relative mt-4 grid gap-x-6 gap-y-2 text-xs sm:grid-cols-2'>
+        <div className='relative mt-4 grid gap-x-6 gap-y-2 text-[13px] sm:grid-cols-2'>
           <Row label={tr('Valve 排名')} value={'#' + (rank || '—') + ' / ' + leaders.length} />
           <Row label={tr('世界排名')} value={'#' + (rank || '—')} />
           <Row label={tr('留在前 30 的周数')} value={String(weeks)} />
@@ -101,17 +101,17 @@ export function TeamPage() {
               const rarity = RARITY_TABLE[r.tpl!.rarity];
               return (
                 <div key={r.role + r.tpl!.id} className='flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2'>
-                  <span className='w-14 shrink-0 text-[11px] text-txt-muted'>{ROLE_SHORT[r.role]}</span>
+                  <span className='w-14 shrink-0 text-[12px] text-txt-muted'>{ROLE_SHORT[r.role]}</span>
                   <span className='min-w-0 flex-1 truncate font-semibold text-txt'>{identity?.nickname ?? r.tpl!.playerId}</span>
                   <Badge tone='muted'>{identity?.country ?? '—'}</Badge>
-                  <span className='w-8 shrink-0 text-right text-[11px] text-txt-muted'>{identity?.age ?? '—'} 岁</span>
-                  <span className='w-8 shrink-0 text-right font-display text-sm font-semibold' style={{ color: rarity.color }}>
+                  <span className='w-8 shrink-0 text-right text-[12px] text-txt-muted'>{identity?.age ?? '—'} 岁</span>
+                  <span className='w-8 shrink-0 text-right font-display text-[15px] font-semibold' style={{ color: rarity.color }}>
                     {cardOVR(r.tpl!, r.card?.level ?? 4, r.card?.stars ?? 1)}
                   </span>
                 </div>
               );
             })}
-            {roster.length === 0 ? <p className='text-xs text-txt-muted'>{tr('暂无阵容数据。')}</p> : null}
+            {roster.length === 0 ? <p className='text-[13px] text-txt-muted'>{tr('暂无阵容数据。')}</p> : null}
           </div>
         </Panel>
 
@@ -119,11 +119,11 @@ export function TeamPage() {
           <Panel>
             <SectionTitle title={tr('战队荣誉')} subtitle={'共 ' + honors.length + ' 座奖杯'} right={<Trophy size={16} className='text-txt-muted' />} />
             {honors.length === 0 ? (
-              <p className='text-xs text-txt-muted'>{tr('还没有夺冠记录。')}</p>
+              <p className='text-[13px] text-txt-muted'>{tr('还没有夺冠记录。')}</p>
             ) : (
               <div className='space-y-1.5'>
                 {honors.slice().reverse().map((h) => (
-                  <div key={h.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-xs'>
+                  <div key={h.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-[13px]'>
                     <Trophy size={13} className={h.tier === 9 ? 'text-accent' : 'text-txt-muted'} />
                     <span className='min-w-0 flex-1 truncate text-txt'>{h.name}</span>
                     <Badge tone={h.tier === 9 ? 'accent' : 'muted'}>{CAREER_TIERS[h.tier]?.name ?? '赛事'}</Badge>
@@ -139,7 +139,7 @@ export function TeamPage() {
               {CAREER_TIERS.map((tier) => {
                 const count = honors.filter((h) => h.tier === tier.tier).length;
                 return (
-                  <div key={tier.tier} className='flex items-center gap-2 text-xs'>
+                  <div key={tier.tier} className='flex items-center gap-2 text-[13px]'>
                     <span className='w-24 shrink-0 text-txt-muted'>{tier.name}</span>
                     <span className='min-w-0 flex-1'><Progress value={Math.min(100, count * 20)} height='h-1.5' tone='accent' /></span>
                     <span className='w-6 text-right font-semibold text-txt'>{count}</span>

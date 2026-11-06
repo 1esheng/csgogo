@@ -108,12 +108,12 @@ export function CardDetailBody({
             />
           </div>
           <div className='mt-3 font-display text-2xl font-semibold'>{nickname}</div>
-          <div className='text-xs tracking-wider text-txt-muted'>
+          <div className='text-[13px] tracking-wider text-txt-muted'>
             {template.season} {retired ? tr('生涯终章') : tr('赛季')}
             {retired ? <Badge tone='danger' className='ml-2'>{tr('已退役')}</Badge> : null}
           </div>
           {credit?.source ? (
-            <div className='mt-1 text-[10px] text-txt-muted'>头像来源：{credit.source}</div>
+            <div className='mt-1 text-[12px] text-txt-muted'>头像来源：{credit.source}</div>
           ) : null}
           <div className='mt-4 flex items-end justify-between'>
             <div>
@@ -127,28 +127,28 @@ export function CardDetailBody({
                 {Array.from({ length: Math.max(1, Math.min(5, stars)) }).map((_x, i) => (
                   <Star key={i} size={12} fill='currentColor' />
                 ))}
-                <span className='ml-1 text-[11px] text-txt-muted'>{stars} {tr('星')}</span>
+                <span className='ml-1 text-[12px] text-txt-muted'>{stars} {tr('星')}</span>
               </div>
             </div>
           </div>
-          <div className='mt-3 space-y-1 rounded-lg bg-black/25 p-2 text-[11px] text-txt-muted'>
+          <div className='mt-3 space-y-1 rounded-lg bg-black/25 p-2 text-[12px] text-txt-muted'>
             <div className='flex justify-between'><span>{tr('个人能力 × 0.62')}</span><span className='font-semibold text-txt'>{breakdown.attributes}</span></div>
             <div className='flex justify-between'><span>{tr('位置熟练 × 0.20')}</span><span className='font-semibold text-txt'>{breakdown.proficiency}</span></div>
             <div className='flex justify-between'><span>{tr('指挥与团队 × 0.18')}</span><span className='font-semibold text-accent'>{breakdown.team}</span></div>
           </div>
           <div className='mt-3'><Progress value={xpPct * 100} label={tr('卡牌经验')} /></div>
-          <div className='mt-1 text-[11px] text-txt-muted'>{xpLabel}</div>
+          <div className='mt-1 text-[12px] text-txt-muted'>{xpLabel}</div>
         </div>
         {bio ? (
           <div className='mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3'>
             <div className='label-xs'>{tr('生涯简介')}</div>
-            <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{bio}</p>
+            <p className='mt-1 text-[13px] leading-relaxed text-txt-muted'>{bio}</p>
           </div>
         ) : null}
         <div className='mt-4 rounded-xl border border-accent/20 bg-accent/5 p-3'>
           <div className='label-xs text-accent'>{tr('天赋技能')}</div>
-          <div className='mt-1 font-display text-sm font-semibold'>{pick(template.skill.name, skillNameEn(template.skill))}</div>
-          <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{pick(template.skill.description, skillDescEn(template.skill))}</p>
+          <div className='mt-1 font-display text-[15px] font-semibold'>{pick(template.skill.name, skillNameEn(template.skill))}</div>
+          <p className='mt-1 text-[13px] leading-relaxed text-txt-muted'>{pick(template.skill.description, skillDescEn(template.skill))}</p>
         </div>
       </div>
 
@@ -162,7 +162,7 @@ export function CardDetailBody({
             <div className='label-xs'>{tr('基础能力')}</div>
             {ATTRIBUTE_KEYS.map((key) => (
               <div key={key}>
-                <div className='flex justify-between text-xs'>
+                <div className='flex justify-between text-[13px]'>
                   <span className='text-txt-muted'>{tr(ATTRIBUTE_LABEL[key])}</span>
                   <span className='font-semibold text-txt'>{liveAttrs[key]}</span>
                 </div>
@@ -178,9 +178,9 @@ export function CardDetailBody({
             <div className='space-y-1.5'>
               {ALL_ROLES.map((role) => (
                 <div key={role} className='flex items-center gap-2'>
-                  <span className={role === template.primaryRole ? 'w-16 text-xs font-semibold text-accent' : role === template.secondaryRole ? 'w-16 text-xs font-semibold text-txt' : 'w-16 text-xs text-txt-muted'}>{role}</span>
+                  <span className={role === template.primaryRole ? 'w-16 text-[13px] font-semibold text-accent' : role === template.secondaryRole ? 'w-16 text-[13px] font-semibold text-txt' : 'w-16 text-[13px] text-txt-muted'}>{role}</span>
                   <div className='flex-1'><Progress value={template.proficiency[role]} height='h-1.5' /></div>
-                  <span className='w-8 text-right text-xs text-txt-muted'>{template.proficiency[role]}</span>
+                  <span className='w-8 text-right text-[13px] text-txt-muted'>{template.proficiency[role]}</span>
                 </div>
               ))}
             </div>
@@ -190,9 +190,9 @@ export function CardDetailBody({
             <div className='space-y-1.5'>
               {MAP_IDS.map((id) => (
                 <div key={id} className='flex items-center gap-2'>
-                  <span className='w-16 text-xs text-txt-muted'>{MAPS[id].name}</span>
+                  <span className='w-16 text-[13px] text-txt-muted'>{MAPS[id].name}</span>
                   <div className='flex-1'><Progress value={template.mapProficiency[id]} height='h-1.5' tone='success' /></div>
-                  <span className='w-8 text-right text-xs text-txt-muted'>{template.mapProficiency[id]}</span>
+                  <span className='w-8 text-right text-[13px] text-txt-muted'>{template.mapProficiency[id]}</span>
                 </div>
               ))}
             </div>

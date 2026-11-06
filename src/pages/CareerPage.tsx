@@ -95,7 +95,7 @@ export function CareerPage() {
             <SectionTitle title={tr('下一级联赛')} subtitle={nextTier ? tr(nextTier.name) : tr('已是最高级别')} />
             <div className='flex items-end justify-between gap-2'>
               <div className='stat-number text-accent'>{rating}</div>
-              <div className='text-right text-xs text-txt-muted'>
+              <div className='text-right text-[13px] text-txt-muted'>
                 {nextTier ? (
                   <>
                     <div>{tr('还差 ')}{toNext}{tr(' 积分')}</div>
@@ -109,7 +109,7 @@ export function CareerPage() {
             <div className='mt-3'>
               <Progress value={progress} max={span} tone='accent' label={nextTier ? tr(nextTier.name) + tr(' 进度') : tr('已满级')} />
             </div>
-            <div className='mt-3 space-y-1 text-xs text-txt-muted'>
+            <div className='mt-3 space-y-1 text-[13px] text-txt-muted'>
               <div className='flex items-center gap-1.5'>
                 <Coins size={12} className='text-accent' /> {tr('下一级奖金池 ')}{(nextTier ?? currentTier).prize.toLocaleString()}{tr(' 金币')}
               </div>
@@ -124,12 +124,12 @@ export function CareerPage() {
             {active ? (
               <div className='space-y-3'>
                 <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2'>
-                  <div className='font-display text-sm font-semibold text-txt'>{active.name}</div>
-                  <div className='mt-1 text-xs text-txt-muted'>
+                  <div className='font-display text-[15px] font-semibold text-txt'>{active.name}</div>
+                  <div className='mt-1 text-[13px] text-txt-muted'>
                     {tr(CAREER_TIERS[active.tier]?.name ?? '联赛') + tr(' · 奖金 ') + active.prizePool.toLocaleString() + tr(' 金币')}
                   </div>
                 </div>
-                <div className='text-sm'>
+                <div className='text-[15px]'>
                   <div className='label-xs'>{tr('下一个对手')}</div>
                   {nextOpponent ? (
                     <div className='mt-1 flex flex-wrap items-center gap-2'>
@@ -138,7 +138,7 @@ export function CareerPage() {
                       {nextMatch ? <Badge tone='muted'>{MAPS[nextMatch.mapId]?.name ?? nextMatch.mapId}</Badge> : null}
                     </div>
                   ) : (
-                    <div className='mt-1 text-xs text-txt-muted'>{tr('暂无你的对局——可在赛程中模拟剩余比赛。')}</div>
+                    <div className='mt-1 text-[13px] text-txt-muted'>{tr('暂无你的对局——可在赛程中模拟剩余比赛。')}</div>
                   )}
                 </div>
                 <div className='grid gap-2 sm:grid-cols-2'>
@@ -160,12 +160,12 @@ export function CareerPage() {
                     <FastForward size={14} /> {fastSim ? tr('模拟中…') : tr('快速模拟到结束')}
                   </Button>
                 </div>
-                <p className='text-[11px] leading-relaxed text-txt-muted'>
+                <p className='text-[12px] leading-relaxed text-txt-muted'>
                   {tr('快速模拟会用同一套引擎替你打完本赛事的所有对局（含 AI 赛程），奖励、积分与战绩照常结算。')}
                 </p>
               </div>
             ) : (
-              <p className='text-sm text-txt-muted'>
+              <p className='text-[15px] text-txt-muted'>
                 {tr('在联赛阶梯上选择已解锁的联赛，点击「进入」参赛。一次只能进行一项赛事。')}
               </p>
             )}
@@ -205,15 +205,15 @@ export function CareerPage() {
               return (
                 <div
                   key={t.id}
-                  className='flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2 text-sm transition-colors hover:border-accent/25'
+                  className='flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2 text-[15px] transition-colors hover:border-accent/25'
                 >
                   <Badge tone={t.status === 'active' ? 'accent' : t.status === 'completed' ? 'success' : 'neutral'}>{tr(STATUS_LABEL[t.status] ?? t.status)}</Badge>
                   <span className='font-semibold text-txt'>{t.name}</span>
-                  <span className='text-xs text-txt-muted'>{tr(CAREER_TIERS[t.tier]?.name ?? '联赛')}</span>
-                  <span className='ml-auto text-xs text-txt-muted'>
+                  <span className='text-[13px] text-txt-muted'>{tr(CAREER_TIERS[t.tier]?.name ?? '联赛')}</span>
+                  <span className='ml-auto text-[13px] text-txt-muted'>
                     {champion ? (wonByPlayer ? <span className='font-semibold text-accent'>{tr('你夺冠了')}</span> : champion.name) : tr('进行中')}
                   </span>
-                  <span className='inline-flex items-center gap-1 text-xs font-semibold text-accent'>
+                  <span className='inline-flex items-center gap-1 text-[13px] font-semibold text-accent'>
                     <Trophy size={12} /> {t.prizePool.toLocaleString()}
                   </span>
                 </div>

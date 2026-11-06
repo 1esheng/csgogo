@@ -66,7 +66,7 @@ export function SettingsPage() {
           </span>
           <div className='min-w-0'>
             <div className='font-display text-lg font-semibold text-txt'>{club.name}</div>
-            <div className='text-[11px] text-txt-muted'>{tr('当前徽章：')}{tr(badgeIcon(club.badge).label)} · {tr('主色')} {club.color ?? '#F5A623'}</div>
+            <div className='text-[12px] text-txt-muted'>{tr('当前徽章：')}{tr(badgeIcon(club.badge).label)} · {tr('主色')} {club.color ?? '#F5A623'}</div>
           </div>
         </div>
 
@@ -84,7 +84,7 @@ export function SettingsPage() {
               {tr('改名')}
             </Button>
           </div>
-          <p className='mt-1 text-[11px] text-txt-muted'>{tr('改名')} {CLUB_PRICES.rename} {tr('金币，长度 2-12 个字符。')}</p>
+          <p className='mt-1 text-[12px] text-txt-muted'>{tr('改名')} {CLUB_PRICES.rename} {tr('金币，长度 2-12 个字符。')}</p>
         </div>
 
         <div className='mt-4'>
@@ -138,14 +138,14 @@ export function SettingsPage() {
           <Panel>
             <SectionTitle title={tr('偏好设置')} subtitle={tr('保存在存档中，立即生效。')} right={<Sliders size={16} className='text-txt-muted' />} />
             <div className='mb-2 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2'>
-              <span className='text-xs font-semibold text-txt'>{tr('界面语言 / Language')}</span>
+              <span className='text-[13px] font-semibold text-txt'>{tr('界面语言 / Language')}</span>
               <div className='ml-auto flex gap-1 rounded-lg border border-white/10 p-0.5'>
                 {([['zh', '中文'], ['en', 'English']] as const).map(([code, label]) => (
                   <button
                     key={code}
                     type='button'
                     onClick={() => updateSettings({ language: code })}
-                    className={'rounded-md px-2.5 py-1 text-xs font-semibold transition-colors ' + ((settings.language ?? 'zh') === code ? 'bg-accent text-ink-950' : 'text-txt-muted hover:text-txt')}
+                    className={'rounded-md px-2.5 py-1 text-[13px] font-semibold transition-colors ' + ((settings.language ?? 'zh') === code ? 'bg-accent text-ink-950' : 'text-txt-muted hover:text-txt')}
                   >
                     {label}
                   </button>
@@ -183,10 +183,10 @@ export function SettingsPage() {
 
             <div className='flex flex-wrap items-center justify-between gap-3'>
               <div className='min-w-0'>
-                <div className='flex items-center gap-2 text-sm font-semibold text-txt'>
+                <div className='flex items-center gap-2 text-[15px] font-semibold text-txt'>
                   <Gauge size={14} className='text-txt-muted' /> {tr('回合速度')}
                 </div>
-                <div className='mt-0.5 text-xs text-txt-muted'>{tr('训练赛推进回合的速度。')}</div>
+                <div className='mt-0.5 text-[13px] text-txt-muted'>{tr('训练赛推进回合的速度。')}</div>
               </div>
               <div className='flex gap-1 rounded-xl border border-white/10 bg-ink-900/60 p-1'>
                 {SPEEDS.map((speed) => (
@@ -195,7 +195,7 @@ export function SettingsPage() {
                     type='button'
                     onClick={() => updateSettings({ matchSpeed: speed })}
                     className={
-                      'focus-ring rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ' +
+                      'focus-ring rounded-lg px-3 py-1.5 text-[13px] font-semibold transition-colors ' +
                       (settings.matchSpeed === speed ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt')
                     }
                   >
@@ -226,7 +226,7 @@ export function SettingsPage() {
 
           <Panel>
             <SectionTitle title={tr('数据持久化')} right={<Database size={16} className='text-txt-muted' />} />
-            <div className='space-y-2 text-xs leading-relaxed text-txt-muted'>
+            <div className='space-y-2 text-[13px] leading-relaxed text-txt-muted'>
               <p className='flex items-start gap-2'>
                 <Database size={13} className='mt-0.5 shrink-0 text-accent' />
                 <span>
@@ -245,7 +245,7 @@ export function SettingsPage() {
           </Panel>
 
           <Panel>
-            <div className='flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
+            <div className='flex items-start gap-2 text-[12px] leading-relaxed text-txt-muted'>
               <ShieldCheck size={14} className='mt-0.5 shrink-0 text-accent' />
               <span>
                 {tr('本作中的全部评分——选手 OVR、俱乐部 Elo、奖金池——都是原创的游戏平衡数值，并非 HLTV 数据，也不取自现实')} {tr('比赛表现。')}
@@ -254,7 +254,7 @@ export function SettingsPage() {
           </Panel>
 
           <Panel>
-            <div className='flex items-start gap-2 text-[11px] leading-relaxed text-txt-muted'>
+            <div className='flex items-start gap-2 text-[12px] leading-relaxed text-txt-muted'>
               <Info size={14} className='mt-0.5 shrink-0' />
               <span>
                 {tr('构建版本')} {GAME_VERSION}{tr('。存档带有版本号；不兼容的存档会在导入时被拒绝，而不会悄悄损坏俱乐部数据。')}
@@ -270,11 +270,11 @@ export function SettingsPage() {
           subtitle={tr('每次保存都会保留上一版存档（最多 5 份），误覆盖或存档损坏时可以在这里恢复。')}
         />
         {backups.length === 0 ? (
-          <p className='text-xs text-txt-muted'>{tr('还没有备份——保存一次后这里就会出现记录。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('还没有备份——保存一次后这里就会出现记录。')}</p>
         ) : (
           <div className='space-y-1.5'>
             {backups.map((b) => (
-              <div key={b.id} className='flex flex-wrap items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-xs'>
+              <div key={b.id} className='flex flex-wrap items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-[13px]'>
                 <span className='font-semibold text-txt'>{b.clubName}</span>
                 <span className='text-txt-muted'>{new Date(b.savedAt).toLocaleString('zh-CN')}</span>
                 <span className='text-txt-muted'>{b.cards} {tr('张卡')} · {b.coins.toLocaleString()} {tr('金币')}</span>

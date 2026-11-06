@@ -36,7 +36,7 @@ export function MatchCenterPage() {
 
       {!ready ? (
         <Panel>
-          <p className='text-sm text-txt-muted'>{tr('正在载入你的战队…')}</p>
+          <p className='text-[15px] text-txt-muted'>{tr('正在载入你的战队…')}</p>
         </Panel>
       ) : !hasGame ? (
         <Panel>
@@ -59,7 +59,7 @@ export function MatchCenterPage() {
       ) : (
         <div className='space-y-3'>
           {fromCareer ? (
-            <div className='rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-txt-muted'>
+            <div className='rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-[13px] text-txt-muted'>
               {tr('上一场是生涯/赛事的对局——结果请到「生涯」或「战绩」查看；这里只安排训练赛（友谊赛）。')}
             </div>
           ) : null}

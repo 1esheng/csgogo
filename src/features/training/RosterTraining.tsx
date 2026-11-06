@@ -127,7 +127,7 @@ export function RosterTraining() {
       <Panel className='xl:max-h-[calc(100vh-220px)] xl:overflow-y-auto'>
         <div className='mb-2 flex items-center justify-between'>
           <div className='label-xs'>{tr('收藏')} · {cards.length} {tr('张')} · {entries.length} {tr('名选手')}</div>
-          <div className='text-[11px] text-txt-muted'>{tr('同名卡合并显示')}</div>
+          <div className='text-[12px] text-txt-muted'>{tr('同名卡合并显示')}</div>
         </div>
         <Input value={query} onChange={setQuery} placeholder={tr('搜索选手')} />
         {entries.length === 0 ? (
@@ -158,22 +158,22 @@ export function RosterTraining() {
                   />
                   <span className='min-w-0 flex-1'>
                     <span className='flex items-center gap-1.5'>
-                      <span className='truncate font-display text-[13px] font-semibold text-txt'>{entry.nickname}</span>
-                      <span className='rounded bg-black/40 px-1 text-[9px] font-semibold text-txt-muted'>
+                      <span className='truncate font-display text-[14px] font-semibold text-txt'>{entry.nickname}</span>
+                      <span className='rounded bg-black/40 px-1 text-[11px] font-semibold text-txt-muted'>
                         {tr(ROLE_LABEL[entry.template.primaryRole])}
                       </span>
                       {entry.copies > 1 ? (
-                        <span className='rounded bg-white/10 px-1 text-[9px] font-semibold text-txt-muted'>×{entry.copies}</span>
+                        <span className='rounded bg-white/10 px-1 text-[11px] font-semibold text-txt-muted'>×{entry.copies}</span>
                       ) : null}
                     </span>
                     <span className='mt-1 flex items-center gap-2'>
                       <span className='min-w-0 flex-1'>
                         <Progress value={rowXp.pct * 100} height='h-1' tone='blue' />
                       </span>
-                      <span className='shrink-0 text-[10px] text-txt-muted'>{entry.card.level} {tr('级')}</span>
+                      <span className='shrink-0 text-[12px] text-txt-muted'>{entry.card.level} {tr('级')}</span>
                     </span>
                   </span>
-                  <span className='shrink-0 font-display text-sm font-semibold' style={{ color: rowRarity.color }}>
+                  <span className='shrink-0 font-display text-[15px] font-semibold' style={{ color: rowRarity.color }}>
                     {entry.ovr}
                   </span>
                 </button>
@@ -190,10 +190,10 @@ export function RosterTraining() {
             subtitle={tr('按当前首发五人一键训练——同名卡一起升级，按人数扣费。')}
           />
           {lineup.length === 0 ? (
-            <p className='text-xs text-txt-muted'>{tr('首发阵容还是空的——先到「阵容」页面指派 5 名选手。')}</p>
+            <p className='text-[13px] text-txt-muted'>{tr('首发阵容还是空的——先到「阵容」页面指派 5 名选手。')}</p>
           ) : (
             <div className='space-y-2'>
-              <div className='flex flex-wrap items-center gap-1.5 text-xs text-txt-muted'>
+              <div className='flex flex-wrap items-center gap-1.5 text-[13px] text-txt-muted'>
                 <span className='text-txt'>{lineup.length} {tr('人：')}</span>
                 {lineupNames.map((name) => (
                   <span key={name} className='rounded bg-white/5 px-1.5 py-0.5'>{name}</span>
@@ -203,7 +203,7 @@ export function RosterTraining() {
                 <select
                   value={squadDrill}
                   onChange={(event) => setSquadDrill(event.target.value)}
-                  className='rounded-lg border border-white/10 bg-ink-800 px-2 py-1.5 text-xs text-txt'
+                  className='rounded-lg border border-white/10 bg-ink-800 px-2 py-1.5 text-[13px] text-txt'
                 >
                   {TRAINING_DRILLS.map((drill) => (
                     <option key={drill.id} value={drill.id}>{tr(drill.label)}{tr('（')}{drill.cost}{tr(' 金币/人）')}</option>
@@ -241,21 +241,21 @@ export function RosterTraining() {
                   </Badge>
                   {selected.copies > 1 ? <Badge tone='muted'>{tr('同名卡')} ×{selected.copies}</Badge> : null}
                 </div>
-                <p className='mt-0.5 text-[11px] text-txt-muted'>
+                <p className='mt-0.5 text-[12px] text-txt-muted'>
                   {selected.template.season} · {tr(ROLE_LABEL[selected.template.primaryRole])} / {tr(ROLE_LABEL[selected.template.secondaryRole])} ·
                   {' '}{tr(selected.template.skill.name)}
                 </p>
               </div>
 
               <div>
-                <div className='mb-1 flex items-center justify-between text-[11px] text-txt-muted'>
+                <div className='mb-1 flex items-center justify-between text-[12px] text-txt-muted'>
                   <span>{tr('经验进度')}</span>
                   <span className='font-semibold text-txt'>
                     {atCap ? tr('已满级') : xp.current + ' / ' + xp.required + ' XP'}
                   </span>
                 </div>
                 <Progress value={atCap ? 100 : xp.pct * 100} tone={atCap ? 'success' : 'accent'} height='h-2' />
-                <div className='mt-1 flex items-center justify-between text-[10px] text-txt-muted'>
+                <div className='mt-1 flex items-center justify-between text-[12px] text-txt-muted'>
                   <span>{tr('累计')} {selected.card.xp} XP · {tr('成长倍率')} ×{selected.template.growth.toFixed(2)}</span>
                   <span>{tr('等级上限')} {LEVEL_CONFIG.maxLevel}</span>
                 </div>
@@ -280,12 +280,12 @@ export function RosterTraining() {
                       )}
                     >
                       <div className='flex items-center justify-between gap-2'>
-                        <span className='font-display text-[13px] font-semibold text-txt'>{tr(drill.label)}</span>
-                        <span className='inline-flex items-center gap-1 text-[11px] font-semibold text-accent'>
+                        <span className='font-display text-[14px] font-semibold text-txt'>{tr(drill.label)}</span>
+                        <span className='inline-flex items-center gap-1 text-[12px] font-semibold text-accent'>
                           <span>+{gain} XP</span>
                         </span>
                       </div>
-                      <div className='mt-1 flex items-center justify-between text-[10px] text-txt-muted'>
+                      <div className='mt-1 flex items-center justify-between text-[12px] text-txt-muted'>
                         <span>{tr('主练')} {tr(ATTRIBUTE_LABEL[drill.focus])}</span>
                         <span>{drill.cost} {tr('金币')}</span>
                       </div>
@@ -294,7 +294,7 @@ export function RosterTraining() {
                 })}
               </div>
               {coins < Math.min(...TRAINING_DRILLS.map((drill) => drill.cost)) ? (
-                <p className='rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-[11px] text-danger'>
+                <p className='rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-[12px] text-danger'>
                   {tr('金币不足，无法进行任何训练。打比赛可以赚取更多金币。')}
                 </p>
               ) : null}

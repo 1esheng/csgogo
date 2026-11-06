@@ -123,7 +123,7 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
         ) : null}
       </div>
 
-      <p className='mb-3 text-[11px] leading-relaxed text-txt-muted'>
+      <p className='mb-3 text-[12px] leading-relaxed text-txt-muted'>
         {tr('按每张卡牌在当前等级、当前')}{role ? tr(ROLE_LABEL[role]) : tr('位置')}{tr('下的适配度排序。同一名选手不能同时占据两个位置，不同赛季的版本视为同一名选手。')}
       </p>
 
@@ -159,30 +159,30 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
                 />
                 <span className='min-w-0 flex-1'>
                   <span className='flex items-center gap-1.5'>
-                    <span className='truncate font-display text-[13px] font-semibold text-txt'>{row.nickname}</span>
-                    <span className='rounded bg-black/40 px-1 py-0.5 text-[9px] font-semibold text-txt-muted'>
+                    <span className='truncate font-display text-[14px] font-semibold text-txt'>{row.nickname}</span>
+                    <span className='rounded bg-black/40 px-1 py-0.5 text-[11px] font-semibold text-txt-muted'>
                       {row.countryCode}
                     </span>
-                    <span className='text-[9px] font-semibold ' style={{ color: rarity.color }}>
+                    <span className='text-[11px] font-semibold ' style={{ color: rarity.color }}>
                       {row.template.season}
                     </span>
                   </span>
-                  <span className='mt-0.5 block text-[10px] text-txt-muted'>
+                  <span className='mt-0.5 block text-[12px] text-txt-muted'>
                     {tr(ROLE_LABEL[row.template.primaryRole])} · {row.card.level} {tr('级')}
                   </span>
                 </span>
                 <span className='hidden w-28 shrink-0 sm:block'>
                   <Progress value={row.fit} tone={fitTone(row.fit)} height='h-1.5' />
                 </span>
-                <span className='w-10 shrink-0 text-right text-[11px] font-semibold text-txt-muted'>{row.fit}%</span>
+                <span className='w-10 shrink-0 text-right text-[12px] font-semibold text-txt-muted'>{row.fit}%</span>
                 <span className='w-8 shrink-0 text-right font-display text-base font-semibold' style={{ color: rarity.color }}>
                   {row.ovr}
                 </span>
                 {(row.card.stars ?? 1) > 1 ? (
-                  <span className='shrink-0 rounded bg-accent/15 px-1 text-[10px] font-semibold text-accent'>{row.card.stars}★</span>
+                  <span className='shrink-0 rounded bg-accent/15 px-1 text-[12px] font-semibold text-accent'>{row.card.stars}★</span>
                 ) : null}
                 {row.copies > 1 ? (
-                  <span className='shrink-0 rounded bg-white/10 px-1 text-[10px] font-semibold text-txt-muted'>×{row.copies}</span>
+                  <span className='shrink-0 rounded bg-white/10 px-1 text-[12px] font-semibold text-txt-muted'>×{row.copies}</span>
                 ) : null}
                 {row.blocked ? <Badge tone='danger'>{tr('已上场')}</Badge> : null}
               </button>

@@ -21,9 +21,9 @@ export interface PlayerCardView {
 }
 
 const SIZE = {
-  sm: { w: 'w-[152px]', pad: 'p-3', ovr: 'text-2xl', name: 'text-sm', avatar: 62, meta: 'text-[11px]' },
-  md: { w: 'w-[188px]', pad: 'p-3.5', ovr: 'text-3xl', name: 'text-[15px]', avatar: 76, meta: 'text-[11px]' },
-  lg: { w: 'w-[244px]', pad: 'p-4', ovr: 'text-4xl', name: 'text-lg', avatar: 92, meta: 'text-xs' },
+  sm: { w: 'w-[152px]', pad: 'p-3', ovr: 'text-2xl', name: 'text-[15px]', avatar: 62, meta: 'text-[12px]' },
+  md: { w: 'w-[188px]', pad: 'p-3.5', ovr: 'text-3xl', name: 'text-[15px]', avatar: 76, meta: 'text-[12px]' },
+  lg: { w: 'w-[244px]', pad: 'p-4', ovr: 'text-4xl', name: 'text-lg', avatar: 92, meta: 'text-[13px]' },
 };
 
 export function PlayerCard({
@@ -65,12 +65,12 @@ export function PlayerCard({
 
       <div className='relative flex items-start justify-between gap-2'>
         <div className='flex min-w-0 flex-col'>
-          <span className='font-display text-[11px] font-semibold ' style={{ color: rarity.color }}>
+          <span className='font-display text-[12px] font-semibold ' style={{ color: rarity.color }}>
             {card.template.rarity}
           </span>
           <span className={clsx('truncate font-semibold tracking-wide text-txt-muted', s.meta)}>{tr(ROLE_LABEL[role])}</span>
         </div>
-        <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-semibold text-txt'>
+        <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[12px] font-semibold text-txt'>
           {card.countryCode}
         </span>
       </div>
@@ -92,7 +92,7 @@ export function PlayerCard({
         </div>
         <div className='shrink-0 text-right'>
           <div className={clsx('font-display font-semibold leading-none', s.ovr)} style={{ color: rarity.color }}>{card.ovr}</div>
-          <div className='text-[10px] font-semibold text-txt-muted'>{tr('综合')}</div>
+          <div className='text-[12px] font-semibold text-txt-muted'>{tr('综合')}</div>
         </div>
       </div>
 
@@ -109,7 +109,7 @@ export function PlayerCard({
       </div>
 
       {cornerLabel ? (
-        <span className='absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-accent'>
+        <span className='absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[12px] font-semibold text-accent'>
           {cornerLabel}
         </span>
       ) : null}

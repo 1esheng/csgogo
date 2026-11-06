@@ -61,7 +61,7 @@ export function CollectionFiltersBar({
               onClick={() => toggleRarity(rarity)}
               title={tr('切换') + ' ' + tr(info.label) + '（' + tr('已拥有') + ' ' + counts[rarity] + '）'}
               className={clsx(
-                'focus-ring rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-all duration-150',
+                'focus-ring rounded-lg border px-2.5 py-1 text-[12px] font-semibold transition-all duration-150',
                 active ? 'text-ink-900' : 'text-txt-muted hover:text-txt',
               )}
               style={active
@@ -76,7 +76,7 @@ export function CollectionFiltersBar({
         {value.rarities.length > 0 ? (
           <Button variant='subtle' size='sm' onClick={() => onChange({ rarities: [] })}>{tr('清除')}</Button>
         ) : null}
-        <span className='ml-auto inline-flex items-center gap-1 text-[11px] text-txt-muted'>
+        <span className='ml-auto inline-flex items-center gap-1 text-[12px] text-txt-muted'>
           {visible} / {total} {tr('张卡牌')}
         </span>
       </div>

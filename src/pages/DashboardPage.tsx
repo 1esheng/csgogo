@@ -84,7 +84,7 @@ export function DashboardPage() {
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
           <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.dashboard.title')}</h1>
-          <p className='mt-0.5 text-xs text-txt-muted'>{tr('第')} {club.season} {tr('赛季')} · {tr('巡回赛积分')} {rating} · {tr('阵容战力')} {breakdown.ovr}</p>
+          <p className='mt-0.5 text-[13px] text-txt-muted'>{tr('第')} {club.season} {tr('赛季')} · {tr('巡回赛积分')} {rating} · {tr('阵容战力')} {breakdown.ovr}</p>
         </div>
         <div className='flex items-center gap-2'>
           {breakdown.filled < 5 ? (
@@ -117,8 +117,8 @@ export function DashboardPage() {
                       className='flex h-[230px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-white/15 text-center'
                     >
                       <Users size={20} className='text-txt-muted' />
-                      <span className='text-xs font-semibold text-txt-muted'>{tr(ROLE_SHORT[role])}</span>
-                      <span className='text-[11px] text-txt-muted/70'>{tr('空缺 · 点击指派')}</span>
+                      <span className='text-[13px] font-semibold text-txt-muted'>{tr(ROLE_SHORT[role])}</span>
+                      <span className='text-[12px] text-txt-muted/70'>{tr('空缺 · 点击指派')}</span>
                     </button>
                   );
                 }
@@ -139,22 +139,22 @@ export function DashboardPage() {
                         <div className='font-display text-2xl font-semibold leading-none' style={{ color: rarity.color }}>{ovr}</div>
                       </div>
                       {(card.stars ?? 1) > 1 ? (
-                        <span className='rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-semibold text-accent'>{card.stars}★</span>
+                        <span className='rounded bg-accent/20 px-1.5 py-0.5 text-[12px] font-semibold text-accent'>{card.stars}★</span>
                       ) : null}
                     </div>
                     <div className='mt-2 flex justify-center'>
                       <Avatar nickname={identity?.nickname ?? tpl.playerId} playerId={tpl.playerId} size={76} />
                     </div>
-                    <div className='mt-2 truncate font-display text-sm font-medium text-txt'>{identity?.nickname ?? tpl.playerId}</div>
-                    <div className='text-[10px] text-txt-muted'>{tr(ROLE_SHORT[role])} · {levelText(card.level)}</div>
+                    <div className='mt-2 truncate font-display text-[15px] font-medium text-txt'>{identity?.nickname ?? tpl.playerId}</div>
+                    <div className='text-[12px] text-txt-muted'>{tr(ROLE_SHORT[role])} · {levelText(card.level)}</div>
                     <div className='mt-2 space-y-1'>
                       {bars.map((bar) => (
                         <div key={bar.key} className='flex items-center gap-1.5'>
-                          <span className='w-[52px] shrink-0 truncate text-[9px] text-txt-muted'>{tr(bar.label)}</span>
+                          <span className='w-[62px] shrink-0 text-[11px] text-txt-muted'>{tr(bar.label)}</span>
                           <span className='h-1 flex-1 overflow-hidden rounded-full bg-white/10'>
                             <span className='block h-full rounded-full bg-white/25' style={{ width: Math.min(100, attrs[bar.key] / 1.2) + '%' }} />
                           </span>
-                          <span className={'w-5 shrink-0 text-right text-[9px] ' + (attrs[bar.key] >= 85 ? 'font-semibold text-accent' : 'text-txt-muted')}>{attrs[bar.key]}</span>
+                          <span className={'w-5 shrink-0 text-right text-[11px] ' + (attrs[bar.key] >= 85 ? 'font-semibold text-accent' : 'text-txt-muted')}>{attrs[bar.key]}</span>
                         </div>
                       ))}
                     </div>
@@ -172,12 +172,12 @@ export function DashboardPage() {
             />
             {headInfo ? (
               <div className='flex flex-wrap items-center gap-3'>
-                <span className='grid h-11 w-11 place-items-center rounded-xl bg-accent/15 font-display text-xs font-semibold text-accent'>
+                <span className='grid h-11 w-11 place-items-center rounded-xl bg-accent/15 font-display text-[13px] font-semibold text-accent'>
                   {headInfo.nickname.slice(0, 2).toUpperCase()}
                 </span>
                 <div className='min-w-0'>
-                  <div className='font-display text-sm font-semibold text-txt'>{headInfo.nickname}</div>
-                  <div className='text-[11px] text-txt-muted'>{headInfo.country} · {headInfo.style}</div>
+                  <div className='font-display text-[15px] font-semibold text-txt'>{headInfo.nickname}</div>
+                  <div className='text-[12px] text-txt-muted'>{headInfo.country} · {headInfo.style}</div>
                 </div>
                 <div className='flex flex-wrap gap-1.5'>
                   <Badge tone='accent'>全队属性 +{headEffects.attributeBonus}</Badge>
@@ -187,7 +187,7 @@ export function DashboardPage() {
                 </div>
               </div>
             ) : (
-              <p className='text-xs text-txt-muted'>{tr('任命一位主教练可以获得属性加成、训练提速或开局经济优势。')}</p>
+              <p className='text-[13px] text-txt-muted'>{tr('任命一位主教练可以获得属性加成、训练提速或开局经济优势。')}</p>
             )}
           </Panel>
 
@@ -198,7 +198,7 @@ export function DashboardPage() {
               right={<Button size='sm' variant='outline' onClick={() => navigate('/team/player')}>{tr('奖杯墙')}</Button>}
             />
             {recentHonors.length === 0 ? (
-              <p className='text-xs text-txt-muted'>{tr('还没有奖杯——打进生涯联赛夺冠后会记录在这里。')}</p>
+              <p className='text-[13px] text-txt-muted'>{tr('还没有奖杯——打进生涯联赛夺冠后会记录在这里。')}</p>
             ) : (
               <div className='grid gap-2 sm:grid-cols-2'>
                 {recentHonors.map((h) => (
@@ -208,8 +208,8 @@ export function DashboardPage() {
                   >
                     <Trophy size={15} className={h.tier === 9 ? 'text-accent' : 'text-txt-muted'} />
                     <div className='min-w-0 flex-1'>
-                      <div className='truncate text-xs font-semibold text-txt'>{h.name}</div>
-                      <div className='text-[11px] text-txt-muted'>{CAREER_TIERS[h.tier]?.name ?? '赛事'} · {h.prize.toLocaleString()} 金币</div>
+                      <div className='truncate text-[13px] font-semibold text-txt'>{h.name}</div>
+                      <div className='text-[12px] text-txt-muted'>{CAREER_TIERS[h.tier]?.name ?? '赛事'} · {h.prize.toLocaleString()} 金币</div>
                     </div>
                     {h.tier === 9 ? <Badge tone='accent'>MAJOR</Badge> : null}
                   </div>
@@ -231,7 +231,7 @@ export function DashboardPage() {
                   type='button'
                   onClick={() => setFilter(key as 'all' | CombatRole)}
                   className={clsx(
-                    'rounded-full px-3 py-1 text-[11px] font-semibold transition',
+                    'rounded-full px-3 py-1 text-[12px] font-semibold transition',
                     filter === key ? 'bg-accent text-ink-950' : 'bg-white/5 text-txt-muted hover:bg-white/10',
                   )}
                 >
@@ -253,10 +253,10 @@ export function DashboardPage() {
                   >
                     <div className='flex items-center justify-between'>
                       <span className='font-display text-lg font-semibold' style={{ color: rarity.color }}>{cardOVR(tpl!, card.level, card.stars ?? 1)}</span>
-                      <span className='text-[9px] text-txt-muted'>{tr(rarity.label)}</span>
+                      <span className='text-[11px] text-txt-muted'>{tr(rarity.label)}</span>
                     </div>
-                    <div className='mt-1 truncate text-xs font-semibold text-txt'>{identity?.nickname ?? tpl!.playerId}</div>
-                    <div className='text-[10px] text-txt-muted'>{tr(ROLE_SHORT[tpl!.primaryRole as CombatRole] ?? '选手')}</div>
+                    <div className='mt-1 truncate text-[13px] font-semibold text-txt'>{identity?.nickname ?? tpl!.playerId}</div>
+                    <div className='text-[12px] text-txt-muted'>{tr(ROLE_SHORT[tpl!.primaryRole as CombatRole] ?? '选手')}</div>
                   </button>
                 );
               })}
@@ -274,22 +274,22 @@ export function DashboardPage() {
                 right={<Badge tone='accent'>{tr('准备就绪')}</Badge>}
               />
               <div className='rounded-xl border border-white/10 bg-black/25 p-3'>
-                <div className='flex items-center justify-between text-xs text-txt-muted'>
+                <div className='flex items-center justify-between text-[13px] text-txt-muted'>
                   <span>{MAPS[mapId].name}</span>
                   <span className='inline-flex items-center gap-1'><CalendarDays size={11} /> {tr('第')} {club.season} {tr('赛季')}</span>
                 </div>
                 <div className='mt-2 flex items-center justify-between gap-2'>
                   <div className='min-w-0'>
                     <div className='truncate font-display text-base font-semibold text-txt'>{club.name}</div>
-                    <div className='text-[11px] text-txt-muted'>{tr('战力')} {breakdown.ovr}</div>
+                    <div className='text-[12px] text-txt-muted'>{tr('战力')} {breakdown.ovr}</div>
                   </div>
                   <div className='font-display text-xl font-semibold text-txt-muted'>VS</div>
                   <div className='min-w-0 text-right'>
                     <div className='truncate font-display text-base font-semibold text-txt'>{nextOpponent?.name ?? '待定'}</div>
-                    <div className='text-[11px] text-txt-muted'>{tr('评分')} {nextOpponent?.rating ?? '—'}</div>
+                    <div className='text-[12px] text-txt-muted'>{tr('评分')} {nextOpponent?.rating ?? '—'}</div>
                   </div>
                 </div>
-                <div className='mt-2 flex items-center gap-1 text-[11px] text-txt-muted'>
+                <div className='mt-2 flex items-center gap-1 text-[12px] text-txt-muted'>
                   <MapPin size={11} /> {nextOpponent ? tr('第') + ' ' + (nextOpponent.tier + 1) + ' ' + tr('档战队') : '—'}
                 </div>
               </div>
@@ -307,11 +307,11 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle title={t('page.dashboard.recent')} subtitle={tr('总战绩') + ' ' + club.wins + 'W ' + club.losses + 'L · ' + tr('胜率') + ' ' + winRate + '%'} />
             {recent.length === 0 ? (
-              <p className='text-xs text-txt-muted'>{tr('还没有比赛记录——去生涯打第一场吧。')}</p>
+              <p className='text-[13px] text-txt-muted'>{tr('还没有比赛记录——去生涯打第一场吧。')}</p>
             ) : (
               <ul className='space-y-1.5'>
                 {recent.map((m) => (
-                  <li key={m.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5 text-xs'>
+                  <li key={m.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5 text-[13px]'>
                     <span className={clsx('w-1.5 self-stretch rounded-full', m.won ? 'bg-emerald-400' : 'bg-danger')} />
                     <span className='min-w-0 flex-1 truncate text-txt'>对阵 {m.opponentName}</span>
                     <span className={clsx('font-display font-semibold', m.won ? 'text-emerald-400' : 'text-danger')}>{m.scoreFor}-{m.scoreAgainst}</span>
@@ -325,20 +325,20 @@ export function DashboardPage() {
           <Panel>
             <SectionTitle title={t('page.dashboard.form')} subtitle={tr('最近 8 场的比分')} right={<TrendingUp size={16} className='text-txt-muted' />} />
             {form.length === 0 ? (
-              <p className='text-xs text-txt-muted'>{tr('打几场之后这里会显示走势。')}</p>
+              <p className='text-[13px] text-txt-muted'>{tr('打几场之后这里会显示走势。')}</p>
             ) : (
               <div className='flex h-24 items-end gap-1.5'>
                 {form.map((m) => (
                   <div key={m.id} className='flex flex-1 flex-col items-center gap-1'>
                     <div className={clsx('w-full rounded-t', m.won ? 'bg-emerald-400/70' : 'bg-danger/70')} style={{ height: Math.max(8, m.scoreFor * 5) + 'px' }} />
-                    <span className='text-[9px] text-txt-muted'>{m.scoreFor}</span>
+                    <span className='text-[11px] text-txt-muted'>{m.scoreFor}</span>
                   </div>
                 ))}
               </div>
             )}
-            <div className='mt-3 grid grid-cols-2 gap-2 text-[11px] text-txt-muted'>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-sm font-semibold text-txt'>{breakdown.attack}</span></div>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('防守')} <span className='font-display text-sm font-semibold text-txt'>{breakdown.defense}</span></div>
+            <div className='mt-3 grid grid-cols-2 gap-2 text-[12px] text-txt-muted'>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-[15px] font-semibold text-txt'>{breakdown.attack}</span></div>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('防守')} <span className='font-display text-[15px] font-semibold text-txt'>{breakdown.defense}</span></div>
             </div>
           </Panel>
         </div>

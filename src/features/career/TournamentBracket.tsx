@@ -21,14 +21,14 @@ function TeamRow({
     >
       <span
         className={clsx(
-          'min-w-0 flex-1 truncate text-xs font-semibold',
+          'min-w-0 flex-1 truncate text-[13px] font-semibold',
           decided && !won ? 'text-txt-muted' : 'text-txt',
         )}
       >
         {name}
       </span>
       {isPlayer ? <Badge tone='accent' className='shrink-0'>{tr('我')}</Badge> : null}
-      <span className={clsx('w-6 shrink-0 text-right font-display text-sm font-semibold', won && decided ? 'text-accent' : 'text-txt-muted')}>
+      <span className={clsx('w-6 shrink-0 text-right font-display text-[15px] font-semibold', won && decided ? 'text-accent' : 'text-txt-muted')}>
         {decided ? score : '–'}
       </span>
     </div>
@@ -47,7 +47,7 @@ function MatchCard({ tournament, match }: { tournament: Tournament; match: Tourn
         <TeamRow name={a?.name ?? tr('待定')} score={match.scoreA} won={match.winnerId === match.aId} decided={decided} isPlayer={Boolean(a?.isPlayer)} />
         <TeamRow name={b?.name ?? tr('待定')} score={match.scoreB} won={match.winnerId === match.bId} decided={decided} isPlayer={Boolean(b?.isPlayer)} />
       </div>
-      <div className='mt-1.5 flex items-center gap-1 px-1 text-[10px] text-txt-muted'>
+      <div className='mt-1.5 flex items-center gap-1 px-1 text-[12px] text-txt-muted'>
         <MapPin size={10} /> {mapName}
       </div>
     </div>
@@ -56,7 +56,7 @@ function MatchCard({ tournament, match }: { tournament: Tournament; match: Tourn
 
 function EmptySlot({ label }: { label: string }) {
   return (
-    <div className='flex h-[86px] items-center justify-center rounded-xl border border-dashed border-white/8 px-2 text-center text-[11px] text-txt-muted'>
+    <div className='flex h-[86px] items-center justify-center rounded-xl border border-dashed border-white/8 px-2 text-center text-[12px] text-txt-muted'>
       {label}
     </div>
   );

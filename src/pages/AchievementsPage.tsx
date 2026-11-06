@@ -63,15 +63,15 @@ export function AchievementsPage() {
               </span>
               <div className='min-w-0 flex-1'>
                 <div className='flex flex-wrap items-center gap-2'>
-                  <span className={'font-display text-sm font-semibold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{pick(row.name, row.nameEn)}</span>
-                  <span className='text-[11px] text-txt-muted'>{pick(row.desc, row.descEn)}</span>
+                  <span className={'font-display text-[15px] font-semibold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{pick(row.name, row.nameEn)}</span>
+                  <span className='text-[12px] text-txt-muted'>{pick(row.desc, row.descEn)}</span>
                 </div>
                 <div className='mt-1 flex items-center gap-2'>
                   <span className='min-w-0 flex-1'><Progress value={row.pct} max={100} height='h-1.5' tone={row.done ? 'accent' : 'blue'} /></span>
-                  <span className='shrink-0 text-[10px] text-txt-muted'>{Math.min(row.value, row.target)} / {row.target}</span>
+                  <span className='shrink-0 text-[12px] text-txt-muted'>{Math.min(row.value, row.target)} / {row.target}</span>
                 </div>
               </div>
-              <span className='inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-accent'>
+              <span className='inline-flex shrink-0 items-center gap-1 text-[13px] font-semibold text-accent'>
                 <Coins size={12} /> {row.reward.toLocaleString()}
               </span>
               {row.isClaimed ? (

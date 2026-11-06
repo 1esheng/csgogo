@@ -173,7 +173,7 @@ export function SquadPage() {
           <Panel>
             <div className='mb-3 flex flex-wrap items-center justify-between gap-2'>
               <div className='label-xs'>{tr('首发五人')}</div>
-              <div className='text-[11px] text-txt-muted'>
+              <div className='text-[12px] text-txt-muted'>
                 {breakdown.filled}/5 {tr('已就位')} · {tr('平均适配')} {breakdown.averageFit}%
               </div>
             </div>
@@ -204,7 +204,7 @@ export function SquadPage() {
           <Panel>
             <div className='mb-3 flex flex-wrap items-center justify-between gap-2'>
               <div className='label-xs'>{tr('替补席')} · {bench.length} {tr('名可用')}</div>
-              <div className='flex items-center gap-1 text-[11px] text-txt-muted'>
+              <div className='flex items-center gap-1 text-[12px] text-txt-muted'>
                 <MousePointerClick size={12} /> {tr('拖到位置上，或点击自动分配')}
               </div>
             </div>

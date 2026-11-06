@@ -49,8 +49,8 @@ export function RoundTimeline({ match }: { match: MatchState }) {
   if (!round) {
     return (
       <div className='flex h-full min-h-[220px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 p-6 text-center'>
-        <div className='font-display text-sm font-semibold text-txt'>{tr('还没有进行回合')}</div>
-        <p className='max-w-sm text-xs text-txt-muted'>
+        <div className='font-display text-[15px] font-semibold text-txt'>{tr('还没有进行回合')}</div>
+        <p className='max-w-sm text-[13px] text-txt-muted'>
           {tr('第 ')}{match.roundNumber}{tr(' 回合已就绪。先定好购买、战术与目标，再点「推进回合」。')}
         </p>
       </div>
@@ -63,12 +63,12 @@ export function RoundTimeline({ match }: { match: MatchState }) {
     <div className='flex h-full flex-col'>
       <div className='mb-2 flex flex-wrap items-center justify-between gap-2'>
         <div className='flex items-center gap-2'>
-          <span className='font-display text-sm font-semibold text-txt'>{tr('第 ')}{round.roundNumber}{tr(' 回合')}</span>
+          <span className='font-display text-[15px] font-semibold text-txt'>{tr('第 ')}{round.roundNumber}{tr(' 回合')}</span>
           {round.winner ? (
-            <span className='text-[11px] text-txt-muted'>{round.winner}{tr(' 方获胜')}</span>
+            <span className='text-[12px] text-txt-muted'>{round.winner}{tr(' 方获胜')}</span>
           ) : null}
         </div>
-        <span className='text-[11px] text-txt-muted'>
+        <span className='text-[12px] text-txt-muted'>
           {tr('共 ')}{round.events.length}{tr(' 条事件 · 已显示 ')}{shownEvents.length}
         </span>
       </div>
@@ -81,17 +81,17 @@ export function RoundTimeline({ match }: { match: MatchState }) {
               <span className={clsx('relative z-10 mt-1.5 h-2 w-2 shrink-0 rounded-full ring-2 ring-ink-800', meta.dot)} />
               <div className='min-w-0 flex-1'>
                 <div className='flex items-center gap-2'>
-                  <span className='font-mono text-[10px] text-txt-muted'>{clockLabel(e.clock)}</span>
-                  <span className={clsx('text-[10px] font-semibold ', meta.tone)}>{tr(meta.label)}</span>
-                  {e.side ? <span className='text-[9px] text-txt-muted'>{e.side}</span> : null}
+                  <span className='font-mono text-[12px] text-txt-muted'>{clockLabel(e.clock)}</span>
+                  <span className={clsx('text-[12px] font-semibold ', meta.tone)}>{tr(meta.label)}</span>
+                  {e.side ? <span className='text-[11px] text-txt-muted'>{e.side}</span> : null}
                 </div>
-                <p className='text-[13px] leading-snug text-txt'>{e.text}</p>
+                <p className='text-[14px] leading-snug text-txt'>{e.text}</p>
               </div>
             </div>
           );
         })}
         {events.length === 0 ? (
-          <p className='pl-5 text-xs text-txt-muted'>{tr('本回合没有产生事件。')}</p>
+          <p className='pl-5 text-[13px] text-txt-muted'>{tr('本回合没有产生事件。')}</p>
         ) : null}
       </div>
     </div>
@@ -130,16 +130,16 @@ export function MatchLog({ events }: { events: MatchEvent[] }) {
           const meta = EVENT_KIND_META[e.kind];
           return (
             <div key={e.id} className='flex items-start gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1'>
-              <span className='mt-0.5 shrink-0 font-mono text-[10px] text-txt-muted'>R{e.round}</span>
-              <span className='mt-0.5 shrink-0 font-mono text-[10px] text-txt-muted'>{clockLabel(e.clock)}</span>
-              <span className={clsx('mt-0.5 w-[74px] shrink-0 text-[9px] font-semibold ', meta.tone)}>
+              <span className='mt-0.5 shrink-0 font-mono text-[12px] text-txt-muted'>R{e.round}</span>
+              <span className='mt-0.5 shrink-0 font-mono text-[12px] text-txt-muted'>{clockLabel(e.clock)}</span>
+              <span className={clsx('mt-0.5 w-[74px] shrink-0 text-[11px] font-semibold ', meta.tone)}>
                 {tr(meta.label)}
               </span>
-              <span className='min-w-0 flex-1 text-[12px] leading-snug text-txt'>{e.text}</span>
+              <span className='min-w-0 flex-1 text-[13px] leading-snug text-txt'>{e.text}</span>
             </div>
           );
         })}
-        {shown.length === 0 ? <p className='text-xs text-txt-muted'>{tr('暂无此类事件。')}</p> : null}
+        {shown.length === 0 ? <p className='text-[13px] text-txt-muted'>{tr('暂无此类事件。')}</p> : null}
       </div>
     </div>
   );
@@ -150,7 +150,7 @@ function LogChip({ label, active, onClick }: { label: string; active: boolean; o
     <button
       onClick={onClick}
       className={clsx(
-        'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-colors',
+        'focus-ring rounded-md border px-2 py-0.5 text-[12px] font-semibold transition-colors',
         active ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 text-txt-muted hover:text-txt',
       )}
     >

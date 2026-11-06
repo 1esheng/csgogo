@@ -38,7 +38,7 @@ export function EconomyTab({ match }: { match: MatchState }) {
       {data.length === 0 ? (
         <div className='flex h-[220px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 text-center'>
           <Activity size={18} className='text-txt-muted' />
-          <p className='text-xs text-txt-muted'>
+          <p className='text-[13px] text-txt-muted'>
             {tr('暂无经济记录。打完第一回合后图表就会填充。')}
           </p>
         </div>
@@ -80,7 +80,7 @@ export function EconomyTab({ match }: { match: MatchState }) {
           </ResponsiveContainer>
         </div>
       )}
-      <p className='text-[10px] leading-snug text-txt-muted'>
+      <p className='text-[12px] leading-snug text-txt-muted'>
         {tr('数值为双方回合结束时的资金，由引擎在下一次购买前记录。半场后交换阵营，所以 T 与 CT 两条线代表阵营，而不是队伍。')}
       </p>
     </div>

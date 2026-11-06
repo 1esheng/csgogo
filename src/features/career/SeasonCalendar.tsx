@@ -65,8 +65,8 @@ export function SeasonCalendar() {
           return (
             <div key={event.id} className='rounded-xl border border-white/8 bg-white/[0.02] p-2.5'>
               <div className='flex flex-wrap items-center gap-2'>
-                <span className='w-16 shrink-0 text-[11px] font-semibold text-txt-muted'>{monthDayLabel(event.day)}</span>
-                <span className='min-w-0 flex-1 truncate text-sm font-semibold text-txt'>{pick(event.name, event.nameEn)}</span>
+                <span className='w-16 shrink-0 text-[12px] font-semibold text-txt-muted'>{monthDayLabel(event.day)}</span>
+                <span className='min-w-0 flex-1 truncate text-[15px] font-semibold text-txt'>{pick(event.name, event.nameEn)}</span>
                 <Badge tone='muted'>{tr(spec.name)}</Badge>
                 <Badge tone='accent'>{tr('奖金 ')}{spec.prize.toLocaleString()}</Badge>
                 <Badge tone={reachable ? 'muted' : 'neutral'}>{spec.teams ?? 8}{tr(' 队')}</Badge>
@@ -92,7 +92,7 @@ export function SeasonCalendar() {
                   </Button>
                 ) : null}
               </div>
-              <div className='mt-1.5 flex items-start gap-1.5 text-[11px] text-txt-muted'>
+              <div className='mt-1.5 flex items-start gap-1.5 text-[12px] text-txt-muted'>
                 <Users size={11} className='mt-0.5 shrink-0' />
                 <span className='min-w-0'>{tr('参赛：')}{field.join(' · ')}</span>
               </div>
@@ -100,10 +100,10 @@ export function SeasonCalendar() {
           );
         })}
         {upcoming.length === 0 ? (
-          <p className='text-xs text-txt-muted'>{tr('本赛季的赛事都结束了——明年 1 月开始新赛季。')}</p>
+          <p className='text-[13px] text-txt-muted'>{tr('本赛季的赛事都结束了——明年 1 月开始新赛季。')}</p>
         ) : null}
       </div>
-      <p className='mt-2 text-[11px] text-txt-muted'>
+      <p className='mt-2 text-[12px] text-txt-muted'>
         {tr('报名截止日 = 比赛日提前 ')}{REGISTRATION_LEAD_DAYS}{tr(' 天；同一天可能撞车，只能打完一站再打下一站。每场比赛推进 1 天。')}
       </p>
     </Panel>

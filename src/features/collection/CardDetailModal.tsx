@@ -78,7 +78,7 @@ export function CardDetailModal({
               >
                 {item.isIGL ? tr('已设为队内指挥') : tr('设为队内指挥')}
               </Button>
-              <span className='text-[11px] text-txt-muted'>
+              <span className='text-[12px] text-txt-muted'>
                 {tr('每张卡牌独立升级；三张同名卡可在「选手图鉴 → 卡牌合成」升星，每星全能力 +3。')}
               </span>
             </div>

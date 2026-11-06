@@ -59,7 +59,7 @@ export function Setup() {
           <div>
             <div className='label-xs'>{tr('我方首发')}</div>
             <div className='mt-1 font-display text-xl font-semibold text-txt'>{store.club.name}</div>
-            <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-txt-muted'>
+            <div className='mt-1 flex flex-wrap items-center gap-2 text-[13px] text-txt-muted'>
               <span>OVR {breakdown.filled > 0 ? Math.round(breakdown.ovr) : 0}</span>
               <span className='text-white/20'>|</span>
               <span>Elo {myElo !== null ? myElo : tr('未定级')}</span>
@@ -72,11 +72,11 @@ export function Setup() {
               <div
                 key={slot.slot}
                 className={clsx(
-                  'rounded-lg border px-2 py-1 text-[11px]',
+                  'rounded-lg border px-2 py-1 text-[12px]',
                   slot.instanceId ? 'border-white/10 bg-ink-700/60 text-txt' : 'border-dashed border-danger/40 bg-danger/5 text-danger',
                 )}
               >
-                <span className='text-[9px] text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
+                <span className='text-[11px] text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
                 <div className='font-semibold'>{slot.instanceId ? slot.nickname + ' ' + Math.round(slot.ovr) : tr('空缺')}</div>
               </div>
             ))}
@@ -85,7 +85,7 @@ export function Setup() {
         {breakdown.warnings.length > 0 ? (
           <ul className='mt-3 space-y-1'>
             {breakdown.warnings.map((w) => (
-              <li key={localizeDynamic(w)} className='text-xs text-danger'>- {localizeDynamic(w)}</li>
+              <li key={localizeDynamic(w)} className='text-[13px] text-danger'>- {localizeDynamic(w)}</li>
             ))}
           </ul>
         ) : null}
@@ -98,7 +98,7 @@ export function Setup() {
               <Ban size={18} className='mt-0.5 shrink-0 text-danger' />
               <div>
                 <div className='font-display text-base font-semibold text-txt'>{tr('阵容还没凑齐')}</div>
-                <p className='mt-1 text-sm text-txt-muted'>
+                <p className='mt-1 text-[15px] text-txt-muted'>
                   {tr('五个战斗位置只填了 ')}{breakdown.filled}{tr(' 个。开赛需要五名不同的选手就位。')}
                 </p>
               </div>
@@ -138,7 +138,7 @@ export function Setup() {
               </div>
             ))}
             {opponents.length === 0 ? (
-              <div className='rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-txt-muted'>
+              <div className='rounded-xl border border-dashed border-white/10 p-6 text-center text-[15px] text-txt-muted'>
                 {tr('还没有登记任何 AI 对手。')}
               </div>
             ) : null}
@@ -163,20 +163,20 @@ export function Setup() {
                     )}
                   >
                     <div className='flex items-center justify-between gap-2'>
-                      <span className='font-display text-sm font-semibold text-txt'>{spec.name}</span>
-                      <span className={clsx('text-[11px]', selected ? 'text-accent' : 'text-txt-muted')}>{tr('熟练 ')}{mapComfort}</span>
+                      <span className='font-display text-[15px] font-semibold text-txt'>{spec.name}</span>
+                      <span className={clsx('text-[12px]', selected ? 'text-accent' : 'text-txt-muted')}>{tr('熟练 ')}{mapComfort}</span>
                     </div>
-                    <p className='mt-0.5 text-[11px] leading-snug text-txt-muted'>{tr(spec.tagline)}</p>
+                    <p className='mt-0.5 text-[12px] leading-snug text-txt-muted'>{tr(spec.tagline)}</p>
                     <div className='mt-1.5'>
                       <Progress value={mapComfort} max={100} tone='accent' height='h-1' />
                     </div>
-                    <div className='mt-1.5 flex flex-wrap gap-1 text-[10px] text-txt-muted'>
+                    <div className='mt-1.5 flex flex-wrap gap-1 text-[12px] text-txt-muted'>
                       <span className='rounded bg-white/5 px-1.5 py-0.5'>{tr('中期 ')}{spec.midValue}</span>
                       <span className='rounded bg-white/5 px-1.5 py-0.5'>AWP x{spec.awpFactor.toFixed(2)}</span>
                       <span className='rounded bg-white/5 px-1.5 py-0.5'>T {spec.tBias > 0 ? '+' : ''}{spec.tBias}</span>
                       <span className='rounded bg-white/5 px-1.5 py-0.5'>CT +{spec.ctBias}</span>
                     </div>
-                    <div className='mt-1 text-[10px] leading-snug text-txt-muted'>
+                    <div className='mt-1 text-[12px] leading-snug text-txt-muted'>
                       A: {tr(spec.sites.A.name)} · B: {tr(spec.sites.B.name)}
                     </div>
                   </button>
@@ -204,7 +204,7 @@ export function Setup() {
               />
             </div>
             {opponent ? (
-              <div className='mt-3 rounded-xl border border-white/5 bg-ink-900/60 px-3 py-2 text-[11px] text-txt-muted'>
+              <div className='mt-3 rounded-xl border border-white/5 bg-ink-900/60 px-3 py-2 text-[12px] text-txt-muted'>
                 <div className='flex items-center justify-between'>
                   <span>{tr('我方')}</span>
                   <span className='font-semibold text-txt'>{store.club.name}</span>
@@ -220,7 +220,7 @@ export function Setup() {
               </div>
             ) : null}
             {error ? (
-              <div className='mt-3 flex items-start gap-2 rounded-xl border border-danger/40 bg-danger/10 px-3 py-2 text-xs text-danger'>
+              <div className='mt-3 flex items-start gap-2 rounded-xl border border-danger/40 bg-danger/10 px-3 py-2 text-[13px] text-danger'>
                 <Ban size={14} className='mt-0.5 shrink-0' />
                 <span>{error}</span>
               </div>
@@ -229,7 +229,7 @@ export function Setup() {
               <Play size={16} />
               {mode === 'quick' ? tr('模拟比赛') : tr('开始比赛')}
             </Button>
-            {blocked ? <p className='mt-2 text-center text-[11px] text-txt-muted'>{tr('填满五个阵容位置后解锁。')}</p> : null}
+            {blocked ? <p className='mt-2 text-center text-[12px] text-txt-muted'>{tr('填满五个阵容位置后解锁。')}</p> : null}
           </Panel>
         </div>
       </div>
@@ -253,10 +253,10 @@ function OpponentCard({
       )}
     >
       <div className='flex items-center justify-between gap-2'>
-        <span className='truncate font-display text-sm font-semibold text-txt'>{spec.name}</span>
+        <span className='truncate font-display text-[15px] font-semibold text-txt'>{spec.name}</span>
         <Badge tone={selected ? 'accent' : 'muted'}>{spec.shortName}</Badge>
       </div>
-      <div className='mt-1 flex flex-wrap items-center gap-2 text-[11px] text-txt-muted'>
+      <div className='mt-1 flex flex-wrap items-center gap-2 text-[12px] text-txt-muted'>
         <span className='inline-flex items-center gap-1 font-semibold text-txt'>
           <ShieldCheck size={11} className='text-txt-muted' /> {tr('实力 ')}{teamOvr}
         </span>
@@ -265,11 +265,11 @@ function OpponentCard({
             {tr('较你 ')}{delta > 0 ? '+' : ''}{delta}
           </span>
         ) : null}
-        <span className='rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-txt-muted'>Elo {spec.rating}</span>
+        <span className='rounded bg-white/5 px-1.5 py-0.5 text-[12px] text-txt-muted'>Elo {spec.rating}</span>
         <span className='rounded bg-white/5 px-1.5 py-0.5'>{tr(ECON_STYLE_LABEL[spec.econStyle])}</span>
       </div>
-      <p className='mt-1 text-[11px] leading-snug text-txt-muted'>{pick(spec.blurb, spec.blurbEn ?? spec.blurb)}</p>
-      <div className='mt-1 flex flex-wrap items-center gap-1 text-[10px] text-txt-muted'>
+      <p className='mt-1 text-[12px] leading-snug text-txt-muted'>{pick(spec.blurb, spec.blurbEn ?? spec.blurb)}</p>
+      <div className='mt-1 flex flex-wrap items-center gap-1 text-[12px] text-txt-muted'>
         <span className='inline-flex items-center gap-1 rounded bg-white/5 px-1.5 py-0.5'>
           <MapPin size={9} /> {spec.mapPref.map((m) => MAPS[m]?.name ?? m).join(' / ')}
         </span>
@@ -299,8 +299,8 @@ function ModeCard({
     >
       <span className={clsx('mt-0.5', active ? 'text-accent' : 'text-txt-muted')}>{icon}</span>
       <span className='min-w-0'>
-        <span className='block font-display text-sm font-semibold text-txt'>{title}</span>
-        <span className='mt-0.5 block text-[11px] leading-snug text-txt-muted'>{detail}</span>
+        <span className='block font-display text-[15px] font-semibold text-txt'>{title}</span>
+        <span className='mt-0.5 block text-[12px] leading-snug text-txt-muted'>{detail}</span>
       </span>
     </button>
   );

@@ -22,7 +22,7 @@ body {
     @apply rounded-xl border border-white/[0.09] bg-ink-700;
   }
   .label-xs {
-    @apply text-[11px] font-medium tracking-normal text-txt-muted;
+    @apply text-[12px] font-medium tracking-normal text-txt-muted;
   }
   .stat-number {
     @apply font-display text-3xl font-medium leading-none tracking-tight tabular-nums;

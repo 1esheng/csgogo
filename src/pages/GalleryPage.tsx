@@ -156,7 +156,7 @@ export function GalleryPage() {
                       cornerLabel={owned ? (owned.best > 1 ? `${owned.best}★` : `×${owned.count}`) : tr('未拥有')}
                       onClick={() => setDetail(t)}
                     />
-                    {c ? <div className='truncate text-[10px] text-txt-muted'>{tr('图源')} {c.source}</div> : null}
+                    {c ? <div className='truncate text-[12px] text-txt-muted'>{tr('图源')} {c.source}</div> : null}
                   </div>
                 );
               })}
@@ -200,13 +200,13 @@ export function GalleryPage() {
                       />
                       <div className='min-w-0 flex-1'>
                         <div className='flex items-center gap-2'>
-                          <span className='truncate font-display text-sm font-semibold'>{nameOf(template.playerId)}</span>
+                          <span className='truncate font-display text-[15px] font-semibold'>{nameOf(template.playerId)}</span>
                           <Badge tone='muted'>{tr(RARITY_TABLE[template.rarity].label)}</Badge>
-                          <span className='inline-flex items-center gap-0.5 text-xs text-accent'>
+                          <span className='inline-flex items-center gap-0.5 text-[13px] text-accent'>
                             {Array.from({ length: stars }).map((_x, i) => <Star key={i} size={11} fill='currentColor' />)}
                           </span>
                         </div>
-                        <div className='mt-1 flex items-center gap-2 text-[11px] text-txt-muted'>
+                        <div className='mt-1 flex items-center gap-2 text-[12px] text-txt-muted'>
                           <span>{tr('拥有')} {count}{tr(' 张')}</span>
                           <span>·</span>
                           <span>{tr('当前')} OVR {now}</span>
@@ -225,7 +225,7 @@ export function GalleryPage() {
           </Panel>
           <Panel>
             <SectionTitle title={tr('合成规则')} />
-            <ul className='space-y-2 text-xs leading-relaxed text-txt-muted'>
+            <ul className='space-y-2 text-[13px] leading-relaxed text-txt-muted'>
               <li>· {STAR_CONFIG.copiesRequired} {tr('张同名卡（同一选手同赛季版本）→ 升 1 星')}</li>
               <li>· {tr('每升 1 星，8 项能力全部 +')}{STAR_CONFIG.bonusPerStar}{tr('，**属性上限同步提高 ')}{STAR_CONFIG.bonusPerStar}{tr('**（基础 99），所以 5 星强者会明显强于低星')}</li>
               <li>{tr('· 星级没有上限；保留等级/经验最高的那一张，其余被消耗')}</li>

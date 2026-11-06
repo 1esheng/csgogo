@@ -38,7 +38,7 @@ export function TournamentPanel() {
         {lastCompleted ? (
           <Panel>
             <SectionTitle title={tr('最近一场完赛赛事')} subtitle={lastCompleted.name} />
-            <div className='flex flex-wrap items-center gap-x-4 gap-y-1 text-sm'>
+            <div className='flex flex-wrap items-center gap-x-4 gap-y-1 text-[15px]'>
               <Badge tone='success'>{tr('已结束')}</Badge>
               <span className='text-txt-muted'>{tr(CAREER_TIERS[lastCompleted.tier]?.name ?? '联赛')}</span>
               <span className='inline-flex items-center gap-1 font-semibold text-accent'>
@@ -47,7 +47,7 @@ export function TournamentPanel() {
                   ? tr('你夺冠了')
                   : lastCompleted.teams.find((t) => t.id === lastCompleted.championId)?.name ?? tr('暂无冠军')}
               </span>
-              <span className='ml-auto text-xs text-txt-muted'>{tr('奖金 ')}{lastCompleted.prizePool.toLocaleString()}{tr(' 金币')}</span>
+              <span className='ml-auto text-[13px] text-txt-muted'>{tr('奖金 ')}{lastCompleted.prizePool.toLocaleString()}{tr(' 金币')}</span>
             </div>
           </Panel>
         ) : null}
@@ -89,7 +89,7 @@ export function TournamentPanel() {
         <Panel>
           <SectionTitle title={tr('赛程')} subtitle={tr('胜者全取。比分由与你自己的比赛完全相同的回合引擎模拟得出。')} />
           {outlook ? (
-            <div className='mb-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-txt-muted'>
+            <div className='mb-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-[13px] text-txt-muted'>
               <span className='font-semibold text-txt'>{pick(outlook.text, outlook.textEn)}</span>
               {active.format !== 'single' ? (
                 <span className='ml-2'>{tr('胜')} {outlook.wins} · {tr('负')} {outlook.losses}{tr(' · 剩余生命 ')}{outlook.lives}</span>
@@ -106,7 +106,7 @@ export function TournamentPanel() {
                 const won = m.winnerId === 'player';
                 const played = m.winnerId !== null;
                 return (
-                  <div key={m.id} className='flex flex-wrap items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-xs'>
+                  <div key={m.id} className='flex flex-wrap items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-[13px]'>
                     <span className='w-10 shrink-0 text-txt-muted'>{pick('第 ' + (m.slot + 1) + ' 场', 'Match ' + (m.slot + 1))}</span>
                     <span className='min-w-0 flex-1 truncate text-txt'>{foe ? foe.name : tr('待定')}</span>
                     {played ? (
@@ -129,7 +129,7 @@ export function TournamentPanel() {
             />
             {eliminated ? (
               <div className='space-y-3'>
-                <div className='flex items-start gap-2 rounded-xl border border-danger/30 bg-danger/10 p-3 text-sm text-danger'>
+                <div className='flex items-start gap-2 rounded-xl border border-danger/30 bg-danger/10 p-3 text-[15px] text-danger'>
                   <AlertTriangle size={16} className='mt-0.5 shrink-0' />
                   <span>{tr('你已在 ')}{active.name}{tr(' 中被淘汰。模拟剩余比赛以决出冠军。')}</span>
                 </div>
@@ -142,7 +142,7 @@ export function TournamentPanel() {
                 <div className='rounded-xl border border-white/10 bg-ink-700/50 p-3'>
                   <div className='label-xs'>{tr('对手')}</div>
                   <div className='mt-0.5 font-display text-base font-semibold text-txt'>{opponent.name}</div>
-                  <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-txt-muted'>
+                  <div className='mt-1 flex flex-wrap items-center gap-2 text-[13px] text-txt-muted'>
                     <span className='inline-flex items-center gap-1'>
                       <MapPin size={11} /> {MAPS[nextMatch.mapId]?.name ?? nextMatch.mapId}
                     </span>
@@ -153,7 +153,7 @@ export function TournamentPanel() {
                   <Play size={14} /> {tr('开始比赛')}
                 </Button>
                 {error ? (
-                  <p className='rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-xs text-danger'>{error}</p>
+                  <p className='rounded-lg border border-danger/30 bg-danger/10 px-2 py-1.5 text-[13px] text-danger'>{error}</p>
                 ) : null}
                 <Button className='w-full' variant='outline' size='sm' onClick={() => simulateRemainder(active.id)}>
                   <Zap size={13} /> {tr('模拟剩余比赛')}
@@ -161,9 +161,9 @@ export function TournamentPanel() {
               </div>
             ) : (
               <div className='space-y-3'>
-                <p className='text-sm text-txt-muted'>{tr('当前没有你的对局。')}</p>
+                <p className='text-[15px] text-txt-muted'>{tr('当前没有你的对局。')}</p>
                 {champion ? (
-                  <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2 text-sm'>
+                  <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2 text-[15px]'>
                     <span className='label-xs'>{tr('冠军')}</span>
                     <div className='mt-0.5 font-semibold text-txt'>{champion.id === 'player' ? tr('你') : champion.name}</div>
                   </div>
@@ -178,8 +178,8 @@ export function TournamentPanel() {
           <Panel>
             <SectionTitle title={tr('奖金池')} />
             <div className='stat-number text-accent'>{active.prizePool.toLocaleString()}</div>
-            <p className='mt-1 text-xs text-txt-muted'>{tr('夺得总决赛后发放金币。每场比赛仍会结算积分变化。')}</p>
-            <div className='mt-3 space-y-1 text-xs text-txt-muted'>
+            <p className='mt-1 text-[13px] text-txt-muted'>{tr('夺得总决赛后发放金币。每场比赛仍会结算积分变化。')}</p>
+            <div className='mt-3 space-y-1 text-[13px] text-txt-muted'>
               <div className='flex items-center justify-between'>
                 <span>{tr('冠军')}</span>
                 <span className='font-semibold text-txt'>
@@ -194,7 +194,7 @@ export function TournamentPanel() {
           </Panel>
 
           <Panel>
-            <div className='flex items-start gap-2 text-xs leading-relaxed text-txt-muted'>
+            <div className='flex items-start gap-2 text-[13px] leading-relaxed text-txt-muted'>
               <Info size={14} className='mt-0.5 shrink-0 text-accent' />
               <span>
                 {tr('AI 对 AI 的比赛由和你对局相同的引擎模拟——完整阵容、战术与经济，而不是按队伍评分掷骰子。 只有你自己的比赛会在训练赛页面逐回合进行。')}

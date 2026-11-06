@@ -52,7 +52,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
         <div>
           <div className='mb-1.5 flex items-center justify-between'>
             <span className='label-xs'>{tr('购买')}</span>
-            <span className='text-[11px] text-txt-muted'>{tr('资金 ')}{moneyLabel(bank)}</span>
+            <span className='text-[12px] text-txt-muted'>{tr('资金 ')}{moneyLabel(bank)}</span>
           </div>
           <div className='grid grid-cols-5 gap-1'>
             {buys.map((buy) => (
@@ -61,7 +61,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
                 title={buy.hint}
                 onClick={() => store.setPlayerOrders({ buy: buy.id })}
                 className={clsx(
-                  'focus-ring rounded-lg border px-1 py-1.5 text-[11px] font-semibold transition-colors',
+                  'focus-ring rounded-lg border px-1 py-1.5 text-[12px] font-semibold transition-colors',
                   orders?.buy === buy.id
                     ? 'border-accent/60 bg-accent/15 text-accent'
                     : 'border-white/10 text-txt-muted hover:border-white/25 hover:text-txt',
@@ -71,7 +71,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
               </button>
             ))}
           </div>
-          <div className='mt-1.5 text-[10px] leading-snug text-txt-muted'>
+          <div className='mt-1.5 text-[12px] leading-snug text-txt-muted'>
             {buys.find((b) => b.id === orders?.buy)?.hint ?? tr('为本回合设定购买方案。')}
           </div>
         </div>
@@ -84,16 +84,16 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
           <select
             value={tacticId}
             onChange={(e) => store.setPlayerOrders({ tactic: e.target.value })}
-            className='focus-ring w-full rounded-lg border border-white/10 bg-ink-900 px-2 py-1.5 text-sm text-txt'
+            className='focus-ring w-full rounded-lg border border-white/10 bg-ink-900 px-2 py-1.5 text-[15px] text-txt'
           >
             {options.map((o) => (
               <option key={o.id} value={o.id}>{tr(o.name)}</option>
             ))}
           </select>
           {tactic ? (
-            <p className='mt-1.5 text-[11px] leading-snug text-txt-muted'>{tr(tactic.blurb)}</p>
+            <p className='mt-1.5 text-[12px] leading-snug text-txt-muted'>{tr(tactic.blurb)}</p>
           ) : (
-            <p className='mt-1.5 text-[11px] text-txt-muted'>{tr('该阵营暂无可用战术。')}</p>
+            <p className='mt-1.5 text-[12px] text-txt-muted'>{tr('该阵营暂无可用战术。')}</p>
           )}
           {tactic ? (
             <div className='mt-1.5 grid grid-cols-3 gap-2'>
@@ -113,7 +113,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
             <FastForward size={14} /> {tr('自动模拟剩余')}
           </Button>
           <div className='flex items-center justify-between gap-1 rounded-lg border border-white/10 px-1.5 py-1'>
-            <span className='inline-flex items-center gap-1 text-[10px] text-txt-muted'>
+            <span className='inline-flex items-center gap-1 text-[12px] text-txt-muted'>
               <Gauge size={11} /> {tr('速度')}
             </span>
             <div className='flex gap-0.5'>
@@ -122,7 +122,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
                   key={s.value}
                   onClick={() => store.updateSettings({ matchSpeed: s.value })}
                   className={clsx(
-                    'focus-ring rounded px-1.5 py-0.5 text-[10px] font-semibold transition-colors',
+                    'focus-ring rounded px-1.5 py-0.5 text-[12px] font-semibold transition-colors',
                     store.settings.matchSpeed === s.value ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt',
                   )}
                 >
@@ -138,7 +138,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
       </div>
 
       <div className='mt-3 flex flex-wrap items-center gap-2 border-t border-white/5 pt-2.5'>
-        <span className='inline-flex items-center gap-1 text-[10px] text-txt-muted'>
+        <span className='inline-flex items-center gap-1 text-[12px] text-txt-muted'>
           <Flag size={11} /> {tr('目标')}
         </span>
         {playerSide === 'T' ? (
@@ -149,7 +149,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
                 onClick={() => store.setPlayerOrders({ target: t })}
                 title={t === 'AUTO' ? tr('交给指挥决定') : tr(site.sites[t].name) + tr(' —— ') + tr(site.sites[t].note)}
                 className={clsx(
-                  'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-colors',
+                  'focus-ring rounded-md border px-2 py-0.5 text-[12px] font-semibold transition-colors',
                   (orders?.target ?? 'AUTO') === t
                     ? 'border-accent/50 bg-accent/15 text-accent'
                     : 'border-white/10 text-txt-muted hover:text-txt',
@@ -160,14 +160,14 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
             ))}
           </>
         ) : (
-          <span className='text-[11px] text-txt-muted'>
+          <span className='text-[12px] text-txt-muted'>
             {tr('防守方 —— 打哪张点由 T 方决定，你的布阵决定堆哪个点。')}
           </span>
         )}
       </div>
 
       <Modal open={confirmQuit} onClose={() => setConfirmQuit(false)} title={tr('放弃本场比赛？')}>
-        <p className='text-sm text-txt-muted'>
+        <p className='text-[15px] text-txt-muted'>
           {tr('本场比赛将作废：不计入战绩，不发金币与经验，回合记录也会丢失。 当前比分 ')}{match.teams.A.score} : {match.teams.B.score}{tr('，第 ')}{match.roundNumber}{tr(' 回合')}
           {match.rounds.length > 0
             ? tr(' —— 上一回合以')
@@ -197,7 +197,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
 function MiniBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <div className='mb-0.5 flex items-center justify-between text-[9px] text-txt-muted'>
+      <div className='mb-0.5 flex items-center justify-between text-[11px] text-txt-muted'>
         <span>{label}</span>
         <span className='font-mono'>{Math.round(value * 100)}</span>
       </div>
@@ -215,8 +215,8 @@ export function MatchOverPanel({ match }: { match: MatchState }) {
       <div className='flex items-start gap-3'>
         <Info size={16} className='mt-0.5 shrink-0 text-accent' />
         <div>
-          <div className='font-display text-sm font-semibold text-txt'>{tr('比赛结束')}</div>
-          <p className='mt-0.5 text-[11px] text-txt-muted'>
+          <div className='font-display text-[15px] font-semibold text-txt'>{tr('比赛结束')}</div>
+          <p className='mt-0.5 text-[12px] text-txt-muted'>
             {closeEvent ? closeEvent.text : tr('最后一回合已经打完。')}
           </p>
         </div>

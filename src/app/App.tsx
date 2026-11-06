@@ -35,7 +35,7 @@ function Toasts() {
         <div
           key={t.id}
           className={clsx(
-            'pointer-events-auto flex items-start gap-2 rounded-xl border p-3 text-sm shadow-card animate-fade-up',
+            'pointer-events-auto flex items-start gap-2 rounded-xl border p-3 text-[15px] shadow-card animate-fade-up',
             t.kind === 'success' && 'border-emerald-500/30 bg-emerald-500/10 text-emerald-100',
             t.kind === 'error' && 'border-danger/30 bg-danger/10 text-red-100',
             t.kind === 'info' && 'border-white/10 bg-ink-700/95 text-txt',
@@ -68,12 +68,12 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         <div className='flex h-10 w-10 items-center justify-center rounded-xl' style={{ background: (club.color ?? '#F5A623') + '22', border: '1px solid ' + (club.color ?? '#F5A623') + '55' }}>{React.createElement(badgeIcon(club.badge).icon, { size: 20, style: { color: club.color ?? '#F5A623' } })}</div>
         <div className='min-w-0'>
           <div className='truncate font-display text-[15px] font-semibold tracking-wide'>{club.name}</div>
-          <div className='text-[11px] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
+          <div className='text-[12px] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
         </div>
       </div>
 
       <div className='hidden w-40 shrink-0 flex-col gap-1 sm:flex'>
-        <div className='flex items-center justify-between text-[10px] text-txt-muted'>
+        <div className='flex items-center justify-between text-[12px] text-txt-muted'>
           <span>{tr('俱乐部等级')} {club.level}</span>
           <span>{club.xp} / {xpNeed} {tr('经验')}</span>
         </div>
@@ -85,22 +85,22 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <button
         type='button'
         onClick={() => navigate('/packs')}
-        className='focus-ring flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent'
+        className='focus-ring flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-[15px] font-semibold text-accent'
       >
         <Coins size={14} /> {club.coins.toLocaleString()}
-        <span className='ml-1 grid h-4 w-4 place-items-center rounded bg-accent/25 text-[11px] leading-none'>+</span>
+        <span className='ml-1 grid h-4 w-4 place-items-center rounded bg-accent/25 text-[12px] leading-none'>+</span>
       </button>
 
       <div className='ml-auto flex items-center gap-2 overflow-x-auto no-scrollbar lg:gap-3'>
-        <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm sm:flex'>
+        <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-[15px] sm:flex'>
           <Swords size={14} className='text-txt-muted' />
-          <span className='text-[11px] text-txt-muted'>{t('common.lineupPower')}</span>
+          <span className='text-[12px] text-txt-muted'>{t('common.lineupPower')}</span>
           <span className='font-display font-semibold text-accent'>{breakdown.ovr}</span>
         </div>
-        <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm md:flex'>
+        <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-[15px] md:flex'>
           <Trophy size={14} className='text-txt-muted' />
           <span className='font-semibold'>{club.wins}W {club.losses}L</span>
-          <span className='text-[11px] text-accent'>{winRate}%</span>
+          <span className='text-[12px] text-accent'>{winRate}%</span>
         </div>
       </div>
     </header>
@@ -122,14 +122,14 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           <img src={brandMark} alt='CS2 Dynasty' width={36} height={36} className='h-9 w-9 shrink-0 select-none' draggable={false} />
           <div>
             <div className='font-display text-[15px] font-semibold tracking-[0.12em] text-txt'>DYNASTY</div>
-            <div className='text-[10px] tracking-[0.14em] text-txt-muted/70'>CS2 Manager</div>
+            <div className='text-[12px] tracking-[0.14em] text-txt-muted/70'>CS2 Manager</div>
           </div>
           <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
         </div>
         <nav className='flex flex-1 flex-col gap-4 overflow-y-auto pb-2'>
           {['nav.group.club', 'nav.group.match', 'nav.group.system'].map((group) => (
             <div key={group}>
-              <div className='mb-1 mt-6 px-2.5 text-[11px] font-medium text-txt-muted/70 first:mt-0'>{t(group)}</div>
+              <div className='mb-1 mt-6 px-2.5 text-[12px] font-medium text-txt-muted/70 first:mt-0'>{t(group)}</div>
               <div className='flex flex-col gap-0.5'>
                 {NAV_ITEMS.filter((item) => item.group === group).map((item) => (
                   <NavLink
@@ -138,7 +138,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                     onClick={onClose}
                     className={({ isActive }) =>
                       clsx(
-                        'focus-ring group relative flex h-[34px] items-center gap-2.5 rounded-lg px-2.5 text-[13px] leading-none transition-colors duration-150',
+                        'focus-ring group relative flex h-[36px] items-center gap-2.5 rounded-lg px-2.5 text-[14px] leading-none transition-colors duration-150',
                         isActive
                           ? 'bg-white/[0.06] font-medium text-txt'
                           : 'text-txt-muted hover:bg-white/[0.06] hover:text-txt',
@@ -158,7 +158,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
             </div>
           ))}
         </nav>
-        <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[10px] leading-relaxed text-txt-muted/80'>
+        <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted/80'>
           All ratings in this game are original balance values, not real HLTV statistics.
         </div>
       </aside>
@@ -174,11 +174,11 @@ function Onboarding() {
     <div className='grid-noise flex min-h-screen items-center justify-center p-6'>
       <Panel className='w-full max-w-lg'>
         <div className='mb-1 font-display text-3xl font-semibold tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
-        <p className='mb-6 text-sm text-txt-muted'>
+        <p className='mb-6 text-[15px] text-txt-muted'>
           {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
         </p>
         <Input label='俱乐部名称' value={name} onChange={setName} maxLength={28} placeholder='王朝电竞' />
-        <div className='mt-4 space-y-2 text-xs text-txt-muted'>
+        <div className='mt-4 space-y-2 text-[13px] text-txt-muted'>
           <div>{tr('· 初始 5,000 金币与五张选手卡')}</div>
           <div>{tr('· 全离线存档（IndexedDB），无需账号、不联网')}</div>
           <div>{tr('· 真正的逐回合比赛引擎（MR12 与加时）')}</div>
@@ -246,7 +246,7 @@ export function App() {
   if (!ready) {
     return (
       <div className='flex min-h-screen items-center justify-center bg-ink-900'>
-        <div className='animate-pulse-soft font-display text-sm tracking-[0.14em] text-txt-muted'>{tr('正在载入王朝…')}</div>
+        <div className='animate-pulse-soft font-display text-[15px] tracking-[0.14em] text-txt-muted'>{tr('正在载入王朝…')}</div>
       </div>
     );
   }

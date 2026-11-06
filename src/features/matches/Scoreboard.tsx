@@ -65,7 +65,7 @@ export function ScoreTable({
 
   if (lines.length === 0) {
     return (
-      <div className='rounded-xl border border-dashed border-white/10 p-6 text-center text-xs text-txt-muted'>
+      <div className='rounded-xl border border-dashed border-white/10 p-6 text-center text-[13px] text-txt-muted'>
         {tr('暂无计分板数据 —— 打完一回合后就会填充。')}
       </div>
     );
@@ -73,9 +73,9 @@ export function ScoreTable({
 
   return (
     <div className='max-h-[42vh] overflow-auto'>
-      <table className='w-full border-collapse text-sm'>
+      <table className='w-full border-collapse text-[15px]'>
         <thead className='sticky top-0 z-10 bg-ink-800/95 backdrop-blur'>
-          <tr className='text-[10px] text-txt-muted'>
+          <tr className='text-[12px] text-txt-muted'>
             <th className='px-2 py-2 text-left'>
               <button
                 onClick={() => toggle('nickname')}
@@ -139,7 +139,7 @@ export function ScoreTable({
           })}
         </tbody>
       </table>
-      <p className='mt-2 px-2 text-[10px] text-txt-muted'>
+      <p className='mt-2 px-2 text-[12px] text-txt-muted'>
         {tr('评分、ADR 与 KAST 都由引擎根据模拟事件计算。点击表头即可排序。')}
       </p>
     </div>

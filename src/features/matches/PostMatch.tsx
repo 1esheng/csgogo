@@ -30,10 +30,10 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
             <h2 className={clsx('mt-2 font-display text-3xl font-semibold tracking-tight', summary.won ? 'text-accent' : 'text-danger')}>
               {summary.won ? tr('比赛获胜') : tr('比赛失利')}
             </h2>
-            <div className='mt-1 text-sm text-txt-muted'>
+            <div className='mt-1 text-[15px] text-txt-muted'>
               {summary.teamName}{tr(' 对阵 ')}{summary.opponentName}{tr(' · ')}{map ? map.name : summary.mapId}
             </div>
-            <div className='mt-1 text-[11px] text-txt-muted'>
+            <div className='mt-1 text-[12px] text-txt-muted'>
               {tr('比赛时间 ')}{played.toLocaleDateString()}{' '}{played.toLocaleTimeString()}
             </div>
           </div>
@@ -92,20 +92,20 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
                 />
               </div>
             ) : (
-              <p className='text-sm text-txt-muted'>{tr('引擎没有为这场比赛记录 MVP。')}</p>
+              <p className='text-[15px] text-txt-muted'>{tr('引擎没有为这场比赛记录 MVP。')}</p>
             )}
           </Panel>
 
           <Panel>
             <SectionTitle title={tr('关键回合')} subtitle={tr('引擎标记出的安包、拆包与团灭回合。')} right={<Trophy size={16} className='text-txt-muted' />} />
             {summary.keyRounds.length === 0 ? (
-              <p className='text-sm text-txt-muted'>{tr('本场比赛没有标记出关键回合。')}</p>
+              <p className='text-[15px] text-txt-muted'>{tr('本场比赛没有标记出关键回合。')}</p>
             ) : (
               <ul className='space-y-1.5'>
                 {summary.keyRounds.map((k) => (
                   <li key={k.roundNumber} className='flex items-start gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5'>
                     <Badge tone={k.winner === 'T' ? 'accent' : 'neutral'} className='shrink-0'>{k.winner ?? '-'}</Badge>
-                    <span className='text-[12px] leading-snug text-txt'>{k.text}</span>
+                    <span className='text-[13px] leading-snug text-txt'>{k.text}</span>
                   </li>
                 ))}
               </ul>

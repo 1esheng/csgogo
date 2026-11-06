@@ -35,7 +35,7 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
           <span className='label-xs'>{tr('成长预估')}</span>
           <Badge tone={capped ? 'muted' : 'accent'}>{capped ? tr('等级上限') : level + ' → ' + nextLevel + ' ' + tr('级')}</Badge>
         </div>
-        <div className='flex items-center gap-1.5 font-display text-sm font-semibold text-txt'>
+        <div className='flex items-center gap-1.5 font-display text-[15px] font-semibold text-txt'>
           {ovrNow}
           <ArrowRight size={13} className='text-txt-muted' />
           <span className={ovrNext > ovrNow ? 'text-emerald-400' : 'text-txt-muted'}>{ovrNext} OVR</span>
@@ -43,20 +43,20 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
       </div>
 
       {capped ? (
-        <p className='flex items-start gap-1.5 rounded-xl border border-white/10 bg-ink-900/50 p-2.5 text-[11px] leading-relaxed text-txt-muted'>
+        <p className='flex items-start gap-1.5 rounded-xl border border-white/10 bg-ink-900/50 p-2.5 text-[12px] leading-relaxed text-txt-muted'>
           <Lock size={12} className='mt-0.5 shrink-0' />
           {pick('这张卡牌已达到 ' + maxLevel + ' 级上限——永久成长已经完成。', 'This card has reached the level cap (' + maxLevel + ') — permanent growth is complete.')}
         </p>
       ) : gains.length === 0 ? (
-        <p className='rounded-xl border border-white/10 bg-ink-900/50 p-2.5 text-[11px] leading-relaxed text-txt-muted'>
+        <p className='rounded-xl border border-white/10 bg-ink-900/50 p-2.5 text-[12px] leading-relaxed text-txt-muted'>
           {tr('下一级不增加属性点：这张卡已经满级，后续成长只能靠升星。')}
         </p>
       ) : (
         <div className='grid grid-cols-2 gap-1.5 sm:grid-cols-3'>
           {gains.map((entry) => (
             <div key={entry.key} className='rounded-lg border border-white/5 bg-ink-900/50 px-2 py-1.5'>
-              <div className='text-[10px] text-txt-muted'>{tr(ATTRIBUTE_LABEL[entry.key])}</div>
-              <div className='font-display text-sm font-semibold text-txt'>
+              <div className='text-[12px] text-txt-muted'>{tr(ATTRIBUTE_LABEL[entry.key])}</div>
+              <div className='font-display text-[15px] font-semibold text-txt'>
                 {now[entry.key]} <span className='text-emerald-400'>+{entry.gain}</span>
               </div>
             </div>
@@ -65,14 +65,14 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
       )}
 
       <div>
-        <div className='mb-1 flex items-center justify-between text-[11px] text-txt-muted'>
+        <div className='mb-1 flex items-center justify-between text-[12px] text-txt-muted'>
           <span className='flex items-center gap-1'><TrendingUp size={11} /> {tr('永久属性点')}</span>
           <span className='font-semibold text-txt'>{applied} / {ceiling}</span>
         </div>
         <Progress value={applied} max={Math.max(1, ceiling)} tone='success' height='h-1.5' />
       </div>
 
-      <div className='space-y-1 text-[11px] leading-relaxed text-txt-muted'>
+      <div className='space-y-1 text-[12px] leading-relaxed text-txt-muted'>
         <p>
           {tr('该位置的成长顺序：')}{order.map((key) => tr(ATTRIBUTE_LABEL[key])).join(' → ')}{tr('。属性点按此顺序投放，因此一张')}{tr(ROLE_LABEL[template.primaryRole])}{tr('卡牌永远不会变成另一个位置的翻版。')}
         </p>
