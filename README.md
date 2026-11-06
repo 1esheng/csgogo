@@ -1,4 +1,11 @@
-# CS2 Dynasty · CS2 电竞王朝<img width="1254" height="1254" alt="76fd2004-0900-42a7-ba5d-a9aa292c70c8" src="https://github.com/user-attachments/assets/19cb2d80-e9ac-40f8-a233-7c4ffccbdc5d" />
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/19cb2d80-e9ac-40f8-a233-7c4ffccbdc5d" alt="CS2 Dynasty Logo" width="130">
+</p>
+
+<h1 align="center">CS2 Dynasty</h1>
+<p align="center">CS2 电竞王朝</p>
+
 
 
 一款**纯前端、离线可玩**的 CS2 电竞俱乐部经营 + 选手卡牌游戏。
