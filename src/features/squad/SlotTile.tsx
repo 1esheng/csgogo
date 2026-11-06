@@ -47,7 +47,7 @@ export function SlotTile({
           <div
             className={clsx(
               'text-[11px] font-semibold ',
-              info ? (info.natural ? 'text-emerald-400/90' : 'text-accent/80') : 'text-txt-muted/70',
+              info ? (info.natural ? 'text-emerald-400/90' : 'text-accent/80') : 'text-txt-muted',
             )}
           >
             {info ? (info.natural ? tr('本命位') : tr('非本命位')) : tr('空位')}

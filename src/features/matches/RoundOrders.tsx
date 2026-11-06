@@ -106,7 +106,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
 
         <div className='flex min-w-[190px] flex-col gap-1.5'>
           <span className='label-xs'>{tr('操作')}</span>
-          <Button size='md' onClick={() => store.playNextRound()}>
+          <Button data-advance size='md' onClick={() => store.playNextRound()}>
             <Play size={15} /> {tr('推进回合 ')}{match.roundNumber}
           </Button>
           <Button size='sm' variant='outline' onClick={() => store.autoPlay()}>

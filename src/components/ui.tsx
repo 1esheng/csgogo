@@ -207,7 +207,7 @@ export function Input({
         maxLength={maxLength}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt placeholder:text-txt-muted/60'
+        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt placeholder:text-txt-muted'
       />
     </label>
   );

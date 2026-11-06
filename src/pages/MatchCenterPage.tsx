@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swords } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
@@ -20,6 +20,28 @@ export function MatchCenterPage() {
   const fromCareer = lastSummary !== null && (lastSummary.mode === 'career' || lastSummary.mode === 'tournament');
   const showSummary = !activeMatch && lastSummary !== null && lastSummary.id !== dismissedId && !fromCareer;
 
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (e.code === "Space") {
+        const btn = document.querySelector<HTMLButtonElement>("[data-advance]");
+        if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+      }
+      if (e.key === "Escape") {
+        const overlay = document.querySelector<HTMLElement>("[data-modal-overlay]");
+        if (overlay) overlay.click();
+      }
+      if (["1", "2", "3", "4"].includes(e.key)) {
+        const selects = document.querySelectorAll<HTMLSelectElement>("select");
+        const target = selects[Number(e.key) - 1];
+        if (target) { e.preventDefault(); target.focus(); }
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   return (
     <div className='space-y-5'>
       <SectionTitle

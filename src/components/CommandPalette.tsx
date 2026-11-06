@@ -77,7 +77,7 @@ export function CommandPalette() {
               if (e.key === 'Enter' && items[active]) go(items[active].path);
             }}
             placeholder={tr('搜索页面')}
-            className='w-full bg-transparent text-[14px] text-txt outline-none placeholder:text-txt-muted/70'
+            className='w-full bg-transparent text-[14px] text-txt outline-none placeholder:text-txt-muted'
             aria-label={tr('搜索页面')}
           />
           <kbd className='rounded border border-white/10 px-1.5 py-0.5 text-[11px] text-txt-muted'>esc</kbd>

@@ -124,14 +124,14 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           <img src={brandMark} alt='CS2 Dynasty' width={36} height={36} className='h-9 w-9 shrink-0 select-none' draggable={false} />
           <div>
             <div className='font-display text-[15px] font-semibold tracking-[0.12em] text-txt'>DYNASTY</div>
-            <div className='text-[12px] tracking-[0.14em] text-txt-muted/70'>CS2 Manager</div>
+            <div className='text-[12px] tracking-[0.14em] text-txt-muted'>CS2 Manager</div>
           </div>
           <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
         </div>
         <nav className='flex flex-1 flex-col gap-4 overflow-y-auto pb-2'>
           {['nav.group.club', 'nav.group.match', 'nav.group.system'].map((group) => (
             <div key={group}>
-              <div className='mb-1 mt-6 px-2.5 text-[12px] font-medium text-txt-muted/70 first:mt-0'>{t(group)}</div>
+              <div className='mb-1 mt-6 px-2.5 text-[12px] font-medium text-txt-muted first:mt-0'>{t(group)}</div>
               <div className='flex flex-col gap-0.5'>
                 {NAV_ITEMS.filter((item) => item.group === group).map((item) => (
                   <NavLink
@@ -160,7 +160,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
             </div>
           ))}
         </nav>
-        <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted/80'>
+        <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted'>
           All ratings in this game are original balance values, not real HLTV statistics.
         </div>
       </aside>

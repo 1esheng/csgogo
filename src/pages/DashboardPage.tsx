@@ -118,7 +118,7 @@ export function DashboardPage() {
                     >
                       <Users size={20} className='text-txt-muted' />
                       <span className='text-[13px] font-semibold text-txt-muted'>{tr(ROLE_SHORT[role])}</span>
-                      <span className='text-[12px] text-txt-muted/70'>{tr('空缺 · 点击指派')}</span>
+                      <span className='text-[12px] text-txt-muted'>{tr('空缺 · 点击指派')}</span>
                     </button>
                   );
                 }

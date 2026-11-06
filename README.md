@@ -14,12 +14,12 @@
 [![Tests](https://img.shields.io/badge/tests-82%20passed-2ea44f?style=flat-square)](#-测试)
 [![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.3.7-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
+[![Version](https://img.shields.io/badge/version-v1.3.8-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
 [![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
 
-🌐 **[在线试玩](https://1esheng.github.io/csgogo/)** · ⬇️ **[下载 exe](https://github.com/1esheng/csgogo/releases/download/v1.3.7/CS2Dynasty.exe)** · 📖 **[English README](README.en.md)** · 🗂 **[项目结构](#-项目结构)** · 🐛 **[反馈问题](https://github.com/1esheng/csgogo/issues)**
+🌐 **[在线试玩](https://1esheng.github.io/csgogo/)** · ⬇️ **[下载 exe](https://github.com/1esheng/csgogo/releases/download/v1.3.8/CS2Dynasty.exe)** · 📖 **[English README](README.en.md)** · 🗂 **[项目结构](#-项目结构)** · 🐛 **[反馈问题](https://github.com/1esheng/csgogo/issues)**
 
 </div>
 
@@ -27,6 +27,7 @@
 
 ## ✨ 特性
 
+- ⌨️ **对局键盘操作** —— 空格推进回合、1–4 聚焦战术下拉、Esc 关闭弹窗
 - ⌨️ **Ctrl/Cmd+K 命令面板** —— 键盘直达 12 个页面，方向键选择、Esc 关闭
 - 📲 **可安装 PWA** —— 网页版可添加到桌面，独立窗口运行，无浏览器地址栏
 - ✅ **CI 流水线** —— 每次提交自动跑类型检查、80 项测试与构建（见上方徽章）

@@ -79,7 +79,7 @@ export function TournamentBracket({ tournament }: { tournament: Tournament }) {
           <div key={round} className='flex flex-col gap-2'>
             <div className='label-xs mb-1 flex items-center justify-between'>
               <span>{tr(tournamentRoundName(round, size))}</span>
-              <span className='text-txt-muted/70'>{matches.filter((m) => m.winnerId).length}/{slotCount}</span>
+              <span className='text-txt-muted'>{matches.filter((m) => m.winnerId).length}/{slotCount}</span>
             </div>
             <div className={clsx('flex flex-1 flex-col gap-2', round > 1 && 'lg:justify-center')}>
               {Array.from({ length: slotCount }).map((_, index) => {
