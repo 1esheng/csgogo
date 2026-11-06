@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MAP_ART } from '@/data/mapArt';
 import { localizeDynamic, pick, tr } from '@/i18n';
 import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
@@ -162,6 +163,7 @@ export function Setup() {
                       selected ? 'border-accent/60 bg-accent/10' : 'border-white/10 bg-white/[0.02] hover:border-white/25',
                     )}
                   >
+                    {MAP_ART[id] ? (<img src={MAP_ART[id]} alt='' aria-hidden className='mx-auto mb-2 h-24 w-24 object-contain opacity-90' />) : null}
                     <div className='flex items-center justify-between gap-2'>
                       <span className='font-display text-[15px] font-semibold text-txt'>{spec.name}</span>
                       <span className={clsx('text-[12px]', selected ? 'text-accent' : 'text-txt-muted')}>{tr('熟练 ')}{mapComfort}</span>
