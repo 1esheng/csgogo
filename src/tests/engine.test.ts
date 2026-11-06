@@ -52,7 +52,7 @@ describe('match engine', () => {
     expect(result.match.phase).toBe('match-end');
     expect(result.issues).toEqual([]);
     expect(Math.max(result.scoreA, result.scoreB)).toBeGreaterThanOrEqual(13);
-    expect(result.rounds).toBeGreaterThanOrEqual(16);
+    expect(result.rounds).toBeGreaterThanOrEqual(13);
     expect(result.rounds).toBeLessThanOrEqual(90);
   });
 

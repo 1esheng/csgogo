@@ -55,4 +55,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "团队", en: "Team" },
   { zh: "指挥", en: "IGL" },
   { zh: "待定", en: "TBD" },
+  { zh: "正在载入…", en: "Loading…" },
+  { zh: "搜索页面", en: "Search pages" },
+  { zh: "没有匹配的页面", en: "No matching page" },
 ];

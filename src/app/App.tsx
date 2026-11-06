@@ -11,20 +11,22 @@ import clsx from 'clsx';
 import { CheckCircle2, Coins, Menu, Shield, Trophy, Users, X, AlertTriangle, Info, Swords } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
 import { NAV_ITEMS } from '@/app/nav';
+
+const DashboardPage = React.lazy(() => import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
+const SquadPage = React.lazy(() => import('@/pages/SquadPage').then((m) => ({ default: m.SquadPage })));
+const PacksPage = React.lazy(() => import('@/pages/PacksPage').then((m) => ({ default: m.PacksPage })));
+const GalleryPage = React.lazy(() => import('@/pages/GalleryPage').then((m) => ({ default: m.GalleryPage })));
+const TrainingPage = React.lazy(() => import('@/pages/TrainingPage').then((m) => ({ default: m.TrainingPage })));
+const MatchCenterPage = React.lazy(() => import('@/pages/MatchCenterPage').then((m) => ({ default: m.MatchCenterPage })));
+const CareerPage = React.lazy(() => import('@/pages/CareerPage').then((m) => ({ default: m.CareerPage })));
+const RankingsPage = React.lazy(() => import('@/pages/RankingsPage').then((m) => ({ default: m.RankingsPage })));
+const TeamPage = React.lazy(() => import('@/pages/TeamPage').then((m) => ({ default: m.TeamPage })));
+const CoachPage = React.lazy(() => import('@/pages/CoachPage').then((m) => ({ default: m.CoachPage })));
+const AchievementsPage = React.lazy(() => import('@/pages/AchievementsPage').then((m) => ({ default: m.AchievementsPage })));
+const RecordsPage = React.lazy(() => import('@/pages/RecordsPage').then((m) => ({ default: m.RecordsPage })));
+const SettingsPage = React.lazy(() => import('@/pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
 import { Button, Input, Panel } from '@/components/ui';
-import { DashboardPage } from '@/pages/DashboardPage';
-import { SquadPage } from '@/pages/SquadPage';
-import { PacksPage } from '@/pages/PacksPage';
-import { GalleryPage } from '@/pages/GalleryPage';
-import { TrainingPage } from '@/pages/TrainingPage';
-import { MatchCenterPage } from '@/pages/MatchCenterPage';
-import { CareerPage } from '@/pages/CareerPage';
-import { RankingsPage } from '@/pages/RankingsPage';
-import { TeamPage } from '@/pages/TeamPage';
-import { CoachPage } from '@/pages/CoachPage';
-import { AchievementsPage } from '@/pages/AchievementsPage';
-import { RecordsPage } from '@/pages/RecordsPage';
-import { SettingsPage } from '@/pages/SettingsPage';
+import { CommandPalette } from '@/components/CommandPalette';
 
 function Toasts() {
   const toasts = useGameStore((s) => s.toasts);
@@ -205,9 +207,11 @@ function Layout() {
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
       <div className='flex min-w-0 flex-1 flex-col'>
         <TopBar onMenu={() => setMenuOpen(true)} />
+        <CommandPalette />
         <main className='flex-1 px-4 py-5 lg:px-6'>
           <div key={location.pathname} className='animate-page-in'>
           <ErrorBoundary>
+        <React.Suspense fallback={<div className="flex h-64 items-center justify-center text-[13px] text-txt-muted">{tr('正在载入…')}</div>}>
         <Routes>
             <Route path='/' element={<DashboardPage />} />
             <Route path='/collection' element={<GalleryPage />} />
@@ -226,6 +230,7 @@ function Layout() {
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<DashboardPage />} />
           </Routes>
+        </React.Suspense>
       </ErrorBoundary>
           </div>
         </main>
