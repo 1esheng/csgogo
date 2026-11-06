@@ -1,0 +1,28 @@
+{
+  "name": "CS2 Dynasty — Esports Manager",
+  "short_name": "CS2 Dynasty",
+  "description": "Offline CS2 club manager and player-card game",
+  "start_url": "/csgogo/",
+  "scope": "/csgogo/",
+  "display": "standalone",
+  "background_color": "#0B0E13",
+  "theme_color": "#0B0E13",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
