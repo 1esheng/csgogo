@@ -3,6 +3,7 @@ import { Celebration } from '@/components/Celebration';
 import { useLiveWorld } from '@/hooks/useLiveWorld';
 import { useT } from '@/hooks/useLang';
 import brandMark from '@/assets/brand/icon-dark.png';
+import heroImage from '@/assets/brand/onboarding-hero.png';
 import { tr } from '@/i18n';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -173,8 +174,14 @@ function Onboarding() {
   const newGame = useGameStore((s) => s.newGame);
   const [busy, setBusy] = useState(false);
   return (
-    <div className='grid-noise flex min-h-screen items-center justify-center p-6'>
-      <Panel className='w-full max-w-lg'>
+    <div className='relative flex min-h-screen items-center justify-start overflow-hidden p-6 lg:p-12'>
+      <img
+        src={heroImage}
+        alt=''
+        aria-hidden
+        className='pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[68%] object-cover lg:block'
+      />
+      <Panel className='relative w-full max-w-lg bg-ink-900/95'>
         <div className='mb-1 font-display text-3xl font-semibold tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
         <p className='mb-6 text-[15px] text-txt-muted'>
           {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
