@@ -54,4 +54,5 @@ export const PHRASES: { zh: string; en: string }[] = [
   { zh: "道具", en: "Utility" },
   { zh: "团队", en: "Team" },
   { zh: "指挥", en: "IGL" },
+  { zh: "待定", en: "TBD" },
 ];

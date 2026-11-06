@@ -278,15 +278,15 @@ export function DashboardPage() {
                   <span>{MAPS[mapId].name}</span>
                   <span className='inline-flex items-center gap-1'><CalendarDays size={11} /> {tr('第')} {club.season} {tr('赛季')}</span>
                 </div>
-                <div className='mt-2 flex items-center justify-between gap-2'>
+                <div className='mt-2 grid grid-cols-[1fr_auto_1fr] items-center gap-3'>
                   <div className='min-w-0'>
-                    <div className='truncate font-display text-base font-semibold text-txt'>{club.name}</div>
-                    <div className='text-[12px] text-txt-muted'>{tr('战力')} {breakdown.ovr}</div>
+                    <div className='truncate font-display text-[15px] font-medium text-txt'>{club.name}</div>
+                    <div className='mt-0.5 text-[12px] tabular-nums text-txt-muted'>{tr('战力')} <span className='text-txt'>{breakdown.ovr}</span></div>
                   </div>
-                  <div className='font-display text-xl font-semibold text-txt-muted'>VS</div>
+                  <div className='h-10 w-px self-center bg-white/20' aria-hidden />
                   <div className='min-w-0 text-right'>
-                    <div className='truncate font-display text-base font-semibold text-txt'>{nextOpponent?.name ?? '待定'}</div>
-                    <div className='text-[12px] text-txt-muted'>{tr('评分')} {nextOpponent?.rating ?? '—'}</div>
+                    <div className='truncate font-display text-[15px] font-medium text-txt'>{nextOpponent?.name ?? tr('待定')}</div>
+                    <div className='mt-0.5 text-[12px] tabular-nums text-txt-muted'>{tr('评分')} <span className='text-txt'>{nextOpponent?.rating ?? '—'}</span></div>
                   </div>
                 </div>
                 <div className='mt-2 flex items-center gap-1 text-[12px] text-txt-muted'>
