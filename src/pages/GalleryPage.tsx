@@ -200,7 +200,7 @@ export function GalleryPage() {
                       />
                       <div className='min-w-0 flex-1'>
                         <div className='flex items-center gap-2'>
-                          <span className='truncate font-display text-sm font-bold'>{nameOf(template.playerId)}</span>
+                          <span className='truncate font-display text-sm font-semibold'>{nameOf(template.playerId)}</span>
                           <Badge tone='muted'>{tr(RARITY_TABLE[template.rarity].label)}</Badge>
                           <span className='inline-flex items-center gap-0.5 text-xs text-accent'>
                             {Array.from({ length: stars }).map((_x, i) => <Star key={i} size={11} fill='currentColor' />)}

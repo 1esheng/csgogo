@@ -27,7 +27,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
               <Badge tone='muted'>{MODE_LABEL[summary.mode]}</Badge>
               <Badge tone='muted'>{pick(summary.roundsPlayed + ' 回合', summary.roundsPlayed + ' rounds')}</Badge>
             </div>
-            <h2 className={clsx('mt-2 font-display text-3xl font-bold tracking-tight', summary.won ? 'text-accent' : 'text-danger')}>
+            <h2 className={clsx('mt-2 font-display text-3xl font-semibold tracking-tight', summary.won ? 'text-accent' : 'text-danger')}>
               {summary.won ? tr('比赛获胜') : tr('比赛失利')}
             </h2>
             <div className='mt-1 text-sm text-txt-muted'>
@@ -39,7 +39,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
           </div>
           <div className='text-right'>
             <div className='label-xs'>{tr('最终比分')}</div>
-            <div className='font-display text-5xl font-bold leading-none tracking-tight'>
+            <div className='font-display text-5xl font-semibold leading-none tracking-tight'>
               <span className={summary.won ? 'text-accent' : 'text-txt'}>{summary.scoreFor}</span>
               <span className='mx-1.5 text-2xl text-txt-muted'>:</span>
               <span className={summary.won ? 'text-txt' : 'text-danger'}>{summary.scoreAgainst}</span>
@@ -76,7 +76,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
                 <div className='flex items-center justify-between rounded-xl border border-accent/30 bg-accent/10 px-3 py-2'>
                   <div className='flex items-center gap-2'>
                     <Crown size={16} className='text-accent' />
-                    <span className='font-display text-base font-bold text-txt'>{mvp.nickname}</span>
+                    <span className='font-display text-base font-semibold text-txt'>{mvp.nickname}</span>
                   </div>
                   <Badge tone='accent'>{tr('评分 ')}{mvp.rating.toFixed(2)}</Badge>
                 </div>

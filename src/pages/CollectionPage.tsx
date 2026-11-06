@@ -101,7 +101,7 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
                   stars: item.stars,
                 }}
               />
-              <div className='flex h-4 items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-txt-muted'>
+              <div className='flex h-4 items-center gap-1 text-[10px] font-semibold text-txt-muted'>
                 {item.squadRole ? (
                   <span className='inline-flex items-center gap-1 text-accent'><Users size={10} />{tr(ROLE_LABEL[item.squadRole])}</span>
                 ) : (

@@ -29,7 +29,7 @@ export function PackReveal({
       <div className='relative flex flex-wrap items-center justify-between gap-3'>
         <div>
           <div className='label-xs'>{tr('开包结果')}</div>
-          <div className='font-display text-xl font-bold text-txt'>
+          <div className='font-display text-xl font-semibold text-txt'>
             {results.length} 张卡 · 新卡 {newCount} · 重复 {duplicates}
           </div>
         </div>
@@ -58,21 +58,21 @@ export function PackReveal({
               }}
             >
               <div className='flex items-center justify-between gap-1'>
-                <span className='font-display text-[10px] font-black uppercase tracking-[0.18em]' style={{ color: rarity.color }}>
+                <span className='font-display text-[10px] font-semibold ' style={{ color: rarity.color }}>
                   {rarity.label}
                 {result.pity ? <span className='ml-1 rounded bg-accent/20 px-1 py-0.5 text-[9px] text-accent'>{tr('保底')}</span> : null}
                 </span>
                 <span
                   className={clsx(
-                    'rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider',
+                    'rounded px-1.5 py-0.5 text-[9px] font-semibold ',
                     result.isNew ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-txt-muted',
                   )}
                 >
                   {result.isNew ? tr('新卡') : tr('重复 · 已入库')}
                 </span>
               </div>
-              <div className='mt-2 truncate font-display text-sm font-bold text-txt'>{nickname}</div>
-              <div className='text-[10px] uppercase tracking-wider text-txt-muted'>
+              <div className='mt-2 truncate font-display text-sm font-semibold text-txt'>{nickname}</div>
+              <div className='text-[10px] text-txt-muted'>
                 {ROLE_LABEL[result.template.primaryRole]} · S{result.template.season}
               </div>
               <div className='mt-2 border-t border-white/10 pt-1.5 text-[10px] text-txt-muted'>

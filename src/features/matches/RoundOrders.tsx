@@ -61,7 +61,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
                 title={buy.hint}
                 onClick={() => store.setPlayerOrders({ buy: buy.id })}
                 className={clsx(
-                  'focus-ring rounded-lg border px-1 py-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors',
+                  'focus-ring rounded-lg border px-1 py-1.5 text-[11px] font-semibold transition-colors',
                   orders?.buy === buy.id
                     ? 'border-accent/60 bg-accent/15 text-accent'
                     : 'border-white/10 text-txt-muted hover:border-white/25 hover:text-txt',
@@ -113,7 +113,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
             <FastForward size={14} /> {tr('自动模拟剩余')}
           </Button>
           <div className='flex items-center justify-between gap-1 rounded-lg border border-white/10 px-1.5 py-1'>
-            <span className='inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-txt-muted'>
+            <span className='inline-flex items-center gap-1 text-[10px] text-txt-muted'>
               <Gauge size={11} /> {tr('速度')}
             </span>
             <div className='flex gap-0.5'>
@@ -138,7 +138,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
       </div>
 
       <div className='mt-3 flex flex-wrap items-center gap-2 border-t border-white/5 pt-2.5'>
-        <span className='inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-txt-muted'>
+        <span className='inline-flex items-center gap-1 text-[10px] text-txt-muted'>
           <Flag size={11} /> {tr('目标')}
         </span>
         {playerSide === 'T' ? (
@@ -149,7 +149,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
                 onClick={() => store.setPlayerOrders({ target: t })}
                 title={t === 'AUTO' ? tr('交给指挥决定') : tr(site.sites[t].name) + tr(' —— ') + tr(site.sites[t].note)}
                 className={clsx(
-                  'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider transition-colors',
+                  'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-colors',
                   (orders?.target ?? 'AUTO') === t
                     ? 'border-accent/50 bg-accent/15 text-accent'
                     : 'border-white/10 text-txt-muted hover:text-txt',
@@ -197,7 +197,7 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
 function MiniBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <div className='mb-0.5 flex items-center justify-between text-[9px] uppercase tracking-wider text-txt-muted'>
+      <div className='mb-0.5 flex items-center justify-between text-[9px] text-txt-muted'>
         <span>{label}</span>
         <span className='font-mono'>{Math.round(value * 100)}</span>
       </div>
@@ -215,7 +215,7 @@ export function MatchOverPanel({ match }: { match: MatchState }) {
       <div className='flex items-start gap-3'>
         <Info size={16} className='mt-0.5 shrink-0 text-accent' />
         <div>
-          <div className='font-display text-sm font-bold text-txt'>{tr('比赛结束')}</div>
+          <div className='font-display text-sm font-semibold text-txt'>{tr('比赛结束')}</div>
           <p className='mt-0.5 text-[11px] text-txt-muted'>
             {closeEvent ? closeEvent.text : tr('最后一回合已经打完。')}
           </p>

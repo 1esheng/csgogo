@@ -67,7 +67,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <div className='flex min-w-0 items-center gap-2.5'>
         <div className='flex h-10 w-10 items-center justify-center rounded-xl' style={{ background: (club.color ?? '#F5A623') + '22', border: '1px solid ' + (club.color ?? '#F5A623') + '55' }}>{React.createElement(badgeIcon(club.badge).icon, { size: 20, style: { color: club.color ?? '#F5A623' } })}</div>
         <div className='min-w-0'>
-          <div className='truncate font-display text-[15px] font-bold tracking-wide'>{club.name}</div>
+          <div className='truncate font-display text-[15px] font-semibold tracking-wide'>{club.name}</div>
           <div className='text-[11px] text-txt-muted'>{tr('齐心协力')} · {tr('第')} {club.season} {tr('赛季')}</div>
         </div>
       </div>
@@ -85,7 +85,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <button
         type='button'
         onClick={() => navigate('/packs')}
-        className='focus-ring flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-sm font-bold text-accent'
+        className='focus-ring flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent'
       >
         <Coins size={14} /> {club.coins.toLocaleString()}
         <span className='ml-1 grid h-4 w-4 place-items-center rounded bg-accent/25 text-[11px] leading-none'>+</span>
@@ -95,7 +95,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm sm:flex'>
           <Swords size={14} className='text-txt-muted' />
           <span className='text-[11px] text-txt-muted'>{t('common.lineupPower')}</span>
-          <span className='font-display font-bold text-accent'>{breakdown.ovr}</span>
+          <span className='font-display font-semibold text-accent'>{breakdown.ovr}</span>
         </div>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm md:flex'>
           <Trophy size={14} className='text-txt-muted' />
@@ -173,7 +173,7 @@ function Onboarding() {
   return (
     <div className='grid-noise flex min-h-screen items-center justify-center p-6'>
       <Panel className='w-full max-w-lg'>
-        <div className='mb-1 font-display text-3xl font-black tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
+        <div className='mb-1 font-display text-3xl font-semibold tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
         <p className='mb-6 text-sm text-txt-muted'>
           {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
         </p>

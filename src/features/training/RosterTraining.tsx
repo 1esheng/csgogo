@@ -158,12 +158,12 @@ export function RosterTraining() {
                   />
                   <span className='min-w-0 flex-1'>
                     <span className='flex items-center gap-1.5'>
-                      <span className='truncate font-display text-[13px] font-bold text-txt'>{entry.nickname}</span>
-                      <span className='rounded bg-black/40 px-1 text-[9px] font-bold uppercase tracking-wider text-txt-muted'>
+                      <span className='truncate font-display text-[13px] font-semibold text-txt'>{entry.nickname}</span>
+                      <span className='rounded bg-black/40 px-1 text-[9px] font-semibold text-txt-muted'>
                         {tr(ROLE_LABEL[entry.template.primaryRole])}
                       </span>
                       {entry.copies > 1 ? (
-                        <span className='rounded bg-white/10 px-1 text-[9px] font-bold text-txt-muted'>×{entry.copies}</span>
+                        <span className='rounded bg-white/10 px-1 text-[9px] font-semibold text-txt-muted'>×{entry.copies}</span>
                       ) : null}
                     </span>
                     <span className='mt-1 flex items-center gap-2'>
@@ -173,7 +173,7 @@ export function RosterTraining() {
                       <span className='shrink-0 text-[10px] text-txt-muted'>{entry.card.level} {tr('级')}</span>
                     </span>
                   </span>
-                  <span className='shrink-0 font-display text-sm font-black' style={{ color: rowRarity.color }}>
+                  <span className='shrink-0 font-display text-sm font-semibold' style={{ color: rowRarity.color }}>
                     {entry.ovr}
                   </span>
                 </button>
@@ -234,7 +234,7 @@ export function RosterTraining() {
             <div className='min-w-0 flex-1 space-y-3'>
               <div>
                 <div className='flex flex-wrap items-center gap-1.5'>
-                  <h3 className='font-display text-lg font-bold text-txt'>{selected.nickname}</h3>
+                  <h3 className='font-display text-lg font-semibold text-txt'>{selected.nickname}</h3>
                   <Badge tone='accent'>{tr(rarity.label)}</Badge>
                   <Badge tone={atCap ? 'success' : 'muted'}>
                     {atCap ? tr('已满级') : selected.card.level + '/' + LEVEL_CONFIG.maxLevel + ' ' + tr('级')}
@@ -280,7 +280,7 @@ export function RosterTraining() {
                       )}
                     >
                       <div className='flex items-center justify-between gap-2'>
-                        <span className='font-display text-[13px] font-bold text-txt'>{tr(drill.label)}</span>
+                        <span className='font-display text-[13px] font-semibold text-txt'>{tr(drill.label)}</span>
                         <span className='inline-flex items-center gap-1 text-[11px] font-semibold text-accent'>
                           <span>+{gain} XP</span>
                         </span>

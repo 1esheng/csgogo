@@ -65,7 +65,7 @@ export function Avatar({
         <path d='M8 62c2.6-13.4 12-20.4 24-20.4S53.4 48.6 56 62Z' fill={'url(#' + gradientId + ')'} />
       </svg>
       <span
-        className='absolute inset-x-0 bottom-[6%] text-center font-display font-black tracking-tight text-white/90'
+        className='absolute inset-x-0 bottom-[6%] text-center font-display font-semibold tracking-tight text-white/90'
         style={{ fontSize: Math.max(9, Math.round(size * 0.24)), textShadow: '0 1px 3px rgba(0,0,0,0.55)' }}
       >
         {initials(nickname)}

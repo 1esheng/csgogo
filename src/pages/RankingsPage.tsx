@@ -75,7 +75,7 @@ export function RankingsPage() {
             </p>
           ) : (
             <div className='space-y-1.5'>
-              <div className='hidden grid-cols-[44px_minmax(0,1fr)_80px_88px_120px_160px] gap-2 px-3 text-[10px] uppercase tracking-[0.16em] text-txt-muted sm:grid'>
+              <div className='hidden grid-cols-[44px_minmax(0,1fr)_80px_88px_120px_160px] gap-2 px-3 text-[10px] text-txt-muted sm:grid'>
                 <span>#</span>
                 <span>{tr('俱乐部')}</span>
                 <span className='text-right'>{tr('积分')}</span>
@@ -103,7 +103,7 @@ export function RankingsPage() {
                   >
                     <span
                       className={clsx(
-                        'font-display text-sm font-bold',
+                        'font-display text-sm font-semibold',
                         rank <= 3 ? 'text-accent' : isPlayer ? 'text-accent' : 'text-txt-muted',
                       )}
                     >
@@ -118,7 +118,7 @@ export function RankingsPage() {
                         {entry.wins}-{entry.losses} · {league}
                       </div>
                     </div>
-                    <span className='text-right font-display text-sm font-bold text-txt'>{entry.rating}</span>
+                    <span className='text-right font-display text-sm font-semibold text-txt'>{entry.rating}</span>
                     <span className='hidden text-right text-sm text-txt-muted sm:block'>
                       {entry.wins}-{entry.losses}
                     </span>

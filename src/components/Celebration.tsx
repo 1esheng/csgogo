@@ -23,10 +23,10 @@ export function Celebration() {
         className='pointer-events-auto animate-level-pop rounded-2xl border px-6 py-4 text-center backdrop-blur-md'
         style={{ borderColor: tone.color + '66', background: 'linear-gradient(160deg,' + tone.color + '22, rgba(12,15,20,0.92))', boxShadow: '0 0 60px -20px ' + tone.color }}
       >
-        <div className='flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.2em]' style={{ color: tone.color }}>
+        <div className='flex items-center justify-center gap-2 text-[11px] ' style={{ color: tone.color }}>
           <Icon size={13} /> {tone.label}
         </div>
-        <div className='mt-1 font-display text-xl font-black text-txt'>{celebration.title}</div>
+        <div className='mt-1 font-display text-xl font-semibold text-txt'>{celebration.title}</div>
         {celebration.subtitle ? <div className='mt-0.5 text-xs text-txt-muted'>{celebration.subtitle}</div> : null}
       </button>
     </div>

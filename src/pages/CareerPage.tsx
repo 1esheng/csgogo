@@ -124,7 +124,7 @@ export function CareerPage() {
             {active ? (
               <div className='space-y-3'>
                 <div className='rounded-xl border border-accent/25 bg-accent/[0.06] px-3 py-2'>
-                  <div className='font-display text-sm font-bold text-txt'>{active.name}</div>
+                  <div className='font-display text-sm font-semibold text-txt'>{active.name}</div>
                   <div className='mt-1 text-xs text-txt-muted'>
                     {tr(CAREER_TIERS[active.tier]?.name ?? '联赛') + tr(' · 奖金 ') + active.prizePool.toLocaleString() + tr(' 金币')}
                   </div>

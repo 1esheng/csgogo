@@ -65,12 +65,12 @@ export function PlayerCard({
 
       <div className='relative flex items-start justify-between gap-2'>
         <div className='flex min-w-0 flex-col'>
-          <span className='font-display text-[11px] font-bold uppercase tracking-[0.18em]' style={{ color: rarity.color }}>
+          <span className='font-display text-[11px] font-semibold ' style={{ color: rarity.color }}>
             {card.template.rarity}
           </span>
           <span className={clsx('truncate font-semibold tracking-wide text-txt-muted', s.meta)}>{tr(ROLE_LABEL[role])}</span>
         </div>
-        <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-bold text-txt'>
+        <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[11px] font-semibold text-txt'>
           {card.countryCode}
         </span>
       </div>
@@ -85,14 +85,14 @@ export function PlayerCard({
 
       <div className='relative flex items-end justify-between gap-2'>
         <div className='min-w-0'>
-          <div className={clsx('truncate font-display font-bold tracking-wide text-txt', s.name)}>{card.nickname}</div>
+          <div className={clsx('truncate font-display font-semibold tracking-wide text-txt', s.name)}>{card.nickname}</div>
           <div className={clsx('truncate tracking-wider text-txt-muted', s.meta)}>
             {card.template.season} {retired ? tr('生涯终章') : tr('赛季')}
           </div>
         </div>
         <div className='shrink-0 text-right'>
-          <div className={clsx('font-display font-black leading-none', s.ovr)} style={{ color: rarity.color }}>{card.ovr}</div>
-          <div className='text-[10px] font-semibold uppercase tracking-[0.14em] text-txt-muted'>{tr('综合')}</div>
+          <div className={clsx('font-display font-semibold leading-none', s.ovr)} style={{ color: rarity.color }}>{card.ovr}</div>
+          <div className='text-[10px] font-semibold text-txt-muted'>{tr('综合')}</div>
         </div>
       </div>
 
@@ -104,12 +104,12 @@ export function PlayerCard({
         <span className='inline-flex shrink-0 items-center gap-1 font-semibold'>
           <Star size={12} className='text-accent' />
           <span className='whitespace-nowrap'>{card.level} {tr('级')}</span>
-          {stars > 1 ? <span className='rounded bg-accent/15 px-1 font-bold text-accent'>{stars}★</span> : null}
+          {stars > 1 ? <span className='rounded bg-accent/15 px-1 font-semibold text-accent'>{stars}★</span> : null}
         </span>
       </div>
 
       {cornerLabel ? (
-        <span className='absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent'>
+        <span className='absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-accent'>
           {cornerLabel}
         </span>
       ) : null}

@@ -24,7 +24,7 @@ function StatRows({ lines }: { lines: MatchStatLine[] }) {
   const sorted = [...lines].sort((a, b) => b.rating - a.rating);
   return (
     <div className='space-y-1'>
-      <div className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] gap-1 px-2 text-[10px] uppercase tracking-[0.12em] text-txt-muted'>
+      <div className='grid grid-cols-[minmax(0,1fr)_34px_34px_34px_54px_54px_54px] gap-1 px-2 text-[10px] text-txt-muted'>
         <span>{tr('选手')}</span>
         <span className='text-right'>K</span>
         <span className='text-right'>D</span>
@@ -44,7 +44,7 @@ function StatRows({ lines }: { lines: MatchStatLine[] }) {
           <span className='text-right text-txt-muted'>{line.assists}</span>
           <span className='text-right text-txt'>{line.adr.toFixed(1)}</span>
           <span className='text-right text-txt-muted'>{Math.round(line.kast)}%</span>
-          <span className='text-right font-display font-bold text-accent'>{line.rating.toFixed(2)}</span>
+          <span className='text-right font-display font-semibold text-accent'>{line.rating.toFixed(2)}</span>
         </div>
       ))}
     </div>
@@ -62,7 +62,7 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
     <div className='space-y-4'>
       <div className='flex flex-wrap items-center gap-x-3 gap-y-1 text-sm'>
         <Badge tone={summary.won ? 'success' : 'danger'}>{summary.won ? tr('胜利') : tr('失败')}</Badge>
-        <span className='font-display text-lg font-bold text-txt'>
+        <span className='font-display text-lg font-semibold text-txt'>
           {summary.scoreFor} : {summary.scoreAgainst}
         </span>
         <span className='text-txt-muted'>{tr('对阵 ')}{summary.opponentName}</span>
@@ -92,7 +92,7 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
 
       <div>
         <div className='mb-2 flex items-center justify-between'>
-          <span className='font-display text-sm font-bold text-txt'>{summary.teamName}</span>
+          <span className='font-display text-sm font-semibold text-txt'>{summary.teamName}</span>
           <span className='text-xs text-txt-muted'>{tr('你的阵容')}</span>
         </div>
         {mine.length ? <StatRows lines={mine} /> : <p className='text-xs text-txt-muted'>{tr('本场比赛未保存我方选手数据。')}</p>}
@@ -100,7 +100,7 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
 
       <div>
         <div className='mb-2 flex items-center justify-between'>
-          <span className='font-display text-sm font-bold text-txt'>{summary.opponentName}</span>
+          <span className='font-display text-sm font-semibold text-txt'>{summary.opponentName}</span>
           <span className='text-xs text-txt-muted'>{tr('对手')}</span>
         </div>
         {theirs.length ? <StatRows lines={theirs} /> : <p className='text-xs text-txt-muted'>{tr('本场比赛未保存对手数据。')}</p>}

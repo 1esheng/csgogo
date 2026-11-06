@@ -83,7 +83,7 @@ export function DashboardPage() {
     <div className='space-y-4'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.dashboard.title')}</h1>
+          <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.dashboard.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>{tr('第')} {club.season} {tr('赛季')} · {tr('巡回赛积分')} {rating} · {tr('阵容战力')} {breakdown.ovr}</p>
         </div>
         <div className='flex items-center gap-2'>
@@ -136,15 +136,14 @@ export function DashboardPage() {
                   >
                     <div className='flex items-start justify-between'>
                       <div>
-                        <div className='font-display text-2xl font-black leading-none' style={{ color: rarity.color }}>{ovr}</div>
-                        <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr('综合')}</div>
+                        <div className='font-display text-2xl font-semibold leading-none' style={{ color: rarity.color }}>{ovr}</div>
                       </div>
                       {(card.stars ?? 1) > 1 ? (
-                        <span className='rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-bold text-accent'>{card.stars}★</span>
+                        <span className='rounded bg-accent/20 px-1.5 py-0.5 text-[10px] font-semibold text-accent'>{card.stars}★</span>
                       ) : null}
                     </div>
                     <div className='mt-2 flex justify-center'>
-                      <Avatar nickname={identity?.nickname ?? tpl.playerId} playerId={tpl.playerId} size={64} />
+                      <Avatar nickname={identity?.nickname ?? tpl.playerId} playerId={tpl.playerId} size={76} />
                     </div>
                     <div className='mt-2 truncate font-display text-sm font-medium text-txt'>{identity?.nickname ?? tpl.playerId}</div>
                     <div className='text-[10px] text-txt-muted'>{tr(ROLE_SHORT[role])} · {levelText(card.level)}</div>
@@ -173,11 +172,11 @@ export function DashboardPage() {
             />
             {headInfo ? (
               <div className='flex flex-wrap items-center gap-3'>
-                <span className='grid h-11 w-11 place-items-center rounded-xl bg-accent/15 font-display text-xs font-black text-accent'>
+                <span className='grid h-11 w-11 place-items-center rounded-xl bg-accent/15 font-display text-xs font-semibold text-accent'>
                   {headInfo.nickname.slice(0, 2).toUpperCase()}
                 </span>
                 <div className='min-w-0'>
-                  <div className='font-display text-sm font-bold text-txt'>{headInfo.nickname}</div>
+                  <div className='font-display text-sm font-semibold text-txt'>{headInfo.nickname}</div>
                   <div className='text-[11px] text-txt-muted'>{headInfo.country} · {headInfo.style}</div>
                 </div>
                 <div className='flex flex-wrap gap-1.5'>
@@ -253,8 +252,8 @@ export function DashboardPage() {
                     style={{ borderColor: rarity.color + '44', background: rarity.color + '12' }}
                   >
                     <div className='flex items-center justify-between'>
-                      <span className='font-display text-lg font-black' style={{ color: rarity.color }}>{cardOVR(tpl!, card.level, card.stars ?? 1)}</span>
-                      <span className='text-[9px] uppercase tracking-wider text-txt-muted'>{tr(rarity.label)}</span>
+                      <span className='font-display text-lg font-semibold' style={{ color: rarity.color }}>{cardOVR(tpl!, card.level, card.stars ?? 1)}</span>
+                      <span className='text-[9px] text-txt-muted'>{tr(rarity.label)}</span>
                     </div>
                     <div className='mt-1 truncate text-xs font-semibold text-txt'>{identity?.nickname ?? tpl!.playerId}</div>
                     <div className='text-[10px] text-txt-muted'>{tr(ROLE_SHORT[tpl!.primaryRole as CombatRole] ?? '选手')}</div>
@@ -281,12 +280,12 @@ export function DashboardPage() {
                 </div>
                 <div className='mt-2 flex items-center justify-between gap-2'>
                   <div className='min-w-0'>
-                    <div className='truncate font-display text-base font-bold text-txt'>{club.name}</div>
+                    <div className='truncate font-display text-base font-semibold text-txt'>{club.name}</div>
                     <div className='text-[11px] text-txt-muted'>{tr('战力')} {breakdown.ovr}</div>
                   </div>
-                  <div className='font-display text-xl font-black text-txt-muted'>VS</div>
+                  <div className='font-display text-xl font-semibold text-txt-muted'>VS</div>
                   <div className='min-w-0 text-right'>
-                    <div className='truncate font-display text-base font-bold text-txt'>{nextOpponent?.name ?? '待定'}</div>
+                    <div className='truncate font-display text-base font-semibold text-txt'>{nextOpponent?.name ?? '待定'}</div>
                     <div className='text-[11px] text-txt-muted'>{tr('评分')} {nextOpponent?.rating ?? '—'}</div>
                   </div>
                 </div>
@@ -315,7 +314,7 @@ export function DashboardPage() {
                   <li key={m.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5 text-xs'>
                     <span className={clsx('w-1.5 self-stretch rounded-full', m.won ? 'bg-emerald-400' : 'bg-danger')} />
                     <span className='min-w-0 flex-1 truncate text-txt'>对阵 {m.opponentName}</span>
-                    <span className={clsx('font-display font-bold', m.won ? 'text-emerald-400' : 'text-danger')}>{m.scoreFor}-{m.scoreAgainst}</span>
+                    <span className={clsx('font-display font-semibold', m.won ? 'text-emerald-400' : 'text-danger')}>{m.scoreFor}-{m.scoreAgainst}</span>
                     <Badge tone={m.won ? 'success' : 'danger'}>{m.won ? '胜' : '负'}</Badge>
                   </li>
                 ))}
@@ -338,8 +337,8 @@ export function DashboardPage() {
               </div>
             )}
             <div className='mt-3 grid grid-cols-2 gap-2 text-[11px] text-txt-muted'>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-sm font-bold text-txt'>{breakdown.attack}</span></div>
-              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('防守')} <span className='font-display text-sm font-bold text-txt'>{breakdown.defense}</span></div>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-sm font-semibold text-txt'>{breakdown.attack}</span></div>
+              <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('防守')} <span className='font-display text-sm font-semibold text-txt'>{breakdown.defense}</span></div>
             </div>
           </Panel>
         </div>

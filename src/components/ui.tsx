@@ -40,7 +40,7 @@ export function Button({
   type?: 'button' | 'submit';
 }) {
   const variants: Record<ButtonVariant, string> = {
-    primary: 'bg-accent text-ink-900 hover:bg-accent/90 shadow-glow font-bold',
+    primary: 'bg-accent text-ink-900 hover:bg-accent/90 shadow-glow font-semibold',
     ghost: 'bg-white/5 text-txt hover:bg-white/10',
     outline: 'border border-white/15 text-txt hover:border-accent/60 hover:text-accent',
     danger: 'bg-danger/90 text-white hover:bg-danger',
@@ -127,7 +127,7 @@ export function Tabs({
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={clsx(
-            'focus-ring rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors',
+            'focus-ring rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors',
             active === tab.id ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt',
           )}
         >

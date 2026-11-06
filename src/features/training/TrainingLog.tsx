@@ -22,7 +22,7 @@ export function TrainingLog() {
         <li key={record.id} className='flex items-center gap-2 rounded-xl border border-white/5 bg-ink-900/50 px-2.5 py-1.5'>
           <Dumbbell size={12} className='shrink-0 text-txt-muted' />
           <span className='min-w-0 flex-1 truncate text-[12px] text-txt'>{record.nickname}</span>
-          <span className='shrink-0 rounded bg-white/5 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>
+          <span className='shrink-0 rounded bg-white/5 px-1.5 py-0.5 text-[9px] font-semibold text-txt-muted'>
             {tr(TRAINING_KIND_LABEL[record.kind])}
           </span>
           <span className='shrink-0 text-[11px] font-semibold text-emerald-400'>+{record.xpGained} XP</span>

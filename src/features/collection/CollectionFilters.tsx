@@ -61,7 +61,7 @@ export function CollectionFiltersBar({
               onClick={() => toggleRarity(rarity)}
               title={tr('切换') + ' ' + tr(info.label) + '（' + tr('已拥有') + ' ' + counts[rarity] + '）'}
               className={clsx(
-                'focus-ring rounded-lg border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider transition-all duration-150',
+                'focus-ring rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-all duration-150',
                 active ? 'text-ink-900' : 'text-txt-muted hover:text-txt',
               )}
               style={active

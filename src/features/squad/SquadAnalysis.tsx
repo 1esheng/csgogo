@@ -26,7 +26,7 @@ function Meter({
     <div className='rounded-xl border border-white/5 bg-ink-900/50 p-2.5'>
       <div className='flex items-baseline justify-between gap-2'>
         <span className='label-xs'>{label}</span>
-        <span className='font-display text-sm font-bold text-txt'>{value}</span>
+        <span className='font-display text-sm font-semibold text-txt'>{value}</span>
       </div>
       <div className='mt-1'>
         <Progress value={value} max={max} tone={tone} height='h-1.5' />
@@ -59,7 +59,7 @@ export function SquadAnalysis({
         <div className='flex items-start justify-between gap-3'>
           <div>
             <div className='label-xs'>{tr('阵容综合')}</div>
-            <div className='font-display text-4xl font-black leading-none text-accent'>{breakdown.ovr}</div>
+            <div className='font-display text-4xl font-semibold leading-none text-accent'>{breakdown.ovr}</div>
             <div className='mt-1 text-[11px] text-txt-muted'>
               {breakdown.filled}/5 {tr('位置')} · {tr('平均适配')} {breakdown.averageFit}%
             </div>
@@ -94,7 +94,7 @@ export function SquadAnalysis({
               <Crown size={12} className='text-accent' />
               {iglSlot ? iglSlot.nickname + ' · ' + tr('场上指挥') : tr('场上指挥加成')}
             </span>
-            <span className='font-display text-sm font-bold text-txt'>{breakdown.iglLeadership}</span>
+            <span className='font-display text-sm font-semibold text-txt'>{breakdown.iglLeadership}</span>
           </div>
           <div className='mt-1'>
             <Progress value={breakdown.iglLeadership} max={100} tone={breakdown.iglLeadership >= 60 ? 'success' : 'accent'} height='h-1.5' />
@@ -112,7 +112,7 @@ export function SquadAnalysis({
           <div className='label-xs'>{tr('位置适配')}</div>
           {breakdown.slots.map((slot) => (
             <div key={slot.slot} className='flex items-center gap-2'>
-              <span className='w-14 shrink-0 text-[10px] font-semibold uppercase tracking-wider text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
+              <span className='w-14 shrink-0 text-[10px] font-semibold text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
               <span className='w-16 shrink-0 truncate text-[11px] text-txt'>{slot.nickname}</span>
               <span className='min-w-0 flex-1'>
                 <Progress value={slot.fit} tone={fitTone(slot.fit)} height='h-1.5' />
@@ -126,7 +126,7 @@ export function SquadAnalysis({
 
         {breakdown.warnings.length > 0 ? (
           <div className='rounded-xl border border-accent/25 bg-accent/10 p-2.5'>
-            <div className='mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-accent'>
+            <div className='mb-1 flex items-center gap-1.5 text-[11px] font-semibold text-accent'>
               <AlertTriangle size={12} /> {tr('阵容提示')}
             </div>
             <ul className='space-y-1'>
@@ -140,7 +140,7 @@ export function SquadAnalysis({
         <div className={clsx('rounded-xl border border-white/10 bg-ink-900/60 p-3')}>
           <div className='flex items-center justify-between'>
             <span className='label-xs'>{tr('团队默契')}</span>
-            <span className='font-display text-sm font-bold text-txt'>
+            <span className='font-display text-sm font-semibold text-txt'>
               {breakdown.synergy}
               <span className='text-[11px] text-txt-muted'>/{SYNERGY.max}</span>
             </span>

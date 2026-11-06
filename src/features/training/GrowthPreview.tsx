@@ -35,7 +35,7 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
           <span className='label-xs'>{tr('成长预估')}</span>
           <Badge tone={capped ? 'muted' : 'accent'}>{capped ? tr('等级上限') : level + ' → ' + nextLevel + ' ' + tr('级')}</Badge>
         </div>
-        <div className='flex items-center gap-1.5 font-display text-sm font-bold text-txt'>
+        <div className='flex items-center gap-1.5 font-display text-sm font-semibold text-txt'>
           {ovrNow}
           <ArrowRight size={13} className='text-txt-muted' />
           <span className={ovrNext > ovrNow ? 'text-emerald-400' : 'text-txt-muted'}>{ovrNext} OVR</span>
@@ -55,8 +55,8 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
         <div className='grid grid-cols-2 gap-1.5 sm:grid-cols-3'>
           {gains.map((entry) => (
             <div key={entry.key} className='rounded-lg border border-white/5 bg-ink-900/50 px-2 py-1.5'>
-              <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ATTRIBUTE_LABEL[entry.key])}</div>
-              <div className='font-display text-sm font-bold text-txt'>
+              <div className='text-[10px] text-txt-muted'>{tr(ATTRIBUTE_LABEL[entry.key])}</div>
+              <div className='font-display text-sm font-semibold text-txt'>
                 {now[entry.key]} <span className='text-emerald-400'>+{entry.gain}</span>
               </div>
             </div>

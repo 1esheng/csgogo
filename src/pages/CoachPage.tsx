@@ -36,7 +36,7 @@ export function CoachPage() {
     <div className='space-y-4'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.coaches.title')}</h1>
+          <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.coaches.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>
             {tr('共')} {allRows.length} {tr('位真实教练')} · {tr('已签下')} {ownedRows.length} {tr('位')} · {tr('执教能力决定排名与全队加成')}
           </p>
@@ -59,11 +59,11 @@ export function CoachPage() {
         />
         {head ? (
           <div className='flex flex-wrap items-center gap-3 rounded-xl border border-accent/30 bg-accent/[0.06] px-3 py-2'>
-            <div className='grid h-11 w-11 place-items-center rounded-xl bg-accent/20 font-display text-sm font-black text-accent'>
+            <div className='grid h-11 w-11 place-items-center rounded-xl bg-accent/20 font-display text-sm font-semibold text-accent'>
               {head.info!.nickname.slice(0, 2).toUpperCase()}
             </div>
             <div className='min-w-0 flex-1'>
-              <div className='font-display text-sm font-bold text-txt'>{head.info!.nickname}</div>
+              <div className='font-display text-sm font-semibold text-txt'>{head.info!.nickname}</div>
               <div className='text-[11px] text-txt-muted'>
                 {head.info!.country} · {head.info!.style} · {tr('能力')} {head.info!.ability}
               </div>
@@ -97,9 +97,9 @@ export function CoachPage() {
                   isHead ? 'border-accent/40 bg-accent/[0.07]' : 'border-white/5 bg-white/[0.02]',
                 )}
               >
-                <span className='w-7 shrink-0 font-display text-sm font-bold text-txt-muted'>#{index + 1}</span>
+                <span className='w-7 shrink-0 font-display text-sm font-semibold text-txt-muted'>#{index + 1}</span>
                 <span
-                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-black'
+                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-semibold'
                   style={{ background: meta.color + '22', color: meta.color }}
                 >
                   {row.info.nickname.slice(0, 2).toUpperCase()}
@@ -118,7 +118,7 @@ export function CoachPage() {
                 <div className='w-28 shrink-0'>
                   <Progress value={row.info.ability} max={100} height='h-1.5' tone='accent' />
                 </div>
-                <span className='w-8 shrink-0 text-right font-display text-sm font-black' style={{ color: meta.color }}>
+                <span className='w-8 shrink-0 text-right font-display text-sm font-semibold' style={{ color: meta.color }}>
                   {row.info.ability}
                 </span>
                 {row.owned ? (

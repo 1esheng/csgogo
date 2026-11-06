@@ -21,7 +21,7 @@ export function CoachReveal({
       <div className='relative flex flex-wrap items-center justify-between gap-3'>
         <div>
           <div className='label-xs'>{tr('开包结果')}</div>
-          <div className='font-display text-xl font-bold text-txt'>
+          <div className='font-display text-xl font-semibold text-txt'>
             {results.length} 位教练 · 新签 {newCount} · 重复 {duplicates}
           </div>
         </div>
@@ -49,12 +49,12 @@ export function CoachReveal({
               }}
             >
               <div className='flex items-center justify-between gap-1'>
-                <span className='font-display text-[10px] font-black uppercase tracking-[0.18em]' style={{ color: meta.color }}>
+                <span className='font-display text-[10px] font-semibold ' style={{ color: meta.color }}>
                   {meta.label}
                 </span>
                 <span
                   className={clsx(
-                    'rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider',
+                    'rounded px-1.5 py-0.5 text-[9px] font-semibold ',
                     result.isNew ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-txt-muted',
                   )}
                 >
@@ -63,14 +63,14 @@ export function CoachReveal({
               </div>
               <div className='mt-2 flex items-center gap-2'>
                 <span
-                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-black'
+                  className='grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display text-[11px] font-semibold'
                   style={{ background: meta.color + '22', color: meta.color }}
                 >
                   {info.nickname.slice(0, 2).toUpperCase()}
                 </span>
                 <div className='min-w-0'>
-                  <div className='truncate font-display text-sm font-bold text-txt'>{info.nickname}</div>
-                  <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{info.country} · {info.style}</div>
+                  <div className='truncate font-display text-sm font-semibold text-txt'>{info.nickname}</div>
+                  <div className='text-[10px] text-txt-muted'>{info.country} · {info.style}</div>
                 </div>
               </div>
               <div className='mt-2 border-t border-white/10 pt-1.5 text-[10px] text-txt-muted'>

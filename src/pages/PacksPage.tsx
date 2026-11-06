@@ -12,7 +12,7 @@ import { CoachReveal } from '@/features/packs/CoachReveal';
 
 function PriceRow({ price }: { price: number }) {
   return (
-    <div className='flex items-center justify-end gap-1 font-display text-xl font-black text-accent'>
+    <div className='flex items-center justify-end gap-1 font-display text-xl font-semibold text-accent'>
       <Coins size={15} /> {price.toLocaleString()}
     </div>
   );
@@ -31,13 +31,13 @@ function PackCard({
         <div>
           <div className='label-xs'>{tr(kind)}</div>
           <div className='mt-1 flex items-center gap-2'>
-            <span className='font-display text-xl font-bold text-txt'>{title}</span>
+            <span className='font-display text-xl font-semibold text-txt'>{title}</span>
             {badge ? <Badge tone='accent'>{badge}</Badge> : null}
           </div>
         </div>
         <div className='text-right'>
           <PriceRow price={price} />
-          <div className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr('金币')}</div>
+          <div className='text-[10px] text-txt-muted'>{tr('金币')}</div>
         </div>
       </div>
       <p className='mt-3 text-xs leading-relaxed text-txt-muted'>{desc}</p>
@@ -70,7 +70,7 @@ export function PacksPage() {
     <div className='space-y-5'>
       <div className='flex flex-wrap items-end justify-between gap-2'>
         <div>
-          <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{t('page.packs.title')}</h1>
+          <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{t('page.packs.title')}</h1>
           <p className='mt-0.5 text-xs text-txt-muted'>{tr('选手包与教练包是两个独立图池，概率各自计算。')}</p>
         </div>
         <div className='flex items-center gap-2'>
@@ -116,7 +116,7 @@ export function PacksPage() {
 
       <div className='flex flex-wrap items-end justify-between gap-2 pt-1'>
         <div>
-          <h2 className='font-display text-xl font-bold tracking-wide text-txt'>{tr('教练包')}</h2>
+          <h2 className='font-display text-xl font-semibold tracking-wide text-txt'>{tr('教练包')}</h2>
           <p className='mt-1 text-sm text-txt-muted'>{tr('独立图池 · 64 位真实教练，按执教能力划分稀有度')}</p>
         </div>
         <Button size='sm' variant='ghost' onClick={() => navigate('/coaches')}>{tr('查看教练组')}</Button>
@@ -146,7 +146,7 @@ export function PacksPage() {
           <div className='flex items-start justify-between gap-3'>
             <div>
               <div className='label-xs'>{tr('现任主教练')}</div>
-              <div className='mt-1 font-display text-xl font-bold text-txt'>
+              <div className='mt-1 font-display text-xl font-semibold text-txt'>
                 {headCoach ? headCoach.nickname : tr('尚未任命')}
               </div>
             </div>

@@ -75,7 +75,7 @@ export function ScoreTable({
     <div className='max-h-[42vh] overflow-auto'>
       <table className='w-full border-collapse text-sm'>
         <thead className='sticky top-0 z-10 bg-ink-800/95 backdrop-blur'>
-          <tr className='text-[10px] uppercase tracking-wider text-txt-muted'>
+          <tr className='text-[10px] text-txt-muted'>
             <th className='px-2 py-2 text-left'>
               <button
                 onClick={() => toggle('nickname')}
@@ -128,7 +128,7 @@ export function ScoreTable({
                 <td className='px-1.5 py-1.5 text-right font-mono'>{line.adr.toFixed(1)}</td>
                 <td className='px-1.5 py-1.5 text-right font-mono'>{line.kast.toFixed(0)}</td>
                 <td className='px-1.5 py-1.5 text-right font-mono'>{line.kd.toFixed(2)}</td>
-                <td className={clsx('px-1.5 py-1.5 text-right font-mono font-bold', line.rating >= 1.1 ? 'text-accent' : line.rating < 0.85 ? 'text-danger' : 'text-txt')}>
+                <td className={clsx('px-1.5 py-1.5 text-right font-mono font-semibold', line.rating >= 1.1 ? 'text-accent' : line.rating < 0.85 ? 'text-danger' : 'text-txt')}>
                   {line.rating.toFixed(2)}
                 </td>
                 <td className='px-1.5 py-1.5 text-right font-mono text-txt-muted'>{line.openingKills}</td>

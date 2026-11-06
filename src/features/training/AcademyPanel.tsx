@@ -23,19 +23,19 @@ function ProspectCard({
     <div className='surface-raised flex flex-col gap-2.5 p-3'>
       <div className='flex items-start justify-between gap-2'>
         <div className='flex min-w-0 items-center gap-2'>
-          <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-gradient-to-br from-accent/40 to-ink-900 font-display text-[11px] font-black text-white/90'>
+          <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-gradient-to-br from-accent/40 to-ink-900 font-display text-[11px] font-semibold text-white/90'>
             {initials(prospect.nickname)}
           </span>
           <div className='min-w-0'>
-            <div className='truncate font-display text-sm font-bold text-txt'>{prospect.nickname}</div>
-            <div className='text-[10px] uppercase tracking-wider text-txt-muted'>
+            <div className='truncate font-display text-sm font-semibold text-txt'>{prospect.nickname}</div>
+            <div className='text-[10px] text-txt-muted'>
               {prospect.countryCode} · {prospect.age} {tr('岁')} · {tr(ROLE_LABEL[prospect.primaryRole])}
             </div>
           </div>
         </div>
         <div className='shrink-0 text-right'>
-          <div className='font-display text-xl font-black leading-none text-accent'>{prospect.ovr}</div>
-          <div className='text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>
+          <div className='font-display text-xl font-semibold leading-none text-accent'>{prospect.ovr}</div>
+          <div className='text-[9px] font-semibold text-txt-muted'>
             {tr('潜力')} {prospect.potential}
           </div>
         </div>
@@ -176,7 +176,7 @@ export function AcademyPanel() {
             {promoted.map((prospect) => (
               <li key={prospect.id} className='flex items-center gap-2 rounded-lg border border-white/5 bg-ink-900/50 px-2.5 py-1.5'>
                 <span className='min-w-0 flex-1 truncate text-[12px] text-txt'>{prospect.nickname}</span>
-                <span className='text-[10px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_LABEL[prospect.primaryRole])}</span>
+                <span className='text-[10px] text-txt-muted'>{tr(ROLE_LABEL[prospect.primaryRole])}</span>
                 <Badge tone='success'>{tr('已入收藏')}</Badge>
               </li>
             ))}
@@ -188,7 +188,7 @@ export function AcademyPanel() {
         <div className='flex items-start gap-2'>
           <ShieldAlert size={14} className='mt-0.5 shrink-0 text-accent' />
           <div className='space-y-1 text-[11px] leading-relaxed text-txt-muted'>
-            <p className='font-semibold uppercase tracking-wider text-accent'>{tr('潜力是上限，不是保证')}</p>
+            <p className='font-semibold text-accent'>{tr('潜力是上限，不是保证')}</p>
             <p>
               {tr('球探给出的潜力数值是这名选手能达到的上限，提拔并不会直接把潜力兑现。提拔后的卡牌保留自己的成长倍率，因此永久属性点累积缓慢，并且受等级系统限制（5 级、8 点基础点、每项属性 99）——这就是为什么没有任何卡牌可以单纯靠升级刷到 99。')}
             </p>

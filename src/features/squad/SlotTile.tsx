@@ -43,10 +43,10 @@ export function SlotTile({
     >
       <div className='flex items-center gap-2.5'>
         <div className='w-[62px] shrink-0 pl-1'>
-          <div className='font-display text-[11px] font-bold uppercase tracking-[0.14em] text-txt'>{tr(ROLE_LABEL[slot])}</div>
+          <div className='font-display text-[11px] font-semibold text-txt'>{tr(ROLE_LABEL[slot])}</div>
           <div
             className={clsx(
-              'text-[9px] font-semibold uppercase tracking-wider',
+              'text-[9px] font-semibold ',
               info ? (info.natural ? 'text-emerald-400/90' : 'text-accent/80') : 'text-txt-muted/70',
             )}
           >
@@ -70,11 +70,11 @@ export function SlotTile({
             />
             <span className='min-w-0 flex-1'>
               <span className='flex items-center gap-1.5'>
-                <span className='truncate font-display text-sm font-bold tracking-wide text-txt'>{info.nickname}</span>
-                <span className='rounded bg-black/40 px-1 py-0.5 text-[9px] font-bold uppercase tracking-wider text-txt-muted'>
+                <span className='truncate font-display text-sm font-semibold tracking-wide text-txt'>{info.nickname}</span>
+                <span className='rounded bg-black/40 px-1 py-0.5 text-[9px] font-semibold text-txt-muted'>
                   {info.countryCode}
                 </span>
-                <span className='text-[9px] font-semibold uppercase tracking-wider' style={{ color: rarity.color }}>
+                <span className='text-[9px] font-semibold ' style={{ color: rarity.color }}>
                   {tr(rarity.label)}
                 </span>
               </span>
@@ -89,17 +89,17 @@ export function SlotTile({
               </span>
             </span>
             <span className='shrink-0 text-right'>
-              <span className='block font-display text-xl font-black leading-none' style={{ color: rarity.color }}>
+              <span className='block font-display text-xl font-semibold leading-none' style={{ color: rarity.color }}>
                 {info.ovr}
               </span>
-              <span className='text-[9px] font-semibold uppercase tracking-wider text-txt-muted'>{info.level} {tr('级')}</span>
+              <span className='text-[9px] font-semibold text-txt-muted'>{info.level} {tr('级')}</span>
             </span>
           </button>
         ) : (
           <button
             type='button'
             onClick={onOpen}
-            className='focus-ring flex flex-1 items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 px-3 py-4 text-[11px] font-semibold uppercase tracking-wider text-txt-muted transition-colors hover:border-accent/60 hover:bg-accent/5 hover:text-accent'
+            className='focus-ring flex flex-1 items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 px-3 py-4 text-[11px] font-semibold text-txt-muted transition-colors hover:border-accent/60 hover:bg-accent/5 hover:text-accent'
           >
             <Plus size={14} /> {tr('指派')}{tr(ROLE_LABEL[slot])}
           </button>

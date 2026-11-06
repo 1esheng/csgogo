@@ -58,7 +58,7 @@ export function Setup() {
         <div className='flex flex-wrap items-start justify-between gap-4'>
           <div>
             <div className='label-xs'>{tr('我方首发')}</div>
-            <div className='mt-1 font-display text-xl font-bold text-txt'>{store.club.name}</div>
+            <div className='mt-1 font-display text-xl font-semibold text-txt'>{store.club.name}</div>
             <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-txt-muted'>
               <span>OVR {breakdown.filled > 0 ? Math.round(breakdown.ovr) : 0}</span>
               <span className='text-white/20'>|</span>
@@ -76,7 +76,7 @@ export function Setup() {
                   slot.instanceId ? 'border-white/10 bg-ink-700/60 text-txt' : 'border-dashed border-danger/40 bg-danger/5 text-danger',
                 )}
               >
-                <span className='text-[9px] uppercase tracking-wider text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
+                <span className='text-[9px] text-txt-muted'>{tr(ROLE_LABEL[slot.slot])}</span>
                 <div className='font-semibold'>{slot.instanceId ? slot.nickname + ' ' + Math.round(slot.ovr) : tr('空缺')}</div>
               </div>
             ))}
@@ -97,7 +97,7 @@ export function Setup() {
             <div className='flex items-start gap-3'>
               <Ban size={18} className='mt-0.5 shrink-0 text-danger' />
               <div>
-                <div className='font-display text-base font-bold text-txt'>{tr('阵容还没凑齐')}</div>
+                <div className='font-display text-base font-semibold text-txt'>{tr('阵容还没凑齐')}</div>
                 <p className='mt-1 text-sm text-txt-muted'>
                   {tr('五个战斗位置只填了 ')}{breakdown.filled}{tr(' 个。开赛需要五名不同的选手就位。')}
                 </p>
@@ -163,7 +163,7 @@ export function Setup() {
                     )}
                   >
                     <div className='flex items-center justify-between gap-2'>
-                      <span className='font-display text-sm font-bold text-txt'>{spec.name}</span>
+                      <span className='font-display text-sm font-semibold text-txt'>{spec.name}</span>
                       <span className={clsx('text-[11px]', selected ? 'text-accent' : 'text-txt-muted')}>{tr('熟练 ')}{mapComfort}</span>
                     </div>
                     <p className='mt-0.5 text-[11px] leading-snug text-txt-muted'>{tr(spec.tagline)}</p>
@@ -253,7 +253,7 @@ function OpponentCard({
       )}
     >
       <div className='flex items-center justify-between gap-2'>
-        <span className='truncate font-display text-sm font-bold text-txt'>{spec.name}</span>
+        <span className='truncate font-display text-sm font-semibold text-txt'>{spec.name}</span>
         <Badge tone={selected ? 'accent' : 'muted'}>{spec.shortName}</Badge>
       </div>
       <div className='mt-1 flex flex-wrap items-center gap-2 text-[11px] text-txt-muted'>
@@ -299,7 +299,7 @@ function ModeCard({
     >
       <span className={clsx('mt-0.5', active ? 'text-accent' : 'text-txt-muted')}>{icon}</span>
       <span className='min-w-0'>
-        <span className='block font-display text-sm font-bold text-txt'>{title}</span>
+        <span className='block font-display text-sm font-semibold text-txt'>{title}</span>
         <span className='mt-0.5 block text-[11px] leading-snug text-txt-muted'>{detail}</span>
       </span>
     </button>

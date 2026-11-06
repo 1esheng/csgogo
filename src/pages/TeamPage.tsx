@@ -68,12 +68,12 @@ export function TeamPage() {
       <Panel className='relative overflow-hidden'>
         <div className='pointer-events-none absolute inset-0 grid-noise opacity-50' />
         <div className='relative flex flex-wrap items-center gap-4'>
-          <div className='grid h-16 w-16 place-items-center rounded-2xl bg-accent/15 font-display text-xl font-black text-accent'>
+          <div className='grid h-16 w-16 place-items-center rounded-2xl bg-accent/15 font-display text-xl font-semibold text-accent'>
             {name.slice(0, 2).toUpperCase()}
           </div>
           <div className='min-w-0 flex-1'>
-            <div className='text-[11px] uppercase tracking-[0.18em] text-txt-muted'>{region}</div>
-            <h1 className='font-display text-2xl font-black tracking-tight text-txt'>{name}</h1>
+            <div className='text-[11px] text-txt-muted'>{region}</div>
+            <h1 className='font-display text-2xl font-semibold tracking-tight text-txt'>{name}</h1>
             <div className='mt-1 flex flex-wrap items-center gap-2 text-[11px] text-txt-muted'>
               <Badge tone='muted'>积分 {entry?.rating ?? '—'}</Badge>
               <Badge tone='muted'>阵容战力 {ovr}</Badge>
@@ -105,7 +105,7 @@ export function TeamPage() {
                   <span className='min-w-0 flex-1 truncate font-semibold text-txt'>{identity?.nickname ?? r.tpl!.playerId}</span>
                   <Badge tone='muted'>{identity?.country ?? '—'}</Badge>
                   <span className='w-8 shrink-0 text-right text-[11px] text-txt-muted'>{identity?.age ?? '—'} 岁</span>
-                  <span className='w-8 shrink-0 text-right font-display text-sm font-black' style={{ color: rarity.color }}>
+                  <span className='w-8 shrink-0 text-right font-display text-sm font-semibold' style={{ color: rarity.color }}>
                     {cardOVR(r.tpl!, r.card?.level ?? 4, r.card?.stars ?? 1)}
                   </span>
                 </div>

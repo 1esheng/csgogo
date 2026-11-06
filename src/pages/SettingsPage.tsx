@@ -65,7 +65,7 @@ export function SettingsPage() {
             {React.createElement(badgeIcon(club.badge).icon, { size: 24, style: { color: club.color ?? '#F5A623' } })}
           </span>
           <div className='min-w-0'>
-            <div className='font-display text-lg font-bold text-txt'>{club.name}</div>
+            <div className='font-display text-lg font-semibold text-txt'>{club.name}</div>
             <div className='text-[11px] text-txt-muted'>{tr('当前徽章：')}{tr(badgeIcon(club.badge).label)} · {tr('主色')} {club.color ?? '#F5A623'}</div>
           </div>
         </div>
@@ -195,7 +195,7 @@ export function SettingsPage() {
                     type='button'
                     onClick={() => updateSettings({ matchSpeed: speed })}
                     className={
-                      'focus-ring rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ' +
+                      'focus-ring rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ' +
                       (settings.matchSpeed === speed ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt')
                     }
                   >
@@ -218,7 +218,7 @@ export function SettingsPage() {
               {meta.map((item) => (
                 <div key={item.label}>
                   <div className='label-xs'>{tr(item.label)}</div>
-                  <div className='mt-0.5 font-display text-lg font-bold text-txt'>{item.value}</div>
+                  <div className='mt-0.5 font-display text-lg font-semibold text-txt'>{item.value}</div>
                 </div>
               ))}
             </div>

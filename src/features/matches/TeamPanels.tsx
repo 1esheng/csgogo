@@ -18,7 +18,7 @@ export function TeamRoster({
       <div className='mb-2 flex items-center justify-between gap-2'>
         <div className='min-w-0'>
           <div className='label-xs truncate'>{label}</div>
-          <div className='truncate font-display text-sm font-bold text-txt'>{team.name}</div>
+          <div className='truncate font-display text-sm font-semibold text-txt'>{team.name}</div>
         </div>
         <Badge tone={sideTone(team.side)}>{team.side}</Badge>
       </div>
@@ -60,7 +60,7 @@ export function TeamRoster({
               </div>
               <div className='mt-1 flex items-center justify-between gap-1 text-[10px] text-txt-muted'>
                 <span className='truncate'>
-                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[9px] uppercase tracking-wide text-txt-muted'>{tr(ROLE_LABEL[p.role])}</span>
+                  <span className='mr-1 rounded bg-white/5 px-1 py-px text-[9px] text-txt-muted'>{tr(ROLE_LABEL[p.role])}</span>
                   {weapon ? weapon.name : tr('空手')}
                 </span>
                 <span className='shrink-0 font-mono'>

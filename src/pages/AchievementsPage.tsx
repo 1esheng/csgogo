@@ -63,7 +63,7 @@ export function AchievementsPage() {
               </span>
               <div className='min-w-0 flex-1'>
                 <div className='flex flex-wrap items-center gap-2'>
-                  <span className={'font-display text-sm font-bold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{pick(row.name, row.nameEn)}</span>
+                  <span className={'font-display text-sm font-semibold ' + (row.isClaimed ? 'text-txt-muted' : 'text-txt')}>{pick(row.name, row.nameEn)}</span>
                   <span className='text-[11px] text-txt-muted'>{pick(row.desc, row.descEn)}</span>
                 </div>
                 <div className='mt-1 flex items-center gap-2'>

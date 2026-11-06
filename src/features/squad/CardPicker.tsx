@@ -159,15 +159,15 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
                 />
                 <span className='min-w-0 flex-1'>
                   <span className='flex items-center gap-1.5'>
-                    <span className='truncate font-display text-[13px] font-bold text-txt'>{row.nickname}</span>
-                    <span className='rounded bg-black/40 px-1 py-0.5 text-[9px] font-bold uppercase tracking-wider text-txt-muted'>
+                    <span className='truncate font-display text-[13px] font-semibold text-txt'>{row.nickname}</span>
+                    <span className='rounded bg-black/40 px-1 py-0.5 text-[9px] font-semibold text-txt-muted'>
                       {row.countryCode}
                     </span>
-                    <span className='text-[9px] font-semibold uppercase tracking-wider' style={{ color: rarity.color }}>
+                    <span className='text-[9px] font-semibold ' style={{ color: rarity.color }}>
                       {row.template.season}
                     </span>
                   </span>
-                  <span className='mt-0.5 block text-[10px] uppercase tracking-wider text-txt-muted'>
+                  <span className='mt-0.5 block text-[10px] text-txt-muted'>
                     {tr(ROLE_LABEL[row.template.primaryRole])} · {row.card.level} {tr('级')}
                   </span>
                 </span>
@@ -175,11 +175,11 @@ export function CardPicker({ role, onClose }: { role: CombatRole | null; onClose
                   <Progress value={row.fit} tone={fitTone(row.fit)} height='h-1.5' />
                 </span>
                 <span className='w-10 shrink-0 text-right text-[11px] font-semibold text-txt-muted'>{row.fit}%</span>
-                <span className='w-8 shrink-0 text-right font-display text-base font-black' style={{ color: rarity.color }}>
+                <span className='w-8 shrink-0 text-right font-display text-base font-semibold' style={{ color: rarity.color }}>
                   {row.ovr}
                 </span>
                 {(row.card.stars ?? 1) > 1 ? (
-                  <span className='shrink-0 rounded bg-accent/15 px-1 text-[10px] font-bold text-accent'>{row.card.stars}★</span>
+                  <span className='shrink-0 rounded bg-accent/15 px-1 text-[10px] font-semibold text-accent'>{row.card.stars}★</span>
                 ) : null}
                 {row.copies > 1 ? (
                   <span className='shrink-0 rounded bg-white/10 px-1 text-[10px] font-semibold text-txt-muted'>×{row.copies}</span>

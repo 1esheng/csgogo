@@ -141,7 +141,7 @@ export function TournamentPanel() {
               <div className='space-y-3'>
                 <div className='rounded-xl border border-white/10 bg-ink-700/50 p-3'>
                   <div className='label-xs'>{tr('对手')}</div>
-                  <div className='mt-0.5 font-display text-base font-bold text-txt'>{opponent.name}</div>
+                  <div className='mt-0.5 font-display text-base font-semibold text-txt'>{opponent.name}</div>
                   <div className='mt-1 flex flex-wrap items-center gap-2 text-xs text-txt-muted'>
                     <span className='inline-flex items-center gap-1'>
                       <MapPin size={11} /> {MAPS[nextMatch.mapId]?.name ?? nextMatch.mapId}

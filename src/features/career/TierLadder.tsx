@@ -57,7 +57,7 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
               <div className='flex flex-wrap items-center gap-3'>
                 <div
                   className={clsx(
-                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs font-bold',
+                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs font-semibold',
                     isCurrent ? 'bg-accent text-ink-900' : unlocked ? 'bg-white/10 text-txt' : 'bg-white/5 text-txt-muted',
                   )}
                 >
@@ -65,7 +65,7 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
                 </div>
                 <div className='min-w-0 flex-1'>
                   <div className='flex flex-wrap items-center gap-2'>
-                    <span className={clsx('font-display text-sm font-bold tracking-wide', unlocked ? 'text-txt' : 'text-txt-muted')}>
+                    <span className={clsx('font-display text-sm font-semibold tracking-wide', unlocked ? 'text-txt' : 'text-txt-muted')}>
                       {tr(tier.name)}
                     </span>
                     {isCurrent ? <Badge tone='accent'>{tr('当前')}</Badge> : null}
@@ -96,7 +96,7 @@ export function TierLadder({ rating, currentTier, busyTier, error, hasActiveTour
                       {busyTier === tier.tier ? tr('进入中…') : tr('进入')} <ChevronRight size={14} />
                     </Button>
                   ) : (
-                    <span className='text-[11px] font-semibold uppercase tracking-wider text-txt-muted'>{tr('未解锁')}</span>
+                    <span className='text-[11px] font-semibold text-txt-muted'>{tr('未解锁')}</span>
                   )}
                 </div>
               </div>

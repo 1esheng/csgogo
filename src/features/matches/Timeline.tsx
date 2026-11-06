@@ -63,9 +63,9 @@ export function RoundTimeline({ match }: { match: MatchState }) {
     <div className='flex h-full flex-col'>
       <div className='mb-2 flex flex-wrap items-center justify-between gap-2'>
         <div className='flex items-center gap-2'>
-          <span className='font-display text-sm font-bold text-txt'>{tr('第 ')}{round.roundNumber}{tr(' 回合')}</span>
+          <span className='font-display text-sm font-semibold text-txt'>{tr('第 ')}{round.roundNumber}{tr(' 回合')}</span>
           {round.winner ? (
-            <span className='text-[11px] uppercase tracking-wider text-txt-muted'>{round.winner}{tr(' 方获胜')}</span>
+            <span className='text-[11px] text-txt-muted'>{round.winner}{tr(' 方获胜')}</span>
           ) : null}
         </div>
         <span className='text-[11px] text-txt-muted'>
@@ -82,7 +82,7 @@ export function RoundTimeline({ match }: { match: MatchState }) {
               <div className='min-w-0 flex-1'>
                 <div className='flex items-center gap-2'>
                   <span className='font-mono text-[10px] text-txt-muted'>{clockLabel(e.clock)}</span>
-                  <span className={clsx('text-[10px] font-semibold uppercase tracking-wider', meta.tone)}>{tr(meta.label)}</span>
+                  <span className={clsx('text-[10px] font-semibold ', meta.tone)}>{tr(meta.label)}</span>
                   {e.side ? <span className='text-[9px] text-txt-muted'>{e.side}</span> : null}
                 </div>
                 <p className='text-[13px] leading-snug text-txt'>{e.text}</p>
@@ -132,7 +132,7 @@ export function MatchLog({ events }: { events: MatchEvent[] }) {
             <div key={e.id} className='flex items-start gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1'>
               <span className='mt-0.5 shrink-0 font-mono text-[10px] text-txt-muted'>R{e.round}</span>
               <span className='mt-0.5 shrink-0 font-mono text-[10px] text-txt-muted'>{clockLabel(e.clock)}</span>
-              <span className={clsx('mt-0.5 w-[74px] shrink-0 text-[9px] font-semibold uppercase tracking-wider', meta.tone)}>
+              <span className={clsx('mt-0.5 w-[74px] shrink-0 text-[9px] font-semibold ', meta.tone)}>
                 {tr(meta.label)}
               </span>
               <span className='min-w-0 flex-1 text-[12px] leading-snug text-txt'>{e.text}</span>
@@ -150,7 +150,7 @@ function LogChip({ label, active, onClick }: { label: string; active: boolean; o
     <button
       onClick={onClick}
       className={clsx(
-        'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider transition-colors',
+        'focus-ring rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-colors',
         active ? 'border-accent/50 bg-accent/15 text-accent' : 'border-white/10 text-txt-muted hover:text-txt',
       )}
     >

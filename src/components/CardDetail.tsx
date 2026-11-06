@@ -107,7 +107,7 @@ export function CardDetailBody({
               shape='square'
             />
           </div>
-          <div className='mt-3 font-display text-2xl font-black'>{nickname}</div>
+          <div className='mt-3 font-display text-2xl font-semibold'>{nickname}</div>
           <div className='text-xs tracking-wider text-txt-muted'>
             {template.season} {retired ? tr('生涯终章') : tr('赛季')}
             {retired ? <Badge tone='danger' className='ml-2'>{tr('已退役')}</Badge> : null}
@@ -118,11 +118,11 @@ export function CardDetailBody({
           <div className='mt-4 flex items-end justify-between'>
             <div>
               <div className='label-xs'>{tr('综合评分')}</div>
-              <div className='font-display text-4xl font-black' style={{ color: rarity.color }}>{ovr}</div>
+              <div className='font-display text-4xl font-semibold' style={{ color: rarity.color }}>{ovr}</div>
             </div>
             <div className='text-right'>
               <div className='label-xs'>{tr('等级 / 星级')}</div>
-              <div className='font-display text-2xl font-bold'>{level}/{LEVEL_CONFIG.maxLevel}</div>
+              <div className='font-display text-2xl font-semibold'>{level}/{LEVEL_CONFIG.maxLevel}</div>
               <div className='mt-0.5 flex items-center justify-end gap-0.5 text-accent'>
                 {Array.from({ length: Math.max(1, Math.min(5, stars)) }).map((_x, i) => (
                   <Star key={i} size={12} fill='currentColor' />
@@ -147,7 +147,7 @@ export function CardDetailBody({
         ) : null}
         <div className='mt-4 rounded-xl border border-accent/20 bg-accent/5 p-3'>
           <div className='label-xs text-accent'>{tr('天赋技能')}</div>
-          <div className='mt-1 font-display text-sm font-bold'>{pick(template.skill.name, skillNameEn(template.skill))}</div>
+          <div className='mt-1 font-display text-sm font-semibold'>{pick(template.skill.name, skillNameEn(template.skill))}</div>
           <p className='mt-1 text-xs leading-relaxed text-txt-muted'>{pick(template.skill.description, skillDescEn(template.skill))}</p>
         </div>
       </div>
@@ -178,7 +178,7 @@ export function CardDetailBody({
             <div className='space-y-1.5'>
               {ALL_ROLES.map((role) => (
                 <div key={role} className='flex items-center gap-2'>
-                  <span className={role === template.primaryRole ? 'w-16 text-xs font-bold text-accent' : role === template.secondaryRole ? 'w-16 text-xs font-semibold text-txt' : 'w-16 text-xs text-txt-muted'}>{role}</span>
+                  <span className={role === template.primaryRole ? 'w-16 text-xs font-semibold text-accent' : role === template.secondaryRole ? 'w-16 text-xs font-semibold text-txt' : 'w-16 text-xs text-txt-muted'}>{role}</span>
                   <div className='flex-1'><Progress value={template.proficiency[role]} height='h-1.5' /></div>
                   <span className='w-8 text-right text-xs text-txt-muted'>{template.proficiency[role]}</span>
                 </div>

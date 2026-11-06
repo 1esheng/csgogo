@@ -38,7 +38,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
             <div className='label-xs'>{tr('我方')}</div>
             <div
               className={clsx(
-                'truncate font-display text-lg font-bold leading-tight',
+                'truncate font-display text-lg font-semibold leading-tight',
                 winner === 'A' ? 'text-accent' : 'text-txt',
               )}
             >
@@ -51,13 +51,13 @@ export function LiveBoard({ match }: { match: MatchState }) {
           </div>
 
           <div className='text-center'>
-            <div className='font-display text-4xl font-bold leading-none tracking-tight'>
+            <div className='font-display text-4xl font-semibold leading-none tracking-tight'>
               <span className={winner === 'A' ? 'text-accent' : 'text-txt'}>{teamA.score}</span>
               <span className='mx-1.5 text-txt-muted'>:</span>
               <span className={winner === 'B' ? 'text-danger' : 'text-txt'}>{teamB.score}</span>
             </div>
             <div className='mt-1.5 flex items-center justify-center gap-1.5'>
-              <span className='text-[11px] uppercase tracking-wider text-txt-muted'>{tr('第 ')}{match.roundNumber}{tr(' 回合')}</span>
+              <span className='text-[11px] text-txt-muted'>{tr('第 ')}{match.roundNumber}{tr(' 回合')}</span>
               {match.overtime > 0 ? <Badge tone='danger'>{tr('加时 ')}{match.overtime}</Badge> : null}
               {over ? <Badge tone='accent'>{tr('终局')}</Badge> : null}
             </div>
@@ -70,7 +70,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
             <div className='label-xs'>{tr('对手')}</div>
             <div
               className={clsx(
-                'truncate font-display text-lg font-bold leading-tight',
+                'truncate font-display text-lg font-semibold leading-tight',
                 winner === 'B' ? 'text-danger' : 'text-txt',
               )}
             >

@@ -87,7 +87,7 @@ export function RecordsPage() {
                 className='focus-ring group flex w-full flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/5 bg-ink-700/40 px-3 py-2.5 text-left transition-colors hover:border-accent/40 hover:bg-ink-700/70'
               >
                 <Badge tone={match.won ? 'success' : 'danger'}>{match.won ? tr('胜') : tr('负')}</Badge>
-                <span className='font-display text-base font-bold text-txt'>
+                <span className='font-display text-base font-semibold text-txt'>
                   {match.scoreFor}
                   <span className='text-txt-muted'>:</span>
                   {match.scoreAgainst}
