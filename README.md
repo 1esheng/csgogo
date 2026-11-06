@@ -1,12 +1,11 @@
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/19cb2d80-e9ac-40f8-a233-7c4ffccbdc5d" alt="CS2 Dynasty Logo" width="130">
-</p>
-
-<h1 align="center">CS2 Dynasty</h1>
-<p align="center">CS2 电竞王朝</p>
-
-
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
+    <img src="./docs/brand/cs2-dynasty-icon-light.png" alt="CS2 Dynasty" width="130">
+  </picture>
+</div>
+# CS2 Dynasty · CS2 电竞王朝
 
 一款**纯前端、离线可玩**的 CS2 电竞俱乐部经营 + 选手卡牌游戏。
 抽卡养卡、组建五人首发、任命主教练、逐回合指挥战术，从公开预选赛一路打进 **MAJOR**。

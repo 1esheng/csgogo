@@ -2,6 +2,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Celebration } from '@/components/Celebration';
 import { useLiveWorld } from '@/hooks/useLiveWorld';
 import { useT } from '@/hooks/useLang';
+import brandMark from '@/assets/brand/icon-dark.png';
 import { tr } from '@/i18n';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -118,9 +119,9 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         )}
       >
         <div className='mb-6 flex items-center gap-2 px-2'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-accent font-display text-sm font-black text-ink-900'>CS</div>
+          <img src={brandMark} alt='CS2 Dynasty' width={36} height={36} className='h-9 w-9 shrink-0 select-none' draggable={false} />
           <div>
-            <div className='font-display text-[15px] font-black tracking-[0.18em] text-txt'>DYNASTY</div>
+            <div className='font-display text-[15px] font-semibold tracking-[0.12em] text-txt'>DYNASTY</div>
             <div className='text-[10px] tracking-[0.14em] text-txt-muted/70'>CS2 Manager</div>
           </div>
           <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
