@@ -152,7 +152,7 @@ export function DashboardPage() {
                         <div key={bar.key} className='flex items-center gap-1.5'>
                           <span className='w-[62px] shrink-0 text-[11px] text-txt-muted'>{tr(bar.label)}</span>
                           <span className='h-1 flex-1 overflow-hidden rounded-full bg-white/10'>
-                            <span className='block h-full rounded-full bg-white/25' style={{ width: Math.min(100, attrs[bar.key] / 1.2) + '%' }} />
+                            <span className='block h-full rounded-full bg-white/30' style={{ width: Math.min(100, attrs[bar.key] / 1.2) + '%' }} />
                           </span>
                           <span className={'w-5 shrink-0 text-right text-[11px] ' + (attrs[bar.key] >= 85 ? 'font-semibold text-accent' : 'text-txt-muted')}>{attrs[bar.key]}</span>
                         </div>
@@ -327,14 +327,22 @@ export function DashboardPage() {
             {form.length === 0 ? (
               <p className='text-[13px] text-txt-muted'>{tr('打几场之后这里会显示走势。')}</p>
             ) : (
-              <div className='flex h-24 items-end gap-1.5'>
-                {form.map((m) => (
-                  <div key={m.id} className='flex flex-1 flex-col items-center gap-1'>
-                    <div className={clsx('w-full rounded-t', m.won ? 'bg-emerald-400/70' : 'bg-danger/70')} style={{ height: Math.max(8, m.scoreFor * 5) + 'px' }} />
-                    <span className='text-[11px] text-txt-muted'>{m.scoreFor}</span>
-                  </div>
-                ))}
-              </div>
+              <div className='space-y-2'>
+  <svg viewBox='0 0 240 56' className='h-16 w-full'>
+    <line x1='0' y1='42' x2='240' y2='42' stroke='rgba(255,255,255,0.10)' strokeWidth='1' />
+    <polyline fill='none' stroke='#F5A623' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'
+      points={form.map((m, i) => (i * (240 / Math.max(1, form.length - 1))) + ',' + (42 - (m.scoreFor / 16) * 34)).join(' ')} />
+    {form.map((m, i) => (
+      <circle key={m.id} cx={i * (240 / Math.max(1, form.length - 1))} cy={42 - (m.scoreFor / 16) * 34}
+        r={m.won ? 2.6 : 2} fill={m.won ? '#F5A623' : 'rgba(255,255,255,0.35)'} />
+    ))}
+  </svg>
+  <div className='flex justify-between text-[11px] tabular-nums text-txt-muted'>
+    <span>{form[0]?.scoreFor ?? 0}</span>
+    <span>{tr('最近 8 场的比分')}</span>
+    <span>{form[form.length - 1]?.scoreFor ?? 0}</span>
+  </div>
+</div>
             )}
             <div className='mt-3 grid grid-cols-2 gap-2 text-[12px] text-txt-muted'>
               <div className='rounded-lg bg-white/[0.03] px-2 py-1.5'>{tr('进攻')} <span className='font-display text-[15px] font-semibold text-txt'>{breakdown.attack}</span></div>

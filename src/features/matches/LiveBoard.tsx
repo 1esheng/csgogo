@@ -38,7 +38,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
             <div className='label-xs'>{tr('我方')}</div>
             <div
               className={clsx(
-                'truncate font-display text-lg font-semibold leading-tight',
+                'truncate font-display text-xl font-medium leading-tight',
                 winner === 'A' ? 'text-accent' : 'text-txt',
               )}
             >
@@ -51,7 +51,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
           </div>
 
           <div className='text-center'>
-            <div className='font-display text-4xl font-semibold leading-none tracking-tight'>
+            <div className='font-display text-5xl font-medium leading-none tracking-tight tabular-nums'>
               <span className={winner === 'A' ? 'text-accent' : 'text-txt'}>{teamA.score}</span>
               <span className='mx-1.5 text-txt-muted'>:</span>
               <span className={winner === 'B' ? 'text-danger' : 'text-txt'}>{teamB.score}</span>
@@ -70,7 +70,7 @@ export function LiveBoard({ match }: { match: MatchState }) {
             <div className='label-xs'>{tr('对手')}</div>
             <div
               className={clsx(
-                'truncate font-display text-lg font-semibold leading-tight',
+                'truncate font-display text-xl font-medium leading-tight',
                 winner === 'B' ? 'text-danger' : 'text-txt',
               )}
             >
