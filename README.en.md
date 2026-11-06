@@ -12,13 +12,14 @@
 Collect cards, build a five-man lineup, hire a head coach, call tactics round by round — climb from the Open Qualifier to the MAJOR
 
 [![Tests](https://img.shields.io/badge/tests-80%20passed-2ea44f?style=flat-square)](#-testing)
+[![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.3.1-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
+[![Version](https://img.shields.io/badge/version-v1.3.6-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
 [![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
 
-🌐 **[Play online](https://1esheng.github.io/csgogo/)** · ⬇️ **[Download exe](https://github.com/1esheng/csgogo/releases/download/v1.3.1/CS2Dynasty.exe)** · 📖 **[中文说明](README.md)** · 🗂 **[Project layout](#-project-layout)** · 🐛 **[Report an issue](https://github.com/1esheng/csgogo/issues)**
+🌐 **[Play online](https://1esheng.github.io/csgogo/)** · ⬇️ **[Download exe](https://github.com/1esheng/csgogo/releases/download/v1.3.6/CS2Dynasty.exe)** · 📖 **[中文说明](README.md)** · 🗂 **[Project layout](#-project-layout)** · 🐛 **[Report an issue](https://github.com/1esheng/csgogo/issues)**
 
 </div>
 
@@ -26,6 +27,8 @@ Collect cards, build a five-man lineup, hire a head coach, call tactics round by
 
 ## ✨ Features
 
+- 📲 **Installable PWA** — add the web build to your desktop and it runs in its own window
+- ✅ **CI pipeline** — every push runs type check, 80 tests and a production build (badge above)
 - 🃏 **305 player cards** — five rarities (UR 11 / SSR 17 / SR 45 / R 90 / N 142), ordered strictly by overall rating
 - 🎯 **Explainable ratings** — OVR = 62% individual + 20% role proficiency + 18% team, with a full breakdown panel
 - ⭐ **Level cap 30, no star cap** — three duplicates give one star; each star adds +3 to every attribute and +10 mastery
