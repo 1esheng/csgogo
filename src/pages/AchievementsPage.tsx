@@ -5,6 +5,8 @@ import { useT } from '@/hooks/useLang';
 import { ACHIEVEMENTS, ACHIEVEMENT_CATEGORIES, type AchievementCategory } from '@/data/achievements';
 import { Badge, Button, Panel, Progress, SectionTitle, StatTile, Tabs } from '@/components/ui';
 import { trP3 } from '@/i18n/areas/pillar3';
+import { trTrainingExt } from '@/i18n/areas/training-ext';
+import { milestoneRows } from '@/game/milestones';
 import { MilestonePanel } from '@/features/career/MilestonePanel';
 import { HallOfFame } from '@/features/career/HallOfFame';
 import { AlbumPanel } from '@/features/collection/AlbumPanel';
@@ -18,6 +20,7 @@ export function AchievementsPage() {
   const snapshotOf = useGameStore((s) => s.snapshot);
   const claimed = useGameStore((s) => s.claimedAchievements);
   const claim = useGameStore((s) => s.claimAchievement);
+  const claimMilestone = useGameStore((s) => s.claimMilestone);
   const toast = useGameStore((s) => s.toast);
   const snap = snapshotOf();
   const [tab, setTab] = useState<PageTab>('achievements');
@@ -45,6 +48,37 @@ export function AchievementsPage() {
   const totalReward = rows.filter((r) => r.isClaimed).reduce((s, r) => s + r.reward, 0);
   const pendingReward = rows.filter((r) => r.done && !r.isClaimed).reduce((s, r) => s + r.reward, 0);
 
+  /** 里程碑奖励同样走 store.claimMilestone，不直接改存档。 */
+  const claimableMilestones = useMemo(
+    () => milestoneRows(snap, claimed).filter((row) => row.done && !row.claimed),
+    [snap, claimed],
+  );
+  const batchCount = claimable + claimableMilestones.length;
+  const batchReward = pendingReward + claimableMilestones.reduce((sum, row) => sum + row.milestone.reward, 0);
+
+  /** 一键领取：逐个调用 claimAchievement / claimMilestone，金币由 store 累加。 */
+  function claimAll() {
+    let count = 0;
+    let coinsGained = 0;
+    rows.filter((row) => row.done && !row.isClaimed).forEach((row) => {
+      const result = claim(row.id);
+      if (!result.ok) return;
+      count += 1;
+      coinsGained += row.reward;
+    });
+    claimableMilestones.forEach((row) => {
+      const result = claimMilestone(row.milestone.id);
+      if (!result.ok) return;
+      count += 1;
+      coinsGained += row.milestone.reward;
+    });
+    if (count === 0) {
+      toast(trTrainingExt('没有可领取项'), 'info');
+      return;
+    }
+    toast(trTrainingExt('领取 ') + count + trTrainingExt(' 项，共 ') + coinsGained.toLocaleString() + trTrainingExt(' 金币'), 'success');
+  }
+
   const tabs: { id: PageTab; label: string }[] = [
     { id: 'achievements', label: trP3('成就') },
     { id: 'milestones', label: trP3('里程碑') },
@@ -62,7 +96,15 @@ export function AchievementsPage() {
       <SectionTitle
         title={t('page.achievements.title')}
         subtitle={tr('共 ') + rows.length + tr(' 个里程碑 · 已领取 ') + claimedCount + tr(' 个')}
-        right={<Badge tone={claimable > 0 ? 'accent' : 'muted'}>{claimable > 0 ? claimable + tr(' 个可领取') : tr('暂无待领取')}</Badge>}
+        right={(
+          <div className='flex flex-wrap items-center gap-2'>
+            <Badge tone={claimable > 0 ? 'accent' : 'muted'}>{claimable > 0 ? claimable + tr(' 个可领取') : tr('暂无待领取')}</Badge>
+            <Button size='sm' disabled={batchCount === 0} onClick={claimAll}>
+              <CheckCircle2 size={13} /> {trTrainingExt('一键领取全部')}
+            </Button>
+            {batchCount === 0 ? <span className='text-[12px] text-txt-muted'>{trTrainingExt('没有可领取项')}</span> : null}
+          </div>
+        )}
       />
 
       <Tabs tabs={tabs} active={tab} onChange={(id) => setTab(id as PageTab)} label={trP3('长期目标')} />

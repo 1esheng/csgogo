@@ -16,6 +16,7 @@ import { PHRASES as fixTraining } from '@/i18n/areas/fix';
 import { PHRASES as cheats } from '@/i18n/areas/cheats';
 import { PHRASES as scoutArea } from '@/i18n/areas/scout';
 import { PHRASES as pillar4Area } from '@/i18n/areas/pillar4';
+import { PHRASES as trainingExt } from '@/i18n/areas/training-ext';
 import { PHRASES as pillar3Area } from '@/i18n/areas/pillar3';
 import { PHRASES as reportArea } from '@/i18n/areas/report';
 import { PHRASES as vetoArea } from '@/i18n/areas/veto';
@@ -490,6 +491,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...cheats,
   ...scoutArea,
   ...pillar4Area,
+  ...trainingExt,
   ...pillar3Area,
   ...reportArea,
   ...vetoArea,

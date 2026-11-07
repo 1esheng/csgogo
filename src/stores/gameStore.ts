@@ -332,6 +332,14 @@ export interface GameStore {
   trainPlayer: (templateId: string, drillId: string) => { ok: boolean; error?: string; copies?: number };
   /** 一键训练当前首发五人（同名卡一起升级，按人数扣费）。 */
   trainSquad: (drillId: string) => { ok: boolean; error?: string; trained?: number; spent?: number };
+  /**
+   * 一键升满：按 ECONOMY.levelUpCoins 的等级单价逐级扣费，每名选手各自受 budget 限制。
+   * 不改经验曲线、不打折，总花费也不会超过当前金币。
+   */
+  levelUpCards: (targets: { templateId: string; budget: number }[]) => {
+    ok: boolean; error?: string; spent?: number; upgraded?: number;
+    results?: { templateId: string; from: number; to: number; levels: number; spent: number }[];
+  };
   claimTaskReward: (taskId: string) => void;
 
   scoutProspect: () => { ok: boolean; error?: string };
@@ -805,6 +813,43 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().toast(`整队训练完成：${trained} 名首发训练到位，共花费 ${spent.toLocaleString()} 金币。`, 'success');
     void writeSave(get().snapshot());
     return { ok: true, trained, spent };
+  },
+  levelUpCards: (targets) => {
+    const s = get();
+    const price = ECONOMY.levelUpCoins;
+    if (targets.length === 0) return { ok: false, error: '没有可以升满的选手。' };
+    let coins = s.club.coins;
+    let cards = s.cards;
+    let spent = 0;
+    const results: { templateId: string; from: number; to: number; levels: number; spent: number }[] = [];
+    targets.forEach(({ templateId, budget }) => {
+      const owned = cards.filter((c) => c.templateId === templateId);
+      if (owned.length === 0) return;
+      const best = owned.reduce((a, b) => (b.level > a.level || (b.level === a.level && b.xp > a.xp) ? b : a));
+      const cap = Math.min(budget, coins);
+      let level = best.level;
+      let xp = best.xp;
+      let used = 0;
+      while (level < LEVEL_CONFIG.maxLevel && used + price <= cap) {
+        used += price;
+        xp = Math.max(xp, LEVEL_CONFIG.xpTable[level]);
+        level += 1;
+      }
+      if (used === 0) return;
+      cards = cards.map((c) => (c.templateId === templateId ? recomputeLevel({ ...c, xp: Math.max(c.xp, xp) }) : c));
+      coins -= used;
+      spent += used;
+      results.push({ templateId, from: best.level, to: level, levels: level - best.level, spent: used });
+    });
+    if (results.length === 0) return { ok: false, error: '金币不足，一名选手都没能升级。' };
+    const levels = results.reduce((sum, r) => sum + r.levels, 0);
+    set({
+      cards,
+      club: { ...s.club, coins },
+      coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: -spent, reason: `升满：${results.length} 名选手 +${levels} 级`, at: Date.now() }]),
+    });
+    void writeSave(get().snapshot());
+    return { ok: true, spent, upgraded: results.length, results };
   },
   trainPlayer: (templateId: string, drillId: string) => {
     const s = get();

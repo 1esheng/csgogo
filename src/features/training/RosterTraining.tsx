@@ -3,13 +3,14 @@ import { useT } from '@/hooks/useLang';
 import { levelText } from '@/i18n';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { Sparkles } from 'lucide-react';
+import { ChevronsUp, Sparkles } from 'lucide-react';
 import type { CardTemplate, CombatRole, OwnedCard } from '@/types';
 import { ATTRIBUTE_LABEL, COMBAT_ROLES, ROLE_LABEL } from '@/types';
 import { useGameStore } from '@/stores/gameStore';
 import { Badge, Button, EmptyState, Input, Modal, Panel, Progress, SectionTitle } from '@/components/ui';
 import { PlayerCard } from '@/components/PlayerCard';
-import { LEVEL_CONFIG, RARITY_TABLE, TRAINING_DRILLS } from '@/data/config';
+import { ECONOMY, LEVEL_CONFIG, RARITY_TABLE, TRAINING_DRILLS } from '@/data/config';
+import { trTrainingExt } from '@/i18n/areas/training-ext';
 import { cardOVR, xpProgress } from '@/engine/rating';
 import { GrowthPreview } from '@/features/training/GrowthPreview';
 import { TrainingLog } from '@/features/training/TrainingLog';
@@ -94,6 +95,97 @@ export function planSquadTraining({
   };
 }
 
+export interface LevelUpPlan {
+  /** 逐级升级单价：沿用 ECONOMY.levelUpCoins，不打折。 */
+  perLevel: number;
+  /** 距离满级还差的级数。 */
+  steps: number;
+  /** 从当前等级升满需要的金币。 */
+  fullCost: number;
+  /** 本次点击实际会扣掉的金币（受预算限制）。 */
+  cost: number;
+  /** 本次能升到的等级。 */
+  targetLevel: number;
+}
+
+/**
+ * 单名选手升满的费用/等级预览：单价取 ECONOMY.levelUpCoins，逐级累加，不打折。
+ * 金币不够就停在能到的等级，与 store.levelUpCards 同一口径。
+ */
+export function planLevelUp(level: number, budget: number, perLevel: number = ECONOMY.levelUpCoins): LevelUpPlan {
+  const price = Math.max(1, perLevel);
+  const remain = Math.max(0, LEVEL_CONFIG.maxLevel - level);
+  const steps = Math.min(remain, Math.floor(Math.max(0, budget) / price));
+  return {
+    perLevel: price,
+    steps,
+    fullCost: remain * price,
+    cost: steps * price,
+    targetLevel: level + steps,
+  };
+}
+
+export interface SquadLevelUpEntry {
+  templateId: string;
+  level: number;
+  targetLevel: number;
+  cost: number;
+}
+
+export interface SquadLevelUpPlan {
+  perLevel: number;
+  /** 可升级的首发人数（同名卡去重、已满级的不算）。 */
+  members: number;
+  /** 每人预算 = floor(当前金币 / 人数)。 */
+  budget: number;
+  /** 预计总花费。 */
+  cost: number;
+  /** 预计会升级的人数。 */
+  upgraded: number;
+  entries: SquadLevelUpEntry[];
+  mode: 'capped' | 'short' | 'ready';
+}
+
+/**
+ * 整队升满的预算预览：金币按可升级的首发人数平均分配（每人 floor(余额 / 人数)），
+ * 各自在自己预算内升到能到的最高等级；单价与 store.levelUpCards 一致，不打折。
+ */
+export function planSquadLevelUp({
+  cards, slots, coins, perLevel = ECONOMY.levelUpCoins,
+}: {
+  cards: OwnedCard[];
+  slots: Record<CombatRole, string | null>;
+  coins: number;
+  perLevel?: number;
+}): SquadLevelUpPlan {
+  const price = Math.max(1, perLevel);
+  const lineup = COMBAT_ROLES.map((role) => slots[role]).filter((id): id is string => Boolean(id));
+  const templateIds = Array.from(new Set(lineup
+    .map((id) => cards.find((c) => c.instanceId === id)?.templateId)
+    .filter((id): id is string => Boolean(id))));
+  const upgradable = templateIds.filter((templateId) => {
+    const owned = cards.filter((c) => c.templateId === templateId);
+    if (owned.length === 0) return false;
+    return bestOwned(owned).level < LEVEL_CONFIG.maxLevel;
+  });
+  const members = upgradable.length;
+  const budget = members === 0 ? 0 : Math.floor(Math.max(0, coins) / members);
+  const entries = upgradable.map((templateId) => {
+    const from = bestOwned(cards.filter((c) => c.templateId === templateId)).level;
+    const plan = planLevelUp(from, budget, price);
+    return { templateId, level: from, targetLevel: plan.targetLevel, cost: plan.cost };
+  });
+  return {
+    perLevel: price,
+    members,
+    budget,
+    cost: entries.reduce((sum, entry) => sum + entry.cost, 0),
+    upgraded: entries.filter((entry) => entry.cost > 0).length,
+    entries,
+    mode: members === 0 ? 'capped' : budget < price ? 'short' : 'ready',
+  };
+}
+
 function EntryRow({
   entry, selected, onSelect,
 }: { entry: TrainerEntry; selected: boolean; onSelect: () => void }) {
@@ -157,6 +249,7 @@ export function RosterTraining() {
   const coins = useGameStore((s) => s.club.coins);
   const trainPlayer = useGameStore((s) => s.trainPlayer);
   const trainSquad = useGameStore((s) => s.trainSquad);
+  const levelUpCards = useGameStore((s) => s.levelUpCards);
   const celebrate = useGameStore((s) => s.celebrate);
   const squadSlots = useGameStore((s) => s.squad.slots);
   const toast = useGameStore((s) => s.toast);
@@ -169,6 +262,10 @@ export function RosterTraining() {
   const [pickerQuery, setPickerQuery] = useState('');
   /** 上一次整队训练的实付结果：人数与金额都取自 store 的返回值。 */
   const [squadResult, setSquadResult] = useState<{ trained: number; spent: number; members: number } | null>(null);
+  /** 上一次「升满当前选手」的真实结果：等级、实付与距离满级的差额。 */
+  const [levelResult, setLevelResult] = useState<{ to: number; spent: number; shortfall: number } | null>(null);
+  /** 上一次「升满全队」的真实结果：人数、最高等级与实付。 */
+  const [squadLevelResult, setSquadLevelResult] = useState<{ upgraded: number; top: number; spent: number } | null>(null);
 
   const allEntries = useMemo<TrainerEntry[]>(() => {
     const templateMap = templates();
@@ -208,6 +305,10 @@ export function RosterTraining() {
   const squadPlan = useMemo(
     () => planSquadTraining({ cards, templates: templates(), slots: squadSlots, drillId: squadDrill, coins }),
     [cards, templates, customTemplates, squadSlots, squadDrill, coins],
+  );
+  const squadLevelPlan = useMemo(
+    () => planSquadLevelUp({ cards, slots: squadSlots, coins }),
+    [cards, squadSlots, coins],
   );
 
   // ── 以下所有 Hook 都已执行完毕，条件 return 不会再打乱 Hook 顺序 ──
@@ -261,6 +362,48 @@ export function RosterTraining() {
     : squadPlan.mode === 'short'
       ? 'border-danger/30 bg-danger/10 text-danger'
       : 'border-white/10 bg-ink-900/50 text-txt-muted';
+  // —— 一键升满：单价取 ECONOMY.levelUpCoins，逐级累加，不动经验曲线 ——
+  const levelPlan = planLevelUp(selected.card.level, coins);
+  const levelCap = LEVEL_CONFIG.maxLevel;
+  const levelAtCap = selected.card.level >= levelCap;
+  const levelSoldOut = !levelAtCap && coins < levelPlan.perLevel;
+  const levelLocked = levelAtCap || levelPlan.cost === 0;
+  const levelLabel = levelAtCap
+    ? trTrainingExt('一键升满当前选手') + trTrainingExt('（已满级）')
+    : levelSoldOut
+      ? trTrainingExt('一键升满当前选手') + trTrainingExt('（预算不足）')
+      : trTrainingExt('一键升满当前选手') + trTrainingExt('（') + levelPlan.fullCost.toLocaleString() + trTrainingExt(' 金币）');
+  const levelStatus = levelAtCap
+    ? trTrainingExt('该选手已满级，不需要再升级。')
+    : levelSoldOut
+      ? trTrainingExt('预算不足：升级单价 ') + levelPlan.perLevel + trTrainingExt(' 金币，当前金币 ') + coins.toLocaleString() + trTrainingExt('。')
+      : levelPlan.targetLevel >= levelCap
+        ? trTrainingExt('升满到 ') + levelCap + trTrainingExt(' 级，共 ') + levelPlan.fullCost.toLocaleString() + trTrainingExt(' 金币。')
+        : trTrainingExt('金币不足，本次能升到 ') + levelPlan.targetLevel + trTrainingExt(' 级，花费 ') + levelPlan.cost.toLocaleString()
+          + trTrainingExt(' 金币（还差 ') + (levelPlan.fullCost - coins).toLocaleString() + trTrainingExt(' 金币可满级）。');
+  const squadLevelLocked = squadLevelPlan.members === 0 || squadLevelPlan.budget < squadLevelPlan.perLevel;
+  const squadLevelLabel = squadLevelPlan.members === 0
+    ? trTrainingExt('一键升满全队') + trTrainingExt('（已满级）')
+    : squadLevelPlan.budget < squadLevelPlan.perLevel
+      ? trTrainingExt('一键升满全队') + trTrainingExt('（预算不足）')
+      : trTrainingExt('一键升满全队') + trTrainingExt('（') + squadLevelPlan.budget.toLocaleString() + trTrainingExt(' 金币）');
+  const squadLevelStatus = squadLevelPlan.members === 0
+    ? trTrainingExt('首发的选手都已满级，不需要再升级。')
+    : squadLevelPlan.mode === 'short'
+      ? trTrainingExt('预算不足：') + squadLevelPlan.members + trTrainingExt(' 人分 ') + coins.toLocaleString() + trTrainingExt(' 金币，每人 ')
+        + squadLevelPlan.budget.toLocaleString() + trTrainingExt(' 金币，低于升级单价 ') + squadLevelPlan.perLevel + trTrainingExt(' 金币/级。')
+      : trTrainingExt('每人预算 ') + squadLevelPlan.budget.toLocaleString() + trTrainingExt(' 金币：预计 ') + squadLevelPlan.upgraded
+        + trTrainingExt(' 人升级，共 ') + squadLevelPlan.cost.toLocaleString() + trTrainingExt(' 金币。');
+  const levelResultText = levelResult === null
+    ? ''
+    : levelResult.shortfall > 0
+      ? trTrainingExt('升到 ') + levelResult.to + trTrainingExt(' 级，花费 ') + levelResult.spent.toLocaleString()
+        + trTrainingExt(' 金币，还差 ') + levelResult.shortfall.toLocaleString() + trTrainingExt(' 金币可满级')
+      : trTrainingExt('已升到 ') + levelResult.to + trTrainingExt(' 级（满级），花费 ') + levelResult.spent.toLocaleString() + trTrainingExt(' 金币');
+  const squadLevelResultText = squadLevelResult === null
+    ? ''
+    : trTrainingExt('上次整队升满：') + squadLevelResult.upgraded + trTrainingExt(' 人升级，最高 ') + squadLevelResult.top
+      + trTrainingExt(' 级，实付 ') + squadLevelResult.spent.toLocaleString() + trTrainingExt(' 金币');
 
   function runDrill(drillId: string) {
     if (!selected) return;
@@ -285,6 +428,49 @@ export function RosterTraining() {
       return;
     }
     setSquadResult({ trained: result.trained ?? 0, spent: result.spent ?? 0, members: planned });
+  }
+
+  function runLevelUpCurrent() {
+    if (!selected) return;
+    const plan = planLevelUp(selected.card.level, coins);
+    const result = levelUpCards([{ templateId: selected.template.id, budget: coins }]);
+    if (!result.ok) {
+      if (result.error) toast(result.error, 'error');
+      return;
+    }
+    const row = result.results ? result.results[0] : undefined;
+    if (!row) return;
+    const left = useGameStore.getState().club.coins;
+    const shortfall = Math.max(0, (levelCap - row.to) * plan.perLevel - left);
+    const nickname = selected.nickname;
+    setLevelResult({ to: row.to, spent: row.spent, shortfall });
+    toast(shortfall > 0
+      ? trTrainingExt('升到 ') + row.to + trTrainingExt(' 级，花费 ') + row.spent.toLocaleString()
+        + trTrainingExt(' 金币，还差 ') + shortfall.toLocaleString() + trTrainingExt(' 金币可满级')
+      : trTrainingExt('已升到 ') + row.to + trTrainingExt(' 级（满级），花费 ') + row.spent.toLocaleString() + trTrainingExt(' 金币'), 'success');
+    if (row.levels > 0) {
+      celebrate({
+        title: nickname + pick(' 升到 ', ' reached ') + levelText(row.to),
+        subtitle: pick('全属性成长 +', 'All attributes +') + row.levels * LEVEL_CONFIG.growthPointsPerLevel + pick(' 点', ' pts'),
+        tone: 'level',
+      });
+    }
+  }
+
+  function runLevelUpSquad() {
+    const plan = squadLevelPlan;
+    if (plan.members === 0) return;
+    const result = levelUpCards(plan.entries.map((entry) => ({ templateId: entry.templateId, budget: plan.budget })));
+    if (!result.ok) {
+      if (result.error) toast(result.error, 'error');
+      return;
+    }
+    const rows = result.results ?? [];
+    const top = rows.reduce((max, row) => Math.max(max, row.to), 0);
+    const spent = result.spent ?? 0;
+    setSquadLevelResult({ upgraded: rows.length, top, spent });
+    toast(trTrainingExt('一键升满全队：') + rows.length + trTrainingExt(' 人升级，最高 ') + top
+      + trTrainingExt(' 级，实付 ') + spent.toLocaleString() + trTrainingExt(' 金币'), 'success');
   }
 
   function openPicker() {
@@ -394,6 +580,12 @@ export function RosterTraining() {
                   >
                     <Sparkles size={13} /> {squadLabel}
                   </Button>
+                  <Button size='sm' variant='outline' disabled={levelLocked} onClick={runLevelUpCurrent}>
+                    <ChevronsUp size={13} /> {levelLabel}
+                  </Button>
+                  <Button size='sm' variant='outline' disabled={squadLevelLocked} onClick={runLevelUpSquad}>
+                    <ChevronsUp size={13} /> {squadLevelLabel}
+                  </Button>
                 </div>
                 <p className={clsx('rounded-lg border px-2 py-1.5 text-[12px]', squadStatusTone)}>{squadStatus}</p>
                 {squadResult ? (
@@ -401,6 +593,26 @@ export function RosterTraining() {
                     {tr('上次整队训练：')}{squadResult.trained} / {squadResult.members}{tr(' 人 · 实付 ')}
                     {squadResult.spent.toLocaleString()}{tr(' 金币')}
                   </p>
+                ) : null}
+                <p className={clsx(
+                  'rounded-lg border px-2 py-1.5 text-[12px]',
+                  levelSoldOut ? 'border-danger/30 bg-danger/10 text-danger' : 'border-white/10 bg-ink-900/50 text-txt-muted',
+                )}
+                >
+                  {levelStatus}
+                </p>
+                <p className={clsx(
+                  'rounded-lg border px-2 py-1.5 text-[12px]',
+                  squadLevelPlan.mode === 'short' ? 'border-danger/30 bg-danger/10 text-danger' : 'border-white/10 bg-ink-900/50 text-txt-muted',
+                )}
+                >
+                  {squadLevelStatus}
+                </p>
+                {levelResult ? (
+                  <p className='rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5 text-[12px] text-emerald-300'>{levelResultText}</p>
+                ) : null}
+                {squadLevelResult ? (
+                  <p className='rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5 text-[12px] text-emerald-300'>{squadLevelResultText}</p>
                 ) : null}
               </div>
             )}
