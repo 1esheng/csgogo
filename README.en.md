@@ -10,7 +10,7 @@
 
 **A CS2 Esports Management Game** — build the starting five, call the tactics, and take your club to the MAJOR
 
-**🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [中文说明](README.md)
+**🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.2/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [中文说明](README.md)
 
 <sub>React 18 · TypeScript · Vite · fully offline · MIT</sub>
 
@@ -112,7 +112,7 @@
 | Option | Details |
 | --- | --- |
 | **Play in browser** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/), opens instantly, nothing to install |
-| **Windows single file** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe), 107 MB, double-click to play, no Node required |
+| **Windows single file** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.2/CS2Dynasty.exe), 107 MB, double-click to play, no Node required |
 | **Local development** | See the collapsible block below, requires Node.js 18+ |
 
 <details>
