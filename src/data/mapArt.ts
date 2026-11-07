@@ -5,6 +5,7 @@ import nuke from '@/assets/maps/nuke.png';
 import ancient from '@/assets/maps/ancient.png';
 import anubis from '@/assets/maps/anubis.png';
 import dust2 from '@/assets/maps/dust2.png';
+import train from '@/assets/maps/train.png';
 
 /** 地图缩略图（自绘抽象战术图，非真实地图）。缺图时回退 null，由调用方画占位。 */
 export const MAP_ART: Partial<Record<MapId, string>> = {
@@ -14,4 +15,5 @@ export const MAP_ART: Partial<Record<MapId, string>> = {
   Ancient: ancient,
   Anubis: anubis,
   Dust2: dust2,
+  Train: train,
 };

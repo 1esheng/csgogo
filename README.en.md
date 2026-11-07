@@ -18,12 +18,12 @@ Collect cards, build a five-man lineup, hire a head coach, call tactics round by
 [![Tests](https://img.shields.io/badge/tests-82%20passed-2ea44f?style=flat-square)](#-testing)
 [![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.4.6-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
+[![Version](https://img.shields.io/badge/version-v1.5.0-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
 [![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
 
-🌐 **[Play online](https://1esheng.github.io/csgogo/)** · ⬇️ **[Download exe](https://github.com/1esheng/csgogo/releases/download/v1.4.6/CS2Dynasty.exe)** · 📖 **[中文说明](README.md)** · 🗂 **[Project layout](#-project-layout)** · 🐛 **[Report an issue](https://github.com/1esheng/csgogo/issues)**
+🌐 **[Play online](https://1esheng.github.io/csgogo/)** · ⬇️ **[Download exe](https://github.com/1esheng/csgogo/releases/download/v1.5.0/CS2Dynasty.exe)** · 📖 **[中文说明](README.md)** · 🗂 **[Project layout](#-project-layout)** · 🐛 **[Report an issue](https://github.com/1esheng/csgogo/issues)**
 
 </div>
 
@@ -72,6 +72,14 @@ Collect cards, build a five-man lineup, hire a head coach, call tactics round by
 | Settings |
 | --- |
 | ![Settings](docs/screenshots/183-en-settings.png) |
+
+## 🗺 The seven maps
+
+> All drawn in-house as abstract tactical sketches — no real map layouts or vendor assets.
+
+| Mirage | Inferno | Nuke | Ancient | Anubis | Dust2 | Train |
+| --- | --- | --- | --- | --- | --- | --- |
+| <img src="./src/assets/maps/mirage.png" width="96" /> | <img src="./src/assets/maps/inferno.png" width="96" /> | <img src="./src/assets/maps/nuke.png" width="96" /> | <img src="./src/assets/maps/ancient.png" width="96" /> | <img src="./src/assets/maps/anubis.png" width="96" /> | <img src="./src/assets/maps/dust2.png" width="96" /> | <img src="./src/assets/maps/train.png" width="96" /> |
 
 ## 🚀 Quick start
 
