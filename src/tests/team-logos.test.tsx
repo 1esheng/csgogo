@@ -55,7 +55,7 @@ describe('TeamLogo', () => {
   });
 
   it('没有图时渲染首字母方标（ink-700 + white/10 + text-txt-muted），不借用别的队', () => {
-    const { container } = render(<TeamLogo teamId='player' name='我的俱乐部' />);
+    const { container } = render(<TeamLogo teamId='unlisted-xyz' name='我的俱乐部' />);
     expect(container.querySelector('img')).toBeNull();
     const badge = container.querySelector('[role="img"]');
     expect(badge).not.toBeNull();
@@ -105,5 +105,13 @@ describe('RankingsPage 队标接线', () => {
     expect(marks.length).toBe(snap.leaders.length);
     const realLogos = container.querySelectorAll('img[alt^="队标"]');
     expect(realLogos.length).toBeGreaterThan(0);
+  });
+});
+
+  it('玩家俱乐部使用本作品牌标志', () => {
+    const { container } = render(<TeamLogo teamId='player' name='Dynasty' />);
+    const img = container.querySelector('img');
+    expect(img).not.toBeNull();
+    expect(img!.getAttribute('alt')).toContain('Dynasty');
   });
 });
