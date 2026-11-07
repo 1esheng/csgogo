@@ -10,7 +10,7 @@
 
 **A CS2 Esports Management Game** — build the starting five, call the tactics, and take your club to the MAJOR
 
-**🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.5/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [中文说明](README.md)
+**🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; 📖 [中文说明](README.md)
 
 <sub>React 18 · TypeScript · Vite · fully offline · MIT</sub>
 
@@ -137,17 +137,6 @@ On Windows you can also double-click the batch files in the repository root:
 | `校准数值-预览.bat` | dry-run the stats calibrator from a local CSV and print the diff |
 | `校准数值-写入.bat` | apply the calibration, then run tests and build |
 
-The single-file exe is packaged with Node SEA: all frontend assets are embedded and served from memory.
-
-```bash
-npm run build
-node --experimental-sea-config tools/exe/sea-config.json
-cp "$(which node)" CS2Dynasty.exe
-npx postject CS2Dynasty.exe NODE_SEA_BLOB tools/exe/sea-prep.blob \
-  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
-node tools/exe/set-icon.mjs src/assets/brand/icon-dark.png CS2Dynasty.exe
-```
-
 </details>
 
 ## 🛠 Technical information
@@ -175,7 +164,7 @@ src/
   i18n/         tiny dictionary-based i18n (Chinese / English)
   stores/       Zustand state with IndexedDB persistence
   tests/        Vitest suites
-tools/exe/      Node SEA packaging, static server and icon injection
+
 docs/brand/     brand assets for light and dark themes
 docs/screenshots/ UI screenshots
 scripts/        local calibration (HLTV ratings / Valve ranking)
