@@ -8,11 +8,10 @@ import { trP3 } from '@/i18n/areas/pillar3';
 import { trTrainingExt } from '@/i18n/areas/training-ext';
 import { milestoneRows } from '@/game/milestones';
 import { MilestonePanel } from '@/features/career/MilestonePanel';
-import { HallOfFame } from '@/features/career/HallOfFame';
 import { AlbumPanel } from '@/features/collection/AlbumPanel';
 import { EndingBanner } from '@/features/career/EndingBanner';
 
-type PageTab = 'achievements' | 'milestones' | 'albums' | 'hall';
+type PageTab = 'achievements' | 'milestones' | 'albums';
 
 export function AchievementsPage() {
   const { tr, pick } = useT();
@@ -83,7 +82,6 @@ export function AchievementsPage() {
     { id: 'achievements', label: trP3('成就') },
     { id: 'milestones', label: trP3('里程碑') },
     { id: 'albums', label: trP3('收藏册') },
-    { id: 'hall', label: trP3('名人堂') },
   ];
 
   const chips: { id: AchievementCategory | 'all'; label: string }[] = [
@@ -198,7 +196,6 @@ export function AchievementsPage() {
 
       {tab === 'milestones' ? <MilestonePanel /> : null}
       {tab === 'albums' ? <AlbumPanel /> : null}
-      {tab === 'hall' ? <HallOfFame /> : null}
     </div>
   );
 }

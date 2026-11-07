@@ -106,7 +106,6 @@ describe('RankingsPage 队标接线', () => {
     const realLogos = container.querySelectorAll('img[alt^="队标"]');
     expect(realLogos.length).toBeGreaterThan(0);
   });
-});
 
   it('玩家俱乐部使用本作品牌标志', () => {
     const { container } = render(<TeamLogo teamId='player' name='Dynasty' />);
