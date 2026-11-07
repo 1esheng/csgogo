@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import { Crown } from 'lucide-react';
+import { Avatar } from '@/components/Avatar';
 import type { MapId, MatchEvent, MatchStatLine, MatchSummary, RoundRecord, Side } from '@/types';
 import { REASON_LABEL } from '@/data/config';
 import { MAPS } from '@/data/maps';
@@ -313,6 +314,7 @@ function StatTable({
               >
                 <td className='max-w-[180px] px-2 py-1.5'>
                   <span className='flex items-center gap-1.5'>
+                    <Avatar playerId={line.playerId} nickname={line.nickname} size={20} className='shrink-0' />
                     <span className={clsx('truncate font-semibold', accent ? 'text-txt' : 'text-txt-muted')}>{line.nickname}</span>
                     {mvpId !== null && line.cardInstanceId === mvpId ? <Crown size={12} className='shrink-0 text-accent' /> : null}
                   </span>
@@ -509,22 +511,27 @@ export function MatchStats({ summary, replay }: { summary: MatchSummary; replay:
           <>
             <div className='flex flex-wrap gap-1'>
               {progress.length > 0
-                ? progress.map((point) => (
+                ? progress.map((point, i) => {
+                  const prev = i === 0 ? { ours: 0, theirs: 0 } : progress[i - 1];
+                  const won = point.ours > prev.ours;
+                  const lost = point.theirs > prev.theirs;
+                  return (
                   <span
                     key={point.roundNumber}
                     className={clsx(
                       'rounded-md border px-1.5 py-0.5 font-mono text-[11px] tabular-nums',
-                      point.ours > point.theirs
-                        ? 'border-accent/40 bg-accent/15 text-accent'
-                        : point.ours < point.theirs
-                          ? 'border-danger/30 bg-danger/10 text-danger'
+                      won
+                        ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300'
+                        : lost
+                          ? 'border-danger/40 bg-danger/15 text-danger'
                           : 'border-white/10 text-txt-muted',
                     )}
                     title={'R' + point.roundNumber}
                   >
                     {point.ours}:{point.theirs}
                   </span>
-                ))
+                  );
+                })
                 : sideBoard.map((round) => (
                   <span key={round.roundNumber} className='rounded-md border border-white/10 px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-txt-muted' title={'R' + round.roundNumber}>
                     T {round.scoreT}:{round.scoreCT} CT
