@@ -20,14 +20,15 @@ export interface PlayerCardView {
   stars?: number;
 }
 
+/** Width is a ceiling, never a floor: max-w-full lets a 320px two-column grid shrink the card. */
 const SIZE = {
-  sm: { w: 'w-[152px]', pad: 'p-3', ovr: 'text-2xl', name: 'text-[15px]', avatar: 62, meta: 'text-[12px]' },
-  md: { w: 'w-[188px]', pad: 'p-3.5', ovr: 'text-3xl', name: 'text-[15px]', avatar: 76, meta: 'text-[12px]' },
-  lg: { w: 'w-[244px]', pad: 'p-4', ovr: 'text-4xl', name: 'text-lg', avatar: 92, meta: 'text-[13px]' },
+  sm: { w: 'w-[152px] max-w-full', pad: 'p-3', ovr: 'text-2xl', name: 'type-note', avatar: 60, meta: 'type-data' },
+  md: { w: 'w-[188px] max-w-full', pad: 'p-3.5', ovr: 'text-3xl', name: 'type-body', avatar: 72, meta: 'type-data' },
+  lg: { w: 'w-[244px] max-w-full', pad: 'p-4', ovr: 'text-4xl', name: 'type-title-sm', avatar: 88, meta: 'type-note' },
 };
 
 export function PlayerCard({
-  card, size = 'md', onClick, selected, className, cornerLabel, dimmed,
+  card, size = 'md', onClick, selected, className, cornerLabel, dimmed, starter,
 }: {
   card: PlayerCardView;
   size?: 'sm' | 'md' | 'lg';
@@ -36,6 +37,8 @@ export function PlayerCard({
   className?: string;
   cornerLabel?: string;
   dimmed?: boolean;
+  /** 首发阵容里的卡显示一个小徽标。 */
+  starter?: boolean;
 }) {
   const { tr, pick } = useT();
   const rarity = RARITY_TABLE[card.template.rarity as Rarity];
@@ -43,73 +46,78 @@ export function PlayerCard({
   const role: Role = card.template.primaryRole;
   const retired = playerRetired(card.template.playerId);
   const stars = card.stars ?? 1;
+  const skill = pick(card.template.skill.name, skillNameEn(card.template.skill));
   return (
     <button
       type='button'
       onClick={onClick}
+      title={card.nickname}
+      aria-pressed={selected === undefined ? undefined : Boolean(selected)}
       className={clsx(
-        'card-face card-sheen group relative flex flex-col gap-2 overflow-hidden rounded-2xl border text-left',
+        'card-face card-sheen focus-ring group relative flex flex-col gap-2 overflow-hidden rounded-xl border text-left',
         s.w, s.pad,
-        'border-white/10 bg-gradient-to-b from-ink-700 to-ink-900',
-        onClick && 'cursor-pointer hover:border-white/25',
-        selected && 'ring-2 ring-accent ring-offset-2 ring-offset-ink-900',
+        'border-white/10 bg-ink-800',
+        onClick && 'cursor-pointer hover:border-white/25 hover:bg-ink-700',
+        selected && 'border-accent/60 ring-1 ring-accent/50',
         dimmed && 'opacity-55 grayscale-[0.35]',
         className,
       )}
-      style={{ boxShadow: '0 14px 34px -18px ' + rarity.glow }}
     >
-      <div
-        className='pointer-events-none absolute inset-0'
-        style={{ background: 'radial-gradient(120% 70% at 50% -10%, ' + rarity.color + '55 0%, transparent 62%)', opacity: 0.55 }}
-      />
+      <span aria-hidden='true' className='absolute inset-x-0 top-0 h-0.5' style={{ backgroundColor: rarity.color }} />
 
-      <div className='relative flex items-start justify-between gap-2'>
-        <div className='flex min-w-0 flex-col'>
-          <span className='font-display text-[12px] font-semibold ' style={{ color: rarity.color }}>
-            {card.template.rarity}
-          </span>
-          <span className={clsx('truncate font-semibold tracking-wide text-txt-muted', s.meta)}>{tr(ROLE_LABEL[role])}</span>
-        </div>
-        <span className='shrink-0 rounded-md bg-black/45 px-1.5 py-0.5 text-[12px] font-semibold text-txt'>
-          {card.countryCode}
+      <div className='relative flex items-center justify-between gap-1.5'>
+        <span className='flex min-w-0 items-center gap-1.5'>
+          <span className='type-data shrink-0 font-semibold tracking-wide text-txt-muted'>{card.template.rarity}</span>
+          {starter ? (
+            <span className='type-data shrink-0 truncate rounded-[3px] border border-accent/30 px-1 font-semibold text-accent'>
+              {tr('首发中')}
+            </span>
+          ) : null}
         </span>
+        {card.countryCode ? (
+          <span className='type-data shrink-0 rounded-md border border-white/10 bg-ink-900/60 px-1.5 py-0.5 font-semibold text-txt-muted'>
+            {card.countryCode}
+          </span>
+        ) : null}
       </div>
 
-      <div className='relative flex items-center justify-center rounded-xl py-1'>
-        <div
-          className='absolute inset-0 rounded-xl opacity-70'
-          style={{ background: 'linear-gradient(160deg, ' + rarity.color + '33, transparent 70%)' }}
-        />
-        <Avatar playerId={card.template.playerId} nickname={card.nickname} size={s.avatar} accent={rarity.color} className='relative' />
+      <div className='relative flex items-center justify-center'>
+        <Avatar playerId={card.template.playerId} nickname={card.nickname} size={s.avatar} accent={rarity.color} />
       </div>
 
       <div className='relative flex items-end justify-between gap-2'>
-        <div className='min-w-0'>
-          <div className={clsx('truncate font-display font-semibold tracking-wide text-txt', s.name)}>{card.nickname}</div>
-          <div className={clsx('truncate tracking-wider text-txt-muted', s.meta)}>
-            {card.template.season} {retired ? tr('生涯终章') : tr('赛季')}
+        <div className='min-w-0 flex-1'>
+          <div className={clsx('truncate font-display font-semibold tracking-wide text-txt', s.name)} title={card.nickname}>
+            {card.nickname}
+          </div>
+          <div className={clsx('flex min-w-0 items-baseline gap-1 text-txt-muted', s.meta)}>
+            <span className='truncate'>{tr(ROLE_LABEL[role])}</span>
+            <span aria-hidden='true' className='shrink-0 text-white/20'>·</span>
+            <span className='truncate'>{card.template.season} {retired ? tr('生涯终章') : tr('赛季')}</span>
           </div>
         </div>
         <div className='shrink-0 text-right'>
-          <div className={clsx('font-display font-semibold leading-none', s.ovr)} style={{ color: rarity.color }}>{card.ovr}</div>
-          <div className='text-[12px] font-semibold text-txt-muted'>{tr('综合')}</div>
+          <div className={clsx('font-display font-semibold leading-none tabular-nums text-txt', s.ovr)}>{card.ovr}</div>
+          <div className='type-data mt-1 text-txt-muted'>{tr('综合')}</div>
         </div>
       </div>
 
-      <div className={clsx('relative flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-t border-white/10 pt-2 text-txt-muted', s.meta)}>
-        <span className='inline-flex min-w-0 items-center gap-1 font-semibold'>
-          <Sparkles size={12} className='shrink-0 text-accent' />
-          <span className='truncate'>{pick(card.template.skill.name, skillNameEn(card.template.skill))}</span>
+      <div className={clsx('relative flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-t border-white/[0.08] pt-2 text-txt-muted', s.meta)}>
+        <span className='inline-flex min-w-0 flex-1 items-center gap-1 font-medium'>
+          <Sparkles size={12} className='shrink-0 text-txt-muted' aria-hidden='true' />
+          <span className='truncate' title={skill}>{skill}</span>
         </span>
-        <span className='inline-flex shrink-0 items-center gap-1 font-semibold'>
-          <Star size={12} className='text-accent' />
+        <span className='inline-flex shrink-0 items-center gap-1 font-semibold tabular-nums'>
+          <Star size={12} className='shrink-0 text-accent' aria-hidden='true' />
           <span className='whitespace-nowrap'>{card.level} {tr('级')}</span>
-          {stars > 1 ? <span className='rounded bg-accent/15 px-1 font-semibold text-accent'>{stars}★</span> : null}
+          {stars > 1 ? (
+            <span className='whitespace-nowrap rounded-[3px] border border-white/10 px-1 text-accent/90'>{stars}★</span>
+          ) : null}
         </span>
       </div>
 
       {cornerLabel ? (
-        <span className='absolute right-2 top-2 rounded bg-black/70 px-1.5 py-0.5 text-[12px] font-semibold text-accent'>
+        <span className='type-data absolute right-1.5 top-1.5 max-w-[calc(100%_-_0.75rem)] truncate rounded-md border border-white/10 bg-ink-900/85 px-1.5 py-0.5 font-semibold text-txt'>
           {cornerLabel}
         </span>
       ) : null}

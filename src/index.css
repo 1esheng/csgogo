@@ -19,6 +19,20 @@
   --ink-600: #252e3d;
   --ink-500: #35404f;
 
+  /* Type scale: six steps, so no component has to hardcode a px size.
+     Body 14 / note 13 / compact data 12; headings 18 / 20; page title 24. */
+  --text-page: 24px;
+  --text-title: 20px;
+  --text-title-sm: 18px;
+  --text-body: 14px;
+  --text-note: 13px;
+  --text-data: 12px;
+  --line-title: 1.25;
+  --line-body: 1.55;
+
+  /* Small 12px labels earn legibility from one extra step of light, never from weight. */
+  --txt-muted-strong: #adb4c0;
+
   --scroll-track: var(--ink-900);
   --scroll-thumb: var(--ink-600);
   --scroll-thumb-hover: var(--ink-500);
@@ -44,8 +58,37 @@ body {
   .surface-raised {
     @apply rounded-xl border border-white/[0.09] bg-ink-700;
   }
+  /* Type steps as classes: components reference a step instead of a raw px value.
+     Utilities still win over these, so a single call site can override deliberately. */
+  .type-page-title {
+    font-size: var(--text-page);
+    line-height: var(--line-title);
+  }
+  .type-title {
+    font-size: var(--text-title);
+    line-height: var(--line-title);
+  }
+  .type-title-sm {
+    font-size: var(--text-title-sm);
+    line-height: var(--line-title);
+  }
+  .type-body {
+    font-size: var(--text-body);
+    line-height: var(--line-body);
+  }
+  .type-note {
+    font-size: var(--text-note);
+    line-height: var(--line-body);
+  }
+  .type-data {
+    font-size: var(--text-data);
+    line-height: var(--line-title);
+  }
   .label-xs {
-    @apply text-[12px] font-medium tracking-normal text-txt-muted;
+    @apply font-medium tracking-normal;
+    font-size: var(--text-data);
+    line-height: var(--line-title);
+    color: var(--txt-muted-strong);
   }
   .stat-number {
     @apply font-display text-3xl font-medium leading-none tracking-tight tabular-nums;
