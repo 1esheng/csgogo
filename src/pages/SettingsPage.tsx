@@ -11,6 +11,7 @@ import { CLUB_BADGES, CLUB_COLORS, CLUB_PRICES, badgeIcon } from "@/data/clubCos
 import { ToggleRow } from '@/features/career/ToggleRow';
 import { SaveTools } from '@/features/career/SaveTools';
 import { DevPanel } from '@/features/career/DevPanel';
+import { CheatPanel } from '@/features/cheats/CheatPanel';
 
 const SPEEDS: (1 | 2 | 4)[] = [1, 2, 4];
 
@@ -296,6 +297,8 @@ export function SettingsPage() {
           </div>
         )}
       </Panel>
+
+      <CheatPanel />
     </div>
   );
 }

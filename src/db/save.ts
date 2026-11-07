@@ -1,6 +1,6 @@
 import type { CardTemplate, GameSettings, GameSnapshot, LeaderboardEntry, MapId, OwnedCard } from '@/types';
 import { MAP_IDS } from '@/types';
-import { GAME_VERSION } from '@/data/config';
+import { GAME_VERSION, LEVEL_CONFIG } from '@/data/config';
 import { TEMPLATE_MAP } from '@/data/cards';
 import { AI_TEAMS, AI_TEAM_MAP } from '@/data/aiTeams';
 
@@ -57,7 +57,7 @@ export function validateSnapshot(raw: unknown): ValidationResult {
       return { ok: false, error: `卡牌实例重复：${card.instanceId}。` };
     }
     instanceIds.add(card.instanceId);
-    if (typeof card.level !== 'number' || card.level < 1 || card.level > 5) {
+    if (typeof card.level !== 'number' || card.level < 1 || card.level > LEVEL_CONFIG.maxLevel) {
       return { ok: false, error: `卡牌等级超出范围：${card.instanceId}。` };
     }
   }

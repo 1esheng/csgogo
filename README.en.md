@@ -149,6 +149,14 @@ See [docs/LAYOUT.md](docs/LAYOUT.md) for the repository layout and [docs/RELEASI
 
 </details>
 
+## 🧪 Cheat panel
+
+Settings has a cheat panel behind a passphrase. Once unlocked it can adjust coins, unlock every player card, max level and stars, guarantee a UR, free packs, unlock all coaches and coaching XP, team-wide stat boost, auto-fill the lineup, instant fixture win, advance a tier, reset the career, and import/export saves.
+
+- Web build only, entirely client-side; there is no server to affect.
+- One-shot toggles (guaranteed UR, free packs, stat boost) revert the moment you switch them off and are never written to the save.
+- The passphrase is a guard against accidents, not a security boundary: the game runs in your browser, so anyone can edit the frontend.
+
 ## 🛠 Technical information
 
 | | |

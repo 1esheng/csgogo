@@ -13,6 +13,7 @@ import { PHRASES as uiMatch } from '@/i18n/areas/ui-match';
 import { PHRASES as fixI18n } from '@/i18n/areas/fix-i18n';
 import { PHRASES as fixPack } from '@/i18n/areas/fix-pack';
 import { PHRASES as fixTraining } from '@/i18n/areas/fix';
+import { PHRASES as cheats } from '@/i18n/areas/cheats';
 
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
@@ -481,6 +482,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...fixI18n,
   ...fixPack,
   ...fixTraining,
+  ...cheats,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));

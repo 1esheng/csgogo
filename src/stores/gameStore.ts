@@ -13,9 +13,9 @@ import type {
 import type { Tactic } from '@/data/tactics';
 import type { Side } from '@/types';
 import { COMBAT_ROLES, MAP_IDS, starsOf } from '@/types';
-import { ECONOMY, LEVEL_CONFIG, PACK_CONFIG, PROSPECT_CONFIG, STAR_CONFIG, SYNERGY, TRAINING_DRILLS, GAME_VERSION } from '@/data/config';
+import { CAREER_TIERS, ECONOMY, LEVEL_CONFIG, PACK_CONFIG, PROSPECT_CONFIG, STAR_CONFIG, SYNERGY, TRAINING_DRILLS, GAME_VERSION } from '@/data/config';
 import { AI_TEAMS, AI_TEAM_MAP } from '@/data/aiTeams';
-import { TEMPLATE_MAP, PLAYER_MAP } from '@/data/cards';
+import { TEMPLATE_MAP, PLAYER_MAP, TEMPLATES_BY_RARITY } from '@/data/cards';
 import { tacticById, tacticsForSide } from '@/data/tactics';
 import { Rng, makeId, randomSeed } from '@/engine/rng';
 import { cardOVR, levelFromXp } from '@/engine/rating';
@@ -26,7 +26,7 @@ import { createMatch, isMatchOver, playRound } from '@/engine/match';
 import { decideAiOrders, brainFromSpec, type AiBrain } from '@/engine/ai';
 import { lineupFromSpec } from '@/engine/lineup';
 import { decideBuy } from '@/engine/economy';
-import { createNewGame, defaultTasks, grownCoach, makeCard, ownedCoachXp, startingSquad } from '@/game/starter';
+import { EMPTY_CAREER, createNewGame, defaultTasks, grownCoach, makeCard, ownedCoachXp, startingSquad } from '@/game/starter';
 import { executePulls, pityStatus, type PullResult } from '@/game/packs';
 import { registryOf, playerLineupFromSquad } from '@/game/lineups';
 import { generateProspect, prospectToIdentity, prospectToTemplate } from '@/game/prospects';
@@ -47,6 +47,16 @@ export interface ActiveMatchInfo {
   tournamentId?: string;
   tournamentMatchId?: string;
   brain: AiBrain;
+}
+
+/** 修改器开关：只存在于内存里，刷新页面即恢复默认，不写入存档。 */
+export interface CheatFlags {
+  /** 开包不扣金币（也不检查金币够不够）。 */
+  freePacks: boolean;
+  /** 下一次十连必出 UR——消费一次后自动关闭。 */
+  guaranteeUR: boolean;
+  /** 首发五人全属性 +10（临时加成，关闭即还原）。 */
+  teamBoost: boolean;
 }
 
 /** 每打完一场，让其他战队也打几场：排行榜实时变化。 */
@@ -120,6 +130,42 @@ const bootstrap = createNewGame('Dynasty Esports');
 function recomputeLevel(card: OwnedCard): OwnedCard {
   const level = levelFromXp(card.xp);
   return { ...card, level: Math.min(LEVEL_CONFIG.maxLevel, Math.max(card.level, level)) };
+}
+
+/** 修改器：全队属性加成的点数。 */
+const CHEAT_TEAM_BOOST = 10;
+
+/**
+ * 修改器：首发五人的模板副本，全属性 +10。
+ * 只返回副本，原模板与存档都不动——开关一关就自然还原。
+ */
+function cheatBoostedStarters(
+  templates: Record<string, CardTemplate>,
+  state: Pick<GameStore, 'cards' | 'squad'>,
+): CardTemplate[] {
+  const out: CardTemplate[] = [];
+  COMBAT_ROLES.forEach((role) => {
+    const instanceId = state.squad.slots[role];
+    if (!instanceId) return;
+    const card = state.cards.find((c) => c.instanceId === instanceId);
+    const tpl = card ? templates[card.templateId] : undefined;
+    if (!tpl) return;
+    const attributes = { ...tpl.attributes };
+    (Object.keys(attributes) as (keyof typeof attributes)[]).forEach((key) => {
+      attributes[key] += CHEAT_TEAM_BOOST;
+    });
+    out.push({ ...tpl, attributes });
+  });
+  return out;
+}
+
+/** 修改器：把一次十连的最后一张换成 UR——只改这一次的结果，概率表不动。 */
+function forceURIn(rng: Rng, results: PullResult[], owned: OwnedCard[]): PullResult[] {
+  const pool = TEMPLATES_BY_RARITY.UR;
+  if (!results.length || !pool.length) return results;
+  const ur = rng.pick(pool);
+  const ownedTemplates = new Set(owned.map((c) => c.templateId));
+  return [...results.slice(0, -1), { template: ur, rarity: 'UR', isNew: !ownedTemplates.has(ur.id), shards: 0 }];
 }
 
 export interface GameStore {
@@ -239,6 +285,26 @@ export interface GameStore {
   /** 买下一名球员。 */
   /** 领取成就奖励。 */
   claimAchievement: (id: string) => { ok: boolean; error?: string };
+
+  /** ── 修改器（作弊面板）：只服务本地单机，不参与正式玩法 ── */
+  cheatFlags: CheatFlags;
+  setCheatFlags: (patch: Partial<CheatFlags>) => void;
+  /** 把金币设为指定值（清零 / 直接设定）。 */
+  cheatSetCoins: (coins: number) => void;
+  /** 补齐图鉴里所有选手卡（每个模板 1 张），返回新增张数。 */
+  cheatGrantAllCards: () => number;
+  /** 批量调整全部卡牌的等级 / 星级，返回被改动的张数。 */
+  cheatTuneCards: (opts: { level?: number; stars?: number; starsBump?: number }) => number;
+  /** 解锁全部教练，返回新增人数。 */
+  cheatGrantAllCoaches: () => number;
+  /** 调整教练执教经验：reset 清零，add 累加。 */
+  cheatCoachXp: (opts: { add?: number; reset?: boolean }) => void;
+  /** 把当前赛事里玩家待打的那一场直接判胜。 */
+  cheatWinFixture: () => { ok: boolean; error?: string };
+  /** 解锁下一档联赛，返回新的档位。 */
+  cheatAdvanceTier: () => number;
+  /** 重置生涯进度（段位、积分、奖杯与赛事记录）。 */
+  cheatResetCareer: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -274,6 +340,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   liveWorld: { enabled: true, lastTickAt: 0, ticks: 0, feed: [] },
   celebration: null,
   toasts: [],
+  cheatFlags: { freePacks: false, guaranteeUR: false, teamBoost: false },
 
   snapshot: () => {
     const s = get();
@@ -397,7 +464,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
   squadRating: (mapId?: MapId) => {
     const s = get();
-    const { templates, players } = registryOf({ customTemplates: s.customTemplates, customPlayers: s.customPlayers });
+    const { templates: registry, players } = registryOf({ customTemplates: s.customTemplates, customPlayers: s.customPlayers });
+    const templates = s.cheatFlags.teamBoost
+      ? cheatBoostedStarters(registry, s).reduce<Record<string, CardTemplate>>(
+        (acc, tpl) => { acc[tpl.id] = tpl; return acc; },
+        { ...registry },
+      )
+      : registry;
     const names: Record<string, string> = {};
     Object.values(players).forEach((p) => { names[p.id] = p.nickname; });
     return buildSquadBreakdown({ squad: s.squad, cards: s.cards, templates, playerNames: names, mapId });
@@ -416,13 +489,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   openPack: (count: number) => {
     const s = get();
-    const price = count >= 100 ? PACK_CONFIG.hundredPrice : count === 10 ? PACK_CONFIG.tenPrice : PACK_CONFIG.singlePrice;
+    const free = s.cheatFlags.freePacks;
+    const price = free ? 0 : count >= 100 ? PACK_CONFIG.hundredPrice : count === 10 ? PACK_CONFIG.tenPrice : PACK_CONFIG.singlePrice;
     if (s.club.coins < price) {
       s.toast(`金币不足——需要 ${price}。`, 'error');
       return null;
     }
     const rng = new Rng(randomSeed());
-    const { results, pack } = executePulls(rng, s.pack, count, s.cards);
+    const { results: pulled, pack } = executePulls(rng, s.pack, count, s.cards);
+    // 修改器：一次性的「必出 UR」标记，用掉就关。
+    const forced = s.cheatFlags.guaranteeUR && count >= 10;
+    const results = forced ? forceURIn(rng, pulled, s.cards) : pulled;
     const newCards: OwnedCard[] = [];
     const updated = [...s.cards];
     let coinsBack = 0;
@@ -438,6 +515,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       pack,
       club,
       lastPackResults: results,
+      ...(forced ? { cheatFlags: { ...s.cheatFlags, guaranteeUR: false } } : {}),
       tasks: applyTaskProgress(s.tasks, 'open_pack', 1),
       coinsLedger: trimmedLedger(s.coinsLedger, [
         { id: makeId('led'), delta: -price, reason: count >= 100 ? '百连抽' : count === 10 ? '十连抽' : '单抽', at: Date.now() },
@@ -761,7 +839,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const s = get();
     const breakdown = s.squadRating(opts.mapId);
     if (breakdown.filled < 5) return { ok: false, error: '阵容需要五名选手才能开始比赛。' };
-    const lineup = playerLineupFromSquad(s.snapshot());
+    const snapshot = s.snapshot();
+    const lineup = playerLineupFromSquad(s.cheatFlags.teamBoost
+      ? { ...snapshot, customTemplates: [...snapshot.customTemplates, ...cheatBoostedStarters(s.templates(), s)] }
+      : snapshot);
     if (lineup.length < 5) return { ok: false, error: '阵容不完整。' };
     const unique = new Set(lineup.map((p) => p.playerId));
     if (unique.size < 5) return { ok: false, error: '同一名选手不能在一套阵容里出现两次。' };
@@ -1328,6 +1409,123 @@ export const useGameStore = create<GameStore>((set, get) => ({
       ]),
     });
     get().toast('已发放测试金币 +' + coins.toLocaleString() + '。', 'success');
+    void writeSave(get().snapshot());
+  },
+
+  setCheatFlags: (patch) => { set({ cheatFlags: { ...get().cheatFlags, ...patch } }); },
+
+  cheatSetCoins: (coins) => {
+    const s = get();
+    const next = Math.max(0, Math.floor(coins));
+    const delta = next - s.club.coins;
+    set({
+      club: { ...s.club, coins: next },
+      ...(delta === 0 ? {} : {
+        coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta, reason: '修改器：设定金币', at: Date.now() }]),
+      }),
+    });
+    void writeSave(get().snapshot());
+  },
+
+  cheatGrantAllCards: () => {
+    const s = get();
+    const owned = new Set(s.cards.map((c) => c.templateId));
+    const missing = Object.keys(s.templates()).filter((id) => !owned.has(id));
+    if (missing.length === 0) return 0;
+    set({ cards: [...s.cards, ...missing.map((id) => makeCard(id, 1))] });
+    void writeSave(get().snapshot());
+    return missing.length;
+  },
+
+  cheatTuneCards: (opts) => {
+    const s = get();
+    const maxXp = LEVEL_CONFIG.xpTable[LEVEL_CONFIG.maxLevel - 1];
+    let touched = 0;
+    const cards = s.cards.map((card) => {
+      let next = card;
+      if (typeof opts.level === 'number') {
+        const level = Math.max(1, Math.min(LEVEL_CONFIG.maxLevel, Math.round(opts.level)));
+        const xp = level >= LEVEL_CONFIG.maxLevel ? Math.max(next.xp, maxXp) : next.xp;
+        if (level !== next.level || xp !== next.xp) next = { ...next, level, xp };
+      }
+      if (typeof opts.stars === 'number') {
+        const stars = Math.max(1, Math.min(5, Math.round(opts.stars)));
+        if (stars !== starsOf(next)) next = { ...next, stars };
+      }
+      if (typeof opts.starsBump === 'number') {
+        const stars = Math.max(1, Math.min(5, starsOf(next) + Math.round(opts.starsBump)));
+        if (stars !== starsOf(next)) next = { ...next, stars };
+      }
+      if (next !== card) touched += 1;
+      return next;
+    });
+    if (touched === 0) return 0;
+    set({ cards });
+    void writeSave(get().snapshot());
+    return touched;
+  },
+
+  cheatGrantAllCoaches: () => {
+    const s = get();
+    const owned = new Set((s.coaches ?? []).map((c) => c.coachId));
+    const missing = COACHES.filter((c) => !owned.has(c.id));
+    if (missing.length === 0) return 0;
+    const coaches = [...(s.coaches ?? []), ...missing.map((c) => ({ instanceId: makeId('coach'), coachId: c.id, xp: 0 }))];
+    set({ coaches, headCoachId: s.headCoachId ?? coaches[0]?.instanceId ?? null });
+    void writeSave(get().snapshot());
+    return missing.length;
+  },
+
+  cheatCoachXp: (opts) => {
+    const s = get();
+    const coaches = (s.coaches ?? []).map((c) => {
+      const current = ownedCoachXp(c, s.coachXp);
+      const next = opts.reset ? 0 : Math.max(0, current + Math.max(0, Math.round(opts.add ?? 0)));
+      return { ...c, xp: next };
+    });
+    const coachXp: Record<string, number> = {};
+    coaches.forEach((c) => { coachXp[c.instanceId] = c.xp; });
+    set({ coaches, coachXp });
+    void writeSave(get().snapshot());
+  },
+
+  cheatWinFixture: () => {
+    const s = get();
+    const activeId = s.career.activeTournamentId;
+    const current = activeId ? s.tournaments.find((t) => t.id === activeId) : undefined;
+    if (!current || current.status !== 'active') return { ok: false, error: '当前没有进行中的赛事。' };
+    const fixture = playerNextMatch(current);
+    if (!fixture) return { ok: false, error: '这届赛事已经没有待打的比赛了。' };
+    const played = reportPlayerMatch(current, fixture.id, true, 13, 0);
+    const career = { ...get().career };
+    if (played.status === 'completed') {
+      career.activeTournamentId = null;
+      career.completedTournaments += 1;
+      if (played.championId === 'player') career.titles += 1;
+    }
+    set({ tournaments: [played, ...get().tournaments.filter((t) => t.id !== played.id)], career });
+    void writeSave(get().snapshot());
+    return { ok: true };
+  },
+
+  cheatAdvanceTier: () => {
+    const s = get();
+    const tier = Math.min(CAREER_TIERS.length - 1, Math.max(0, s.career.tier) + 1);
+    set({
+      career: { ...s.career, tier },
+      leaders: s.leaders.map((l) => (l.id === 'player' ? { ...l, tier } : l)),
+    });
+    void writeSave(get().snapshot());
+    return tier;
+  },
+
+  cheatResetCareer: () => {
+    const s = get();
+    set({
+      career: { ...EMPTY_CAREER, registeredEventIds: [] },
+      tournaments: [],
+      leaders: s.leaders.map((l) => (l.id === 'player' ? { ...l, rating: 1000, wins: 0, losses: 0, tier: 0 } : l)),
+    });
     void writeSave(get().snapshot());
   },
 
