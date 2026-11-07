@@ -16,6 +16,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Lint (React Hooks rules)
+        run: npm run lint
       - name: Type check
         run: npx tsc --noEmit
       - name: Tests
