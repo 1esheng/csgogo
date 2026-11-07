@@ -265,7 +265,7 @@ function Layout() {
       <div className='flex min-w-0 flex-1 flex-col'>
         <TopBar onMenu={() => setMenuOpen(true)} />
         <CommandPalette />
-        <main className='flex-1 px-4 py-5 lg:px-6'>
+        <main className='flex-1 px-4 py-5 lg:px-6 overflow-x-hidden'>
           <div key={location.pathname} className='motion-page'>
           <ErrorBoundary>
         <React.Suspense fallback={<div className="flex h-64 items-center justify-center text-[13px] text-txt-muted">{tr('正在载入…')}</div>}>
