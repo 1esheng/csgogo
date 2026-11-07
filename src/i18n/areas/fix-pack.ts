@@ -1,0 +1,27 @@
+/** 开包结果页（选手包 / 教练包）的英文词条。只放本页文案，勿与其它分区混写。 */
+export const PHRASES: { zh: string; en: string }[] = [
+  { zh: '开包结果', en: 'Pack results' },
+  { zh: '总抽取', en: 'Pulled' },
+  { zh: '新卡', en: 'New' },
+  { zh: '重复', en: 'Duplicates' },
+  { zh: '最高稀有度', en: 'Best rarity' },
+  { zh: '其中重复卡', en: 'Duplicates:' },
+  { zh: '张已入库，可用于「图鉴 → 卡牌合成」升星。', en: 'banked in your album for Star fusion.' },
+  { zh: '稀有卡', en: 'High rarity' },
+  { zh: '史诗及以上', en: 'Epic or above' },
+  { zh: '本次没有抽到史诗及以上的卡牌。', en: 'No Epic-or-better card this time.' },
+  { zh: '抽到的卡牌', en: 'Cards pulled' },
+  { zh: '新卡 · 已入卡册', en: 'New · added to album' },
+  { zh: '重复 · 已入库', en: 'Duplicate · banked' },
+  { zh: '查看全部卡牌', en: 'Show all cards' },
+  { zh: '收起卡牌', en: 'Hide cards' },
+  { zh: '结算说明', en: 'Settlement' },
+  { zh: '抽到的每张卡（含重复卡）都直接进入卡册，没有收件箱或二级结算。重复卡是升星材料：三张同名卡在「图鉴 → 卡牌合成」升一星，星级没有上限。本次没有返还金币，也没有额外精通经验。', en: 'Every card you pulled — duplicates included — went straight into your album; there is no inbox and no second settlement. Duplicates are star-up material: three copies of a player make one star in Collection → Star fusion, with no star cap. No coins and no bonus mastery were granted for duplicates.' },
+
+  { zh: '新签', en: 'New signings' },
+  { zh: '执教经验 +', en: 'Coach XP +' },
+  { zh: '签下的教练', en: 'Coaches signed' },
+  { zh: '新教练 · 已进入教练组', en: 'New coach · added to staff' },
+  { zh: '重复 · 执教经验 +', en: 'Duplicate · coach XP +' },
+  { zh: '教练包与选手包完全独立。新教练直接进入教练组；重复教练把 25 点执教经验加给自己，可继续累积。本次没有返还金币。', en: 'Coach packs are fully separate from player packs. New coaches join the staff; duplicates add 25 coaching XP to that coach and keep stacking. No coins are refunded.' },
+];

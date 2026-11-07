@@ -107,7 +107,7 @@ export function PacksPage() {
           title={tr('100 张卡')}
           price={PACK_CONFIG.hundredPrice}
           badge={tr('最划算')}
-          desc={tr('一次开满 100 张，几乎必出 UR。')}
+          desc={tr('一次开满 100 张，出现 UR 的机会约 63%。')}
           button={<><Star size={15} /> {tr('开启 100 个卡包')}</>}
           disabled={club.coins < PACK_CONFIG.hundredPrice}
           onClick={() => openPack(100)}

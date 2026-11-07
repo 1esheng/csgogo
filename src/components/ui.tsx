@@ -110,7 +110,15 @@ export function Progress({
           <span className='shrink-0 tabular-nums'>{Math.round(pct)}%</span>
         </div>
       ) : null}
-      <div className={clsx('w-full overflow-hidden rounded-full bg-white/8', height)}>
+      <div
+        role='progressbar'
+        aria-valuemin={0}
+        aria-valuemax={Math.max(1, max)}
+        aria-valuenow={Math.round(Math.max(0, Math.min(max, value)))}
+        aria-label={label ? undefined : 'progress'}
+        aria-labelledby={undefined}
+        className={clsx('w-full overflow-hidden rounded-full bg-white/8', height)}
+      >
         <div className={clsx('t-width h-full rounded-full', tones[tone])} style={{ width: pct + '%' }} />
       </div>
     </div>

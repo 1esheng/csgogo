@@ -585,7 +585,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     let cards = s.cards;
     let trained = 0;
     let spent = 0;
-    let lastGain = 0;
     const records: TrainingRecord[] = [];
     playerIds.forEach((templateId) => {
       if (coins < drill.cost) return;
@@ -596,7 +595,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const best = owned.reduce((a, b) => (b.level > a.level || (b.level === a.level && b.xp > a.xp) ? b : a));
       if (best.level >= LEVEL_CONFIG.maxLevel && best.xp >= LEVEL_CONFIG.xpTable[LEVEL_CONFIG.maxLevel - 1]) return;
       const gain = Math.round(drill.xp * tpl.growth * (1 + coachBonus.trainingXpPct));
-      lastGain = gain;
       cards = cards.map((c) => (c.templateId === templateId ? recomputeLevel({ ...c, xp: c.xp + gain }) : c));
       coins -= drill.cost;
       spent += drill.cost;
@@ -624,7 +622,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       tasks: applyTaskProgress(s.tasks, 'train_card', trained),
       coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: -spent, reason: `整队训练：${drill.label}`, at: Date.now() }]),
     });
-    get().toast(`整队训练完成：${trained} 名首发各获得 ${lastGain} 经验，共花费 ${spent.toLocaleString()} 金币。`, 'success');
+    get().toast(`整队训练完成：${trained} 名首发训练到位，共花费 ${spent.toLocaleString()} 金币。`, 'success');
     void writeSave(get().snapshot());
     return { ok: true, trained, spent };
   },

@@ -47,7 +47,6 @@ describe('long-run simulation acceptance', () => {
     const bucket = runBatch(a, b, 100000);
     const winRate = bucket.wins / RUNS;
     const avgRounds = bucket.rounds / RUNS;
-    // eslint-disable-next-line no-console
     console.log(`[even] winRate=${winRate.toFixed(3)} avgRounds=${avgRounds.toFixed(2)} OTs=${bucket.overtimes}`);
     expect(bucket.issues).toEqual([]);
     expect(winRate).toBeGreaterThan(0.4);
@@ -61,7 +60,6 @@ describe('long-run simulation acceptance', () => {
     const weak = lineupFromSpec(AI_TEAMS.find((t) => t.id === '9pandas')!, 1);
     const bucket = runBatch(strong, weak, 500000);
     const winRate = bucket.wins / RUNS;
-    // eslint-disable-next-line no-console
     console.log(`[mismatch] strongOVR=${averageOvr(strong)} weakOVR=${averageOvr(weak)} winRate=${winRate.toFixed(3)} avgRounds=${(bucket.rounds / RUNS).toFixed(2)} OTs=${bucket.overtimes}`);
     expect(bucket.issues).toEqual([]);
     expect(winRate).toBeGreaterThan(0.7);

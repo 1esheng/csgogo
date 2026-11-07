@@ -23,7 +23,6 @@ export const PACK_CONFIG = {
   pitySR: 10,
   pitySSR: 60,
   duplicateShards: { N: 20, R: 40, SR: 80, SSR: 160, UR: 320 } as Record<Rarity, number>,
-  masteryPerDuplicate: 25,
 };
 
 export const ECONOMY = {

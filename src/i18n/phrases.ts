@@ -10,6 +10,9 @@ import { PHRASES as shared } from '@/i18n/areas/shared';
 import { PHRASES as gameplay } from '@/i18n/areas/gameplay';
 import { PHRASES as uiArea } from '@/i18n/areas/ui';
 import { PHRASES as uiMatch } from '@/i18n/areas/ui-match';
+import { PHRASES as fixI18n } from '@/i18n/areas/fix-i18n';
+import { PHRASES as fixPack } from '@/i18n/areas/fix-pack';
+import { PHRASES as fixTraining } from '@/i18n/areas/fix';
 
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
@@ -475,6 +478,9 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...gameplay,
   ...uiArea,
   ...uiMatch,
+  ...fixI18n,
+  ...fixPack,
+  ...fixTraining,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));

@@ -4,7 +4,7 @@ import { useLiveWorld } from '@/hooks/useLiveWorld';
 import { useT } from '@/hooks/useLang';
 import brandMark from '@/assets/brand/icon-dark.png';
 import heroImage from '@/assets/brand/onboarding-hero.png';
-import { tr } from '@/i18n';
+import { pick, tr } from '@/i18n';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -66,7 +66,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
   const xpPct = Math.min(100, Math.round((club.xp / xpNeed) * 100));
   return (
     <header className='sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-white/5 bg-ink-900/90 px-4 py-2.5 backdrop-blur-md lg:px-6'>
-      <button className='focus-ring rounded-lg p-2 text-txt-muted lg:hidden' onClick={onMenu} aria-label='菜单'><Menu size={18} /></button>
+      <button className='focus-ring rounded-lg p-2 text-txt-muted lg:hidden' onClick={onMenu} aria-label={tr('菜单')}><Menu size={18} /></button>
       <div className='flex min-w-0 items-center gap-2.5'>
         <div className='flex h-10 w-10 items-center justify-center rounded-xl' style={{ background: (club.color ?? '#F5A623') + '22', border: '1px solid ' + (club.color ?? '#F5A623') + '55' }}>{React.createElement(badgeIcon(club.badge).icon, { size: 20, style: { color: club.color ?? '#F5A623' } })}</div>
         <div className='min-w-0'>
@@ -162,7 +162,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
           ))}
         </nav>
         <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted'>
-          All ratings in this game are original balance values, not real HLTV statistics.
+          {pick('本作全部评分均为原创平衡数值，并非真实 HLTV 数据。', 'All ratings in this game are original balance values, not real HLTV statistics.')}
         </div>
       </aside>
     </>
@@ -170,7 +170,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 }
 
 function Onboarding() {
-  const [name, setName] = useState('王朝电竞');
+  const [name, setName] = useState(tr('王朝电竞'));
   const newGame = useGameStore((s) => s.newGame);
   const [busy, setBusy] = useState(false);
   return (
@@ -186,7 +186,7 @@ function Onboarding() {
         <p className='mb-6 text-[15px] text-txt-muted'>
           {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
         </p>
-        <Input label='俱乐部名称' value={name} onChange={setName} maxLength={28} placeholder='王朝电竞' />
+        <Input label={tr('俱乐部名称')} value={name} onChange={setName} maxLength={28} placeholder={tr('王朝电竞')} />
         <div className='mt-4 space-y-2 text-[13px] text-txt-muted'>
           <div>{tr('· 初始 5,000 金币与五张选手卡')}</div>
           <div>{tr('· 全离线存档（IndexedDB），无需账号、不联网')}</div>
