@@ -1,8 +1,8 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/brand-lockup-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/brand-lockup-light.png">
-    <img src="./docs/brand/brand-lockup-light.png" alt="CS2 Dynasty" width="720">
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
+    <img src="./docs/brand/cs2-dynasty-icon-light.png" alt="CS2 Dynasty" width="130">
   </picture>
 
 # CS2 Dynasty · CS2 Esports Manager
