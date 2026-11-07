@@ -149,6 +149,19 @@ See [docs/LAYOUT.md](docs/LAYOUT.md) for the repository layout and [docs/RELEASI
 
 </details>
 
+## 🎯 Match depth
+
+| Capability | Detail |
+| --- | --- |
+| **Map veto** | BO1 six bans, BO3 ban-ban-pick-pick-ban-ban, swappable first side, undo; the match cannot start until the veto completes |
+| **Opponent scouting** | One-time permanent intel priced by opponent strength and league tier (8,000–30,000); the free tier shows only a style tag |
+| **Timeouts and boost** | Two timeouts and one coach boost per match (all stats ×1.05 for a single round, restored exactly) |
+| **Late-round calls** | Save / force / switch site, mapped onto existing engine inputs and logged in that round |
+| **Post-match report** | Score, per-player K/D/A/ADR/KAST/Rating, round bar, economy curve, key rounds (ACE / clutch / plant / match point / decider) |
+| **Round replay** | Expandable kill sequence and team money per round; the last 20 matches are kept |
+
+> The report footer lists the metrics that are **not** shown because the engine does not record them (headshot rate, per-round damage), rather than inventing numbers.
+
 ## 🧪 Cheat panel
 
 Settings has a cheat panel behind a passphrase. Once unlocked it can adjust coins, unlock every player card, max level and stars, guarantee a UR, free packs, unlock all coaches and coaching XP, team-wide stat boost, auto-fill the lineup, instant fixture win, advance a tier, reset the career, and import/export saves.

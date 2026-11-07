@@ -16,8 +16,12 @@ import { MAPS } from '@/data/maps';
 import { CAREER_TIERS, MATCH_CONFIG } from '@/data/config';
 import { Badge, Button, Panel, Progress, Select } from '@/components/ui';
 import { ECON_STYLE_LABEL } from './matchUi';
+import { OpponentScout } from './ScoutReport';
+import { VetoPanel } from './VetoPanel';
+import { trVeto } from '@/i18n/areas/veto';
 
 type MatchMode = 'tactical' | 'quick';
+type MapMode = 'quick' | 'veto';
 
 function tierName(tier: number): string {
   return CAREER_TIERS.find((t) => t.tier === tier)?.name ?? pick('第 ' + tier + ' 级', 'Tier ' + tier);
@@ -59,6 +63,9 @@ export function Setup() {
     () => store.tacticDefaults?.[maps[0] ?? 'Mirage'] ?? tTactics[0]?.id ?? 'default',
   );
   const [mode, setMode] = useState<MatchMode>('tactical');
+  // 选图方式：快速选图保留原逻辑（默认），Veto 演练只是流程层的 ban/pick 推演。
+  const [mapMode, setMapMode] = useState<MapMode>('quick');
+  const [vetoDone, setVetoDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const breakdown = store.squadRating(mapId);
@@ -239,37 +246,64 @@ export function Setup() {
           title={tr('选择地图')}
           hint={<span className='font-mono tabular-nums'>{tr('熟练 ')}{Math.round(comfort[mapId] ?? 0)}%</span>}
         />
-        <div className='grid gap-1.5 sm:grid-cols-2'>
-          {maps.map((id) => {
-            const spec = MAPS[id];
-            const selected = id === mapId;
-            const mapComfort = Math.round(comfort[id] ?? 0);
-            return (
-              <button
-                key={id}
-                type='button'
-                onClick={() => pickMap(id)}
-                aria-pressed={selected}
-                className={clsx(
-                  'focus-ring t-colors flex w-full items-center gap-2 rounded-lg border px-2 py-1.5 text-left',
-                  selected ? 'border-accent/50 bg-accent/10' : 'border-white/[0.07] bg-white/[0.02] hover:border-white/20',
-                )}
-              >
-                {MAP_ART[id] ? (
-                  <img src={MAP_ART[id]} alt='' aria-hidden className='h-7 w-7 shrink-0 rounded object-contain opacity-80' />
-                ) : (
-                  <span aria-hidden className='h-7 w-7 shrink-0 rounded bg-white/[0.06]' />
-                )}
-                <span className={clsx('min-w-0 flex-1 truncate text-[13px] font-semibold', selected ? 'text-accent' : 'text-txt')}>
-                  {spec.name}
-                </span>
-                <span className='shrink-0 font-mono text-[12px] tabular-nums text-txt-muted'>
-                  <span className='inline-block min-w-[3ch] text-right text-txt'>{mapComfort}</span>%
-                </span>
-              </button>
-            );
-          })}
+        <div className='mb-2 flex flex-wrap items-center gap-1.5'>
+          <ModeChip
+            active={mapMode === 'quick'}
+            icon={<MapPin size={13} />}
+            label={trVeto('快速选图')}
+            hint={trVeto('沿用原来的直接选图。')}
+            onClick={() => setMapMode('quick')}
+          />
+          <ModeChip
+            active={mapMode === 'veto'}
+            icon={<Swords size={13} />}
+            label={trVeto('Veto 演练')}
+            hint={trVeto('按 BO1 / BO3 顺序推演 ban / pick，结束后自动回填选图。')}
+            onClick={() => setMapMode('veto')}
+          />
         </div>
+        {mapMode === 'veto' ? (
+          <VetoPanel
+            pool={maps}
+            comfort={comfort}
+            onResolve={(id) => {
+              pickMap(id);
+              setVetoDone(true);
+            }}
+          />
+        ) : (
+          <div className='grid gap-1.5 sm:grid-cols-2'>
+            {maps.map((id) => {
+              const spec = MAPS[id];
+              const selected = id === mapId;
+              const mapComfort = Math.round(comfort[id] ?? 0);
+              return (
+                <button
+                  key={id}
+                  type='button'
+                  onClick={() => pickMap(id)}
+                  aria-pressed={selected}
+                  className={clsx(
+                    'focus-ring t-colors flex w-full items-center gap-2 rounded-lg border px-2 py-1.5 text-left',
+                    selected ? 'border-accent/50 bg-accent/10' : 'border-white/[0.07] bg-white/[0.02] hover:border-white/20',
+                  )}
+                >
+                  {MAP_ART[id] ? (
+                    <img src={MAP_ART[id]} alt='' aria-hidden className='h-7 w-7 shrink-0 rounded object-contain opacity-80' />
+                  ) : (
+                    <span aria-hidden className='h-7 w-7 shrink-0 rounded bg-white/[0.06]' />
+                  )}
+                  <span className={clsx('min-w-0 flex-1 truncate text-[13px] font-semibold', selected ? 'text-accent' : 'text-txt')}>
+                    {spec.name}
+                  </span>
+                  <span className='shrink-0 font-mono text-[12px] tabular-nums text-txt-muted'>
+                    <span className='inline-block min-w-[3ch] text-right text-txt'>{mapComfort}</span>%
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* 选中地图的战术示意：一张更大的图 + 两个点位 + 这张图的性格。 */}
         <div className='mt-2 rounded-xl border border-white/[0.07] bg-ink-900/40 p-3'>
@@ -402,7 +436,7 @@ export function Setup() {
           </div>
 
           <div className='flex w-full shrink-0 flex-col items-stretch gap-1 sm:w-auto sm:items-end'>
-            <Button size='lg' onClick={start} disabled={blocked || !opponent}>
+            <Button size='lg' onClick={start} disabled={blocked || !opponent || (mapMode === 'veto' && !vetoDone)}>
               <Play size={16} />
               {mode === 'quick' ? tr('模拟比赛') : tr('开始比赛')}
             </Button>
@@ -480,6 +514,7 @@ function OpponentCard({
       </button>
 
       {/* 次级内容：只跟着选中的那一张走，默认折叠，不抢主线的注意力。 */}
+      <OpponentScout spec={spec} className='mx-3 mb-2' />
       {selected ? (
         <div className='px-3 pb-2'>
           <button

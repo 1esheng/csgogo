@@ -5,10 +5,10 @@ import { CLUB_PRICES } from "@/data/clubCosmetics";
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from "@/data/coaches";
 import { ACHIEVEMENTS } from '@/data/achievements';
 import type {
-  AITeamSpec, BuyType, CardTemplate, ClubState, CombatRole, GameSettings, GameSnapshot,
-  LeaderboardEntry, MapId, MatchPlayerInit, MatchState, MatchSummary, OwnedCard, PackState,
+  AITeamSpec, AttributeKey, BuyType, CardTemplate, ClubState, CombatRole, GameSettings, GameSnapshot,
+  LeaderboardEntry, MapId, MatchEventKind, MatchPlayerInit, MatchState, MatchSummary, OwnedCard, PackState,
   CoachPull, OwnedCoach, PlayerIdentity, Prospect, RoundOrders, SquadState, TaskProgress, TeamRoundOrders,
-  Tournament, TrainingRecord,
+  TeamState, Tournament, TrainingRecord,
 } from '@/types';
 import type { Tactic } from '@/data/tactics';
 import type { Side } from '@/types';
@@ -24,7 +24,7 @@ import { buildSquadBreakdown, type SquadBreakdown } from '@/engine/squad';
 import { buildScoreboard, pickMvp } from '@/engine/statistics';
 import { createMatch, isMatchOver, playRound } from '@/engine/match';
 import { decideAiOrders, brainFromSpec, type AiBrain } from '@/engine/ai';
-import { lineupFromSpec } from '@/engine/lineup';
+import { aiTeamOvr, lineupFromSpec } from '@/engine/lineup';
 import { decideBuy } from '@/engine/economy';
 import { EMPTY_CAREER, createNewGame, defaultTasks, grownCoach, makeCard, ownedCoachXp, startingSquad } from '@/game/starter';
 import { executePulls, pityStatus, type PullResult } from '@/game/packs';
@@ -57,6 +57,82 @@ export interface CheatFlags {
   guaranteeUR: boolean;
   /** 首发五人全属性 +10（临时加成，关闭即还原）。 */
   teamBoost: boolean;
+}
+
+/** 侦查报告价格的上下限：8,000（弱队 + 低档位）到 30,000（强队 + 高档位）。 */
+export const SCOUT_PRICE_RANGE = { min: 8000, max: 30000 } as const;
+
+/** 价格基准线：五人 OVR 均值低于它按 0 计算（当前 66 支 AI 队全部高于 70）。 */
+const SCOUT_STRENGTH_BASE = 70;
+
+/**
+ * 侦查报告价格：纯函数，同一对手同一档位永远同一个价，而且是一次性永久解锁。
+ * 五人 OVR 均值每高于基准线 1 点 +800，当前 career 档位每档 +1200，
+ * 取整到 100 便于阅读，最后夹在 SCOUT_PRICE_RANGE 之间。
+ */
+export function scoutPrice(spec: AITeamSpec, careerTier: number): number {
+  const strengthDelta = Math.max(0, aiTeamOvr(spec) - SCOUT_STRENGTH_BASE);
+  const tierDelta = Math.max(0, Math.round(Number.isFinite(careerTier) ? careerTier : 0));
+  const raw = SCOUT_PRICE_RANGE.min + strengthDelta * 800 + tierDelta * 1200;
+  const rounded = Math.round(raw / 100) * 100;
+  return Math.min(SCOUT_PRICE_RANGE.max, Math.max(SCOUT_PRICE_RANGE.min, rounded));
+}
+
+/** 残局决策：保枪 / 强起 / 换点 —— 只影响下一回合。 */
+export type ClutchDecision = 'save' | 'force' | 'rotate';
+
+/** 决策在面板与回合日志里用同一句说明。 */
+export const CLUTCH_META: Record<ClutchDecision, { label: string; note: string }> = {
+  save: { label: '保枪', note: '保枪：经济保住，但本回合放弃争夺。' },
+  force: { label: '强起', note: '强起：把库存全压上，只为这一分。' },
+  rotate: { label: '换点', note: '换点：这一回合改打另一侧包点。' },
+};
+
+/** 场间调整的次数上限：暂停 2 次、教练鼓舞 1 次。 */
+export const MATCH_TACTICS_LIMITS = { pauses: 2, coachBoosts: 1 } as const;
+
+/** 教练鼓舞的属性抬升比例：只作用一次开打，回合结束立刻还原。 */
+export const COACH_MORALE_BUFF = 0.05;
+
+/** 一场比赛里的场间调整状态：只存在内存里，开新比赛时重置。 */
+export interface MatchTacticsState {
+  pausesUsed: number;
+  coachBoostsUsed: number;
+  /** 鼓舞已经按下、还没进入下一回合；开打一次后立刻清零。 */
+  coachBoostArmed: boolean;
+  clutch: ClutchDecision | null;
+  /** 决策的即时说明（面板立刻显示，回合结束后清空）。 */
+  clutchNote: string | null;
+}
+
+function freshMatchTactics(): MatchTacticsState {
+  return { pausesUsed: 0, coachBoostsUsed: 0, coachBoostArmed: false, clutch: null, clutchNote: null };
+}
+
+/** 旧存档兼容：侦查报告表只保留「对手 id → 正数时间戳」。 */
+function sanitizeScoutReports(raw: unknown): Record<string, number> {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return {};
+  const out: Record<string, number> = {};
+  Object.entries(raw as Record<string, unknown>).forEach(([key, value]) => {
+    if (typeof value === 'number' && Number.isFinite(value) && value > 0) out[key] = value;
+  });
+  return out;
+}
+
+/**
+ * 教练鼓舞：把全队属性临时抬高 COACH_MORALE_BUFF，返回还原函数。
+ * 只改这一场内存里的选手对象，模板与存档都不动；调用方必须在回合结束后立刻还原。
+ */
+export function applyCoachMorale(team: TeamState): () => void {
+  const backup = team.players.map((player) => ({ player, attributes: { ...player.attributes } }));
+  team.players.forEach((player) => {
+    const attributes = { ...player.attributes };
+    (Object.keys(attributes) as AttributeKey[]).forEach((key) => {
+      attributes[key] = Math.round(attributes[key] * (1 + COACH_MORALE_BUFF));
+    });
+    player.attributes = attributes;
+  });
+  return () => backup.forEach(({ player, attributes }) => { player.attributes = attributes; });
 }
 
 /** 每打完一场，让其他战队也打几场：排行榜实时变化。 */
@@ -201,6 +277,10 @@ export interface GameStore {
   activeMatch: MatchState | null;
   activeMatchInfo: ActiveMatchInfo | null;
   playerOrders: RoundOrders | null;
+  /** 已购买侦查报告的对手：对手 id → 购买时间戳（旧存档缺省为空对象）。 */
+  scoutReports: Record<string, number>;
+  /** 本场比赛的场间调整（暂停 / 鼓舞 / 残局决策），只存在内存里。 */
+  matchTactics: MatchTacticsState;
   lastSummary: MatchSummary | null;
   lastPackResults: PullResult[] | null;
   lastCoachResults: CoachPull[] | null;
@@ -261,6 +341,14 @@ export interface GameStore {
   playNextRound: () => void;
   autoPlay: () => void;
   quitMatch: () => void;
+  /** 花金币买下这支 AI 战队的情报；同一对手只收一次钱。 */
+  buyScoutReport: (opponentId: string) => { ok: boolean; error?: string };
+  /** 请求暂停（每场 2 次，只在回合之间可用）。 */
+  requestPause: () => { ok: boolean; error?: string };
+  /** 教练鼓舞（每场 1 次）：下一回合开打时一次性生效，回合结束自动失效。 */
+  coachBoost: () => { ok: boolean; error?: string };
+  /** 残局决策三选一：立刻写入本回合指令，只影响下一回合。 */
+  setClutchDecision: (decision: ClutchDecision | null) => void;
 
   enterTournament: (tier: number, eventId?: string) => { ok: boolean; error?: string };
   /** 报名赛季赛事（必须在报名截止日前）。 */
@@ -334,6 +422,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   activeMatch: null,
   activeMatchInfo: null,
   playerOrders: null,
+  scoutReports: {},
+  matchTactics: freshMatchTactics(),
   lastSummary: null,
   lastPackResults: null,
   lastCoachResults: null,
@@ -368,6 +458,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       coinsLedger: s.coinsLedger,
       customTemplates: s.customTemplates,
       customPlayers: s.customPlayers,
+      scoutReports: s.scoutReports,
     };
   },
 
@@ -391,6 +482,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         headCoachId: snapshot.headCoachId ?? null,
         tacticDefaults: snapshot.tacticDefaults ?? {},
         coachXp: snapshot.coachXp ?? {},
+        scoutReports: sanitizeScoutReports(snapshot.scoutReports),
+        matchTactics: freshMatchTactics(),
       });
       const filledNow = Object.values(snapshot.squad.slots).filter(Boolean).length;
       if (filledNow === 0 && snapshot.cards.length >= 5 && !recoveryDone) {
@@ -415,7 +508,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       tasks: fresh.tasks, coinsLedger: fresh.coinsLedger,
       customTemplates: [], customPlayers: [],
       tacticDefaults: fresh.tacticDefaults ?? {}, coachXp: fresh.coachXp ?? {},
-      activeMatch: null, activeMatchInfo: null, playerOrders: null, lastSummary: null, lastPackResults: null,
+      scoutReports: {},
+      activeMatch: null, activeMatchInfo: null, playerOrders: null, matchTactics: freshMatchTactics(), lastSummary: null, lastPackResults: null,
     });
     await writeSave(get().snapshot());
     get().toast(`俱乐部已创建——欢迎来到职业巡回赛，${fresh.club.name}。`, 'success');
@@ -442,7 +536,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       career: s.career, tournaments: s.tournaments, settings: s.settings,
       tasks: s.tasks.length ? s.tasks : defaultTasks(),
       coinsLedger: s.coinsLedger, customTemplates: s.customTemplates, customPlayers: s.customPlayers,
-      activeMatch: null, activeMatchInfo: null, playerOrders: null, lastSummary: null,
+      scoutReports: sanitizeScoutReports(s.scoutReports),
+      activeMatch: null, activeMatchInfo: null, playerOrders: null, matchTactics: freshMatchTactics(), lastSummary: null,
     });
     await writeSave(get().snapshot());
     get().toast('存档导入成功。', 'success');
@@ -882,6 +977,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       activeMatch: match,
       activeMatchInfo: { mode: opts.mode, opponentId, opponentName, brain, tournamentId: opts.tournamentId, tournamentMatchId: opts.tournamentMatchId },
       playerOrders: { side, buy: suggestedBuy, tactic: side === 'T' ? tSideTactic(s.tacticDefaults, opts.mapId, opts.tactic) : 'standard_defense', target: 'AUTO' },
+      matchTactics: freshMatchTactics(),
       lastSummary: null,
     });
     return { ok: true };
@@ -912,9 +1008,37 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const orders: TeamRoundOrders = playerSide === 'T'
       ? { t: playerOrder, ct: aiOrders }
       : { t: aiOrders, ct: playerOrder };
-    playRound(match, orders);
+    const tactics = s.matchTactics;
+    // 教练鼓舞：只在这一次开打期间抬高属性，回合结束立刻还原（finally 保证一定跑）。
+    const restoreMorale = tactics.coachBoostArmed ? applyCoachMorale(match.teams.A) : null;
+    try {
+      playRound(match, orders);
+    } finally {
+      if (restoreMorale) restoreMorale();
+    }
     const cloned: MatchState = { ...match, rounds: [...match.rounds], events: [...match.events], scoreHistory: [...match.scoreHistory] };
-    set({ activeMatch: cloned });
+    // 场间调整写进刚刚结束的这一回合日志：一回合一次，结束后自动失效。
+    const notes: { kind: MatchEventKind; text: string }[] = [];
+    if (tactics.coachBoostArmed) {
+      notes.push({ kind: 'tactic', text: `教练鼓舞：全队士气 +${Math.round(COACH_MORALE_BUFF * 100)}%，这一回合一次性生效。` });
+    }
+    if (tactics.clutch && tactics.clutchNote) notes.push({ kind: 'tactic', text: tactics.clutchNote });
+    const lastRecord = cloned.rounds[cloned.rounds.length - 1];
+    if (lastRecord && notes.length > 0) {
+      const added = notes.map((note, index) => ({
+        id: `${match.id}-r${lastRecord.roundNumber}-adj${index}`,
+        round: lastRecord.roundNumber,
+        clock: 0,
+        kind: note.kind,
+        text: note.text,
+      }));
+      cloned.rounds[cloned.rounds.length - 1] = { ...lastRecord, events: [...lastRecord.events, ...added] };
+      cloned.events = [...cloned.events, ...added];
+    }
+    set({
+      activeMatch: cloned,
+      matchTactics: { ...tactics, coachBoostArmed: false, clutch: null, clutchNote: null },
+    });
     syncOrdersToSide(match);
     if (isMatchOver(cloned)) get().finalizeFromStore();
   },
@@ -938,10 +1062,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const orders: TeamRoundOrders = playerSide === 'T'
         ? { t: playerOrder, ct: aiOrders }
         : { t: aiOrders, ct: playerOrder };
-      playRound(match, orders);
+      // 鼓舞只作用于「下一回合」：自动模拟里的第一回合也照此生效，随后立刻还原。
+      const restore = guard === 1 && s.matchTactics.coachBoostArmed ? applyCoachMorale(match.teams.A) : null;
+      try {
+        playRound(match, orders);
+      } finally {
+        if (restore) restore();
+      }
     }
     const cloned: MatchState = { ...match, rounds: [...match.rounds], events: [...match.events], scoreHistory: [...match.scoreHistory] };
-    set({ activeMatch: cloned });
+    // 自动模拟不再走逐回合面板：一次性的鼓舞与残局决策在这里统一失效。
+    set({
+      activeMatch: cloned,
+      matchTactics: { ...s.matchTactics, coachBoostArmed: false, clutch: null, clutchNote: null },
+    });
     get().finalizeFromStore();
   },
 
@@ -1081,6 +1215,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       activeMatch: null,
       activeMatchInfo: null,
       playerOrders: null,
+      matchTactics: freshMatchTactics(),
     });
 
     void writeReplay({
@@ -1093,7 +1228,87 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().toast(playerWon ? `以 ${playerTeam.score}:${opponentTeam.score} 拿下比赛——+${rewards.coins} 金币。` : `以 ${playerTeam.score}:${opponentTeam.score} 输掉比赛——+${rewards.coins} 金币。`, playerWon ? 'success' : 'info');
   },
 
-  quitMatch: () => set({ activeMatch: null, activeMatchInfo: null, playerOrders: null }),
+  quitMatch: () => set({ activeMatch: null, activeMatchInfo: null, playerOrders: null, matchTactics: freshMatchTactics() }),
+
+  buyScoutReport: (opponentId) => {
+    const s = get();
+    if (s.scoutReports[opponentId]) return { ok: false, error: '这份情报已经买过了。' };
+    const spec = AI_TEAM_MAP[opponentId];
+    if (!spec) return { ok: false, error: '找不到这支战队。' };
+    const price = scoutPrice(spec, s.career.tier);
+    if (s.club.coins < price) {
+      return { ok: false, error: `金币不足——这份情报需要 ${price}，还差 ${price - s.club.coins}。` };
+    }
+    const at = Date.now();
+    set({
+      club: { ...s.club, coins: s.club.coins - price },
+      scoutReports: { ...s.scoutReports, [opponentId]: at },
+      coinsLedger: trimmedLedger(s.coinsLedger, [
+        { id: makeId('led'), delta: -price, reason: '侦查报告：' + spec.name, at },
+      ]),
+    });
+    get().toast(`${spec.name} 的侦查报告到手——经济风格、地图偏好与五人实力全部解锁。`, 'success');
+    void writeSave(get().snapshot());
+    return { ok: true };
+  },
+
+  requestPause: () => {
+    const s = get();
+    const match = s.activeMatch;
+    if (!match || isMatchOver(match)) return { ok: false, error: '现在不能暂停。' };
+    if (s.matchTactics.pausesUsed >= MATCH_TACTICS_LIMITS.pauses) {
+      return { ok: false, error: '本场暂停次数已经用完。' };
+    }
+    const used = s.matchTactics.pausesUsed + 1;
+    set({
+      matchTactics: { ...s.matchTactics, pausesUsed: used },
+      activeMatch: {
+        ...match,
+        events: [...match.events, {
+          id: makeId('pause'),
+          round: match.roundNumber,
+          clock: 0,
+          kind: 'info',
+          text: `请求暂停（本场第 ${used} 次）——节奏被打断，双方重新对齐。`,
+        }],
+      },
+    });
+    return { ok: true };
+  },
+
+  coachBoost: () => {
+    const s = get();
+    const match = s.activeMatch;
+    if (!match || isMatchOver(match)) return { ok: false, error: '现在不能使用教练鼓舞。' };
+    if (s.matchTactics.coachBoostsUsed >= MATCH_TACTICS_LIMITS.coachBoosts) {
+      return { ok: false, error: '本场鼓舞已经用过了。' };
+    }
+    set({
+      matchTactics: {
+        ...s.matchTactics,
+        coachBoostsUsed: s.matchTactics.coachBoostsUsed + 1,
+        coachBoostArmed: true,
+      },
+    });
+    return { ok: true };
+  },
+
+  setClutchDecision: (decision) => {
+    const s = get();
+    if (!s.activeMatch || isMatchOver(s.activeMatch) || !s.playerOrders) return;
+    if (!decision) {
+      set({ matchTactics: { ...s.matchTactics, clutch: null, clutchNote: null } });
+      return;
+    }
+    set({ matchTactics: { ...s.matchTactics, clutch: decision, clutchNote: CLUTCH_META[decision].note } });
+    // 只借用现成的引擎输入：保枪 → eco、强起 → force、换点 → 翻转目标点。
+    if (decision === 'save') s.setPlayerOrders({ buy: 'eco' });
+    if (decision === 'force') s.setPlayerOrders({ buy: 'force' });
+    if (decision === 'rotate') {
+      const target = get().playerOrders?.target ?? 'AUTO';
+      s.setPlayerOrders({ target: target === 'A' ? 'B' : 'A' });
+    }
+  },
 
   enterTournament: (tier: number, eventId?: string) => {
     const s = get();

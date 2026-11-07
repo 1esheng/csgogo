@@ -25,6 +25,7 @@ const TeamPage = React.lazy(() => import('@/pages/TeamPage').then((m) => ({ defa
 const CoachPage = React.lazy(() => import('@/pages/CoachPage').then((m) => ({ default: m.CoachPage })));
 const AchievementsPage = React.lazy(() => import('@/pages/AchievementsPage').then((m) => ({ default: m.AchievementsPage })));
 const RecordsPage = React.lazy(() => import('@/pages/RecordsPage').then((m) => ({ default: m.RecordsPage })));
+const MatchReportPage = React.lazy(() => import('@/pages/MatchReportPage').then((m) => ({ default: m.MatchReportPage })));
 const SettingsPage = React.lazy(() => import('@/pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
 import { Button, Input, Panel } from '@/components/ui';
 import { CommandPalette } from '@/components/CommandPalette';
@@ -234,6 +235,7 @@ function Layout() {
 <Route path='/coaches' element={<CoachPage />} />
             <Route path='/achievements' element={<AchievementsPage />} />
             <Route path='/records' element={<RecordsPage />} />
+            <Route path='/report/:id' element={<MatchReportPage />} />
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<DashboardPage />} />
           </Routes>

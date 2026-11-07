@@ -589,6 +589,8 @@ export interface GameSnapshot {
   tacticDefaults?: Partial<Record<MapId, string>>;
   /** 教练执教经验：OwnedCoach.instanceId → xp（旧存档没有该字段时按空对象处理）。 */
   coachXp?: Record<string, number>;
+  /** 已购买侦查报告的对手：对手 id → 购买时间戳（旧存档没有该字段时按空对象处理）。 */
+  scoutReports?: Record<string, number>;
   coinsLedger: { id: string; delta: number; reason: string; at: number }[];
   /** Generated (academy) card templates and their identities, persisted with the save. */
   customTemplates: CardTemplate[];

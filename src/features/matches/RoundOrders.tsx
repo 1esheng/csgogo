@@ -7,6 +7,7 @@ import { activeTacticOptions, tacticInfo, useGameStore } from '@/stores/gameStor
 import { BUY_LABEL, MATCH_ECONOMY } from '@/data/config';
 import { MAPS } from '@/data/maps';
 import { Badge, Button, Modal, Progress } from '@/components/ui';
+import { MatchTacticsPanel } from './MatchTactics';
 import { moneyLabel, ROUND_REASON_LABEL } from './matchUi';
 
 const SPEEDS: { value: 1 | 2 | 4; label: string }[] = [
@@ -165,6 +166,8 @@ export function RoundOrdersPanel({ match }: { match: MatchState }) {
           </span>
         )}
       </div>
+
+      <MatchTacticsPanel />
 
       <Modal open={confirmQuit} onClose={() => setConfirmQuit(false)} title={tr('放弃本场比赛？')}>
         <p className='text-[15px] text-txt-muted'>

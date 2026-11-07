@@ -14,6 +14,9 @@ import { PHRASES as fixI18n } from '@/i18n/areas/fix-i18n';
 import { PHRASES as fixPack } from '@/i18n/areas/fix-pack';
 import { PHRASES as fixTraining } from '@/i18n/areas/fix';
 import { PHRASES as cheats } from '@/i18n/areas/cheats';
+import { PHRASES as scoutArea } from '@/i18n/areas/scout';
+import { PHRASES as reportArea } from '@/i18n/areas/report';
+import { PHRASES as vetoArea } from '@/i18n/areas/veto';
 
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
@@ -483,6 +486,9 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...fixPack,
   ...fixTraining,
   ...cheats,
+  ...scoutArea,
+  ...reportArea,
+  ...vetoArea,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));

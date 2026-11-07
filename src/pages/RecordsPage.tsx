@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Coins, Flame, History, Swords, Target } from 'lucide-react';
 import type { MapId, MatchSummary } from '@/types';
 import { useGameStore } from '@/stores/gameStore';
@@ -16,6 +17,7 @@ function formatDate(ts: number) {
 export function RecordsPage() {
   const { tr } = useT();
   const matches = useGameStore((s) => s.matches);
+  const navigate = useNavigate();
   const [selected, setSelected] = useState<MatchSummary | null>(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -127,7 +129,14 @@ export function RecordsPage() {
         wide
         title={selected ? tr('对阵 ') + selected.opponentName : tr('比赛')}
       >
-        {selected ? <RecordDetailBody summary={selected} /> : null}
+        {selected ? (
+          <div className='space-y-3'>
+            <RecordDetailBody summary={selected} />
+            <div className='flex justify-end'>
+              <Button size='sm' onClick={() => navigate('/report/' + selected.id)}>{tr('查看数据')}</Button>
+            </div>
+          </div>
+        ) : null}
       </Modal>
     </div>
   );

@@ -1,0 +1,47 @@
+/** 对手侦察 / 场间调整 的英文词条（由子智能体维护，勿与其它分区混写）。 */
+export const PHRASES: { zh: string; en: string }[] = [
+  // ── 侦察报告 ──
+  { zh: "侦察报告", en: "Scout report" },
+  { zh: "购买情报（", en: "Buy intel (" },
+  { zh: " 金币）", en: " coins)" },
+  { zh: "已购买情报", en: "Intel purchased" },
+  { zh: "已解锁", en: "Unlocked" },
+  { zh: "永久解锁", en: "One-time unlock" },
+  { zh: "风格", en: "Style" },
+  { zh: "其余情报未解锁", en: "rest of the intel is locked" },
+  { zh: "金币不足，还差 ", en: "Not enough coins, " },
+  { zh: " 金币", en: " coins short" },
+  { zh: "经济风格", en: "Economy" },
+  { zh: "偏好地图", en: "Preferred maps" },
+  { zh: "T 侧开场", en: "T-side opener" },
+  { zh: "CT 侧布阵", en: "CT-side setup" },
+  { zh: "临场调整", en: "Adaptivity" },
+  { zh: "五人实力（OVR 均值）", en: "Roster strength (average OVR)" },
+  { zh: "金币不足，买不起这份情报。", en: "Not enough coins for this intel." },
+  { zh: "经济保守：宁可不买枪也不勉强强起。", en: "Conservative economy: saves rather than forcing." },
+  { zh: "经济均衡：按钱包厚度决定买什么。", en: "Balanced economy: buys to fit the wallet." },
+  { zh: "偏好强起：宁可压上库存也要抢下这一分。", en: "Force-buy heavy: spends to steal the round." },
+  { zh: "很少变阵：连丢两回合之后通常还打同一套。", en: "Rarely adapts: sticks to the same plan after two losses." },
+  { zh: "会变阵：连丢两回合后有可能换战术。", en: "Adapts: may switch tactics after back-to-back losses." },
+  { zh: "调整很快：连丢两回合后大概率换战术，也会针对你的打法反制。", en: "Adapts fast: usually switches, and counters what you run." },
+
+  // ── 场间调整：暂停 / 教练鼓舞 ──
+  { zh: "场间调整", en: "Between rounds" },
+  { zh: "请求暂停", en: "Call timeout" },
+  { zh: "教练鼓舞", en: "Coach boost" },
+  { zh: "待生效", en: "Queued" },
+  { zh: "就绪", en: "Ready" },
+  { zh: "已用", en: "Used" },
+  { zh: "本场暂停次数已经用完。", en: "No timeouts left this match." },
+  { zh: "本场鼓舞已经用过了。", en: "The coach boost was already used this match." },
+
+  // ── 残局决策 ──
+  { zh: "残局决策", en: "Late-round call" },
+  { zh: "还没做残局决策 —— 选定后只影响下一回合。", en: "No late-round call yet — it only affects the next round." },
+  { zh: "保枪", en: "Save" },
+  { zh: "强起", en: "Force" },
+  { zh: "换点", en: "Rotate" },
+  { zh: "保枪：经济保住，但本回合放弃争夺。", en: "Save: keep the economy, give up this round." },
+  { zh: "强起：把库存全压上，只为这一分。", en: "Force: everything on the line for this round." },
+  { zh: "换点：这一回合改打另一侧包点。", en: "Rotate: hit the other site this round." },
+];
