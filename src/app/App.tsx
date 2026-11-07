@@ -38,7 +38,7 @@ function Toasts() {
         <div
           key={t.id}
           className={clsx(
-            'pointer-events-auto flex items-start gap-2 rounded-xl border p-3 text-[15px] shadow-card animate-fade-up',
+            'motion-rise pointer-events-auto flex items-start gap-2 rounded-xl border p-3 text-[15px] shadow-card',
             t.kind === 'success' && 'border-emerald-500/30 bg-emerald-500/10 text-emerald-100',
             t.kind === 'error' && 'border-danger/30 bg-danger/10 text-red-100',
             t.kind === 'info' && 'border-white/10 bg-ink-700/95 text-txt',
@@ -46,7 +46,7 @@ function Toasts() {
         >
           {t.kind === 'success' ? <CheckCircle2 size={16} className='mt-0.5 shrink-0' /> : t.kind === 'error' ? <AlertTriangle size={16} className='mt-0.5 shrink-0' /> : <Info size={16} className='mt-0.5 shrink-0' />}
           <span className='flex-1 leading-snug'>{t.text}</span>
-          <button onClick={() => dismiss(t.id)} className='text-current/60 hover:text-current'><X size={14} /></button>
+          <button onClick={() => dismiss(t.id)} className='focus-ring t-colors rounded text-current/60 hover:text-current'><X size={14} /></button>
         </div>
       ))}
     </div>
@@ -88,7 +88,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
       <button
         type='button'
         onClick={() => navigate('/packs')}
-        className='focus-ring flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-[15px] font-semibold text-accent'
+        className='focus-ring t-press flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent/10 px-3 py-1.5 text-[15px] font-semibold text-accent active:scale-[0.985]'
       >
         <Coins size={14} /> {club.coins.toLocaleString()}
         <span className='ml-1 grid h-4 w-4 place-items-center rounded bg-accent/25 text-[12px] leading-none'>+</span>
@@ -114,10 +114,10 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useT();
   return (
     <>
-      {open ? <div className='fixed inset-0 z-40 bg-black/60 lg:hidden' onClick={onClose} /> : null}
+      {open ? <div className='motion-fade fixed inset-0 z-40 bg-black/60 lg:hidden' onClick={onClose} /> : null}
       <aside
         className={clsx(
-          'fixed inset-y-0 left-0 z-40 flex w-[272px] flex-col border-r border-white/5 bg-ink-900/95 px-3.5 py-4 transition-transform duration-200 lg:static lg:translate-x-0 lg:bg-transparent',
+          't-transform fixed inset-y-0 left-0 z-40 flex w-[272px] flex-col border-r border-white/5 bg-ink-900/95 px-3.5 py-4 lg:static lg:translate-x-0 lg:bg-transparent',
           open ? 'translate-x-0' : '-translate-x-full',
         )}
       >
@@ -127,7 +127,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
             <div className='font-display text-[15px] font-semibold tracking-[0.12em] text-txt'>DYNASTY</div>
             <div className='text-[12px] tracking-[0.14em] text-txt-muted'>CS2 Manager</div>
           </div>
-          <button className='ml-auto text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
+          <button className='focus-ring t-colors ml-auto rounded text-txt-muted lg:hidden' onClick={onClose}><X size={16} /></button>
         </div>
         <nav className='flex flex-1 flex-col gap-4 overflow-y-auto pb-2'>
           {['nav.group.club', 'nav.group.match', 'nav.group.system'].map((group) => (
@@ -141,7 +141,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
                     onClick={onClose}
                     className={({ isActive }) =>
                       clsx(
-                        'focus-ring group relative flex h-[36px] items-center gap-2.5 rounded-lg px-2.5 text-[14px] leading-none transition-colors duration-150',
+                        'focus-ring t-colors group relative flex h-[36px] items-center gap-2.5 rounded-lg px-2.5 text-[14px] leading-none',
                         isActive
                           ? 'bg-white/[0.06] font-medium text-txt'
                           : 'text-txt-muted hover:bg-white/[0.06] hover:text-txt',
@@ -181,7 +181,7 @@ function Onboarding() {
         aria-hidden
         className='pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[68%] object-cover lg:block'
       />
-      <Panel className='relative w-full max-w-lg bg-ink-900/95'>
+      <Panel className='motion-rise relative w-full max-w-lg bg-ink-900/95'>
         <div className='mb-1 font-display text-3xl font-semibold tracking-tight'>CS2 <span className='text-accent'>DYNASTY</span></div>
         <p className='mb-6 text-[15px] text-txt-muted'>
           {tr('一款本地的电竞经理游戏：收集选手卡、组建五人阵容、临场指挥战术，从公开预选赛一路打进 MAJOR。')}
@@ -216,7 +216,7 @@ function Layout() {
         <TopBar onMenu={() => setMenuOpen(true)} />
         <CommandPalette />
         <main className='flex-1 px-4 py-5 lg:px-6'>
-          <div key={location.pathname} className='animate-page-in'>
+          <div key={location.pathname} className='motion-page'>
           <ErrorBoundary>
         <React.Suspense fallback={<div className="flex h-64 items-center justify-center text-[13px] text-txt-muted">{tr('正在载入…')}</div>}>
         <Routes>

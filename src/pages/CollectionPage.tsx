@@ -84,7 +84,7 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
           </Panel>
         )
       ) : (
-        <div className='grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+        <div className='stagger-list grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
           {visible.map((item) => (
             <div key={item.instanceId} className='flex flex-col items-center gap-1'>
               <PlayerCard

@@ -585,6 +585,10 @@ export interface GameSnapshot {
   coaches?: OwnedCoach[];
   /** 现任主教练（OwnedCoach.instanceId）。 */
   headCoachId?: string | null;
+  /** 每张地图的默认战术（旧存档没有该字段时按空对象处理）。 */
+  tacticDefaults?: Partial<Record<MapId, string>>;
+  /** 教练执教经验：OwnedCoach.instanceId → xp（旧存档没有该字段时按空对象处理）。 */
+  coachXp?: Record<string, number>;
   coinsLedger: { id: string; delta: number; reason: string; at: number }[];
   /** Generated (academy) card templates and their identities, persisted with the save. */
   customTemplates: CardTemplate[];

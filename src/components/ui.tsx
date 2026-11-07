@@ -40,7 +40,7 @@ export function Button({
   type?: 'button' | 'submit';
 }) {
   const variants: Record<ButtonVariant, string> = {
-    primary: 'bg-accent text-ink-900 hover:bg-accent/90 shadow-glow font-semibold',
+    primary: 'bg-accent text-ink-900 hover:bg-accent/90 font-semibold',
     ghost: 'bg-white/5 text-txt hover:bg-white/10',
     outline: 'border border-white/15 text-txt hover:border-accent/60 hover:text-accent',
     danger: 'bg-danger/90 text-white hover:bg-danger',
@@ -54,9 +54,9 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'focus-ring inline-flex items-center justify-center gap-2 rounded-xl transition-all duration-150 active:scale-[0.98]',
+        'focus-ring t-press inline-flex items-center justify-center gap-2 rounded-xl active:scale-[0.985]',
         variants[variant], sizes[size],
-        disabled && 'cursor-not-allowed opacity-40 active:scale-100',
+        disabled && 'cursor-not-allowed opacity-40',
         className,
       )}
     >
@@ -87,16 +87,16 @@ export function Progress({
 }: { value: number; max?: number; tone?: 'accent' | 'danger' | 'success' | 'blue'; height?: string; label?: string }) {
   const pct = Math.max(0, Math.min(100, (value / Math.max(1, max)) * 100));
   const tones = {
-    accent: 'from-accent/80 to-accent',
-    danger: 'from-danger/70 to-danger',
-    success: 'from-emerald-600 to-emerald-400',
-    blue: 'from-sky-600 to-sky-400',
+    accent: 'bg-accent',
+    danger: 'bg-danger',
+    success: 'bg-emerald-500',
+    blue: 'bg-sky-500',
   };
   return (
     <div className='w-full'>
       {label ? <div className='mb-1 flex justify-between text-[12px] text-txt-muted'><span>{label}</span><span>{Math.round(pct)}%</span></div> : null}
       <div className={clsx('w-full overflow-hidden rounded-full bg-white/8', height)}>
-        <div className={clsx('h-full rounded-full bg-gradient-to-r transition-all duration-500', tones[tone])} style={{ width: pct + '%' }} />
+        <div className={clsx('t-width h-full rounded-full', tones[tone])} style={{ width: pct + '%' }} />
       </div>
     </div>
   );
@@ -127,7 +127,7 @@ export function Tabs({
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={clsx(
-            'focus-ring rounded-lg px-3 py-1.5 text-[13px] font-semibold transition-colors',
+            'focus-ring t-colors rounded-lg px-3 py-1.5 text-[13px] font-semibold',
             active === tab.id ? 'bg-accent text-ink-900' : 'text-txt-muted hover:text-txt',
           )}
         >
@@ -143,9 +143,12 @@ export function Modal({
 }: { open: boolean; onClose: () => void; children: React.ReactNode; title?: string; wide?: boolean }) {
   if (!open) return null;
   const content = (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm' onClick={onClose}>
+    <div className='motion-fade fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm' onClick={onClose}>
       <div
-        className={clsx('surface-raised max-h-[92vh] w-full overflow-y-auto p-6', wide ? 'max-w-5xl' : 'max-w-2xl')}
+        role='dialog'
+        aria-modal='true'
+        tabIndex={-1}
+        className={clsx('motion-panel focus-ring surface-raised max-h-[92vh] w-full overflow-y-auto p-6', wide ? 'max-w-5xl' : 'max-w-2xl')}
         onClick={(e) => e.stopPropagation()}
       >
         <div className='mb-4 flex items-center justify-between'>
@@ -186,7 +189,7 @@ export function Select<T extends string>({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt'
+        className='focus-ring t-colors w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt'
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -207,7 +210,7 @@ export function Input({
         maxLength={maxLength}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className='focus-ring w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt placeholder:text-txt-muted'
+        className='focus-ring t-colors w-full rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-[15px] text-txt placeholder:text-txt-muted'
       />
     </label>
   );

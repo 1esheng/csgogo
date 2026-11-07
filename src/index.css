@@ -2,16 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+:root {
+  color-scheme: dark;
 
-html, body, #root { height: 100%; }
+  /* Motion: one curve family, three durations. Every transition and entrance animation uses these. */
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 240ms;
+
+  /* Graphite ramp, mirroring the ink-* tokens in tailwind.config.js. */
+  --ink-900: #0b0e13;
+  --ink-800: #151a23;
+  --ink-700: #1d2430;
+  --ink-600: #252e3d;
+  --ink-500: #35404f;
+
+  --scroll-track: var(--ink-900);
+  --scroll-thumb: var(--ink-600);
+  --scroll-thumb-hover: var(--ink-500);
+}
+
+html,
+body,
+#root { height: 100%; }
 
 body {
   margin: 0;
-  background: #0B0E13;
-  color: #F5F6FA;
+  background: var(--ink-900);
+  color: #f5f6fa;
   font-family: Inter, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
 }
 
 @layer components {
@@ -35,28 +58,93 @@ body {
   }
 }
 
+/* Scrollbars and selection: one graphite ramp, one amber tint. */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #0B0E13; }
-::-webkit-scrollbar-thumb { background: #252E3D; border-radius: 999px; border: 2px solid #0B0E13; }
-::-webkit-scrollbar-thumb:hover { background: #35404f; }
+::-webkit-scrollbar-track { background: var(--scroll-track); }
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 999px;
+  border: 2px solid var(--scroll-track);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
+
+::selection {
+  background: rgba(245, 166, 35, 0.25);
+  color: #f5f6fa;
+}
+
+/* Transition primitives: explicit property lists, never transition-all. */
+.t-colors {
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out-soft);
+}
+
+.t-press {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out-quart);
+}
+
+.t-transform {
+  transition-property: transform;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out-quart);
+}
+
+.t-width {
+  transition-property: width;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out-soft);
+}
+
+/* Entrance: one short fade plus a 4-6px lift, no overshoot, no direction fan-out. */
+@keyframes enter-page {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes enter-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes enter-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes enter-panel {
+  from { opacity: 0; transform: translateY(6px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.motion-page { animation: enter-page var(--dur-slow) var(--ease-out-quart) both; }
+.motion-rise { animation: enter-rise var(--dur-base) var(--ease-out-quart) both; }
+.motion-fade { animation: enter-fade var(--dur-base) var(--ease-out-soft) both; }
+.motion-panel { animation: enter-panel var(--dur-slow) var(--ease-out-quart) both; }
+
+/* List stagger: only the first six children are delayed, the rest render immediately. */
+.stagger-list > * {
+  animation: enter-rise var(--dur-base) var(--ease-out-quart) both;
+}
+.stagger-list > :nth-child(1) { animation-delay: 0ms; }
+.stagger-list > :nth-child(2) { animation-delay: 24ms; }
+.stagger-list > :nth-child(3) { animation-delay: 48ms; }
+.stagger-list > :nth-child(4) { animation-delay: 72ms; }
+.stagger-list > :nth-child(5) { animation-delay: 96ms; }
+.stagger-list > :nth-child(6) { animation-delay: 120ms; }
+.stagger-list > :nth-child(n + 7) { animation: none; }
 
 .card-face {
   position: relative;
   overflow: hidden;
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition-property: transform, box-shadow, border-color;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out-quart);
 }
-.card-face:hover { transform: translateY(-3px); }
+.card-face:hover { transform: translateY(-2px); }
 
-.card-sheen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,0.12) 46%, transparent 60%);
-  transform: translateX(-120%);
-  transition: transform .6s ease;
-  pointer-events: none;
-}
-.card-sheen:hover::after { transform: translateX(120%); }
+/* card-sheen used to sweep a gradient highlight; the direction has no gradients, so hover now
+   only lifts the surface tone through .card-face. The class is kept as the page-side hook. */
+.card-sheen { position: relative; }
 
 .timeline-line::before {
   content: '';
@@ -72,7 +160,7 @@ body {
 /* 联赛阶梯滚动区：保持细窄的暗色滚动条 */
 .tier-scroll {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-color: var(--scroll-thumb) transparent;
 }
 
 .tier-scroll::-webkit-scrollbar {
@@ -80,8 +168,12 @@ body {
 }
 
 .tier-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--scroll-thumb);
   border-radius: 999px;
+}
+
+.tier-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
 }
 
 .tier-scroll::-webkit-scrollbar-track {
@@ -102,8 +194,10 @@ body {
     *::before,
     *::after {
       animation-duration: 0.001ms !important;
+      animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
+      transition-delay: 0ms !important;
       scroll-behavior: auto !important;
     }
   }

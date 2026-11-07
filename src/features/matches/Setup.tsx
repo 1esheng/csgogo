@@ -6,11 +6,12 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { Ban, Crosshair, FastForward, MapPin, Play, ShieldCheck, Swords, Users } from 'lucide-react';
 import { ROLE_LABEL, type AITeamSpec, type MapId } from '@/types';
-import { aiOpponents, matchMapOptions, tacticInfo, useGameStore } from '@/stores/gameStore';
+import { activeTacticOptions, aiOpponents, matchMapOptions, tacticInfo, useGameStore } from '@/stores/gameStore';
+import { trGameplay } from '@/i18n/areas/gameplay';
 import { aiTeamOvr } from '@/engine/lineup';
 import { MAPS } from '@/data/maps';
 import { CAREER_TIERS, MATCH_CONFIG } from '@/data/config';
-import { Badge, Button, Panel, Progress, SectionTitle } from '@/components/ui';
+import { Badge, Button, Panel, Progress, SectionTitle, Select } from '@/components/ui';
 import { ECON_STYLE_LABEL } from './matchUi';
 
 type MatchMode = 'tactical' | 'quick';
@@ -24,8 +25,13 @@ export function Setup() {
   const store = useGameStore();
   const opponents = aiOpponents();
   const maps = matchMapOptions();
+  const tTactics = activeTacticOptions('T');
   const [opponentId, setOpponentId] = useState<string>(() => opponents[0]?.id ?? '');
   const [mapId, setMapId] = useState<MapId>(() => maps[0] ?? 'Mirage');
+  // 战术预设：默认取该图的默认战术，没有默认就沿用引擎默认执行。
+  const [tacticId, setTacticId] = useState<string>(
+    () => store.tacticDefaults?.[maps[0] ?? 'Mirage'] ?? tTactics[0]?.id ?? 'default',
+  );
   const [mode, setMode] = useState<MatchMode>('tactical');
   const [error, setError] = useState<string | null>(null);
 
@@ -37,6 +43,18 @@ export function Setup() {
   }, {});
   const opponent = opponents.find((o) => o.id === opponentId) ?? opponents[0] ?? null;
   const blocked = breakdown.filled < 5;
+  const tactic = tacticInfo(tacticId) ?? tTactics[0] ?? null;
+  const effectiveTacticId = tactic ? tactic.id : 'default';
+  const mapDefault = store.tacticDefaults?.[mapId] ?? null;
+  const mapDefaultTactic = mapDefault ? tacticInfo(mapDefault) : null;
+
+  const pickMap = (id: MapId) => {
+    setMapId(id);
+    setError(null);
+    // 切换地图时套用该图默认战术；没有默认就保持当前选择。
+    const next = store.tacticDefaults?.[id];
+    if (next) setTacticId(next);
+  };
   const tiers = [...new Set(opponents.map((o) => o.tier))].sort((a, b) => a - b);
 
   const start = () => {
@@ -45,7 +63,7 @@ export function Setup() {
       setError(tr('请先选择一个对手。'));
       return;
     }
-    const result = store.startMatch({ mapId, opponentId: opponent.id, mode });
+    const result = store.startMatch({ mapId, opponentId: opponent.id, mode, tactic: effectiveTacticId });
     if (!result.ok) {
       setError(result.error ?? tr('这场比赛无法开始。'));
       return;
@@ -157,9 +175,9 @@ export function Setup() {
                 return (
                   <button
                     key={id}
-                    onClick={() => { setMapId(id); setError(null); }}
+                    onClick={() => pickMap(id)}
                     className={clsx(
-                      'focus-ring w-full rounded-xl border px-3 py-2 text-left transition-all duration-150',
+                      'focus-ring w-full rounded-xl border px-3 py-2 text-left t-colors',
                       selected ? 'border-accent/60 bg-accent/10' : 'border-white/10 bg-white/[0.02] hover:border-white/25',
                     )}
                   >
@@ -184,6 +202,34 @@ export function Setup() {
                   </button>
                 );
               })}
+            </div>
+          </Panel>
+
+          <Panel>
+            <SectionTitle
+              title={trGameplay('进攻战术预设')}
+              subtitle={trGameplay('换图时自动套用该图的默认战术；比赛里仍然可以随时改。')}
+              right={<Crosshair size={15} className='text-txt-muted' />}
+            />
+            <Select
+              value={effectiveTacticId}
+              onChange={(id) => { setTacticId(id); setError(null); }}
+              options={tTactics.map((t) => ({ value: t.id, label: tr(t.name) }))}
+            />
+            {tactic ? <p className='mt-1.5 text-[12px] leading-snug text-txt-muted'>{tr(tactic.blurb)}</p> : null}
+            <div className='mt-2 flex flex-wrap items-center justify-between gap-2 text-[12px]'>
+              <span className='text-txt-muted'>
+                {mapDefault
+                  ? trGameplay('该图默认：') + (mapDefaultTactic ? tr(mapDefaultTactic.name) : mapDefault)
+                  : trGameplay('该图还没有默认战术')}
+              </span>
+              <button
+                type='button'
+                onClick={() => store.setDefaultTactic(mapId, mapDefault === effectiveTacticId ? '' : effectiveTacticId)}
+                className='focus-ring rounded text-txt-muted underline decoration-dotted underline-offset-2 transition-colors hover:text-accent'
+              >
+                {mapDefault === effectiveTacticId ? trGameplay('取消该图默认') : trGameplay('设为该图默认')}
+              </button>
             </div>
           </Panel>
 
@@ -250,8 +296,8 @@ function OpponentCard({
     <button
       onClick={onSelect}
       className={clsx(
-        'focus-ring rounded-xl border px-3 py-2 text-left transition-all duration-150',
-        selected ? 'border-accent/60 bg-accent/10 shadow-glow' : 'border-white/10 bg-white/[0.02] hover:border-white/25',
+        'focus-ring rounded-xl border px-3 py-2 text-left t-colors',
+        selected ? 'border-accent/60 bg-accent/10' : 'border-white/10 bg-white/[0.02] hover:border-white/25',
       )}
     >
       <div className='flex items-center justify-between gap-2'>
@@ -295,7 +341,7 @@ function ModeCard({
     <button
       onClick={onClick}
       className={clsx(
-        'focus-ring flex items-start gap-3 rounded-xl border px-3 py-2 text-left transition-all duration-150',
+        'focus-ring flex items-start gap-3 rounded-xl border px-3 py-2 text-left t-colors',
         active ? 'border-accent/60 bg-accent/10' : 'border-white/10 bg-white/[0.02] hover:border-white/25',
       )}
     >

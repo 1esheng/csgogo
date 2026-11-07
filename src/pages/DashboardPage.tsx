@@ -200,7 +200,7 @@ export function DashboardPage() {
             {recentHonors.length === 0 ? (
               <p className='text-[13px] text-txt-muted'>{tr('还没有奖杯——打进生涯联赛夺冠后会记录在这里。')}</p>
             ) : (
-              <div className='grid gap-2 sm:grid-cols-2'>
+              <div className='stagger-list grid gap-2 sm:grid-cols-2'>
                 {recentHonors.map((h) => (
                   <div
                     key={h.id}

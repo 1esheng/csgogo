@@ -1,4 +1,5 @@
-import type { CardTemplate, GameSettings, GameSnapshot, LeaderboardEntry, OwnedCard } from '@/types';
+import type { CardTemplate, GameSettings, GameSnapshot, LeaderboardEntry, MapId, OwnedCard } from '@/types';
+import { MAP_IDS } from '@/types';
 import { GAME_VERSION } from '@/data/config';
 import { TEMPLATE_MAP } from '@/data/cards';
 import { AI_TEAMS, AI_TEAM_MAP } from '@/data/aiTeams';
@@ -86,6 +87,28 @@ export function validateSnapshot(raw: unknown): ValidationResult {
   return { ok: true, snapshot: normalise(snapshot) };
 }
 
+/** 战术默认表兜底：只保留 MapId 键与字符串值，非法内容一律丢弃。 */
+function sanitizeTacticDefaults(raw: unknown): Partial<Record<MapId, string>> {
+  if (!isObject(raw)) return {};
+  const out: Partial<Record<MapId, string>> = {};
+  MAP_IDS.forEach((id) => {
+    const value = raw[id];
+    if (typeof value === 'string' && value.length > 0) out[id] = value;
+  });
+  return out;
+}
+
+/** 教练经验表兜底：只保留数字值，负数与非法值归零后丢弃。 */
+function sanitizeCoachXp(raw: unknown): Record<string, number> {
+  if (!isObject(raw)) return {};
+  const out: Record<string, number> = {};
+  Object.entries(raw).forEach(([key, value]) => {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) return;
+    out[key] = Math.round(value);
+  });
+  return out;
+}
+
 function normalise(s: GameSnapshot): GameSnapshot {
   const migrated = migrateCards(s);
   return {
@@ -102,6 +125,9 @@ function normalise(s: GameSnapshot): GameSnapshot {
     coinsLedger: s.coinsLedger ?? [],
     customTemplates: s.customTemplates ?? [],
     customPlayers: s.customPlayers ?? [],
+    // 旧存档兼容：战术默认表与教练经验表是后加的字段。
+    tacticDefaults: sanitizeTacticDefaults(s.tacticDefaults),
+    coachXp: sanitizeCoachXp(s.coachXp),
     settings: {
       ...({
         language: 'zh' as const,

@@ -20,10 +20,10 @@ export function Celebration() {
       <button
         type='button'
         onClick={clear}
-        className='pointer-events-auto animate-level-pop rounded-2xl border px-6 py-4 text-center backdrop-blur-md'
-        style={{ borderColor: tone.color + '66', background: 'linear-gradient(160deg,' + tone.color + '22, rgba(12,15,20,0.92))', boxShadow: '0 0 60px -20px ' + tone.color }}
+        className='motion-panel focus-ring pointer-events-auto rounded-2xl border bg-ink-800/95 px-6 py-4 text-center shadow-card backdrop-blur-md'
+        style={{ borderColor: tone.color + '4D' }}
       >
-        <div className='flex items-center justify-center gap-2 text-[12px] ' style={{ color: tone.color }}>
+        <div className='flex items-center justify-center gap-2 text-[12px]' style={{ color: tone.color }}>
           <Icon size={13} /> {tone.label}
         </div>
         <div className='mt-1 font-display text-xl font-semibold text-txt'>{celebration.title}</div>

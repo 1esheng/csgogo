@@ -82,7 +82,7 @@ export function PacksPage() {
       {results && results.length > 0 ? <PackReveal results={results} players={players} skipAnimation={false} onClose={dismissResults} /> : null}
       {coachResults && coachResults.length > 0 ? <CoachReveal results={coachResults} onClose={clearCoachResults} /> : null}
 
-      <div className='grid gap-4 lg:grid-cols-3'>
+      <div className='stagger-list grid gap-4 lg:grid-cols-3'>
         <PackCard
           kind={tr('单抽')}
           title={tr('1 张选手卡')}

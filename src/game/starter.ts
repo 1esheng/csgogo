@@ -1,7 +1,8 @@
 import type {
-  CareerState, ClubState, GameSettings, GameSnapshot, LeaderboardEntry, OwnedCard,
+  CareerState, ClubState, GameSettings, GameSnapshot, LeaderboardEntry, OwnedCard, OwnedCoach,
   PackState, Prospect, SquadState, TaskProgress,
 } from '@/types';
+import type { CoachIdentity } from '@/data/coaches';
 import { ECONOMY, GAME_VERSION } from '@/data/config';
 import { starterTemplateIds, defaultSquadRoles, TEMPLATE_MAP, PLAYER_MAP } from '@/data/cards';
 import { AI_TEAMS } from '@/data/aiTeams';
@@ -66,6 +67,44 @@ export const EMPTY_CAREER: CareerState = {
   activeTournamentId: null, completedTournaments: 0, titles: 0,
 };
 
+/** 教练成长：每 100 执教经验升 1 级，每级执教能力 +1（上限 99）。 */
+export const COACH_GROWTH = { xpPerLevel: 100, abilityCap: 99 } as const;
+
+function safeXp(xp: number | undefined | null): number {
+  const n = typeof xp === 'number' && Number.isFinite(xp) ? xp : 0;
+  return Math.max(0, Math.round(n));
+}
+
+/** 一名教练的等级——100 经验 1 级。 */
+export function coachLevel(xp: number | undefined | null): number {
+  return Math.floor(safeXp(xp) / COACH_GROWTH.xpPerLevel);
+}
+
+/** 当前等级内的经验进度（into / need）。 */
+export function coachXpProgress(xp: number | undefined | null): { level: number; into: number; need: number } {
+  const total = safeXp(xp);
+  const level = coachLevel(total);
+  return { level, into: total - level * COACH_GROWTH.xpPerLevel, need: COACH_GROWTH.xpPerLevel };
+}
+
+/** 成长后的执教能力：基础值 + 等级，封顶 99。 */
+export function grownCoachAbility(base: number, xp: number | undefined | null): number {
+  const start = Number.isFinite(base) ? Math.round(base) : 0;
+  return Math.min(COACH_GROWTH.abilityCap, start + coachLevel(xp));
+}
+
+/** 已签教练的执教经验：存档 coachXp 与旧字段 OwnedCoach.xp 取较大值（旧存档兼容）。 */
+export function ownedCoachXp(owned: OwnedCoach | null | undefined, xpMap?: Record<string, number> | null): number {
+  if (!owned) return 0;
+  return Math.max(safeXp(xpMap?.[owned.instanceId]), safeXp(owned.xp));
+}
+
+/** 成长后的教练副本（不改原数据），用于 coachEffects 等调用处。 */
+export function grownCoach(identity: CoachIdentity | null | undefined, xp: number | undefined | null): CoachIdentity | null {
+  if (!identity) return null;
+  return { ...identity, ability: grownCoachAbility(identity.ability, xp) };
+}
+
 export function createNewGame(clubName: string): GameSnapshot {
   const cards = starterTemplateIds().map((id) => makeCard(id, 1));
   const club: ClubState = {
@@ -101,6 +140,8 @@ export function createNewGame(clubName: string): GameSnapshot {
     claimedAchievements: [],
     customTemplates: [],
     customPlayers: [],
+    tacticDefaults: {},
+    coachXp: {},
     coinsLedger: [{ id: makeId('led'), delta: ECONOMY.startingCoins, reason: '俱乐部创始资金', at: Date.now() }],
   };
 }

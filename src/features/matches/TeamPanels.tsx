@@ -54,7 +54,7 @@ export function TeamRoster({
               </div>
               <div className='mt-1 h-1 w-full overflow-hidden rounded-full bg-white/10'>
                 <div
-                  className={clsx('h-full rounded-full transition-all duration-300', hpTone(p.hp))}
+                  className={clsx('h-full rounded-full t-width', hpTone(p.hp))}
                   style={{ width: hpWidth(p.hp) }}
                 />
               </div>

@@ -26,7 +26,7 @@ import { createMatch, isMatchOver, playRound } from '@/engine/match';
 import { decideAiOrders, brainFromSpec, type AiBrain } from '@/engine/ai';
 import { lineupFromSpec } from '@/engine/lineup';
 import { decideBuy } from '@/engine/economy';
-import { createNewGame, defaultTasks, makeCard, startingSquad } from '@/game/starter';
+import { createNewGame, defaultTasks, grownCoach, makeCard, ownedCoachXp, startingSquad } from '@/game/starter';
 import { executePulls, pityStatus, type PullResult } from '@/game/packs';
 import { registryOf, playerLineupFromSquad } from '@/game/lineups';
 import { generateProspect, prospectToIdentity, prospectToTemplate } from '@/game/prospects';
@@ -141,6 +141,11 @@ export interface GameStore {
   teamHonors: Record<string, import("@/types").Honor[]>;
   coaches: OwnedCoach[];
   headCoachId: string | null;
+  /** 每张地图的默认战术（旧存档缺省为空对象）。 */
+  tacticDefaults: Partial<Record<MapId, string>>;
+  /** 教练执教经验：OwnedCoach.instanceId → xp（旧存档缺省为空对象）。 */
+  coachXp: Record<string, number>;
+  setDefaultTactic: (mapId: MapId, tacticId: string) => void;
   openCoachPack: (count: number) => OwnedCoach[] | null;
   setHeadCoach: (instanceId: string | null) => void;
   coinsLedger: GameSnapshot['coinsLedger'];
@@ -204,7 +209,7 @@ export interface GameStore {
   promoteProspect: (id: string) => { ok: boolean; error?: string };
   releaseProspect: (id: string) => void;
 
-  startMatch: (opts: { mapId: MapId; opponentId: string; mode: ActiveMatchInfo['mode']; tournamentId?: string; tournamentMatchId?: string }) => { ok: boolean; error?: string };
+  startMatch: (opts: { mapId: MapId; opponentId: string; mode: ActiveMatchInfo['mode']; tactic?: string; tournamentId?: string; tournamentMatchId?: string }) => { ok: boolean; error?: string };
   finalizeFromStore: () => void;
   setPlayerOrders: (patch: Partial<RoundOrders>) => void;
   playNextRound: () => void;
@@ -255,6 +260,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   teamHonors: {},
   coaches: [],
   headCoachId: null,
+  tacticDefaults: {},
+  coachXp: {},
   coinsLedger: bootstrap.coinsLedger,
   customTemplates: [],
   customPlayers: [],
@@ -289,6 +296,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       teamHonors: s.teamHonors,
       coaches: s.coaches,
       headCoachId: s.headCoachId,
+      tacticDefaults: s.tacticDefaults,
+      coachXp: s.coachXp,
       coinsLedger: s.coinsLedger,
       customTemplates: s.customTemplates,
       customPlayers: s.customPlayers,
@@ -313,6 +322,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         teamHonors: snapshot.teamHonors ?? {},
         coaches: snapshot.coaches ?? [],
         headCoachId: snapshot.headCoachId ?? null,
+        tacticDefaults: snapshot.tacticDefaults ?? {},
+        coachXp: snapshot.coachXp ?? {},
       });
       const filledNow = Object.values(snapshot.squad.slots).filter(Boolean).length;
       if (filledNow === 0 && snapshot.cards.length >= 5 && !recoveryDone) {
@@ -336,6 +347,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       career: fresh.career, tournaments: [], settings: fresh.settings,
       tasks: fresh.tasks, coinsLedger: fresh.coinsLedger,
       customTemplates: [], customPlayers: [],
+      tacticDefaults: fresh.tacticDefaults ?? {}, coachXp: fresh.coachXp ?? {},
       activeMatch: null, activeMatchInfo: null, playerOrders: null, lastSummary: null, lastPackResults: null,
     });
     await writeSave(get().snapshot());
@@ -555,7 +567,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   trainSquad: (drillId: string) => {
     const s = get();
     const headOwned = (s.coaches ?? []).find((c) => c.instanceId === s.headCoachId);
-    const coachBonus = coachEffects(headOwned ? COACH_MAP[headOwned.coachId] : null);
+    const coachBonus = coachEffects(grownCoach(headOwned ? COACH_MAP[headOwned.coachId] : null, ownedCoachXp(headOwned, s.coachXp)));
     const drill = TRAINING_DRILLS.find((d) => d.id === drillId);
     if (!drill) return { ok: false, error: '未知的训练项目。' };
     const lineup = COMBAT_ROLES.map((role) => s.squad.slots[role]).filter((id): id is string => Boolean(id));
@@ -619,7 +631,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   trainPlayer: (templateId: string, drillId: string) => {
     const s = get();
     const headOwned = (s.coaches ?? []).find((c) => c.instanceId === s.headCoachId);
-    const coachBonus = coachEffects(headOwned ? COACH_MAP[headOwned.coachId] : null);
+    const coachBonus = coachEffects(grownCoach(headOwned ? COACH_MAP[headOwned.coachId] : null, ownedCoachXp(headOwned, s.coachXp)));
     const drill = TRAINING_DRILLS.find((d) => d.id === drillId);
     if (!drill) return { ok: false, error: '未知的训练项目。' };
     const owned = s.cards.filter((c) => c.templateId === templateId);
@@ -666,7 +678,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (s.club.coins < drill.cost) return { ok: false, error: '金币不足，无法进行这项训练。' };
     const tpl = s.templates()[card.templateId];
     const headO = (s.coaches ?? []).find((c) => c.instanceId === s.headCoachId);
-    const coachBonus = coachEffects(headO ? COACH_MAP[headO.coachId] : null);
+    const coachBonus = coachEffects(grownCoach(headO ? COACH_MAP[headO.coachId] : null, ownedCoachXp(headO, s.coachXp)));
     const gain = Math.round(drill.xp * (tpl ? tpl.growth : 1) * (1 + coachBonus.trainingXpPct));
     const updated = s.cards.map((c) => (c.instanceId === instanceId ? recomputeLevel({ ...c, xp: c.xp + gain }) : c));
     const record: TrainingRecord = {
@@ -790,7 +802,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({
       activeMatch: match,
       activeMatchInfo: { mode: opts.mode, opponentId, opponentName, brain, tournamentId: opts.tournamentId, tournamentMatchId: opts.tournamentMatchId },
-      playerOrders: { side, buy: suggestedBuy, tactic: side === 'T' ? 'default' : 'standard_defense', target: 'AUTO' },
+      playerOrders: { side, buy: suggestedBuy, tactic: side === 'T' ? tSideTactic(s.tacticDefaults, opts.mapId, opts.tactic) : 'standard_defense', target: 'AUTO' },
       lastSummary: null,
     });
     return { ok: true };
@@ -970,8 +982,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     leaders = leaders.map((l) => (l.id === 'player' ? { ...l, tier: career.tier } : l));
 
+    // 正式比赛（联赛 / 赛事）让现任主教练积累执教经验；友谊赛与快速模拟不计。
+    const coachGrowth = awardCoachXp(s, info.mode, playerWon);
+
     set({
       club, cards, leaders, tasks, tournaments, career,
+      coachXp: coachGrowth.coachXp,
+      coaches: coachGrowth.coaches,
       squad: {
         ...s.squad,
         synergy: bumpSynergy(s.squad.synergy),
@@ -1293,6 +1310,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().toast(instanceId ? '已任命新任主教练。' : '已卸任主教练。', 'success');
     void writeSave(get().snapshot());
   },
+
+  setDefaultTactic: (mapId, tacticId) => {
+    const s = get();
+    const defaults = { ...(s.tacticDefaults ?? {}) };
+    // 传空字符串表示取消该图的默认战术。
+    if (!tacticId) delete defaults[mapId];
+    else defaults[mapId] = tacticId;
+    set({ tacticDefaults: defaults });
+    void writeSave(get().snapshot());
+  },
   grantTestCoins: (amount) => {
     const s = get();
     const coins = Math.max(0, Math.floor(amount));
@@ -1311,6 +1338,32 @@ export const useGameStore = create<GameStore>((set, get) => ({
     void writeSave(get().snapshot());
   },
 }));
+
+/** T 侧开赛战术：玩家指定 > 该图默认 > 引擎默认；未知战术 id 一律回退。 */
+function tSideTactic(defaults: Partial<Record<MapId, string>> | undefined, mapId: MapId, explicit?: string): string {
+  const valid = (id: string | undefined): id is string => Boolean(id) && tacticsForSide('T').some((t) => t.id === id);
+  if (valid(explicit)) return explicit;
+  const stored = defaults?.[mapId];
+  if (valid(stored)) return stored;
+  return 'default';
+}
+
+const COACH_MATCH_XP = { win: 18, loss: 12 } as const;
+
+/** 现任主教练的赛后执教经验（胜 +18 / 负 +12），返回新的经验表与教练列表。 */
+function awardCoachXp(
+  state: Pick<GameStore, 'coaches' | 'coachXp' | 'headCoachId'>,
+  mode: ActiveMatchInfo['mode'],
+  won: boolean,
+): { coachXp: Record<string, number>; coaches: OwnedCoach[] } {
+  const coaches = state.coaches ?? [];
+  const coachXp = { ...(state.coachXp ?? {}) };
+  const head = coaches.find((c) => c.instanceId === state.headCoachId);
+  if (!head || (mode !== 'career' && mode !== 'tournament')) return { coachXp, coaches };
+  const total = ownedCoachXp(head, coachXp) + (won ? COACH_MATCH_XP.win : COACH_MATCH_XP.loss);
+  coachXp[head.instanceId] = total;
+  return { coachXp, coaches: coaches.map((c) => (c.instanceId === head.instanceId ? { ...c, xp: total } : c)) };
+}
 
 function trimmedLedger(ledger: GameSnapshot['coinsLedger'], entries: GameSnapshot['coinsLedger']): GameSnapshot['coinsLedger'] {
   return [...entries, ...ledger].slice(0, 120);

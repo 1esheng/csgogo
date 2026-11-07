@@ -11,15 +11,15 @@
 
 抽卡养卡、组建五人首发、任命主教练、逐回合指挥战术，从公开预选赛一路打进 MAJOR
 
-[![Tests](https://img.shields.io/badge/tests-82%20passed-2ea44f?style=flat-square)](#-测试)
+[![Tests](https://img.shields.io/badge/tests-96%20passed-2ea44f?style=flat-square)](#-测试)
 [![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.5.2-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
+[![Version](https://img.shields.io/badge/version-v1.6.0-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
 [![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
 
-🌐 **[在线试玩](https://1esheng.github.io/csgogo/)** · ⬇️ **[下载 exe](https://github.com/1esheng/csgogo/releases/download/v1.5.2/CS2Dynasty.exe)** · 📖 **[English README](README.en.md)** · 🗂 **[项目结构](#-项目结构)** · 🐛 **[反馈问题](https://github.com/1esheng/csgogo/issues)**
+🌐 **[在线试玩](https://1esheng.github.io/csgogo/)** · ⬇️ **[下载 exe](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe)** · 📖 **[English README](README.en.md)** · 🗂 **[项目结构](#-项目结构)** · 🐛 **[反馈问题](https://github.com/1esheng/csgogo/issues)**
 
 </div>
 
@@ -27,6 +27,8 @@
 
 ## ✨ 特性
 
+- 🗺 **战术预设** —— 每张地图记住进攻战术，换图自动套用，可一键设为默认
+- 🎓 **教练成长** —— 主教练带正式比赛积累经验，每 100 经验升 1 级、每级执教能力 +1（上限 99）
 - ⌨️ **对局键盘操作** —— 空格推进回合、1–4 聚焦战术下拉、Esc 关闭弹窗
 - ⌨️ **Ctrl/Cmd+K 命令面板** —— 键盘直达 12 个页面，方向键选择、Esc 关闭
 - 📲 **可安装 PWA** —— 网页版可添加到桌面，独立窗口运行，无浏览器地址栏
@@ -86,7 +88,7 @@ npm install        # 安装依赖
 npm run dev        # 开发服务器 → http://127.0.0.1:5173
 npm run build      # 类型检查 + 生产构建（输出 dist/）
 npm run preview    # 预览生产构建 → :4173
-npm test           # 82 个自动化测试
+npm test           # 96 个自动化测试
 ```
 
 Windows 也可以直接双击仓库根目录的批处理：

@@ -6,6 +6,9 @@ import { useT } from '@/hooks/useLang';
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from '@/data/coaches';
 import { AI_TEAM_MAP } from '@/data/aiTeams';
 import { coachEffects } from '@/engine/coach';
+import { coachLevel, coachXpProgress, grownCoach, ownedCoachXp } from '@/game/starter';
+import { levelText } from '@/i18n';
+import { trGameplay } from '@/i18n/areas/gameplay';
 import { Badge, Button, Panel, Progress, SectionTitle, Tabs } from '@/components/ui';
 
 type Tab = 'owned' | 'all';
@@ -15,21 +18,29 @@ export function CoachPage() {
   const { t } = useT();
   const coaches = useGameStore((s) => s.coaches);
   const headCoachId = useGameStore((s) => s.headCoachId);
+  const coachXpMap = useGameStore((s) => s.coachXp);
   const setHeadCoach = useGameStore((s) => s.setHeadCoach);
   const openCoachPack = useGameStore((s) => s.openCoachPack);
   const coins = useGameStore((s) => s.club.coins);
   const [tab, setTab] = useState<Tab>('owned');
 
+  // 执教经验 → 等级 → 成长后的执教能力；排序与展示都用成长后的值。
   const ownedRows = useMemo(
     () => (coaches ?? [])
-      .map((c) => ({ owned: c, info: COACH_MAP[c.coachId] }))
-      .filter((x) => x.info)
-      .sort((a, b) => b.info!.ability - a.info!.ability),
-    [coaches],
+      .map((c) => {
+        const base = COACH_MAP[c.coachId];
+        if (!base) return null;
+        const xp = ownedCoachXp(c, coachXpMap);
+        const grown = grownCoach(base, xp) ?? base;
+        return { owned: c, info: base, grown, xp, level: coachLevel(xp), progress: coachXpProgress(xp) };
+      })
+      .filter((x): x is NonNullable<typeof x> => x !== null)
+      .sort((a, b) => b.grown.ability - a.grown.ability),
+    [coaches, coachXpMap],
   );
   const head = ownedRows.find((x) => x.owned.instanceId === headCoachId) ?? null;
   const allRows = useMemo(() => [...COACHES].sort((a, b) => b.ability - a.ability), []);
-  const effects = coachEffects(head ? head.info! : null);
+  const effects = coachEffects(head ? head.grown : null);
   const bonus = effects.attributeBonus;
 
   return (
@@ -54,18 +65,30 @@ export function CoachPage() {
       <Panel>
         <SectionTitle
           title={tr('现任主教练')}
-          subtitle={head ? tr('执教能力') + ' ' + head.info!.ability + ' · ' + head.info!.style + tr('型') : tr('尚未任命——任命一位教练可以给全队加成')}
+          subtitle={head ? trGameplay('执教能力') + ' ' + head.grown.ability + ' · ' + head.info.style + tr('型') : tr('尚未任命——任命一位教练可以给全队加成')}
           right={<GraduationCap size={16} className='text-txt-muted' />}
         />
         {head ? (
           <div className='flex flex-wrap items-center gap-3 rounded-xl border border-accent/30 bg-accent/[0.06] px-3 py-2'>
             <div className='grid h-11 w-11 place-items-center rounded-xl bg-accent/20 font-display text-[15px] font-semibold text-accent'>
-              {head.info!.nickname.slice(0, 2).toUpperCase()}
+              {head.info.nickname.slice(0, 2).toUpperCase()}
             </div>
             <div className='min-w-0 flex-1'>
-              <div className='font-display text-[15px] font-semibold text-txt'>{head.info!.nickname}</div>
+              <div className='flex flex-wrap items-center gap-2'>
+                <span className='font-display text-[15px] font-semibold text-txt'>{head.info.nickname}</span>
+                <Badge tone={head.level > 0 ? 'success' : 'muted'}>{levelText(head.level)}</Badge>
+              </div>
               <div className='text-[12px] text-txt-muted'>
-                {head.info!.country} · {head.info!.style} · {tr('能力')} {head.info!.ability}
+                {head.info.country} · {head.info.style} · {trGameplay('执教能力')} {head.grown.ability}
+                {head.level > 0 ? ' · ' + trGameplay('成长 +') + head.level : ''}
+              </div>
+              <div className='mt-1 flex items-center gap-2'>
+                <div className='w-32 shrink-0'>
+                  <Progress value={head.progress.into} max={head.progress.need} height='h-1' tone='accent' />
+                </div>
+                <span className='text-[12px] text-txt-muted'>
+                  {trGameplay('经验')} {head.progress.into}/{head.progress.need}
+                </span>
               </div>
             </div>
             <Badge tone='accent'>{tr('全队属性 +')}{bonus}</Badge>
@@ -85,8 +108,10 @@ export function CoachPage() {
           <Tabs tabs={[{ id: 'owned', label: tr('我的教练') }, { id: 'all', label: tr('全部教练') }]} active={tab} onChange={(id) => setTab(id as Tab)} />
         </div>
         <div className='space-y-1.5'>
-          {(tab === 'owned' ? ownedRows.map((r) => ({ owned: r.owned, info: r.info! })) : allRows.map((info) => ({ owned: null, info }))).map((row, index) => {
-            const tier = coachTier(row.info.ability);
+          {(tab === 'owned'
+            ? ownedRows.map((r) => ({ owned: r.owned, info: r.info, grown: r.grown, level: r.level, xp: r.xp }))
+            : allRows.map((info) => ({ owned: null, info, grown: info, level: 0, xp: 0 }))).map((row, index) => {
+            const tier = coachTier(row.grown.ability);
             const meta = COACH_TIER_META[tier];
             const isHead = row.owned && row.owned.instanceId === headCoachId;
             return (
@@ -108,18 +133,19 @@ export function CoachPage() {
                   <div className='flex items-center gap-2'>
                     <span className='truncate font-semibold text-txt'>{row.info.nickname}</span>
                     <Badge tone='muted'>{tr(meta.label)}</Badge>
+                    {row.level > 0 ? <Badge tone='success'>{levelText(row.level)}</Badge> : null}
                     {isHead ? <Badge tone='accent'>{tr('现任')}</Badge> : null}
                   </div>
                   <div className='truncate text-[12px] text-txt-muted'>
                     {row.info.country} · {row.info.style} · {AI_TEAM_MAP[row.info.teamId ?? '']?.name ?? tr('自由教练')}
-                    {row.owned && row.owned.xp > 0 ? tr(' · 执教经验 ') + row.owned.xp : ''}
+                    {row.owned && row.xp > 0 ? trGameplay('执教经验 ') + row.xp : ''}
                   </div>
                 </div>
                 <div className='w-28 shrink-0'>
-                  <Progress value={row.info.ability} max={100} height='h-1.5' tone='accent' />
+                  <Progress value={row.grown.ability} max={100} height='h-1.5' tone='accent' />
                 </div>
                 <span className='w-8 shrink-0 text-right font-display text-[15px] font-semibold' style={{ color: meta.color }}>
-                  {row.info.ability}
+                  {row.grown.ability}
                 </span>
                 {row.owned ? (
                   <Button size='sm' variant={isHead ? 'ghost' : 'outline'} onClick={() => setHeadCoach(isHead ? null : row.owned!.instanceId)}>

@@ -7,6 +7,7 @@ import { PHRASES as career } from '@/i18n/areas/career';
 import { PHRASES as match } from '@/i18n/areas/match';
 import { PHRASES as misc } from '@/i18n/areas/misc';
 import { PHRASES as shared } from '@/i18n/areas/shared';
+import { PHRASES as gameplay } from '@/i18n/areas/gameplay';
 
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
@@ -469,6 +470,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...match,
   ...misc,
   ...shared,
+  ...gameplay,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));
