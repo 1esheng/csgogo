@@ -32,9 +32,9 @@ function RoleGlyph({ role, size }: { role: string; size: number }) {
   const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   if (role === 'AWPer') return (<svg {...common}><circle cx='12' cy='12' r='7' /><path d='M12 2v4M12 18v4M2 12h4M18 12h4' /></svg>);
   if (role === 'Entry') return (<svg {...common}><path d='M4 18l8-8 8 8' /><path d='M4 10l8-8 8 8' /></svg>);
-  if (role === 'Lurker') return (<svg {...common}><path d='M12 3l9 9-9 9-9-9z' /></svg>);
-  if (role === 'Support') return (<svg {...common}><path d='M12 4v16M4 12h16' /><rect x='7' y='7' width='10' height='10' rx='2' /></svg>);
-  return (<svg {...common}><path d='M12 3l8 4v6c0 4-3.5 6.5-8 8-4.5-1.5-8-4-8-8V7z' /></svg>);
+  if (role === 'Lurker') return (<svg {...common}><path d='M12 21L3 5h18z' /></svg>);
+  if (role === 'Support') return (<svg {...common}><path d='M10 5h4v3h-4z' /><path d='M14 6.5h3' /><path d='M12 8c-3.6 0-6 2.6-6 6s2.4 6 6 6 6-2.6 6-6-2.4-6-6-6z' /><path d='M9 14h6' /></svg>);
+  return (<svg {...common}><path d='M4 6l8 8 8-8' /><path d='M4 14l8 8 8-8' /></svg>);
 }
 
 export function PlayerCard({
