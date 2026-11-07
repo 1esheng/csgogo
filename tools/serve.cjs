@@ -16,7 +16,9 @@ const MIME = {
 
 const server = http.createServer((req, res) => {
   const raw = decodeURIComponent((req.url || '/').split('?')[0]);
-  const key = raw === '/' ? 'index.html' : raw.replace(/^\/+/, '');
+  // 构建产物带 /csgogo/ 前缀（GitHub Pages 项目站点），本地服务时剥掉
+  const plain = raw.replace(/^\/+/, '').replace(/^csgogo\//, '');
+  const key = plain === '' ? 'index.html' : plain;
   let file = path.join(DIST, key);
   if (!file.startsWith(DIST) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) file = path.join(DIST, 'index.html');
   try {
