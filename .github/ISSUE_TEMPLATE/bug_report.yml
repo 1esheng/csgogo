@@ -1,0 +1,48 @@
+name: Bug report
+description: Something broke or behaves differently from the README
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please keep it short and concrete — a reproduction beats a description.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where does it happen
+      options:
+        - Web build (1esheng.github.io/csgogo)
+        - Windows exe (CS2Dynasty.exe)
+        - Local dev (npm run dev)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Shown under Settings, or the release tag you downloaded
+      placeholder: v1.5.2
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Packs
+        2. Open 10 packs
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output (optional)
+      render: shell
