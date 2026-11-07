@@ -10,7 +10,7 @@
 
 **CS2 电竞王朝** · 从组建首发阵容到问鼎 MAJOR，打造属于你的电竞王朝
 
-**[在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; [下载 Windows 版](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) &nbsp;·&nbsp; [English](README.en.md)
+**🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [下载 Windows 版](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [English](README.en.md)
 
 <sub>React 18 · TypeScript · Vite · 纯前端离线运行 · MIT</sub>
 
@@ -26,42 +26,42 @@
 
 </div>
 
-## 核心特色
+## 🎮 核心特色
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-**Player collection** — 三百余张选手卡，五档稀有度，综合评分由个人能力、位置熟练与团队贡献共同决定，卡面可逐项拆解。
+**🃏 Player collection** — 三百余张选手卡，五档稀有度，综合评分由个人能力、位置熟练与团队贡献共同决定，卡面可逐项拆解。
 
 </td>
 <td width="50%" valign="top">
 
-**Club management** — 首发、替补与队内指挥同屏调整，团队默契与地图适应度实时可见。
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**Tactics and matches** — 七张地图、逐回合引擎、MR12 与加时；买枪、道具与进攻点位由你决定，每张地图可记住默认战术。
-
-</td>
-<td width="50%" valign="top">
-
-**Competitive career** — 十档巡回赛，从公开预选赛打进 MAJOR；单败、双败与瑞士轮三种赛制。
+**🏟 Club management** — 首发、替补与队内指挥同屏调整，团队默契与地图适应度实时可见。
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-**Training and growth** — 等级上限 30、星级无上限；主教练随正式比赛积累经验，每级提升 1 点执教能力。
+**🎯 Tactics and matches** — 七张地图、逐回合引擎、MR12 与加时；买枪、道具与进攻点位由你决定，每张地图可记住默认战术。
 
 </td>
 <td width="50%" valign="top">
 
-**Offline by design** — 无后端、无账号、无联网请求；存档在 IndexedDB，可导出 JSON，也可安装为桌面应用。
+**🏆 Competitive career** — 十档巡回赛，从公开预选赛打进 MAJOR；单败、双败与瑞士轮三种赛制。
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**📈 Training and growth** — 等级上限 30、星级无上限；主教练随正式比赛积累经验，每级提升 1 点执教能力。
+
+</td>
+<td width="50%" valign="top">
+
+**💾 Offline by design** — 无后端、无账号、无联网请求；存档在 IndexedDB，可导出 JSON，也可安装为桌面应用。
 
 </td>
 </tr>
@@ -69,33 +69,33 @@
 
 ---
 
-## 游戏截图
+## 📸 游戏截图
 
-**阵容与教练**
+**🧩 阵容与教练**
 
 | 阵容管理 | 教练组 |
 | --- | --- |
 | ![阵容管理](docs/screenshots/174-en-lineup.png) | ![教练组](docs/screenshots/178-en-coaching.png) |
 
-**收藏与卡包**
+**🃏 收藏与卡包**
 
 | 选手图鉴 | 卡包 |
 | --- | --- |
 | ![选手图鉴](docs/screenshots/175-en-collection.png) | ![卡包](docs/screenshots/176-en-packs.png) |
 
-**比赛与战术**
+**🎯 比赛与战术**
 
 | 对局中心 | 战术预设 |
 | --- | --- |
 | ![对局中心](docs/screenshots/179-en-match.png) | ![战术预设](docs/screenshots/185-match-tactic-preset.png) |
 
-**生涯与排名**
+**🏆 生涯与排名**
 
 | 生涯 | 世界排名 |
 | --- | --- |
 | ![生涯](docs/screenshots/180-en-career.png) | ![世界排名](docs/screenshots/181-en-rankings.png) |
 
-**七张地图**　全部为本项目自绘的抽象战术示意图，不含真实地图布局或厂商资产。
+**🗺 七张地图**　全部为本项目自绘的抽象战术示意图，不含真实地图布局或厂商资产。
 
 | Mirage | Inferno | Nuke | Ancient |
 | --- | --- | --- | --- |
@@ -107,7 +107,7 @@
 
 ---
 
-## 如何开始
+## 🚀 如何开始
 
 | 方式 | 说明 |
 | --- | --- |
@@ -149,7 +149,7 @@ node tools/exe/set-icon.mjs src/assets/brand/icon-dark.png CS2Dynasty.exe
 
 </details>
 
-## 技术信息
+## 🛠 技术信息
 
 | | |
 | --- | --- |
@@ -194,7 +194,7 @@ export const ENABLE_DEV_PANEL = false; // 改为 true
 
 </details>
 
-## 数据与版权
+## 📜 数据与版权
 
 - 选手昵称、真实姓名、国籍、年龄：公开资料
 - 头像：212 张真实照片，来源为 prosettings.gg、prosettings.net、profilerr.net、Wikimedia Commons、Wikipedia，逐张记录在 `src/assets/avatars/credits.json`；其余选手使用程序生成的剪影头像
