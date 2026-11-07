@@ -4,6 +4,9 @@ import { pick as pickText, t as i18nT } from '@/i18n';
 import { CLUB_PRICES } from "@/data/clubCosmetics";
 import { COACHES, COACH_MAP, COACH_PACK, COACH_TIER_META, coachTier } from "@/data/coaches";
 import { ACHIEVEMENTS } from '@/data/achievements';
+import { MILESTONES, milestoneClaimId } from '@/game/milestones';
+import { ENDINGS, endingClaimId } from '@/game/endings';
+import { albumSynergyBonus, effectiveSynergy } from '@/game/albums';
 import type {
   AITeamSpec, AttributeKey, BuyType, CardTemplate, ClubState, CombatRole, GameSettings, GameSnapshot,
   LeaderboardEntry, MapId, MatchEventKind, MatchPlayerInit, MatchState, MatchSummary, OwnedCard, PackState,
@@ -373,6 +376,8 @@ export interface GameStore {
   /** 买下一名球员。 */
   /** 领取成就奖励。 */
   claimAchievement: (id: string) => { ok: boolean; error?: string };
+  /** 领取长期目标记录：里程碑发一次性金币，结局只写档案（都记在 claimedAchievements 里）。 */
+  claimMilestone: (id: string) => { ok: boolean; error?: string };
 
   /** ── 修改器（作弊面板）：只服务本地单机，不参与正式玩法 ── */
   cheatFlags: CheatFlags;
@@ -568,7 +573,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       : registry;
     const names: Record<string, string> = {};
     Object.values(players).forEach((p) => { names[p.id] = p.nickname; });
-    return buildSquadBreakdown({ squad: s.squad, cards: s.cards, templates, playerNames: names, mapId });
+    // 收藏册加成只抬高「默契」这个现有输入，不改任何引擎常量。
+    const synergy = effectiveSynergy(s.squad.synergy, albumSynergyBonus(s));
+    return buildSquadBreakdown({ squad: { ...s.squad, synergy }, cards: s.cards, templates, playerNames: names, mapId });
   },
   pity: () => pityStatus(get().pack),
 
@@ -1495,6 +1502,35 @@ export const useGameStore = create<GameStore>((set, get) => ({
     void writeSave(get().snapshot());
     return { ok: true };
   },
+
+  claimMilestone: (id) => {
+    const s = get();
+    const snapshot = s.snapshot();
+    const milestone = MILESTONES.find((m) => m.id === id);
+    if (milestone) {
+      const record = milestoneClaimId(id);
+      if (s.claimedAchievements.includes(record)) return { ok: false, error: pickText('已经领取过了。', 'Already claimed.') };
+      if (milestone.value(snapshot) < milestone.target) return { ok: false, error: pickText('里程碑还没达成。', 'Milestone not reached yet.') };
+      set({
+        claimedAchievements: [...s.claimedAchievements, record],
+        club: { ...s.club, coins: s.club.coins + milestone.reward },
+        coinsLedger: trimmedLedger(s.coinsLedger, [{ id: makeId('led'), delta: milestone.reward, reason: '里程碑：' + milestone.name, at: Date.now() }]),
+      });
+      get().toast(pickText('里程碑「' + milestone.name + '」+ ' + milestone.reward + ' 金币。', 'Milestone "' + milestone.nameEn + '" + ' + milestone.reward + ' coins.'), 'success');
+      void writeSave(get().snapshot());
+      return { ok: true };
+    }
+    const ending = ENDINGS.find((e) => e.id === id);
+    if (!ending) return { ok: false, error: pickText('没有这个记录。', 'No such record.') };
+    if (!ending.triggered(snapshot)) return { ok: false, error: pickText('这个结局还没有触发。', 'This ending has not triggered yet.') };
+    const endingRecord = endingClaimId(ending.id);
+    if (s.claimedAchievements.includes(endingRecord)) return { ok: false, error: pickText('已经领取过了。', 'Already claimed.') };
+    set({ claimedAchievements: [...s.claimedAchievements, endingRecord] });
+    get().toast(pickText('结局「' + ending.name + '」已写入生涯档案。', 'Ending "' + ending.nameEn + '" was written to your career record.'), 'success');
+    void writeSave(get().snapshot());
+    return { ok: true };
+  },
+
   openCoachPack: (count: number) => {
     const s = get();
     const price = count >= 10 ? COACH_PACK.ten : COACH_PACK.single;

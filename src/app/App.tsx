@@ -5,6 +5,7 @@ import { useT } from '@/hooks/useLang';
 import brandMark from '@/assets/brand/icon-dark.png';
 import heroImage from '@/assets/brand/onboarding-hero.png';
 import { pick, tr } from '@/i18n';
+import { VersionBadge } from '@/components/VersionBadge';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -12,6 +13,43 @@ import clsx from 'clsx';
 import { CheckCircle2, Coins, Menu, Shield, Trophy, Users, X, AlertTriangle, Info, Swords } from 'lucide-react';
 import { useGameStore } from '@/stores/gameStore';
 import { NAV_ITEMS } from '@/app/nav';
+import { playSfx, seedSoundPreference } from '@/audio/sfx';
+import { seasonTheme, seasonThemeStyle, useSeasonThemeEnabled } from '@/theme/seasonTheme';
+
+/**
+ * 音频桥：把已经存在的交互点接到合成音上，不改动这些交互点所在的文件。
+ * - 任意按钮点击 → click（文档级委托，禁用态跳过）
+ * - celebration 出现 → levelup / rare（升级庆祝、开包稀有掉落都走这里）
+ * - lastSummary 变化 → win / lose（比赛结算）
+ */
+function useAudioBridge() {
+  const celebrationId = useGameStore((s) => s.celebration?.id);
+  const celebrationTone = useGameStore((s) => s.celebration?.tone);
+  const summaryId = useGameStore((s) => s.lastSummary?.id);
+  const summaryWon = useGameStore((s) => s.lastSummary?.won);
+
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const button = target.closest('button');
+      if (!button || button.hasAttribute('disabled') || button.getAttribute('aria-disabled') === 'true') return;
+      playSfx('click');
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+
+  useEffect(() => {
+    if (!celebrationId) return;
+    playSfx(celebrationTone === 'rare' ? 'rare' : 'levelup');
+  }, [celebrationId, celebrationTone]);
+
+  useEffect(() => {
+    if (!summaryId) return;
+    playSfx(summaryWon ? 'win' : 'lose');
+  }, [summaryId, summaryWon]);
+}
 
 const DashboardPage = React.lazy(() => import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
 const SquadPage = React.lazy(() => import('@/pages/SquadPage').then((m) => ({ default: m.SquadPage })));
@@ -165,6 +203,9 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted'>
           {pick('本作全部评分均为原创平衡数值，并非真实 HLTV 数据。', 'All ratings in this game are original balance values, not real HLTV statistics.')}
         </div>
+        <div className='mt-2 flex items-center justify-between px-1'>
+          <VersionBadge />
+        </div>
       </aside>
     </>
   );
@@ -209,9 +250,13 @@ function Onboarding() {
 function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const seasonTier = useGameStore((s) => s.career?.tier ?? 0);
+  const seasonOn = useSeasonThemeEnabled();
   useEffect(() => { setMenuOpen(false); window.scrollTo({ top: 0 }); }, [location.pathname]);
+  // 赛季主题只在这一层显形：三个 CSS 变量 + 一层极淡的背景颗粒，关掉就完全不设变量。
+  const seasonStyle = seasonOn ? (seasonThemeStyle(seasonTheme(seasonTier)) as React.CSSProperties) : undefined;
   return (
-    <div className='flex min-h-screen bg-ink-900'>
+    <div className='flex min-h-screen bg-ink-900' style={seasonStyle}>
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
       <div className='flex min-w-0 flex-1 flex-col'>
         <TopBar onMenu={() => setMenuOpen(true)} />
@@ -252,10 +297,14 @@ function Layout() {
 
 export function App() {
   useLiveWorld();
+  useAudioBridge();
   const ready = useGameStore((s) => s.ready);
   const hasGame = useGameStore((s) => s.hasGame);
   const init = useGameStore((s) => s.init);
+  const savedSound = useGameStore((s) => s.settings.soundEnabled);
   useEffect(() => { void init(); }, [init]);
+  // 存档里的 soundEnabled 只作为「本地还没有音效偏好」时的一次性初始值，之后不再回写存档。
+  useEffect(() => { seedSoundPreference(savedSound); }, [savedSound]);
 
   if (!ready) {
     return (

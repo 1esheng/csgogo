@@ -162,6 +162,24 @@ See [docs/LAYOUT.md](docs/LAYOUT.md) for the repository layout and [docs/RELEASI
 
 > The report footer lists the metrics that are **not** shown because the engine does not record them (headshot rate, per-round damage), rather than inventing numbers.
 
+## 🏆 Long-term goals
+
+| System | Detail |
+| --- | --- |
+| **65 achievements** | Career, collection, coaching, tactics and easter eggs, filterable on the achievements page |
+| **Dynasty milestones** | Three MAJORs in a row, unbeaten season, five seasons in charge, three academy call-ups, all ten tiers won, five clean sweeps — each pays a one-time coin reward |
+| **Hall of fame** | Records players and coaches who left the lineup (scope is historical starters, no invented retirements) |
+| **Collection albums** | Auto-built by team and nationality, completing one grants a small chemistry bonus |
+| **Multiple endings** | Bankruptcy and dynasty endings; narrative only, you can keep playing |
+
+## 🎨 Presentation
+
+- **Sound**: synthesised with Web Audio (click / level up / rare pull / round win / round loss), toggleable in Settings, never written to the save
+- **Season theme**: a subtle hue shift of amber only, always one accent colour, toggleable
+- **Coach style icons**: four inline SVGs, 1.5px strokes, follow currentColor
+- **Cards**: rarity top line, tabular OVR figures, hairline highlight on hover
+- **Version badge**: the running build version in the sidebar, injected at build time from package.json
+
 ## 🧪 Cheat panel
 
 Settings has a cheat panel behind a passphrase. Once unlocked it can adjust coins, unlock every player card, max level and stars, guarantee a UR, free packs, unlock all coaches and coaching XP, team-wide stat boost, auto-fill the lineup, instant fixture win, advance a tier, reset the career, and import/export saves.

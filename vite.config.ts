@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite';
+import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
 // GitHub Pages 项目站点部署在 /<repo>/ 下，构建时用 base 指定资源前缀；本地 dev 保持 '/'。
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/csgogo/' : '/',
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 700,

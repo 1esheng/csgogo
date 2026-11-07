@@ -12,6 +12,9 @@ import { ToggleRow } from '@/features/career/ToggleRow';
 import { SaveTools } from '@/features/career/SaveTools';
 import { DevPanel } from '@/features/career/DevPanel';
 import { CheatPanel } from '@/features/cheats/CheatPanel';
+import { setSoundEnabled, useSfxPrefs } from '@/audio/sfx';
+import { setSeasonThemeEnabled, useSeasonThemeEnabled } from '@/theme/seasonTheme';
+import { trPillar4 } from '@/i18n/areas/pillar4';
 
 const SPEEDS: (1 | 2 | 4)[] = [1, 2, 4];
 
@@ -28,6 +31,11 @@ export function SettingsPage() {
   const setClubLook = useGameStore((s) => s.setClubLook);
   const toast = useGameStore((s) => s.toast);
   const reloadFromDisk = useGameStore((s) => s.init);
+  const careerTier = useGameStore((s) => s.career?.tier ?? 0);
+  // 音效与赛季主题是玩家本机偏好，存在 localStorage，不进存档。
+  const sound = useSfxPrefs();
+  const seasonOn = useSeasonThemeEnabled();
+  // 打开的那一刻，App 里的点击委托会立刻给一声 click——玩家当场听到效果，不用再额外播一次。
   const [backups, setBackups] = React.useState<BackupInfo[]>([]);
   React.useEffect(() => { void listBackups().then(setBackups); }, []);
   const [nameDraft, setNameDraft] = useState(club.name);
@@ -174,9 +182,15 @@ export function SettingsPage() {
               />
               <ToggleRow
                 label={tr('音效')}
-                hint={tr('仅保存该偏好——当前版本尚未实现音频。')}
-                checked={settings.soundEnabled}
-                onChange={(soundEnabled) => updateSettings({ soundEnabled })}
+                hint={trPillar4('音效全部由 Web Audio 现场合成，构建里不含任何音频文件。')}
+                checked={sound.enabled}
+                onChange={setSoundEnabled}
+              />
+              <ToggleRow
+                label={trPillar4('赛季主题')}
+                hint={trPillar4('按生涯级别微调琥珀色的色相与背景颗粒，始终只有一种强调色。') + ' · ' + tr('第') + ' ' + careerTier + ' ' + tr('级')}
+                checked={seasonOn}
+                onChange={setSeasonThemeEnabled}
               />
             </div>
 

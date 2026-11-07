@@ -11,6 +11,13 @@
 
 Local copy must always be refreshed and carry the version number in both the folder name and `VERSION.txt`.
 
+## 版本号必须出现在四处
+
+1. `package.json` 的 version
+2. README 首屏那行 `<sub>… · vX.Y.Z · MIT</sub>`
+3. **网页界面**：`src/components/VersionBadge.tsx`（构建时由 vite define 注入 `__APP_VERSION__`），挂在侧边栏底部与设置页
+4. 本地归档 `v<版本>/VERSION.txt`
+
 ## 步骤
 
 1. 改版本号：`package.json` 的 `version`，以及 README 里的版本徽章与下载链接。

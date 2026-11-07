@@ -3,8 +3,8 @@ import { ACHIEVEMENTS } from '@/data/achievements';
 import { createNewGame } from '@/game/starter';
 
 describe('achievement catalog', () => {
-  it('ships 24 achievements', () => {
-    expect(ACHIEVEMENTS).toHaveLength(24);
+  it('ships 60 achievements (24 original + 36 added by pillar 3)', () => {
+    expect(ACHIEVEMENTS).toHaveLength(60);
   });
 
   it('keeps every id unique', () => {

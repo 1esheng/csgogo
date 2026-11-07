@@ -57,13 +57,22 @@ export function PlayerCard({
         'card-face card-sheen focus-ring group relative flex flex-col gap-2 overflow-hidden rounded-xl border text-left',
         s.w, s.pad,
         'border-white/10 bg-ink-800',
-        onClick && 'cursor-pointer hover:border-white/25 hover:bg-ink-700',
+        // 发丝边 hover 提亮，色相跟随赛季主题；位移仍然是 .card-face 的 -2px，不加第二段动效。
+        'hover:border-[color:var(--season-hairline,rgba(255,255,255,0.25))]',
+        onClick && 'cursor-pointer hover:bg-ink-700',
         selected && 'border-accent/60 ring-1 ring-accent/50',
         dimmed && 'opacity-55 grayscale-[0.35]',
         className,
       )}
     >
-      <span aria-hidden='true' className='absolute inset-x-0 top-0 h-0.5' style={{ backgroundColor: rarity.color }} />
+      <span
+        aria-hidden='true'
+        className={clsx(
+          'absolute inset-x-0 top-0 transition-[height,opacity] duration-150 ease-out',
+          selected ? 'h-[3px] opacity-100' : 'h-0.5 opacity-80',
+        )}
+        style={{ backgroundColor: rarity.color }}
+      />
 
       <div className='relative flex items-center justify-between gap-1.5'>
         <span className='flex min-w-0 items-center gap-1.5'>
@@ -97,7 +106,7 @@ export function PlayerCard({
           </div>
         </div>
         <div className='shrink-0 text-right'>
-          <div className={clsx('font-display font-semibold leading-none tabular-nums text-txt', s.ovr)}>{card.ovr}</div>
+          <div className={clsx('font-display font-semibold leading-none tabular-nums tracking-[-0.01em] text-txt', s.ovr)}>{card.ovr}</div>
           <div className='type-data mt-1 text-txt-muted'>{tr('综合')}</div>
         </div>
       </div>
@@ -108,7 +117,7 @@ export function PlayerCard({
           <span className='truncate' title={skill}>{skill}</span>
         </span>
         <span className='inline-flex shrink-0 items-center gap-1 font-semibold tabular-nums'>
-          <Star size={12} className='shrink-0 text-accent' aria-hidden='true' />
+          <Star size={12} className='shrink-0 text-accent' style={{ color: 'var(--season-accent, #F5A623)' }} aria-hidden='true' />
           <span className='whitespace-nowrap'>{card.level} {tr('级')}</span>
           {stars > 1 ? (
             <span className='whitespace-nowrap rounded-[3px] border border-white/10 px-1 text-accent/90'>{stars}★</span>
