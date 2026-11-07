@@ -1,26 +1,9 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
-    <img src="./docs/brand/cs2-dynasty-icon-light.png" alt="CS2 Dynasty" width="130">
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/brand-lockup-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/brand-lockup-light.png">
+    <img src="./docs/brand/brand-lockup-light.png" alt="CS2 Dynasty" width="720">
   </picture>
-
-# CS2 Dynasty · CS2 电竞王朝
-
-**离线可玩的 CS2 电竞俱乐部经营 + 选手卡牌游戏**
-
-抽卡养卡、组建五人首发、任命主教练、逐回合指挥战术，从公开预选赛一路打进 MAJOR
-
-[![Tests](https://img.shields.io/badge/tests-82%20passed-2ea44f?style=flat-square)](#-测试)
-[![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.5.2-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
-[![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
-[![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
-
-🌐 **[在线试玩](https://1esheng.github.io/csgogo/)** · ⬇️ **[下载 exe](https://github.com/1esheng/csgogo/releases/download/v1.5.2/CS2Dynasty.exe)** · 📖 **[English README](README.en.md)** · 🗂 **[项目结构](#-项目结构)** · 🐛 **[反馈问题](https://github.com/1esheng/csgogo/issues)**
-
 </div>
 
 ---
