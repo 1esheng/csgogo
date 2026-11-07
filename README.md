@@ -114,28 +114,32 @@
 | **在线试玩** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/)，浏览器直接打开，无需安装 |
 | **安装为桌面应用** | 用 Edge / Chrome 打开在线版，地址栏右侧「安装」图标 → 独立窗口运行，无需安装其它东西 |
 
-| **本地开发** | 见下方折叠区块，需要 Node.js 18+ |
+| **本地运行** | 下载源码后双击 `启动游戏.bat`，约 0.5 秒自动打开浏览器（详见下方折叠区块） |
 
 <details>
-<summary>本地开发与构建</summary>
+<summary>本地运行（下载源码后）</summary>
+
+1. 安装 [Node.js 18+](https://nodejs.org)
+2. **双击根目录的 `启动游戏.bat`** —— 首次会自动安装依赖并构建（约 40 秒），之后每次约 0.5 秒并自动打开浏览器
+
+| 脚本 | 作用 |
+| --- | --- |
+| `启动游戏.bat` | 日常启动（根目录） |
+| `tools/bat/构建并预览.bat` | 生产构建后本地预览（改完代码用） |
+| `tools/bat/运行测试.bat` | 跑完整测试套件 |
+| `tools/bat/校准数值-预览.bat` `写入.bat` | 用本地 CSV 校准数值，先预览后写入 |
+
+也可以用 npm 命令：
 
 ```bash
-npm install        # 安装依赖
-npm run dev        # 开发服务器 → http://127.0.0.1:5173
-npm run build      # 类型检查 + 生产构建（输出 dist/）
-npm run preview    # 预览生产构建 → :4173
-npm test           # 96 个自动化测试
+npm install
+npm run dev      # 开发服务器（热更新）
+npm run build    # 生产构建
+npm test         # 115 项测试
+npm run lint     # React Hooks 规则检查
 ```
 
-Windows 也可以直接双击仓库根目录的批处理：
-
-| 文件 | 作用 |
-| --- | --- |
-| `启动游戏.bat` | 安装依赖 + 启动开发服务器 + 打开浏览器 |
-| `构建并预览.bat` | 生产构建并本地预览 |
-| `运行测试.bat` | 跑完整测试套件 |
-| `校准数值-预览.bat` | 用本地 CSV 干跑数值校准，只打印差异 |
-| `校准数值-写入.bat` | 写入校准结果并自动跑测试与构建 |
+仓库结构见 [docs/LAYOUT.md](docs/LAYOUT.md)，发布流程见 [docs/RELEASING.md](docs/RELEASING.md)。
 
 </details>
 
