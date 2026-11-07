@@ -3,46 +3,43 @@ setlocal
 cd /d "%~dp0"
 title CS2 Dynasty
 
+set "BUNDLED=%DSH_NODE_BIN%"
 where node >nul 2>nul
 if not errorlevel 1 goto haveNode
-
-set "BUNDLED=%DSH_NODE_BIN%"
 if not exist "%BUNDLED%\node.exe" goto noNode
 set "PATH=%BUNDLED%;%PATH%"
-echo [i] node was not on PATH - switched to the bundled runtime.
 goto haveNode
 
 :noNode
-echo [x] Node.js not found. Install Node 18+ from https://nodejs.org and retry.
+echo [x] 未找到 Node.js，请安装 Node 18+ 后重试：https://nodejs.org
 pause
 exit /b 1
 
 :haveNode
-if exist "node_modules\vite\package.json" goto ready
-echo [1/3] Installing dependencies (first run only, about 30 seconds) ...
-if not exist ".tools\npm\bin\npm-cli.js" goto npmNative
-node ".tools\npm\bin\npm-cli.js" install --ignore-scripts --no-audit --no-fund --cache "%CD%\.npm-cache"
+if exist "dist\index.html" goto fast
+echo [1/2] 首次运行：安装依赖并构建（约 40 秒，只需一次）...
+if exist ".tools\npm\bin\npm-cli.js" (
+  node ".tools\npm\bin\npm-cli.js" install --ignore-scripts --no-audit --no-fund --cache "%CD%\.npm-cache"
+) else (
+  call npm install --no-audit --no-fund
+)
 if errorlevel 1 goto installFail
-goto ready
+call npx vite build
+if errorlevel 1 goto buildFail
 
-:npmNative
-call npm install --no-audit --no-fund
-if errorlevel 1 goto installFail
-goto ready
+:fast
+node tools\serve.cjs
+goto end
 
 :installFail
-echo [x] Dependency install failed. Check your network and retry.
+echo [x] 依赖安装失败，请检查网络后重试。
 pause
 exit /b 1
 
-:ready
-echo.
-echo  [1/3] dependencies  OK
-echo  [2/3] starting local server ...
-echo  [3/3] your browser will open http://127.0.0.1:5173
-echo.
-echo  Progress is saved in the browser (IndexedDB). Closing this window stops the game.
-echo.
-start "" /b cmd /c "timeout /t 4 >nul & start "" http://127.0.0.1:5173/"
-node node_modules\vite\bin\vite.js --port 5173 --host 127.0.0.1
+:buildFail
+echo [x] 构建失败。
 pause
+exit /b 1
+
+:end
+endlocal
