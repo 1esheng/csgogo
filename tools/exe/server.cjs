@@ -5,7 +5,9 @@
  */
 const http = require('node:http');
 const path = require('node:path');
-const { exec } = require('node:child_process');
+const { exec, spawn } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
 
 let getAsset = null;
 try { ({ getAsset } = require('node:sea')); } catch { /* 非 SEA 运行时回退到磁盘 */ }
@@ -51,13 +53,37 @@ const server = http.createServer((req, res) => {
   res.end(body);
 });
 
+const BROWSERS = [
+  process.env['PROGRAMFILES(X86)'] && process.env['PROGRAMFILES(X86)'] + '\\Microsoft\\Edge\\Application\\msedge.exe',
+  process.env.PROGRAMFILES && process.env.PROGRAMFILES + '\\Microsoft\\Edge\\Application\\msedge.exe',
+  process.env.PROGRAMFILES && process.env.PROGRAMFILES + '\\Google\\Chrome\\Application\\chrome.exe',
+  process.env['PROGRAMFILES(X86)'] && process.env['PROGRAMFILES(X86)'] + '\\Google\\Chrome\\Application\\chrome.exe',
+  process.env.LOCALAPPDATA && process.env.LOCALAPPDATA + '\\Google\\Chrome\\Application\\chrome.exe',
+].filter(Boolean);
+
+const findBrowser = () => BROWSERS.find((p) => { try { return fs.existsSync(p); } catch { return false; } }) || null;
+
 const openBrowser = (url) => {
-  const quirk = (cmd) => {
-    try { exec(cmd, (err) => { if (err) console.log('浏览器自动打开失败：' + err.message); }); }
-    catch (e) { console.log('浏览器自动打开失败：' + e.message); }
-  };
-  quirk('cmd /c start "" "' + url + '"');
-  setTimeout(() => quirk('rundll32 url.dll,FileProtocolHandler "' + url + '"'), 400);
+  const exe = findBrowser();
+  if (exe) {
+    try {
+      const profile = path.join(process.env.LOCALAPPDATA || os.tmpdir(), 'CS2Dynasty');
+      const child = spawn(exe, [
+        '--app=' + url,
+        '--window-size=1400,900',
+        '--user-data-dir=' + profile,
+        '--no-first-run',
+        '--no-default-browser-check',
+      ], { detached: true, stdio: 'ignore' });
+      child.unref();
+      console.log('  已用应用窗口打开（' + path.basename(exe) + '）');
+      return;
+    } catch (e) {
+      console.log('  应用窗口打开失败：' + e.message);
+    }
+  }
+  try { exec('cmd /c start "" "' + url + '"'); } catch (e) {}
+  setTimeout(() => { try { exec('rundll32 url.dll,FileProtocolHandler "' + url + '"'); } catch (e) {} }, 500);
 };
 
 const listen = (port, attempt) => {
