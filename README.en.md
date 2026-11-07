@@ -114,28 +114,32 @@
 | **Play in browser** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/), opens instantly, nothing to install |
 | **Install as desktop app** | Open the online build in Edge or Chrome, click the install icon in the address bar, and it runs in its own window |
 
-| **Local development** | See the collapsible block below, requires Node.js 18+ |
+| **Run locally** | Download the source and double-click `启动游戏.bat`; the browser opens in about 0.5 seconds (see below) |
 
 <details>
-<summary>Development and build</summary>
+<summary>Run locally (from source)</summary>
+
+1. Install [Node.js 18+](https://nodejs.org)
+2. **Double-click `启动游戏.bat` in the repository root** — the first run installs dependencies and builds (about 40 seconds), every run after that takes about 0.5 seconds and opens your browser
+
+| Script | Purpose |
+| --- | --- |
+| `启动游戏.bat` | Daily launcher (repository root) |
+| `tools/bat/构建并预览.bat` | Production build and local preview |
+| `tools/bat/运行测试.bat` | Full test suite |
+| `tools/bat/校准数值-预览.bat` `写入.bat` | Stats calibration from a local CSV |
+
+Or with npm:
 
 ```bash
-npm install        # install dependencies
-npm run dev        # dev server → http://127.0.0.1:5173
-npm run build      # type-check + production build into dist/
-npm run preview    # preview the production build → :4173
-npm test           # 96 automated tests
+npm install
+npm run dev      # dev server with hot reload
+npm run build    # production build
+npm test         # 115 tests
+npm run lint     # React Hooks rules
 ```
 
-On Windows you can also double-click the batch files in the repository root:
-
-| File | What it does |
-| --- | --- |
-| `启动游戏.bat` | install deps, start the dev server, open the browser |
-| `构建并预览.bat` | production build and local preview |
-| `运行测试.bat` | run the full test suite |
-| `校准数值-预览.bat` | dry-run the stats calibrator from a local CSV and print the diff |
-| `校准数值-写入.bat` | apply the calibration, then run tests and build |
+See [docs/LAYOUT.md](docs/LAYOUT.md) for the repository layout and [docs/RELEASING.md](docs/RELEASING.md) for the release flow.
 
 </details>
 
