@@ -1,8 +1,4 @@
 <div align="center">
-  <img src="./public/og-image.png" alt="CS2 Dynasty" width="100%" />
-</div>
-
-<div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
     <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
