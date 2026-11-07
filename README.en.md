@@ -81,7 +81,7 @@
 
 | Player collection | Packs |
 | --- | --- |
-| ![Player collection](docs/screenshots/175-en-collection.png) | ![Packs](docs/screenshots/176-en-packs.png) |
+| ![Player collection](docs/screenshots/175-en-collection.png) | ![Packs](docs/screenshots/189-packs-summary.png) |
 
 **🎯 Match and tactics**
 
