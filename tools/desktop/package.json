@@ -1,0 +1,9 @@
+{
+  "name": "cs2-dynasty-desktop",
+  "productName": "CS2 Dynasty",
+  "version": "1.7.0",
+  "description": "CS2 Dynasty desktop shell",
+  "main": "main.cjs",
+  "author": "1esheng",
+  "license": "MIT"
+}
