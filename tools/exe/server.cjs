@@ -63,27 +63,44 @@ const BROWSERS = [
 
 const findBrowser = () => BROWSERS.find((p) => { try { return fs.existsSync(p); } catch { return false; } }) || null;
 
+const tryTab = (url) => {
+  try { exec('cmd /c start "" "' + url + '"'); } catch (e) { console.log('  start 失败：' + e.message); }
+  try { exec('rundll32 url.dll,FileProtocolHandler "' + url + '"'); } catch (e) {}
+};
+
 const openBrowser = (url) => {
   const exe = findBrowser();
-  if (exe) {
-    try {
-      const profile = path.join(process.env.LOCALAPPDATA || os.tmpdir(), 'CS2Dynasty');
-      const child = spawn(exe, [
-        '--app=' + url,
-        '--window-size=1400,900',
-        '--user-data-dir=' + profile,
-        '--no-first-run',
-        '--no-default-browser-check',
-      ], { detached: true, stdio: 'ignore' });
-      child.unref();
-      console.log('  已用应用窗口打开（' + path.basename(exe) + '）');
-      return;
-    } catch (e) {
-      console.log('  应用窗口打开失败：' + e.message);
-    }
+  if (!exe) {
+    console.log('  未找到 Edge / Chrome，改用系统默认浏览器。');
+    tryTab(url);
+    return;
   }
-  try { exec('cmd /c start "" "' + url + '"'); } catch (e) {}
-  setTimeout(() => { try { exec('rundll32 url.dll,FileProtocolHandler "' + url + '"'); } catch (e) {} }, 500);
+  const args = [
+    '--app=' + url,
+    '--window-size=1400,900',
+    '--window-position=100,80',
+    '--no-first-run',
+    '--no-default-browser-check',
+  ];
+  const cmdline = '"' + exe + '" ' + args.join(' ');
+  console.log('  启动命令：' + cmdline);
+  try {
+    const child = spawn(exe, args, { detached: true, stdio: 'ignore', windowsHide: false });
+    child.unref();
+    console.log('  已请求应用窗口（' + path.basename(exe) + '），3 秒内未出现将自动打开普通标签页。');
+  } catch (e) {
+    console.log('  应用窗口打开失败：' + e.message);
+    tryTab(url);
+    return;
+  }
+  setTimeout(() => {
+    let visible = false;
+    try {
+      const out = require('node:child_process').execSync('powershell -NoProfile -Command "(Get-Process msedge,chrome -ErrorAction SilentlyContinue | Measure-Object).Count"', { stdio: ['ignore', 'pipe', 'ignore'] }).toString();
+      visible = Number(out.trim()) > 0;
+    } catch (e) { visible = true; }
+    if (!visible) { console.log('  应用窗口未检测到，改用系统默认浏览器打开。'); tryTab(url); }
+  }, 3000);
 };
 
 const listen = (port, attempt) => {
