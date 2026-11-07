@@ -10,7 +10,7 @@
 
 **A CS2 Esports Management Game** — build the starting five, call the tactics, and take your club to the MAJOR
 
-**[Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) &nbsp;·&nbsp; [中文说明](README.md)
+**🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [中文说明](README.md)
 
 <sub>React 18 · TypeScript · Vite · fully offline · MIT</sub>
 
@@ -26,42 +26,42 @@
 
 </div>
 
-## Highlights
+## 🎮 Highlights
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-**Player collection** — over three hundred cards across five rarities, each rated from individual ability, role proficiency and team contribution, with a full breakdown on the card.
+**🃏 Player collection** — over three hundred cards across five rarities, each rated from individual ability, role proficiency and team contribution, with a full breakdown on the card.
 
 </td>
 <td width="50%" valign="top">
 
-**Club management** — starting five, bench and in-game leader adjusted on one screen, with team chemistry and map comfort visible at a glance.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**Tactics and matches** — seven maps, a round-by-round engine, MR12 with overtime; buys, utility and execute targets are yours, and every map can remember its default tactic.
-
-</td>
-<td width="50%" valign="top">
-
-**Competitive career** — a ten-tier circuit from the Open Qualifier to the MAJOR, with single elimination, double elimination and Swiss formats.
+**🏟 Club management** — starting five, bench and in-game leader adjusted on one screen, with team chemistry and map comfort visible at a glance.
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-**Training and growth** — level cap 30 with no star cap; the head coach earns XP from official matches and gains one coaching ability point per level.
+**🎯 Tactics and matches** — seven maps, a round-by-round engine, MR12 with overtime; buys, utility and execute targets are yours, and every map can remember its default tactic.
 
 </td>
 <td width="50%" valign="top">
 
-**Offline by design** — no backend, no account, no network calls; saves live in IndexedDB, export as JSON, and the web build installs as a desktop app.
+**🏆 Competitive career** — a ten-tier circuit from the Open Qualifier to the MAJOR, with single elimination, double elimination and Swiss formats.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**📈 Training and growth** — level cap 30 with no star cap; the head coach earns XP from official matches and gains one coaching ability point per level.
+
+</td>
+<td width="50%" valign="top">
+
+**💾 Offline by design** — no backend, no account, no network calls; saves live in IndexedDB, export as JSON, and the web build installs as a desktop app.
 
 </td>
 </tr>
@@ -69,33 +69,33 @@
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
-**Lineup and coaching**
+**🧩 Lineup and coaching**
 
 | Lineup | Coaching |
 | --- | --- |
 | ![Lineup](docs/screenshots/174-en-lineup.png) | ![Coaching](docs/screenshots/178-en-coaching.png) |
 
-**Collection and packs**
+**🃏 Collection and packs**
 
 | Player collection | Packs |
 | --- | --- |
 | ![Player collection](docs/screenshots/175-en-collection.png) | ![Packs](docs/screenshots/176-en-packs.png) |
 
-**Match and tactics**
+**🎯 Match and tactics**
 
 | Match centre | Tactic presets |
 | --- | --- |
 | ![Match centre](docs/screenshots/179-en-match.png) | ![Tactic presets](docs/screenshots/185-match-tactic-preset.png) |
 
-**Career and rankings**
+**🏆 Career and rankings**
 
 | Career | World rankings |
 | --- | --- |
 | ![Career](docs/screenshots/180-en-career.png) | ![World rankings](docs/screenshots/181-en-rankings.png) |
 
-**The seven maps** — all drawn in-house as abstract tactical sketches; no real map layouts or vendor assets.
+**🗺 The seven maps** — all drawn in-house as abstract tactical sketches; no real map layouts or vendor assets.
 
 | Mirage | Inferno | Nuke | Ancient |
 | --- | --- | --- | --- |
@@ -107,7 +107,7 @@
 
 ---
 
-## How to play
+## 🚀 How to play
 
 | Option | Details |
 | --- | --- |
@@ -149,7 +149,7 @@ node tools/exe/set-icon.mjs src/assets/brand/icon-dark.png CS2Dynasty.exe
 
 </details>
 
-## Technical information
+## 🛠 Technical information
 
 | | |
 | --- | --- |
@@ -194,7 +194,7 @@ export const ENABLE_DEV_PANEL = false; // set to true
 
 </details>
 
-## Data and copyright
+## 📜 Data and copyright
 
 - Player nicknames, real names, countries and ages: public information
 - Avatars: 212 real photos from prosettings.gg, prosettings.net, profilerr.net, Wikimedia Commons and Wikipedia, credited per file in `src/assets/avatars/credits.json`; the rest use generated silhouettes
