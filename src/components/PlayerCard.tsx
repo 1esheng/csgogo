@@ -27,6 +27,16 @@ const SIZE = {
   lg: { w: 'w-[244px] max-w-full', pad: 'p-4', ovr: 'text-4xl', name: 'type-title-sm', avatar: 88, meta: 'type-note' },
 };
 
+/** 位置水印：不同位置用不同几何形状，低透明度印在卡面右下，不占文字空间。 */
+function RoleGlyph({ role, size }: { role: string; size: number }) {
+  const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  if (role === 'AWPer') return (<svg {...common}><circle cx='12' cy='12' r='7' /><path d='M12 2v4M12 18v4M2 12h4M18 12h4' /></svg>);
+  if (role === 'Entry') return (<svg {...common}><path d='M4 18l8-8 8 8' /><path d='M4 10l8-8 8 8' /></svg>);
+  if (role === 'Lurker') return (<svg {...common}><path d='M12 3l9 9-9 9-9-9z' /></svg>);
+  if (role === 'Support') return (<svg {...common}><path d='M12 4v16M4 12h16' /><rect x='7' y='7' width='10' height='10' rx='2' /></svg>);
+  return (<svg {...common}><path d='M12 3l8 4v6c0 4-3.5 6.5-8 8-4.5-1.5-8-4-8-8V7z' /></svg>);
+}
+
 export function PlayerCard({
   card, size = 'md', onClick, selected, className, cornerLabel, dimmed, starter,
 }: {
@@ -83,11 +93,6 @@ export function PlayerCard({
             </span>
           ) : null}
         </span>
-        {card.countryCode ? (
-          <span className='type-data shrink-0 rounded-md border border-white/10 bg-ink-900/60 px-1.5 py-0.5 font-semibold text-txt-muted'>
-            {card.countryCode}
-          </span>
-        ) : null}
       </div>
 
       <div className='relative flex items-center justify-center'>
@@ -125,11 +130,9 @@ export function PlayerCard({
         </span>
       </div>
 
-      {cornerLabel ? (
-        <span className='type-data absolute left-1.5 top-1.5 max-w-[calc(100%_-_0.75rem)] truncate rounded-md border border-white/10 bg-ink-900/85 px-1.5 py-0.5 font-semibold text-txt'>
-          {cornerLabel}
-        </span>
-      ) : null}
+      <span aria-hidden='true' className='pointer-events-none absolute -bottom-3 -right-3 text-white/[0.06]'>
+        <RoleGlyph role={role} size={size === 'lg' ? 96 : size === 'sm' ? 56 : 72} />
+      </span>
     </button>
   );
 }

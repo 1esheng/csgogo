@@ -153,7 +153,6 @@ export function GalleryPage() {
                       card={{ template: t, nickname: nameOf(t.playerId), countryCode: identities[t.playerId]?.countryCode ?? '', ovr: cardOVR(t, owned?.level ?? 1, owned?.best ?? 1), level: owned?.level ?? 1, stars: owned?.best ?? 1 }}
                       size='sm'
                       dimmed={!owned}
-                      cornerLabel={owned ? (owned.best > 1 ? `${owned.best}★` : `×${owned.count}`) : tr('未拥有')}
                       onClick={() => setDetail(t)}
                     />
                     {c ? <div className='truncate text-[12px] text-txt-muted'>{tr('图源')} {c.source}</div> : null}
