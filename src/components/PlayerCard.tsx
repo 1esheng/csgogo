@@ -126,7 +126,7 @@ export function PlayerCard({
       </div>
 
       {cornerLabel ? (
-        <span className='type-data absolute right-1.5 top-1.5 max-w-[calc(100%_-_0.75rem)] truncate rounded-md border border-white/10 bg-ink-900/85 px-1.5 py-0.5 font-semibold text-txt'>
+        <span className='type-data absolute left-1.5 top-1.5 max-w-[calc(100%_-_0.75rem)] truncate rounded-md border border-white/10 bg-ink-900/85 px-1.5 py-0.5 font-semibold text-txt'>
           {cornerLabel}
         </span>
       ) : null}
