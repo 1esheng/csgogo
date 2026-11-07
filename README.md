@@ -81,7 +81,7 @@
 
 | 选手图鉴 | 卡包 |
 | --- | --- |
-| ![选手图鉴](docs/screenshots/175-en-collection.png) | ![卡包](docs/screenshots/176-en-packs.png) |
+| ![选手图鉴](docs/screenshots/175-en-collection.png) | ![卡包](docs/screenshots/189-packs-summary.png) |
 
 **🎯 比赛与战术**
 
