@@ -43,5 +43,6 @@ echo  [3/3] your browser will open http://127.0.0.1:5173
 echo.
 echo  Progress is saved in the browser (IndexedDB). Closing this window stops the game.
 echo.
-node node_modules\vite\bin\vite.js --port 5173 --host 127.0.0.1 --open
+start "" /b cmd /c "timeout /t 4 >nul & start "" http://127.0.0.1:5173/"
+node node_modules\vite\bin\vite.js --port 5173 --host 127.0.0.1
 pause
