@@ -13,8 +13,7 @@
     "avatars": "node scripts/import-avatars.mjs",
     "avatars:list": "node scripts/import-avatars.mjs --list",
     "lint": "eslint src --max-warnings=0",
-    "release:local": "node tools/release/sync-local.mjs",
-    "desktop:build": "electron-packager tools/desktop \"CS2 Dynasty\" --platform=win32 --arch=x64 --out=desktop-out --overwrite"
+    "release:local": "node tools/release/sync-local.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
@@ -27,7 +26,6 @@
     "zustand": "4.5.5"
   },
   "devDependencies": {
-    "@electron/packager": "^18.4.4",
     "@eslint/js": "^9.39.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
@@ -36,7 +34,6 @@
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.3",
     "autoprefixer": "10.4.20",
-    "electron": "^33.4.11",
     "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "fake-indexeddb": "^6.0.0",
