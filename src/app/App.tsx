@@ -6,6 +6,7 @@ import brandMark from '@/assets/brand/icon-dark.png';
 import heroImage from '@/assets/brand/onboarding-hero.png';
 import { pick, tr } from '@/i18n';
 import { VersionBadge } from '@/components/VersionBadge';
+import { CheatPanel } from '@/features/cheats/CheatPanel';
 import { badgeIcon } from '@/data/clubCosmetics';
 import React, { useEffect, useMemo, useState } from 'react';
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -202,6 +203,9 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
         </nav>
         <div className='mt-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-[12px] leading-relaxed text-txt-muted'>
           {pick('本作全部评分均为原创平衡数值，并非真实 HLTV 数据。', 'All ratings in this game are original balance values, not real HLTV statistics.')}
+        </div>
+        <div className='mt-2 px-1'>
+          <CheatPanel />
         </div>
         <div className='mt-2 flex items-center justify-between px-1'>
           <VersionBadge />
