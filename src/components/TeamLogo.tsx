@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { logoFor } from '@/data/teamLogos';
+import brandMark from '@/assets/brand/icon-dark.png';
 import { useT } from '@/hooks/useLang';
 
 /** 队名首字母：取第一个字母或数字，'9z Team' → '9'，'MOUZ' → 'M'。 */
@@ -22,7 +23,8 @@ export function TeamLogo({
   className?: string;
 }) {
   const { tr } = useT();
-  const src = logoFor(teamId);
+  // 玩家自建俱乐部没有真实队标，用本作品牌标志；其余缺图走首字母方标
+  const src = !teamId || teamId === 'player' ? brandMark : logoFor(teamId);
   const label = tr('队标');
 
   if (src) {
