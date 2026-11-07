@@ -10,7 +10,7 @@
 
 **CS2 电竞王朝** · 从组建首发阵容到问鼎 MAJOR，打造属于你的电竞王朝
 
-**🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [下载 Windows 版](https://github.com/1esheng/csgogo/releases/download/v1.6.5/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [English](README.en.md)
+**🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; 📖 [English](README.en.md)
 
 <sub>React 18 · TypeScript · Vite · 纯前端离线运行 · MIT</sub>
 
@@ -137,17 +137,6 @@ Windows 也可以直接双击仓库根目录的批处理：
 | `校准数值-预览.bat` | 用本地 CSV 干跑数值校准，只打印差异 |
 | `校准数值-写入.bat` | 写入校准结果并自动跑测试与构建 |
 
-单文件 exe 由 Node SEA 打包：全部前端资源嵌入可执行文件并从内存提供服务。
-
-```bash
-npm run build
-node --experimental-sea-config tools/exe/sea-config.json
-cp "$(which node)" CS2Dynasty.exe
-npx postject CS2Dynasty.exe NODE_SEA_BLOB tools/exe/sea-prep.blob \
-  --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
-node tools/exe/set-icon.mjs src/assets/brand/icon-dark.png CS2Dynasty.exe
-```
-
 </details>
 
 ## 🛠 技术信息
@@ -175,7 +164,7 @@ src/
   i18n/         轻量词条系统（中文 / English）
   stores/       Zustand 状态与 IndexedDB 持久化
   tests/        Vitest 测试
-tools/exe/      Node SEA 打包配置、静态服务器与图标注入
+
 docs/brand/     明暗两套品牌资源
 docs/screenshots/ 界面截图
 scripts/        数值校准（HLTV Rating / Valve 排名）等本地工具
