@@ -1,87 +1,140 @@
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
-    <img src="./docs/brand/cs2-dynasty-icon-light.png" alt="CS2 Dynasty" width="130">
-  </picture>
 
-# CS2 Dynasty · CS2 Esports Manager
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/brand/cs2-dynasty-icon-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/brand/cs2-dynasty-icon-light.png">
+  <img src="./docs/brand/cs2-dynasty-icon-light.png" alt="CS2 Dynasty logo" width="120">
+</picture>
 
-**An offline CS2 club manager and player-card game**
+# CS2 DYNASTY
 
-Collect cards, build a five-man lineup, hire a head coach, call tactics round by round — climb from the Open Qualifier to the MAJOR
+**A CS2 Esports Management Game**
 
-[![Tests](https://img.shields.io/badge/tests-96%20passed-2ea44f?style=flat-square)](#-testing)
-[![CI](https://github.com/1esheng/csgogo/actions/workflows/ci.yml/badge.svg)](https://github.com/1esheng/csgogo/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-v1.6.0-f5a623?style=flat-square)](https://github.com/1esheng/csgogo/releases)
-[![Node](https://img.shields.io/badge/node-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
-[![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![Vite](https://img.shields.io/badge/vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+Build the starting five, call the tactics, and take your club all the way to the MAJOR.
 
-🌐 **[Play online](https://1esheng.github.io/csgogo/)** · ⬇️ **[Download exe](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe)** · 📖 **[中文说明](README.md)** · 🗂 **[Project layout](#-project-layout)** · 🐛 **[Report an issue](https://github.com/1esheng/csgogo/issues)**
+[Play in browser](https://1esheng.github.io/csgogo/) · [Download for Windows](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) · [中文说明](README.md)
+
+<sub>React 18 · TypeScript · Vite · fully offline · MIT</sub>
 
 </div>
 
 ---
 
-## ✨ Features
+<div align="center">
 
-- 🗺 **Tactic presets** — each map remembers its attacking tactic, applied automatically on map switch
-- 🎓 **Coach growth** — the head coach earns XP from official matches: +1 coaching ability per level, capped at 99
-- ⌨️ **Match hotkeys** — Space advances the round, 1–4 focus tactic selects, Esc closes dialogs
-- ⌨️ **Ctrl/Cmd+K command palette** — jump to any of the 12 pages from the keyboard
-- 📲 **Installable PWA** — add the web build to your desktop and it runs in its own window
-- ✅ **CI pipeline** — every push runs type check, 80 tests and a production build (badge above)
-- 🃏 **305 player cards** — five rarities (UR 11 / SSR 17 / SR 45 / R 90 / N 142), ordered strictly by overall rating
-- 🎯 **Explainable ratings** — OVR = 62% individual + 20% role proficiency + 18% team, with a full breakdown panel
-- ⭐ **Level cap 30, no star cap** — three duplicates give one star; each star adds +3 to every attribute and +10 mastery
-- 🧑‍🏫 **64 real coaches** — a separate pool with four coaching styles (attributes / training / economy / lowering opponent adaptivity)
-- 🏆 **Ten-tier circuit** — Open Qualifier up to the MAJOR (64 teams, Swiss, seven wins to take it); single elim, double elim and Swiss formats
-- 🎮 **Round-by-round engine** — 7 maps, economy and buys, tactic counters, MR12 with overtime, fully replayable from one seed
-- 🌍 **Live esports world** — AI fixtures advance every 60 seconds and reshuffle the world rankings
-- 💾 **Fully offline** — no backend, no account, no network calls; saves live in IndexedDB and export as JSON
-- 🌏 **Bilingual UI** — switch between English and Simplified Chinese in Settings
+![Club overview](docs/screenshots/173-en-dashboard.png)
 
-## 📸 Screenshots
+<sub>Club overview — starting five, head coach, trophy cabinet and the next fixture</sub>
 
-> Captured from the live site with the English UI
+</div>
 
-| Overview | Lineup |
+---
+
+## Highlights
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🃏 Player collection
+**305 player cards** across five rarities (UR 11 / SSR 17 / SR 45 / R 90 / N 142).
+Rating = 62% individual + 20% role proficiency + 18% team, with a full breakdown on every card.
+
+</td>
+<td width="50%" valign="top">
+
+### 🏟 Club management
+Starting five, bench and in-game leader, with team chemistry and map comfort visible at a glance.
+Lineup, roles and leadership all change on one screen.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🎯 Tactics and matches
+Seven maps, a round-by-round engine, MR12 with overtime. Buys, utility and execute targets are yours to call,
+and every map can remember its default tactic.
+
+</td>
+<td width="50%" valign="top">
+
+### 🏆 Competitive career
+A **ten-tier circuit** from the Open Qualifier to the MAJOR (64 teams, Swiss).
+Single elimination, double elimination and Swiss formats.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 📈 Training and growth
+Level cap 30, no star cap. Train any card individually, and let the head coach earn XP from official matches —
+one coaching ability point per level.
+
+</td>
+<td width="50%" valign="top">
+
+### 💾 Offline by design
+No backend, no account, no network calls. Saves live in IndexedDB and export as JSON.
+Installable as a desktop PWA.
+
+</td>
+</tr>
+</table>
+
+---
+
+## Screenshots
+
+### Club and lineup
+
+| Club overview | Lineup |
 | --- | --- |
-| ![Overview](docs/screenshots/173-en-dashboard.png) | ![Lineup](docs/screenshots/174-en-lineup.png) |
+| ![Club overview](docs/screenshots/173-en-dashboard.png) | ![Lineup](docs/screenshots/174-en-lineup.png) |
 
-| Collection | Packs |
+### Collection and packs
+
+| Player collection | Packs |
 | --- | --- |
-| ![Collection](docs/screenshots/175-en-collection.png) | ![Packs](docs/screenshots/176-en-packs.png) |
+| ![Player collection](docs/screenshots/175-en-collection.png) | ![Packs](docs/screenshots/176-en-packs.png) |
 
-| Training | Coaching |
+### Match and tactics
+
+| Match centre | Tactic presets |
 | --- | --- |
-| ![Training](docs/screenshots/177-en-training.png) | ![Coaching](docs/screenshots/178-en-coaching.png) |
+| ![Match centre](docs/screenshots/179-en-match.png) | ![Tactic presets](docs/screenshots/185-match-tactic-preset.png) |
 
-| Match | Career |
+### Career and rankings
+
+| Career | World rankings |
 | --- | --- |
-| ![Match](docs/screenshots/179-en-match.png) | ![Career](docs/screenshots/180-en-career.png) |
+| ![Career](docs/screenshots/180-en-career.png) | ![World rankings](docs/screenshots/181-en-rankings.png) |
 
-| Rankings | Achievements |
+### The seven maps
+
+All drawn in-house as abstract tactical sketches — no real map layouts, no vendor assets.
+
+| Mirage | Inferno | Nuke | Ancient |
+| --- | --- | --- | --- |
+| <img src="./src/assets/maps/mirage.png" width="150" alt="Mirage tactical sketch"> | <img src="./src/assets/maps/inferno.png" width="150" alt="Inferno tactical sketch"> | <img src="./src/assets/maps/nuke.png" width="150" alt="Nuke tactical sketch"> | <img src="./src/assets/maps/ancient.png" width="150" alt="Ancient tactical sketch"> |
+
+| Anubis | Dust2 | Train | |
+| --- | --- | --- | --- |
+| <img src="./src/assets/maps/anubis.png" width="150" alt="Anubis tactical sketch"> | <img src="./src/assets/maps/dust2.png" width="150" alt="Dust2 tactical sketch"> | <img src="./src/assets/maps/train.png" width="150" alt="Train tactical sketch"> | |
+
+---
+
+## How to play
+
+| Option | Details |
 | --- | --- |
-| ![Rankings](docs/screenshots/181-en-rankings.png) | ![Achievements](docs/screenshots/182-en-achievements.png) |
+| 🌐 **Play in browser** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/) — opens instantly, nothing to install |
+| ⬇️ **Windows single file** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.0/CS2Dynasty.exe) (107 MB, double-click to play, no Node required) |
+| 🛠 **Local development** | See the collapsible block below; requires Node.js 18+ |
 
-| Settings |
-| --- |
-| ![Settings](docs/screenshots/183-en-settings.png) |
-
-## 🗺 The seven maps
-
-> All drawn in-house as abstract tactical sketches — no real map layouts or vendor assets.
-
-| Mirage | Inferno | Nuke | Ancient | Anubis | Dust2 | Train |
-| --- | --- | --- | --- | --- | --- | --- |
-| <img src="./src/assets/maps/mirage.png" width="96" /> | <img src="./src/assets/maps/inferno.png" width="96" /> | <img src="./src/assets/maps/nuke.png" width="96" /> | <img src="./src/assets/maps/ancient.png" width="96" /> | <img src="./src/assets/maps/anubis.png" width="96" /> | <img src="./src/assets/maps/dust2.png" width="96" /> | <img src="./src/assets/maps/train.png" width="96" /> |
-
-## 🚀 Quick start
-
-Requires **Node.js 18+**
+<details>
+<summary><b>Development and build</b></summary>
 
 ```bash
 npm install        # install dependencies
@@ -101,9 +154,7 @@ On Windows you can also double-click the batch files in the repository root:
 | `校准数值-预览.bat` | dry-run the stats calibrator from a local CSV and print the diff |
 | `校准数值-写入.bat` | apply the calibration, then run tests and build |
 
-## 📦 Single-file exe and deployment
-
-The release ships a **97 MB `CS2Dynasty.exe`** built with **Node SEA**: all 221 frontend assets are embedded and served from memory, so it needs neither Node nor a network connection.
+The single-file exe is packaged with **Node SEA**: all frontend assets are embedded and served from memory.
 
 ```bash
 npm run build
@@ -111,11 +162,24 @@ node --experimental-sea-config tools/exe/sea-config.json
 cp "$(which node)" CS2Dynasty.exe
 npx postject CS2Dynasty.exe NODE_SEA_BLOB tools/exe/sea-prep.blob \
   --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+node tools/exe/set-icon.mjs src/assets/brand/icon-dark.png CS2Dynasty.exe
 ```
 
-The live site is served by GitHub Pages from the `gh-pages` branch: <https://1esheng.github.io/csgogo/>
+</details>
 
-## 🗂 Project layout
+---
+
+## Technical information
+
+| | |
+| --- | --- |
+| Stack | React 18 · TypeScript 5 (strict) · Vite 5 · Tailwind 3 · Zustand 4 · Dexie 4 · Vitest 2 |
+| Tests | 96 passing (engine / formats / save migration / achievements / gameplay / UI) |
+| CI | GitHub Actions: type check, tests, build |
+| License | [MIT](LICENSE) |
+
+<details>
+<summary><b>Project layout</b></summary>
 
 ```
 src/
@@ -123,48 +187,49 @@ src/
   components/   shared UI, player card, avatar, radar chart
   data/         cards, AI teams, coaches, maps, config, achievements
   engine/       rating, lineup, match simulation, AI decisions, coach effects
-  game/         formats, calendar, packs, progression, academy
+  game/         formats, calendar, packs, progression, academy, coach growth
   pages/        12 screens (overview / lineup / collection / packs / training /
                 coaching / match / career / rankings / results / achievements / settings)
   features/     page-level feature modules
-  i18n/         tiny dictionary-based i18n (zh / en)
+  i18n/         tiny dictionary-based i18n (Chinese / English)
   stores/       Zustand state with IndexedDB persistence
-  tests/        Vitest suites (engine / formats / migration / UI)
-tools/exe/      Node SEA packaging config and static server
-docs/brand/     logo assets for light and dark themes
+  tests/        Vitest suites
+tools/exe/      Node SEA packaging, static server and icon injection
+docs/brand/     brand assets for light and dark themes
 docs/screenshots/ UI screenshots
-scripts/        local numeric calibration (HLTV ratings / Valve ranking)
+scripts/        local calibration (HLTV ratings / Valve ranking)
 ```
 
-Tech stack: React 18 · TypeScript 5 (strict) · Vite 5 · Tailwind 3 · Zustand 4 · Dexie 4 · Vitest 2
+</details>
 
-## 🧪 Testing
+<details>
+<summary><b>Developer panel</b></summary>
 
-```bash
-npm test
-```
-
-Covers rating and growth, the three tournament formats, overtime logic, save migration, pack pity, coach effects and UI rendering.
-
-## 🛠 Developer panel
-
-The developer panel in Settings is **not rendered** by default. To enable it, edit and rebuild:
+The developer panel in Settings is not rendered by default. To enable it, edit and rebuild:
 
 ```ts
 // src/data/devFlags.ts
 export const ENABLE_DEV_PANEL = false; // set to true
 ```
 
-## 📜 Data and image credits
+</details>
+
+---
+
+## Data and copyright
 
 - Player nicknames, real names, countries and ages: public information
 - Avatars: **212 real photos** from prosettings.gg, prosettings.net, profilerr.net, Wikimedia Commons and Wikipedia, credited per file in `src/assets/avatars/credits.json`; the rest use generated silhouettes
-- Ratings: attributes are calibrated locally from public player stats, but the shipped numbers are **original balance values for this game** — no site's tables are copied
-- Map parameters, economy and tournament rules: original to this project
-- No game assets or third-party textures are bundled
+- Ratings: calibrated locally from public player stats, but the shipped numbers are **original balance values for this game** — no site's tables are copied
+- Map thumbnails, logo and illustrations: original to this project
+- No game assets, textures or HLTV images are bundled
 
-## ⚖️ License and copyright
+**Every player photograph belongs to its original site and photographer.** This project is for personal study and free sharing only. If you are a rights holder and object to any use, please open an [issue](https://github.com/1esheng/csgogo/issues) and the image will be removed immediately after verification. See [NOTICE.md](NOTICE.md).
 
-Code is released under [MIT](LICENSE). **Every player photograph belongs to its original site and photographer**; this project is for personal study and free sharing only and claims no copyright or commercial licence.
+---
 
-**If you are a rights holder and object to any use, please open an [issue](https://github.com/1esheng/csgogo/issues) and the image will be removed immediately after verification.** See [NOTICE.md](NOTICE.md).
+<div align="center">
+
+**CS2 DYNASTY** · [Repository](https://github.com/1esheng/csgogo) · [Releases](https://github.com/1esheng/csgogo/releases) · [Play online](https://1esheng.github.io/csgogo/) · [MIT License](LICENSE)
+
+</div>
