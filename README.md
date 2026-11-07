@@ -10,7 +10,7 @@
 
 **CS2 电竞王朝** · 从组建首发阵容到问鼎 MAJOR，打造属于你的电竞王朝
 
-**🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [下载 Windows 版](https://github.com/1esheng/csgogo/releases/download/v1.6.2/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [English](README.en.md)
+**🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; ⬇️ [下载 Windows 版](https://github.com/1esheng/csgogo/releases/download/v1.6.3/CS2Dynasty.exe) &nbsp;·&nbsp; 📖 [English](README.en.md)
 
 <sub>React 18 · TypeScript · Vite · 纯前端离线运行 · MIT</sub>
 
@@ -112,7 +112,7 @@
 | 方式 | 说明 |
 | --- | --- |
 | **在线试玩** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/)，浏览器直接打开，无需安装 |
-| **Windows 单文件版** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.2/CS2Dynasty.exe)，107 MB，双击即玩，不需要 Node |
+| **Windows 单文件版** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.3/CS2Dynasty.exe)，107 MB，双击即玩，不需要 Node |
 | **本地开发** | 见下方折叠区块，需要 Node.js 18+ |
 
 <details>
