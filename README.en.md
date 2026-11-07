@@ -26,6 +26,12 @@
 
 </div>
 
+<!--
+  Cheat panel password: lesheng
+  Usage: Settings → Cheat panel → enter the password above.
+  This is an HTML comment: invisible on the GitHub page, visible only when reading the README source or the downloaded repo.
+-->
+
 ## 🎮 Highlights
 
 <table>
