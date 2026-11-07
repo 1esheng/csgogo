@@ -112,7 +112,8 @@
 | Option | Details |
 | --- | --- |
 | **Play in browser** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/), opens instantly, nothing to install |
-| **Windows single file** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.5/CS2Dynasty.exe), 107 MB, double-click to play, no Node required |
+| **Install as desktop app** | Open the online build in Edge or Chrome, click the install icon in the address bar, and it runs in its own window |
+| **Windows single file (optional)** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.7.0/CS2Dynasty-v1.7.0.exe), 107 MB, opens the game in your browser |
 | **Local development** | See the collapsible block below, requires Node.js 18+ |
 
 <details>
