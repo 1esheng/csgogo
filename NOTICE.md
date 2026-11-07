@@ -31,3 +31,21 @@
 **If you are a rights holder and believe any image here is used improperly, please open an Issue in this repository (or contact the maintainer directly). I will remove the image immediately after verification — no legal process required.**
 
 We respect the work of every photographer and site; this project does not intend to replace, copy, or divert traffic or content from any commercial site.
+
+---
+
+## 战队队标 / Team Logos
+
+**中文：** 排行榜中出现的各战队名称与队标（`src/assets/team-logos/`）版权归各自俱乐部/组织所有。
+
+- 图片来源：**Liquipedia**（Counter-Strike 维基）公开的队标文件，逐张来源记录在 `src/assets/team-logos/credits.json`
+- 本项目**不对任何队标主张版权**，也**未获得任何商业授权**；收录目的仅为**非商业的识别性展示**（帮助玩家认出积分榜上的对手）
+- 未收录队标的战队，界面显示**程序生成的首字母方标**，不使用任何第三方素材，也不会用其他队伍的图凑数
+- **权利人如认为使用不当，请提交 Issue 或联系维护者，我会在核实后立即删除对应图片。**
+
+**English:** All team names and team logos shown in the rankings (`src/assets/team-logos/`) remain the property of their respective clubs and organisations.
+
+- Sources: team-logo files published on **Liquipedia** (the Counter-Strike wiki); per-image provenance is recorded in `src/assets/team-logos/credits.json`
+- This project **claims no copyright** over any team logo and has **no commercial licence** for them — they are used **solely for non-commercial identification** (so players can recognise their ranked opponents)
+- Teams without a collected logo render a **procedurally generated initial badge**; no third-party asset is used and no other team's logo is substituted
+- **Rights holders: if you believe any logo is used improperly, please open an Issue or contact the maintainer and I will remove it immediately after verification.**

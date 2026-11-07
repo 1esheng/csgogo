@@ -7,6 +7,7 @@ import { useGameStore, aiOpponents } from '@/stores/gameStore';
 import { CAREER_TIERS, RATING_CONFIG } from '@/data/config';
 import { eloDelta } from '@/game/career';
 import { Badge, Button, Panel, Progress, SectionTitle, StatTile, Tabs } from '@/components/ui';
+import { TeamLogo } from '@/components/TeamLogo';
 
 const TABS = [
   { id: 'all', label: '全部' },
@@ -111,6 +112,7 @@ export function RankingsPage() {
                     </span>
                     <div className='min-w-0'>
                       <div className='flex min-w-0 items-center gap-2'>
+                        <TeamLogo teamId={entry.id} name={entry.name} />
                         <span className='truncate text-[15px] font-semibold text-txt'>{entry.name}</span>
                         {isPlayer ? <Badge tone='accent'>{tr('我')}</Badge> : null}
                       </div>

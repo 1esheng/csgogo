@@ -20,6 +20,7 @@ import { PHRASES as trainingExt } from '@/i18n/areas/training-ext';
 import { PHRASES as pillar3Area } from '@/i18n/areas/pillar3';
 import { PHRASES as reportArea } from '@/i18n/areas/report';
 import { PHRASES as vetoArea } from '@/i18n/areas/veto';
+import { PHRASES as teamLogosArea } from '@/i18n/areas/team-logos';
 
 export const PHRASES: { zh: string; en: string }[] = [
   { zh: "金币", en: "Coins" },
@@ -495,6 +496,7 @@ export const PHRASES: { zh: string; en: string }[] = [
   ...pillar3Area,
   ...reportArea,
   ...vetoArea,
+  ...teamLogosArea,
 ];
 
 const MAP = new Map(PHRASES.map((p) => [p.zh, p.en]));
