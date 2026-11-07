@@ -11,6 +11,17 @@
 
 Local copy must always be refreshed and carry the version number in both the folder name and `VERSION.txt`.
 
+## 每次发布都要改版本号（硬规则）
+
+**发布前必须先改 `package.json` 的 `version`**，网页侧边栏的版本号由构建时注入（`__APP_VERSION__`），不改就还是旧号。发布后必须核对四处一致：
+
+| # | 位置 | 怎么核对 |
+| --- | --- | --- |
+| 1 | `package.json` version | `node -p "require('./package.json').version"` |
+| 2 | 网页界面 | 打开站点看侧边栏底部 |
+| 3 | GitHub Release tag | Releases 页面 |
+| 4 | 本地归档 `v<版本>/VERSION.txt` | `npm run release:local` |
+
 ## 版本号必须出现在四处
 
 1. `package.json` 的 version
