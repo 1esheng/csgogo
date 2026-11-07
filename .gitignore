@@ -12,3 +12,17 @@ public/_seed*.json
 .npmrc
 pnpm-workspace.yaml
 .pnpm-store/
+scripts/hltv-player-stats.csv
+scripts/*.local.csv
+
+# 构建产物（含本机路径，不入库）
+tools/exe/sea-config.json
+tools/exe/sea-prep.blob
+CS2Dynasty.exe
+*.exe
+cs2-dynasty-source.zip
+
+# 版本归档产物（体积大，不入库）
+v*/
+desktop-out/
+legacy/
