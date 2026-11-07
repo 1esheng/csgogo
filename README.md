@@ -112,7 +112,8 @@
 | 方式 | 说明 |
 | --- | --- |
 | **在线试玩** | [1esheng.github.io/csgogo](https://1esheng.github.io/csgogo/)，浏览器直接打开，无需安装 |
-| **Windows 单文件版** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.6.5/CS2Dynasty.exe)，107 MB，双击即玩，不需要 Node |
+| **安装为桌面应用** | 用 Edge / Chrome 打开在线版，地址栏右侧「安装」图标 → 独立窗口运行，无需安装其它东西 |
+| **Windows 单文件版（可选）** | [CS2Dynasty.exe](https://github.com/1esheng/csgogo/releases/download/v1.7.0/CS2Dynasty-v1.7.0.exe)，107 MB，启动后用浏览器打开页面 |
 | **本地开发** | 见下方折叠区块，需要 Node.js 18+ |
 
 <details>
