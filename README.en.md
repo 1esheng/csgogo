@@ -12,7 +12,7 @@
 
 **🌐 [Play in browser](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; 📖 [中文说明](README.md)
 
-<sub>React 18 · TypeScript · Vite · fully offline · v1.8.0 · MIT</sub>
+<sub>React 18 · TypeScript · Vite · fully offline · v1.8.0 · v2.0.1 · MIT</sub>
 
 </div>
 
