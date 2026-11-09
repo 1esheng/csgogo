@@ -30,6 +30,7 @@ export default defineConfig(({ command }) => ({
   },
   test: {
     environment: 'node',
+    setupFiles: ['src/tests/setup-localstorage.ts'],
     pool: 'threads',
     include: ['src/tests/**/*.test.ts', 'src/tests/**/*.test.tsx'],
     testTimeout: 120000,
