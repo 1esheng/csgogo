@@ -12,6 +12,7 @@ import { PlayerCard } from '@/components/PlayerCard';
 import { CollectionPage } from '@/pages/CollectionPage';
 import { CardDetailBody } from '@/components/CardDetail';
 import { avatarCredit, playersWithAvatars } from '@/data/avatars';
+import { LEGEND_GOLD, isLegend } from '@/data/legends';
 
 type Tab = 'owned' | 'gallery' | 'fuse';
 
@@ -30,7 +31,7 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
 const RARITY_RANK: Record<Rarity, number> = { N: 0, R: 1, SR: 2, SSR: 3, UR: 4 };
 
 export function GalleryPage() {
-  const { tr } = useT();
+  const { tr, pick } = useT();
   const { t } = useT();
   const sortOptions = SORT_OPTIONS.map((o) => ({ ...o, label: tr(o.label) }));
   const cards = useGameStore((s) => s.cards);
@@ -48,6 +49,7 @@ export function GalleryPage() {
   const [detail, setDetail] = useState<CardTemplate | null>(null);
   const [sort, setSort] = useState<SortKey>('ovr-desc');
   const [fusableOnly, setFusableOnly] = useState(false);
+  const [legendOnly, setLegendOnly] = useState(false);
 
   const byTemplate = useMemo(() => {
     const map = new Map<string, { count: number; best: number; level: number }>();
@@ -84,6 +86,8 @@ export function GalleryPage() {
       const owned = byTemplate.get(t.id);
       if (ownedOnly && !owned) return false;
       if (rarity !== 'ALL' && t.rarity !== rarity) return false;
+      // 「传奇」只是标签，与稀有度筛选叠加，不改变任何稀有度本身。
+      if (legendOnly && !isLegend(t.playerId)) return false;
       if (role !== 'ALL' && t.primaryRole !== role && t.secondaryRole !== role) return false;
       if (query.trim()) {
         const q = query.trim().toLowerCase();
@@ -93,7 +97,7 @@ export function GalleryPage() {
       return true;
     })
     .map((template) => ({ template })),
-  [all, byTemplate, rarity, role, query, ownedOnly, nameOf]);
+  [all, byTemplate, rarity, role, query, ownedOnly, nameOf, legendOnly]);
 
   const fusionTargets = useMemo(() => all
     .map((t) => ({ template: t, owned: byTemplate.get(t.id) }))
@@ -102,6 +106,7 @@ export function GalleryPage() {
   [all, byTemplate]);
 
   const fusableCount = fusionTargets.filter((x) => (x.owned?.count ?? 0) >= STAR_CONFIG.copiesRequired && (x.owned?.best ?? 1) < STAR_CONFIG.maxStars).length;
+  const legendCount = useMemo(() => all.filter((t) => isLegend(t.playerId)).length, [all]);
   const ownedCount = byTemplate.size;
   const withPhoto = playersWithAvatars().length;
 
@@ -138,6 +143,23 @@ export function GalleryPage() {
             <Button variant={ownedOnly ? 'primary' : 'ghost'} onClick={() => setOwnedOnly((v) => !v)}>
               <Layers size={14} /> {ownedOnly ? tr('只看已拥有') : tr('显示全部')}
             </Button>
+            <button
+              type='button'
+              data-legend-filter='1'
+              aria-pressed={legendOnly}
+              onClick={() => setLegendOnly((v) => !v)}
+              title={tr('只看传奇')}
+              className={clsx(
+                'focus-ring rounded-lg border px-2.5 py-1 text-[12px] font-semibold transition-colors duration-150',
+                legendOnly ? 'text-ink-900' : 'text-txt-muted hover:text-txt',
+              )}
+              style={legendOnly
+                ? { background: LEGEND_GOLD, borderColor: LEGEND_GOLD }
+                : { borderColor: 'rgba(216,178,106,0.4)', background: 'rgba(216,178,106,0.08)' }}
+            >
+              {pick(tr('传奇'), 'LEGEND')}
+              <span className={legendOnly ? 'ml-1 text-ink-900/70' : 'ml-1 text-txt-muted'}>{legendCount}</span>
+            </button>
             <Select value={sort} onChange={(v) => setSort(v as SortKey)} options={sortOptions} />
           </div>
           {filtered.length === 0 ? (

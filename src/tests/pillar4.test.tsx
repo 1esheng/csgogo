@@ -325,7 +325,8 @@ describe('设置页 · 两个本机偏好开关', () => {
 /* ───────────────────────── 卡面打磨 ───────────────────────── */
 
 function view(overrides: Partial<PlayerCardView> = {}): PlayerCardView {
-  const template = Object.values(TEMPLATE_MAP)[0];
+  // 非传奇的 UR 卡：传奇卡的顶线换成暖金（见 legend.test.tsx），这里测的是普通卡面的约定。
+  const template = TEMPLATE_MAP['tpl-donk-2026'];
   return { template, nickname: 's1mple', countryCode: 'UA', ovr: 96, level: 12, stars: 3, ...overrides };
 }
 
@@ -356,7 +357,7 @@ describe('PlayerCard · 细节', () => {
   });
 
   it('发丝边 hover 提亮跟随赛季主题变量，卡片位移仍是 2px', () => {
-    const template = Object.values(TEMPLATE_MAP)[0];
+    const template = TEMPLATE_MAP['tpl-donk-2026'];
     const { container, unmount } = render(<PlayerCard card={{ template, nickname: 'NiKo', countryCode: 'BA', ovr: 90, level: 3 }} />);
     const card = container.querySelector('button');
     expect(card?.className).toContain('hover:border-[color:var(--season-hairline,rgba(255,255,255,0.25))]');

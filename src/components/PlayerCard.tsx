@@ -8,6 +8,7 @@ import { ROLE_LABEL } from '@/types';
 import { Avatar } from '@/components/Avatar';
 import { playerRetired } from '@/data/cards';
 import { RARITY_TABLE } from '@/data/config';
+import { LEGEND_GOLD, legendInfo } from '@/data/legends';
 
 export interface PlayerCardView {
   template: CardTemplate;
@@ -55,6 +56,7 @@ export function PlayerCard({
   const s = SIZE[size];
   const role: Role = card.template.primaryRole;
   const retired = playerRetired(card.template.playerId);
+  const legend = legendInfo(card.template.playerId);
   const stars = card.stars ?? 1;
   const skill = pick(card.template.skill.name, skillNameEn(card.template.skill));
   return (
@@ -79,9 +81,10 @@ export function PlayerCard({
         aria-hidden='true'
         className={clsx(
           'absolute inset-x-0 top-0 transition-[height,opacity] duration-150 ease-out',
-          selected ? 'h-[3px] opacity-100' : 'h-0.5 opacity-80',
+          // 传奇顶线比稀有度顶线宽 1px 并换成暖金：更「重」，但仍然是发丝线，不做渐变/发光。
+          legend || selected ? 'h-[3px] opacity-100' : 'h-0.5 opacity-80',
         )}
-        style={{ backgroundColor: rarity.color }}
+        style={{ backgroundColor: legend ? LEGEND_GOLD : rarity.color }}
       />
 
       <div className='relative flex items-center justify-between gap-1.5'>
@@ -93,6 +96,16 @@ export function PlayerCard({
             </span>
           ) : null}
         </span>
+        {legend ? (
+          <span
+            data-legend='1'
+            title={tr('传奇')}
+            className='type-data shrink-0 rounded-[3px] border px-1 font-semibold tracking-[0.08em]'
+            style={{ borderColor: 'rgba(216,178,106,0.45)', color: LEGEND_GOLD }}
+          >
+            {'LEGEND'}
+          </span>
+        ) : null}
       </div>
 
       <div className='relative flex items-center justify-center'>

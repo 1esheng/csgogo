@@ -12,7 +12,7 @@
 
 **🌐 [在线试玩](https://1esheng.github.io/csgogo/)** &nbsp;·&nbsp; 📖 [English](README.en.md)
 
-<sub>React 18 · TypeScript · Vite · 纯前端离线运行 · v1.8.0 · v2.1.1 · MIT</sub>
+<sub>React 18 · TypeScript · Vite · 纯前端离线运行 · v1.8.0 · v2.2.0 · MIT</sub>
 
 </div>
 

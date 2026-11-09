@@ -7,6 +7,7 @@ import { MAPS } from '@/data/maps';
 import { Avatar } from '@/components/Avatar';
 import { avatarCredit } from '@/data/avatars';
 import { playerBio, playerRetired, skillDescEn, skillNameEn } from '@/data/cards';
+import { LEGEND_GOLD, legendInfo } from '@/data/legends';
 import { effectiveAttributes, ovrBreakdown } from '@/engine/rating';
 import { Badge, Divider, Progress } from '@/components/ui';
 import { Star } from 'lucide-react';
@@ -81,6 +82,7 @@ export function CardDetailBody({
 }) {
   const { tr, pick } = useT();
   const rarity = RARITY_TABLE[template.rarity];
+  const legend = legendInfo(template.playerId);
   const credit = avatarCredit(template.playerId);
   const bio = playerBio(template.playerId);
   const retired = playerRetired(template.playerId);
@@ -108,6 +110,14 @@ export function CardDetailBody({
             />
           </div>
           <div className='mt-3 font-display text-2xl font-semibold'>{nickname}</div>
+          {legend ? (
+            <div data-legend='1' className='mt-1 flex flex-wrap items-center gap-1.5 text-[12px]' style={{ color: LEGEND_GOLD }}>
+              <span aria-hidden='true' className='h-px w-5 shrink-0' style={{ backgroundColor: LEGEND_GOLD, opacity: 0.55 }} />
+              <span className='font-semibold tracking-[0.08em]'>{pick(tr('传奇'), 'LEGEND')}</span>
+              <span aria-hidden='true' className='text-white/25'>·</span>
+              <span>{tr('自')} {legend.since} {tr('年征战')}</span>
+            </div>
+          ) : null}
           <div className='text-[13px] tracking-wider text-txt-muted'>
             {template.season} {retired ? tr('生涯终章') : tr('赛季')}
             {retired ? <Badge tone='danger' className='ml-2'>{tr('已退役')}</Badge> : null}
