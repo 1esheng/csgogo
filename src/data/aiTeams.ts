@@ -11,7 +11,7 @@ export type AITeamSpecI18n = AITeamSpec & { blurbEn: string };
  */
 export const AI_TEAMS: AITeamSpecI18n[] = [
   {
-    id: 'navi', name: 'Natus Vincere', shortName: 'NAVI', tier: 4, rating: 1099,
+    id: 'navi', name: 'Natus Vincere', shortName: 'NAVI', tier: 4, rating: 1195,
     lineup: [
       L('tpl-zywoo-2026', 'AWPer', true),
       L('tpl-donk-2026', 'Entry'),
@@ -41,7 +41,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'French superpower — a title machine built around ZywOo.',
   },
   {
-    id: 'spirit', name: 'Team Spirit', shortName: 'SPR', tier: 4, rating: 1237,
+    id: 'spirit', name: 'Team Spirit', shortName: 'SPR', tier: 4, rating: 1243,
     lineup: [
       L('tpl-molodoy-2026', 'AWPer'),
       L('tpl-ropz-2026', 'Entry'),
@@ -101,7 +101,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'NiKo and m0NESY form a firepower pairing that turns offense into an art form.',
   },
   {
-    id: 'falcons', name: 'Team Falcons', shortName: 'FLC', tier: 3, rating: 1195,
+    id: 'falcons', name: 'Team Falcons', shortName: 'FLC', tier: 3, rating: 1205,
     lineup: [
       L('tpl-broky-2026', 'AWPer'),
       L('tpl-kjaerbye-2026', 'Entry'),
@@ -146,7 +146,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Four-time Major champions — the textbook on utility and structure.',
   },
   {
-    id: 'heroic', name: 'Heroic', shortName: 'HER', tier: 3, rating: 1069,
+    id: 'heroic', name: 'Heroic', shortName: 'HER', tier: 3, rating: 1078,
     lineup: [
       L('tpl-karrigan-2026', 'AWPer'),
       L('tpl-sergej-2026', 'Entry'),
@@ -176,7 +176,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Veteran North American club with a long international record.',
   },
   {
-    id: 'virtuspro', name: 'Virtus.pro', shortName: 'VP', tier: 3, rating: 1003,
+    id: 'virtuspro', name: 'Virtus.pro', shortName: 'VP', tier: 3, rating: 1031,
     lineup: [
       L('tpl-chrisj-2026', 'AWPer'),
       L('tpl-yuurih-2026', 'Entry'),
@@ -191,7 +191,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'CIS contender built on slow pacing and elite clutch play.',
   },
   {
-    id: 'liquid', name: 'Team Liquid', shortName: 'TL', tier: 2, rating: 1062,
+    id: 'liquid', name: 'Team Liquid', shortName: 'TL', tier: 2, rating: 1099,
     lineup: [
       L('tpl-torzsi-2026', 'AWPer'),
       L('tpl-im-2026', 'Entry'),
@@ -221,7 +221,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Finnish contender thriving on structure and team chemistry.',
   },
   {
-    id: 'big', name: 'BIG', shortName: 'BIG', tier: 2, rating: 999,
+    id: 'big', name: 'BIG', shortName: 'BIG', tier: 2, rating: 1038,
     lineup: [
       L('tpl-degster-2026', 'AWPer'),
       L('tpl-elige-2026', 'Entry'),
@@ -236,7 +236,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'German representative, especially awkward on home soil.',
   },
   {
-    id: 'fnatic', name: 'fnatic', shortName: 'FNC', tier: 2, rating: 1038,
+    id: 'fnatic', name: 'fnatic', shortName: 'FNC', tier: 2, rating: 1052,
     lineup: [
       L('tpl-adren-2026', 'AWPer'),
       L('tpl-ax1le-2026', 'Entry'),
@@ -266,7 +266,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Authors of the 87-map win streak, still rebuilding.',
   },
   {
-    id: 'pain', name: 'paiN Gaming', shortName: 'paiN', tier: 2, rating: 934,
+    id: 'pain', name: 'paiN Gaming', shortName: 'paiN', tier: 2, rating: 968,
     lineup: [
       L('tpl-woxic-2026', 'AWPer'),
       L('tpl-krimbo-2026', 'Entry', true),
@@ -281,7 +281,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Veteran Brazilian club, a steady force in South America.',
   },
   {
-    id: 'imperial', name: 'Imperial', shortName: 'IMP', tier: 1, rating: 1000,
+    id: 'imperial', name: 'Imperial', shortName: 'IMP', tier: 1, rating: 1015,
     lineup: [
       L('tpl-hen1-2026', 'AWPer'),
       L('tpl-mzinho-2026', 'Entry'),
@@ -311,7 +311,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'A legendary Brazilian brand, now a South American side in rebuild.',
   },
   {
-    id: 'mongolz', name: 'The MongolZ', shortName: 'MGZ', tier: 1, rating: 1078,
+    id: 'mongolz', name: 'The MongolZ', shortName: 'MGZ', tier: 1, rating: 1138,
     lineup: [
       L('tpl-hallzerk-2026', 'AWPer'),
       L('tpl-nex-2026', 'Entry'),
@@ -326,7 +326,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Mongolian cavalry — the loudest Asian voice in recent years.',
   },
   {
-    id: 'tyloo', name: 'TYLOO', shortName: 'TYL', tier: 1, rating: 920,
+    id: 'tyloo', name: 'TYLOO', shortName: 'TYL', tier: 1, rating: 984,
     lineup: [
       L('tpl-smooya-2026', 'AWPer', true),
       L('tpl-k1to-2026', 'Entry'),
@@ -341,7 +341,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Strongest lineup out of China, a perennial on the Asian stage.',
   },
   {
-    id: 'betboom', name: 'BetBoom Team', shortName: 'BB', tier: 1, rating: 1205,
+    id: 'betboom', name: 'BetBoom Team', shortName: 'BB', tier: 1, rating: 1265,
     lineup: [
       L('tpl-kngv-2026', 'AWPer'),
       L('tpl-jkaem-2026', 'Entry', true),
@@ -356,7 +356,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'CIS rising side with a strong online record.',
   },
   {
-    id: 'gamerlegion', name: 'GamerLegion', shortName: 'GL', tier: 1, rating: 988,
+    id: 'gamerlegion', name: 'GamerLegion', shortName: 'GL', tier: 1, rating: 1000,
     lineup: [
       L('tpl-smithzz-2026', 'AWPer'),
       L('tpl-blitz-2026', 'Entry'),
@@ -386,7 +386,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'A tough nut from the CIS second tier.',
   },
   {
-    id: 'b8', name: 'B8 Esports', shortName: 'B8', tier: 0, rating: 1031,
+    id: 'b8', name: 'B8 Esports', shortName: 'B8', tier: 0, rating: 1062,
     lineup: [
       L('tpl-soulfly-2026', 'AWPer'),
       L('tpl-patsi-2026', 'Entry'),
@@ -416,7 +416,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Belarusian side and dangerous online upset specialists.',
   },
   {
-    id: 'aurora', name: 'Aurora Gaming', shortName: 'AUR', tier: 0, rating: 1243,
+    id: 'aurora', name: 'Aurora Gaming', shortName: 'AUR', tier: 0, rating: 1237,
     lineup: [
       L('tpl-acor-2026', 'AWPer'),
       L('tpl-sl1m3-2026', 'Entry'),
@@ -461,7 +461,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'European mix that lives on tactics.',
   },
   {
-    id: 'og', name: 'OG', shortName: 'OG', tier: 3, rating: 1265,
+    id: 'og', name: 'OG', shortName: 'OG', tier: 3, rating: 876,
     lineup: [
       L('tpl-sh1ro-2026', 'AWPer'),
       L('tpl-donk-2026', 'Entry', true),
@@ -491,7 +491,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Norwegian contender and a regular Major attendee.',
   },
   {
-    id: 'eternalfire', name: 'Eternal Fire', shortName: 'EF', tier: 3, rating: 1052,
+    id: 'eternalfire', name: 'Eternal Fire', shortName: 'EF', tier: 3, rating: 1069,
     lineup: [
       L('tpl-m0nesy-2026', 'AWPer'),
       L('tpl-kyousuke-2026', 'Entry'),
@@ -506,7 +506,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Top side out of Turkey, led by XANTARES.',
   },
   {
-    id: 'saw', name: 'SAW', shortName: 'SAW', tier: 2, rating: 896,
+    id: 'saw', name: 'SAW', shortName: 'SAW', tier: 2, rating: 934,
     lineup: [
       L('tpl-markeloff-2026', 'AWPer'),
       L('tpl-flamie-2026', 'Entry'),
@@ -551,7 +551,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Veteran Russian club and a fixture on the domestic scene.',
   },
   {
-    id: 'sangal', name: 'Sangal', shortName: 'SNG', tier: 1, rating: 968,
+    id: 'sangal', name: 'Sangal', shortName: 'SNG', tier: 1, rating: 999,
     lineup: [
       L('tpl-dycha-2026', 'AWPer'),
       L('tpl-makazze-2026', 'Entry'),
@@ -581,7 +581,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Serbian side, a hard nut of the European second tier.',
   },
   {
-    id: 'nexus', name: 'Nexus', shortName: 'NEX', tier: 1, rating: 876,
+    id: 'nexus', name: 'Nexus', shortName: 'NEX', tier: 1, rating: 920,
     lineup: [
       L('tpl-cajunb-2026', 'AWPer'),
       L('tpl-rain-2026', 'Entry', true),
@@ -656,7 +656,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Veteran German club with a solid academy system.',
   },
   {
-    id: 'havu', name: 'HAVU', shortName: 'HAVU', tier: 0, rating: 1015,
+    id: 'havu', name: 'HAVU', shortName: 'HAVU', tier: 0, rating: 909,
     lineup: [
       L('tpl-kngv-2026', 'AWPer'),
       L('tpl-dupreeh-2026', 'Entry'),
@@ -701,7 +701,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Danish youth squad and a Nordic spoiler.',
   },
   {
-    id: 'sashi', name: 'Sashi', shortName: 'SAS', tier: 0, rating: 984,
+    id: 'sashi', name: 'Sashi', shortName: 'SAS', tier: 0, rating: 919,
     lineup: [
       L('tpl-twist-2026', 'AWPer', true),
       L('tpl-jabbi-2026', 'Entry'),
@@ -746,7 +746,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'A veteran North American brand, a giant in rebuild.',
   },
   {
-    id: 'nrg', name: 'NRG', shortName: 'NRG', tier: 2, rating: 958,
+    id: 'nrg', name: 'NRG', shortName: 'NRG', tier: 2, rating: 988,
     lineup: [
       L('tpl-kjaerbye-2026', 'AWPer', true),
       L('tpl-k0nfig-2026', 'Entry'),
@@ -761,7 +761,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'North American club with Major playoff pedigree.',
   },
   {
-    id: 'm80', name: 'M80', shortName: 'M80', tier: 1, rating: 1041,
+    id: 'm80', name: 'M80', shortName: 'M80', tier: 1, rating: 1045,
     lineup: [
       L('tpl-syrson-2026', 'AWPer'),
       L('tpl-calyx-2026', 'Entry'),
@@ -776,7 +776,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Rising North American force built on young talent.',
   },
   {
-    id: 'wildcard', name: 'Wildcard', shortName: 'WC', tier: 1, rating: 974,
+    id: 'wildcard', name: 'Wildcard', shortName: 'WC', tier: 1, rating: 1003,
     lineup: [
       L('tpl-draken-2026', 'AWPer'),
       L('tpl-nex-2026', 'Entry'),
@@ -836,7 +836,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'New Brazilian squad with blistering attacking tempo.',
   },
   {
-    id: 'legacy', name: 'Legacy', shortName: 'LEG', tier: 1, rating: 1138,
+    id: 'legacy', name: 'Legacy', shortName: 'LEG', tier: 1, rating: 1114,
     lineup: [
       L('tpl-xccurate-2026', 'AWPer'),
       L('tpl-attacker-2026', 'Entry'),
@@ -851,7 +851,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'A Brazilian veteran core, deep on experience.',
   },
   {
-    id: 'fluxo', name: 'Fluxo', shortName: 'FLX', tier: 0, rating: 909,
+    id: 'fluxo', name: 'Fluxo', shortName: 'FLX', tier: 0, rating: 939,
     lineup: [
       L('tpl-acor-2026', 'AWPer', true),
       L('tpl-r3salt-2026', 'Entry'),
@@ -866,7 +866,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Brazilian club and a fixture in the domestic league.',
   },
   {
-    id: '9z', name: '9z Team', shortName: '9z', tier: 1, rating: 1045,
+    id: '9z', name: '9z Team', shortName: '9z', tier: 1, rating: 1041,
     lineup: [
       L('tpl-junior-2026', 'AWPer'),
       L('tpl-bondik-2026', 'Entry'),
@@ -881,7 +881,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Argentine contender and a long-standing South American power.',
   },
   {
-    id: 'bestia', name: 'BESTIA', shortName: 'BEA', tier: 0, rating: 939,
+    id: 'bestia', name: 'BESTIA', shortName: 'BEA', tier: 0, rating: 974,
     lineup: [
       L('tpl-afro-2026', 'AWPer'),
       L('tpl-demqq-2026', 'Entry'),
@@ -896,7 +896,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Argentine side that wins through team play.',
   },
   {
-    id: 'lynnvision', name: 'Lynn Vision', shortName: 'LVG', tier: 1, rating: 919,
+    id: 'lynnvision', name: 'Lynn Vision', shortName: 'LVG', tier: 1, rating: 958,
     lineup: [
       L('tpl-danking-2026', 'AWPer'),
       L('tpl-jackz-2026', 'Entry'),
@@ -971,7 +971,7 @@ export const AI_TEAMS: AITeamSpecI18n[] = [
     blurbEn: 'Finnish youth squad and a Nordic spoiler.',
   },
   {
-    id: 'rareatom', name: 'Rare Atom', shortName: 'RA', tier: 1, rating: 1114,
+    id: 'rareatom', name: 'Rare Atom', shortName: 'RA', tier: 1, rating: 896,
     lineup: [
       L('tpl-hallzerk-2026', 'AWPer'),
       L('tpl-niko-2026', 'Entry', true),
