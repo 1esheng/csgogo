@@ -173,6 +173,21 @@ export const KEY_ROUND_TAG_LABEL: Record<KeyRoundTag, string> = {
   overtime: '加时',
 };
 
+/** 把存档里预生成的英文关键回合文案（Round 19: bomb detonation (9:10)）本地化。 */
+export function localizeRoundText(text: string, tr: (s: string) => string): string {
+  const m = /^Round (\d+): (bomb detonation|clutch defuse|time expired|elimination) \((\d+):(\d+)\)$/.exec(text);
+  if (!m) return text;
+  const reason =
+    m[2] === 'bomb detonation'
+      ? tr('炸弹爆炸')
+      : m[2] === 'clutch defuse'
+        ? tr('残局拆包')
+        : m[2] === 'time expired'
+          ? tr('时间耗尽')
+          : tr('歼灭');
+  return tr('第') + ' ' + m[1] + ' ' + tr('回合') + ' · ' + reason + '（' + m[3] + ':' + m[4] + '）';
+}
+
 export interface KeyRound {
   roundNumber: number;
   winner: Side | null;
@@ -414,7 +429,7 @@ function KeyRoundList({ rows }: { rows: KeyRoundView[] }) {
               ))}
             </span>
           </div>
-          {row.text ? <p className='mt-1 text-[12px] leading-snug text-txt-muted'>{row.text}</p> : null}
+          {row.text ? <p className='mt-1 text-[12px] leading-snug text-txt-muted'>{localizeRoundText(row.text, tr)}</p> : null}
         </li>
       ))}
     </ol>

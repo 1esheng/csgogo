@@ -7,6 +7,7 @@ import { MAPS } from '@/data/maps';
 import { Badge, Button, KeyValue, Panel, SectionTitle, StatTile } from '@/components/ui';
 import { MODE_LABEL } from '@/features/career/RecordDetail';
 import { ScoreTable } from './Scoreboard';
+import { localizeRoundText } from './MatchStats';
 
 export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: () => void }) {
   const { pick, tr } = useT();
@@ -105,7 +106,7 @@ export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: 
                 {summary.keyRounds.map((k) => (
                   <li key={k.roundNumber} className='flex items-start gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5'>
                     <Badge tone={k.winner === 'T' ? 'accent' : 'neutral'} className='shrink-0'>{k.winner ?? '-'}</Badge>
-                    <span className='text-[13px] leading-snug text-txt'>{k.text}</span>
+                    <span className='text-[13px] leading-snug text-txt'>{localizeRoundText(k.text, tr)}</span>
                   </li>
                 ))}
               </ul>
