@@ -53,13 +53,13 @@ function cardView(templateId: string) {
 }
 
 describe('传奇判定规则', () => {
-  it('截止年是固定常量 2016，不随当前年份漂移', () => {
-    expect(LEGEND_DEBUT_CUTOFF).toBe(2016);
+  it('截止年是固定常量 2015，不随当前年份漂移', () => {
+    expect(LEGEND_DEBUT_CUTOFF).toBe(2015);
   });
 
-  it('2016 年及以前出道为传奇，2017 年起不算', () => {
-    expect(isLegendSince(2016)).toBe(true);
-    expect(isLegendSince(2017)).toBe(false);
+  it('2015 年及以前出道为传奇，2016 年起不算', () => {
+    expect(isLegendSince(2015)).toBe(true);
+    expect(isLegendSince(2016)).toBe(false);
     expect(isLegendSince(1988)).toBe(true);
     expect(isLegendSince(Number.NaN)).toBe(false);
   });
@@ -104,7 +104,7 @@ describe('传奇名录数据完整性', () => {
     // 同一位传奇卡也可以是任意稀有度：标签与稀有度互不影响
     expect(getTemplate('tpl-f0rest-2023')?.rarity).toBeTruthy();
     expect(getTemplate('tpl-zywoo-2026')?.rarity).toBe('UR');
-    expect(isLegend('zywoo')).toBe(true);
+    expect(isLegend('zywoo')).toBe(false); // 2016 出道，已在新截止年之外
   });
 });
 

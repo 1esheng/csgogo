@@ -29,7 +29,7 @@ const SIZE = {
 };
 
 /** 位置水印：不同位置用不同几何形状，低透明度印在卡面右下，不占文字空间。 */
-function RoleGlyph({ role, size }: { role: string; size: number }) {
+export function RoleGlyph({ role, size }: { role: string; size: number }) {
   const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   if (role === 'AWPer') return (<svg {...common}><circle cx='12' cy='12' r='7' /><path d='M12 2v4M12 18v4M2 12h4M18 12h4' /></svg>);
   if (role === 'Entry') return (<svg {...common}><path d='M4 18l8-8 8 8' /><path d='M4 10l8-8 8 8' /></svg>);
@@ -39,7 +39,7 @@ function RoleGlyph({ role, size }: { role: string; size: number }) {
 }
 
 export function PlayerCard({
-  card, size = 'md', onClick, selected, className, cornerLabel, dimmed, starter,
+  card, size = 'md', onClick, selected, className, cornerLabel, dimmed, starter, role: assignedRole,
 }: {
   card: PlayerCardView;
   size?: 'sm' | 'md' | 'lg';
@@ -50,11 +50,13 @@ export function PlayerCard({
   dimmed?: boolean;
   /** 首发阵容里的卡显示一个小徽标。 */
   starter?: boolean;
+  /** 指派位置：阵容槽位真实位置，用于右下角水印；不传则用卡牌主位置。 */
+  role?: Role;
 }) {
   const { tr, pick } = useT();
   const rarity = RARITY_TABLE[card.template.rarity as Rarity];
   const s = SIZE[size];
-  const role: Role = card.template.primaryRole;
+  const role: Role = assignedRole ?? card.template.primaryRole;
   const retired = playerRetired(card.template.playerId);
   const legend = legendInfo(card.template.playerId);
   const stars = card.stars ?? 1;

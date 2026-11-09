@@ -3,7 +3,7 @@ import { PLAYERS, TEMPLATE_MAP } from '@/data/cards';
 /**
  * 「传奇选手」标签：独立于稀有度，是长期征战履历的荣誉标记。
  *
- * 判定口径（用户定稿）：出道年份 since <= LEGEND_DEBUT_CUTOFF（2016）即为传奇。
+ * 判定口径（用户定稿）：出道年份 since <= LEGEND_DEBUT_CUTOFF（2015）即为传奇。
  * 用固定截止年而不是「当前年 - 15」，避免每到新年整份名单自动漂移。
  *
  * 名录只收录 src/data/cards.ts 中真实存在的选手（key = 卡池的 playerId，也就是
@@ -11,7 +11,7 @@ import { PLAYERS, TEMPLATE_MAP } from '@/data/cards';
  * （Liquipedia 选手页 Infobox 的 years_active，与 HLTV 上的生涯起点共识一致），
  * 拿不准的一律不收——宁缺勿错。
  */
-export const LEGEND_DEBUT_CUTOFF = 2016;
+export const LEGEND_DEBUT_CUTOFF = 2015;
 
 /** 传奇标识的暖金：只用于发丝线与文字，不做渐变/发光。 */
 export const LEGEND_GOLD = '#D8B26A';
@@ -32,7 +32,7 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   azr: { since: 2013 },
   boltz: { since: 2014 },
   bondik: { since: 2009 },
-  boombl4: { since: 2016 },
+
   byali: { since: 2013 },
   cajunb: { since: 2010 },
   calyx: { since: 2014 },
@@ -76,7 +76,7 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   jks: { since: 2010 },
   jw: { since: 2009 },
   k0nfig: { since: 2015 },
-  k1to: { since: 2016 },
+
   karrigan: { since: 2006 },
   kennys: { since: 2011 },
   keshandr: { since: 2013 },
@@ -104,18 +104,18 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   ptr: { since: 2011 },
   pyth: { since: 2010 },
   qikert: { since: 2015 },
-  refrezh: { since: 2016 },
+
   rpk: { since: 2006 },
   s1mple: { since: 2013 },
   scream: { since: 2010 },
-  sdy: { since: 2016 },
+
   seized: { since: 2009 },
   smithzz: { since: 2005 },
-  smooya: { since: 2016 },
+
   snappi: { since: 2008 },
   snax: { since: 2010 },
   somebody: { since: 2013 },
-  stavn: { since: 2016 },
+
   summer: { since: 2012 },
   sunny: { since: 2012 },
   syrson: { since: 2012 },
@@ -130,10 +130,10 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   xccurate: { since: 2015 },
   xizt: { since: 2008 },
   xyp9x: { since: 2011 },
-  yuurih: { since: 2016 },
+
   zeus: { since: 2002 },
   znajder: { since: 2009 },
-  zywoo: { since: 2016 },
+
 };
 
 /** 昵称 / playerId / templateId 都能解析到卡池里的 playerId。 */
