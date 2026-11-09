@@ -77,7 +77,7 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
           {tr('该位置的成长顺序：')}{order.map((key) => tr(ATTRIBUTE_LABEL[key])).join(' → ')}{tr('。属性点按此顺序投放，因此一张')}{tr(ROLE_LABEL[template.primaryRole])}{tr('卡牌永远不会变成另一个位置的翻版。')}
         </p>
         <p>
-          {tr('成长倍率')} ×{template.growth.toFixed(2)}{tr(' 决定这些点数累积的速度。这张卡牌在 1–')}{maxLevel}{tr(' 级之间最多可获得 ')}{ceiling}{tr(' 点永久属性，且每项属性上限为 ')}{tr('属性没有上限：升级与升星的加成会一直累加。')}
+          {tr('成长倍率')} ×{template.growth.toFixed(2)}{tr(' 决定这些点数累积的速度。这张卡牌在 1–')}{maxLevel}{tr(' 级之间最多可获得 ')}{ceiling}{tr(' 点永久属性，')}{tr('属性没有上限：升级与升星的加成会一直累加。')}
         </p>
       </div>
     </div>

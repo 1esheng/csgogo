@@ -5,6 +5,7 @@ import { useT } from '@/hooks/useLang';
 import brandMark from '@/assets/brand/icon-dark.png';
 import heroImage from '@/assets/brand/onboarding-hero.png';
 import { pick, tr } from '@/i18n';
+import { clubLevelInfo } from '@/game/rewards';
 import { VersionBadge } from '@/components/VersionBadge';
 import { CheatPanel } from '@/features/cheats/CheatPanel';
 import { badgeIcon } from '@/data/clubCosmetics';
@@ -102,8 +103,9 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
   const navigate = useNavigate();
   const total = club.wins + club.losses;
   const winRate = total > 0 ? Math.round((club.wins / total) * 100) : 0;
-  const xpNeed = Math.max(1, club.level * 120);
-  const xpPct = Math.min(100, Math.round((club.xp / xpNeed) * 100));
+  const clubInfo = clubLevelInfo(club.xp);
+  const xpNeed = clubInfo.required;
+  const xpPct = Math.min(100, Math.round((clubInfo.intoLevel / xpNeed) * 100));
   return (
     <header className='sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-white/5 bg-ink-900/90 px-4 py-2.5 backdrop-blur-md lg:px-6'>
       <button className='focus-ring rounded-lg p-2 text-txt-muted lg:hidden' onClick={onMenu} aria-label={tr('菜单')}><Menu size={18} /></button>
@@ -117,8 +119,8 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
 
       <div className='hidden w-40 shrink-0 flex-col gap-1 sm:flex'>
         <div className='flex items-center justify-between text-[12px] text-txt-muted'>
-          <span>{tr('俱乐部等级')} {club.level}</span>
-          <span>{club.xp} / {xpNeed} {tr('经验')}</span>
+          <span>{tr('俱乐部等级')} {clubInfo.level}</span>
+          <span>{clubInfo.intoLevel} / {xpNeed} {tr('经验')}</span>
         </div>
         <div className='h-1.5 overflow-hidden rounded-full bg-white/10'>
           <div className='h-full rounded-full bg-accent' style={{ width: xpPct + '%' }} />
