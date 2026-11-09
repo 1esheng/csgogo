@@ -103,7 +103,7 @@ export function PlayerCard({
             className='type-data shrink-0 rounded-[3px] border px-1 font-semibold tracking-[0.08em]'
             style={{ borderColor: 'rgba(216,178,106,0.45)', color: LEGEND_GOLD }}
           >
-            {'LEGEND'}
+            {pick(tr('传奇'), 'LEGEND')}
           </span>
         ) : null}
       </div>
