@@ -11,7 +11,7 @@ export interface Tactic extends TacticSpec {
 
 export const T_TACTICS: Tactic[] = [
   {
-    id: 'fast_rush', name: '快速 Rush', side: 'T',
+    id: 'fast_rush', name: '快速进攻', side: 'T',
     blurb: '五人抢在 CT 布置好之前冲点。波动极大，专治慢热防守。',
     contactAt: 20, attackPower: 1.14, defensePower: 1, siteBias: { A: 0.5, B: 0.5 }, split: 0,
     utility: 0.28, info: 0.18, trade: 0.52, plantSpeed: 0.92, vsSpread: 0.13, vsStack: -0.11,

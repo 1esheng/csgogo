@@ -2,6 +2,7 @@ import { tr } from '@/i18n';
 import { useT } from '@/hooks/useLang';
 import type { MatchStatLine, MatchSummary } from '@/types';
 import { MAPS } from '@/data/maps';
+import { localizeRoundText, roundLabel } from '@/i18n/display';
 import { Badge, Divider } from '@/components/ui';
 
 export const MODE_LABEL: Record<MatchSummary['mode'], string> = {
@@ -133,8 +134,8 @@ export function RecordDetailBody({ summary }: { summary: MatchSummary }) {
                 key={round.roundNumber + round.text}
                 className='flex items-center gap-2 rounded-lg bg-white/[0.03] px-2 py-1 text-[13px] text-txt-muted'
               >
-                <span className='font-semibold text-txt'>R{round.roundNumber}</span>
-                <span className='min-w-0 flex-1 truncate'>{round.text}</span>
+                <span className='shrink-0 font-semibold text-txt'>{roundLabel(round.roundNumber)}</span>
+                <span className='min-w-0 flex-1 truncate'>{localizeRoundText(round.text, tr)}</span>
                 {round.winner ? (
                   <Badge tone={round.winner === 'T' ? 'accent' : 'neutral'}>{round.winner}</Badge>
                 ) : null}

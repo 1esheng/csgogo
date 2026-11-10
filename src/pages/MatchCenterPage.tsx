@@ -91,7 +91,7 @@ export function MatchCenterPage() {
         right={
           activeMatch
             ? <Badge tone='accent'>{tr('进行中 · 第 ')}{activeMatch.roundNumber}{tr(' 回合')}</Badge>
-            : <Badge tone='muted'>{tr('BO1 · 单图')}</Badge>
+            : <Badge tone='muted'>{tr('BO1 · 一局定胜负')}</Badge>
         }
       />
 

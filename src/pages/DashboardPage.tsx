@@ -5,6 +5,7 @@ import { CalendarDays, MapPin, Swords, TrendingUp, Trophy, Users } from 'lucide-
 import { useGameStore, aiOpponents } from '@/stores/gameStore';
 import { useT } from '@/hooks/useLang';
 import { levelText } from '@/i18n';
+import { winLossText } from '@/i18n/display';
 import { MAPS } from '@/data/maps';
 import { COACH_MAP } from '@/data/coaches';
 import { coachEffects } from '@/engine/coach';
@@ -305,7 +306,7 @@ export function DashboardPage() {
           </Panel>
 
           <Panel>
-            <SectionTitle title={t('page.dashboard.recent')} subtitle={tr('总战绩') + ' ' + club.wins + 'W ' + club.losses + 'L · ' + tr('胜率') + ' ' + winRate + '%'} />
+            <SectionTitle title={t('page.dashboard.recent')} subtitle={tr('总战绩') + ' ' + winLossText(club.wins, club.losses, tr) + ' · ' + tr('胜率') + ' ' + winRate + '%'} />
             {recent.length === 0 ? (
               <p className='text-[13px] text-txt-muted'>{tr('还没有比赛记录——去生涯打第一场吧。')}</p>
             ) : (

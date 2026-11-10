@@ -25,7 +25,7 @@ export function TrainingLog() {
           <span className='shrink-0 rounded bg-white/5 px-1.5 py-0.5 text-[11px] font-semibold text-txt-muted'>
             {tr(TRAINING_KIND_LABEL[record.kind])}
           </span>
-          <span className='shrink-0 text-[12px] font-semibold text-emerald-400'>+{record.xpGained} XP</span>
+          <span className='shrink-0 text-[12px] font-semibold text-emerald-400'>+{record.xpGained} {tr('经验')}</span>
           <span className='flex shrink-0 items-center gap-0.5 text-[12px] text-accent'>
             <Coins size={10} />{record.coinsSpent}
           </span>

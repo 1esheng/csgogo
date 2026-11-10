@@ -107,7 +107,7 @@ export function CollectionPage({ embedded = false }: { embedded?: boolean } = {}
                 ) : (
                   <span>{tr('替补')}</span>
                 )}
-                {item.isIGL ? <span className='text-accent'>&#183; IGL</span> : null}
+                {item.isIGL ? <span className='text-accent'>&#183; {tr('指挥')}</span> : null}
               </div>
             </div>
           ))}

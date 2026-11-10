@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import type { MatchEvent, RoundRecord, Side } from '@/types';
 import { REASON_LABEL } from '@/data/config';
 import { useT } from '@/hooks/useLang';
+import { roundLabel } from '@/i18n/display';
 import { clockLabel, moneyLabel } from './matchUi';
 import type { ReplayData } from './MatchStats';
 
@@ -91,7 +92,7 @@ function RoundRow({ row, open, onToggle }: { row: ReplayRoundRow; open: boolean;
         className='focus-ring t-colors flex w-full flex-wrap items-center gap-x-2.5 gap-y-1 px-2.5 py-2 text-left hover:bg-white/[0.03]'
       >
         {open ? <ChevronDown size={14} className='shrink-0 text-txt-muted' /> : <ChevronRight size={14} className='shrink-0 text-txt-muted' />}
-        <span className='font-mono text-[12px] text-txt-muted'>R{row.roundNumber}</span>
+        <span className='font-mono text-[12px] text-txt-muted'>{roundLabel(row.roundNumber)}</span>
         <span className='font-display text-[14px] font-semibold tabular-nums text-txt'>{scoreText}</span>
         {row.winner ? (
           <span className={clsx('rounded-md border px-1.5 py-0.5 text-[11px] font-semibold', row.winner === 'T' ? 'border-accent/30 bg-accent/15 text-accent' : 'border-white/10 bg-white/5 text-txt-muted')}>
@@ -101,7 +102,7 @@ function RoundRow({ row, open, onToggle }: { row: ReplayRoundRow; open: boolean;
         <span className='text-[12px] text-txt-muted'>{tr(REASON_LABEL[row.reason] ?? row.reason)}</span>
         <span className='ml-auto flex items-center gap-2 font-mono text-[11px] tabular-nums text-txt-muted'>
           <span>{row.kills.length} K</span>
-          {row.bank ? <span>{moneyLabel(row.bank.ours)} v {moneyLabel(row.bank.theirs)}</span> : null}
+          {row.bank ? <span>{moneyLabel(row.bank.ours)} {tr('对')} {moneyLabel(row.bank.theirs)}</span> : null}
         </span>
       </button>
       {open ? (

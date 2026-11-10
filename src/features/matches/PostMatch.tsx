@@ -7,7 +7,7 @@ import { MAPS } from '@/data/maps';
 import { Badge, Button, KeyValue, Panel, SectionTitle, StatTile } from '@/components/ui';
 import { MODE_LABEL } from '@/features/career/RecordDetail';
 import { ScoreTable } from './Scoreboard';
-import { localizeRoundText } from './MatchStats';
+import { localizeRoundText } from '@/i18n/display';
 
 export function PostMatch({ summary, onExit }: { summary: MatchSummary; onExit: () => void }) {
   const { pick, tr } = useT();

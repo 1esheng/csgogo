@@ -38,7 +38,7 @@ export function GrowthPreview({ template, level, stars = 1 }: { template: CardTe
         <div className='flex items-center gap-1.5 font-display text-[15px] font-semibold text-txt'>
           {ovrNow}
           <ArrowRight size={13} className='text-txt-muted' />
-          <span className={ovrNext > ovrNow ? 'text-emerald-400' : 'text-txt-muted'}>{ovrNext} OVR</span>
+          <span className={ovrNext > ovrNow ? 'text-emerald-400' : 'text-txt-muted'}>{ovrNext} {tr('评分')}</span>
         </div>
       </div>
 

@@ -23,8 +23,8 @@ const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: 'ovr-asc', label: '综合评分：低 → 高' },
   { value: 'rarity-desc', label: '稀有度：高 → 低' },
   { value: 'rarity-asc', label: '稀有度：低 → 高' },
-  { value: 'name-asc', label: '昵称：A → Z' },
-  { value: 'name-desc', label: '昵称：Z → A' },
+  { value: 'name-asc', label: '昵称排序 A–Z' },
+  { value: 'name-desc', label: '昵称排序 Z–A' },
   { value: 'copies-desc', label: '拥有数量：多 → 少' },
 ];
 
@@ -230,7 +230,7 @@ export function GalleryPage() {
                         <div className='mt-1 flex items-center gap-2 text-[12px] text-txt-muted'>
                           <span>{tr('拥有')} {count}{tr(' 张')}</span>
                           <span>·</span>
-                          <span>{tr('当前')} OVR {now}</span>
+                          <span>{tr('当前')} {now} {tr('评分')}</span>
                           {canFuse ? <span className='text-emerald-300'>→ {next}</span> : null}
                         </div>
                         <div className='mt-1'><Progress value={Math.min(count, STAR_CONFIG.copiesRequired)} max={STAR_CONFIG.copiesRequired} height='h-1.5' /></div>

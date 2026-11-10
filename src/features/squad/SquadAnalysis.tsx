@@ -161,7 +161,7 @@ export function SquadAnalysis({
             </div>
             <div className='flex items-center justify-between text-[12px] text-txt-muted'>
               <span>{tr('双人化学反应加成')}</span>
-              <span className='font-semibold text-txt'>+{breakdown.chemistry.toFixed(1)} OVR</span>
+              <span className='font-semibold text-txt'>+{breakdown.chemistry.toFixed(1)} {tr('评分')}</span>
             </div>
           </div>
         </div>

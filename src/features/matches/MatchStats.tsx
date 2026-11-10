@@ -3,11 +3,11 @@ import clsx from 'clsx';
 import { Crown } from 'lucide-react';
 import { Avatar } from '@/components/Avatar';
 import type { MapId, MatchEvent, MatchStatLine, MatchSummary, RoundRecord, Side } from '@/types';
-import { REASON_LABEL } from '@/data/config';
 import { MAPS } from '@/data/maps';
 import { Panel } from '@/components/ui';
 import { useT } from '@/hooks/useLang';
 import { MODE_LABEL } from '@/features/career/RecordDetail';
+import { localizeRoundText, roundLabel, roundReasonText } from '@/i18n/display';
 import { moneyLabel } from './matchUi';
 
 /**
@@ -173,21 +173,6 @@ export const KEY_ROUND_TAG_LABEL: Record<KeyRoundTag, string> = {
   overtime: '加时',
 };
 
-/** 把存档里预生成的英文关键回合文案（Round 19: bomb detonation (9:10)）本地化。 */
-export function localizeRoundText(text: string, tr: (s: string) => string): string {
-  const m = /^Round (\d+): (bomb detonation|clutch defuse|time expired|elimination) \((\d+):(\d+)\)$/.exec(text);
-  if (!m) return text;
-  const reason =
-    m[2] === 'bomb detonation'
-      ? tr('炸弹爆炸')
-      : m[2] === 'clutch defuse'
-        ? tr('残局拆包')
-        : m[2] === 'time expired'
-          ? tr('时间耗尽')
-          : tr('歼灭');
-  return tr('第') + ' ' + m[1] + ' ' + tr('回合') + ' · ' + reason + '（' + m[3] + ':' + m[4] + '）';
-}
-
 export interface KeyRound {
   roundNumber: number;
   winner: Side | null;
@@ -316,9 +301,9 @@ function StatTable({
               <th className='px-1.5 py-1 text-right font-medium' title='KAST'>KAST</th>
               <th className='px-1.5 py-1 text-right font-medium' title='K/D'>K/D</th>
               <th className='px-1.5 py-1 text-right font-medium' title={tr('评分')}>{tr('评分')}</th>
-              <th className='px-1.5 py-1 text-right font-medium' title='Opening kills'>OK</th>
-              <th className='px-1.5 py-1 text-right font-medium' title='Multi-kills'>MK</th>
-              <th className='px-1.5 py-1 text-right font-medium' title='Clutches'>1vX</th>
+              <th className='px-1.5 py-1 text-right font-medium' title={tr('首杀')}>OK</th>
+              <th className='px-1.5 py-1 text-right font-medium' title={tr('多杀')}>MK</th>
+              <th className='px-1.5 py-1 text-right font-medium' title={tr('残局')}>1vX</th>
             </tr>
           </thead>
           <tbody>
@@ -413,14 +398,14 @@ function KeyRoundList({ rows }: { rows: KeyRoundView[] }) {
       {rows.map((row) => (
         <li key={row.roundNumber} className='rounded-xl border border-white/5 bg-ink-700/40 px-2.5 py-2'>
           <div className='flex flex-wrap items-center gap-x-2 gap-y-1'>
-            <span className='font-mono text-[12px] text-txt-muted'>R{row.roundNumber}</span>
+            <span className='text-[12px] text-txt-muted'>{roundLabel(row.roundNumber)}</span>
             {typeof row.ours === 'number' && typeof row.theirs === 'number' ? (
               <span className='font-display text-[14px] font-semibold tabular-nums text-txt'>
                 {row.ours}<span className='text-txt-muted'>:</span>{row.theirs}
               </span>
             ) : null}
             {row.winner ? <span className='text-[12px] text-txt-muted'>{row.winner}</span> : null}
-            {row.reason ? <span className='text-[12px] text-txt-muted'>· {tr(REASON_LABEL[row.reason] ?? row.reason)}</span> : null}
+            {row.reason ? <span className='text-[12px] text-txt-muted'>· {roundReasonText(row.reason, tr)}</span> : null}
             <span className='ml-auto flex flex-wrap gap-1'>
               {row.tags.map((tag) => (
                 <span key={tag} className='rounded-md border border-accent/30 bg-accent/15 px-1.5 py-0.5 text-[11px] font-semibold text-accent'>
@@ -541,14 +526,14 @@ export function MatchStats({ summary, replay }: { summary: MatchSummary; replay:
                           ? 'border-danger/40 bg-danger/15 text-danger'
                           : 'border-white/10 text-txt-muted',
                     )}
-                    title={'R' + point.roundNumber}
+                    title={roundLabel(point.roundNumber)}
                   >
                     {point.ours}:{point.theirs}
                   </span>
                   );
                 })
                 : sideBoard.map((round) => (
-                  <span key={round.roundNumber} className='rounded-md border border-white/10 px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-txt-muted' title={'R' + round.roundNumber}>
+                  <span key={round.roundNumber} className='rounded-md border border-white/10 px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-txt-muted' title={roundLabel(round.roundNumber)}>
                     T {round.scoreT}:{round.scoreCT} CT
                   </span>
                 ))}
@@ -563,7 +548,7 @@ export function MatchStats({ summary, replay }: { summary: MatchSummary; replay:
                 <p className='mt-1 text-[12px] leading-relaxed text-txt-muted'>{tr('经济数值是回合结束时双方剩余资金，按该回合的阵营映射到我方 / 对手。')}</p>
               </div>
             ) : null}
-            <p className='text-[12px] leading-relaxed text-txt-muted'>{tr('逐回合比分按阵营（T / CT）记录，半场换边时刻由回放里的 halftime 事件还原。')}</p>
+            <p className='text-[12px] leading-relaxed text-txt-muted'>{tr('逐回合比分按阵营（T / CT）记录，半场换边时刻由回放里的半场事件还原。')}</p>
           </>
         )}
       </Panel>
@@ -571,7 +556,7 @@ export function MatchStats({ summary, replay }: { summary: MatchSummary; replay:
       <Panel className='space-y-1.5'>
         <div className='text-[13px] font-semibold text-txt'>{tr('以下指标没有显示，因为引擎没有持久化对应数据：')}</div>
         <ul className='list-disc space-y-0.5 pl-5 text-[12px] leading-relaxed text-txt-muted'>
-          <li>{tr('爆头率（headshots 只存在于内存 MatchState，未写入计分板行）')}</li>
+          <li>{tr('爆头率（爆头只存在于内存中的比赛状态，未写入计分板行）')}</li>
           <li>{tr('逐回合的选手伤害、血量与存活状态（回合日志只存事件文本）')}</li>
           <li>{tr('道具使用与逐人购买明细（只有双方回合结束时的总资金）')}</li>
           <li>{tr('逐回合的助攻归属（助攻只在比赛结束后汇总）')}</li>

@@ -3,6 +3,7 @@ import { useT } from '@/hooks/useLang';
 import clsx from 'clsx';
 import type { MatchEvent, MatchEventKind, MatchState } from '@/types';
 import { useGameStore } from '@/stores/gameStore';
+import { roundLabel } from '@/i18n/display';
 import { EVENT_KIND_META, clockLabel } from './matchUi';
 
 /**
@@ -130,7 +131,7 @@ export function MatchLog({ events }: { events: MatchEvent[] }) {
           const meta = EVENT_KIND_META[e.kind];
           return (
             <div key={e.id} className='flex items-start gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1'>
-              <span className='mt-0.5 shrink-0 font-mono text-[12px] text-txt-muted'>R{e.round}</span>
+              <span className='mt-0.5 shrink-0 font-mono text-[12px] text-txt-muted'>{roundLabel(e.round)}</span>
               <span className='mt-0.5 shrink-0 font-mono text-[12px] text-txt-muted'>{clockLabel(e.clock)}</span>
               <span className={clsx('mt-0.5 w-[74px] shrink-0 text-[11px] font-semibold ', meta.tone)}>
                 {tr(meta.label)}

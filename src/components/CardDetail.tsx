@@ -1,6 +1,6 @@
 import React from 'react';
 import { useT } from '@/hooks/useLang';
-import { ATTRIBUTE_KEYS, ATTRIBUTE_LABEL, ALL_ROLES, MAP_IDS } from '@/types';
+import { ATTRIBUTE_KEYS, ATTRIBUTE_LABEL, ALL_ROLES, MAP_IDS, ROLE_LABEL } from '@/types';
 import type { CardTemplate } from '@/types';
 import { LEVEL_CONFIG, RARITY_TABLE } from '@/data/config';
 import { MAPS } from '@/data/maps';
@@ -188,7 +188,7 @@ export function CardDetailBody({
             <div className='space-y-1.5'>
               {ALL_ROLES.map((role) => (
                 <div key={role} className='flex items-center gap-2'>
-                  <span className={role === template.primaryRole ? 'w-16 text-[13px] font-semibold text-accent' : role === template.secondaryRole ? 'w-16 text-[13px] font-semibold text-txt' : 'w-16 text-[13px] text-txt-muted'}>{role}</span>
+                  <span className={role === template.primaryRole ? 'w-16 text-[13px] font-semibold text-accent' : role === template.secondaryRole ? 'w-16 text-[13px] font-semibold text-txt' : 'w-16 text-[13px] text-txt-muted'}>{tr(ROLE_LABEL[role])}</span>
                   <div className='flex-1'><Progress value={template.proficiency[role]} height='h-1.5' /></div>
                   <span className='w-8 text-right text-[13px] text-txt-muted'>{template.proficiency[role]}</span>
                 </div>

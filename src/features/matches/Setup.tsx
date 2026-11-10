@@ -258,7 +258,7 @@ export function Setup() {
             active={mapMode === 'veto'}
             icon={<Swords size={13} />}
             label={trVeto('Veto 演练')}
-            hint={trVeto('按 BO1 / BO3 顺序推演 ban / pick，结束后自动回填选图。')}
+            hint={trVeto('按 BO1 / BO3 顺序推演禁用 / 挑选，结束后自动回填选图。')}
             onClick={() => setMapMode('veto')}
           />
         </div>

@@ -169,11 +169,14 @@ export const BUY_LABEL: Record<'eco' | 'light' | 'force' | 'full' | 'awp', strin
   awp: '狙击局',
 };
 
+/** 回合结束原因的展示文案：全站（结算屏 / 战绩弹窗 / 回放）只认这一份。 */
 export const REASON_LABEL: Record<string, string> = {
-  elimination: '全员击杀',
+  elimination: '歼灭',
   bomb: '炸弹爆炸',
-  defuse: '拆包成功',
+  defuse: '残局拆包',
   time: '时间耗尽',
+  clutch: '残局',
+  ace: '五杀',
   unfinished: '未完成',
 };
 

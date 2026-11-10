@@ -5,6 +5,7 @@ import { useT } from '@/hooks/useLang';
 import brandMark from '@/assets/brand/icon-dark.png';
 import heroImage from '@/assets/brand/onboarding-hero.png';
 import { pick, tr } from '@/i18n';
+import { winLossText } from '@/i18n/display';
 import { clubLevelInfo } from '@/game/rewards';
 import { VersionBadge } from '@/components/VersionBadge';
 import { CheatPanel } from '@/features/cheats/CheatPanel';
@@ -144,7 +145,7 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         </div>
         <div className='hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-[15px] md:flex'>
           <Trophy size={14} className='text-txt-muted' />
-          <span className='font-semibold'>{club.wins}W {club.losses}L</span>
+          <span className='font-semibold'>{winLossText(club.wins, club.losses, tr)}</span>
           <span className='text-[12px] text-accent'>{winRate}%</span>
         </div>
       </div>

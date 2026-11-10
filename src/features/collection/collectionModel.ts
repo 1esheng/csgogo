@@ -26,7 +26,7 @@ export const SORT_OPTIONS: { value: CollectionSort; label: string }[] = [
   { value: 'rarity', label: '稀有度：高→低' },
   { value: 'level', label: '等级：高→低' },
   { value: 'newest', label: '最新获得' },
-  { value: 'nickname', label: '昵称：A→Z' },
+  { value: 'nickname', label: '昵称排序 A–Z' },
 ];
 
 export const ROLE_OPTIONS: { value: 'ALL' | Role; label: string }[] = [

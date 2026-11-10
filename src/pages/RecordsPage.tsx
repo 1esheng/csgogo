@@ -119,7 +119,7 @@ export function RecordsPage() {
           </div>
         ) : null}
         <p className='mt-3 text-[12px] leading-relaxed text-txt-muted'>
-          {tr('每场比赛仅保存摘要数据。完整回放（含每个回合事件）只在 IndexedDB 中保留最近 20 场，本页面不会加载。')}
+          {tr('每场比赛仅保存摘要数据。完整回放（含每个回合事件）只在本地数据库中保留最近 20 场，本页面不会加载。')}
         </p>
       </Panel>
 

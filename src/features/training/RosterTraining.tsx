@@ -652,12 +652,12 @@ export function RosterTraining() {
                   <div className='mb-1 flex items-center justify-between text-[12px] text-txt-muted'>
                     <span>{tr('经验进度')}</span>
                     <span className='font-semibold text-txt'>
-                      {atCap ? tr('已满级') : xp.current + ' / ' + xp.required + ' XP'}
+                      {atCap ? tr('已满级') : xp.current + ' / ' + xp.required + ' ' + tr('经验')}
                     </span>
                   </div>
                   <Progress value={atCap ? 100 : xp.pct * 100} tone={atCap ? 'success' : 'accent'} height='h-2' />
                   <div className='mt-1 flex items-center justify-between text-[12px] text-txt-muted'>
-                    <span>{tr('累计')} {selected.card.xp} XP · {tr('成长倍率')} ×{selected.template.growth.toFixed(2)}</span>
+                    <span>{tr('累计')} {selected.card.xp} {tr('经验')} · {tr('成长倍率')} ×{selected.template.growth.toFixed(2)}</span>
                     <span>{tr('等级上限')} {LEVEL_CONFIG.maxLevel}</span>
                   </div>
                 </div>
@@ -683,7 +683,7 @@ export function RosterTraining() {
                         <div className='flex items-center justify-between gap-2'>
                           <span className='font-display text-[14px] font-semibold text-txt'>{tr(drill.label)}</span>
                           <span className='inline-flex items-center gap-1 text-[12px] font-semibold text-accent'>
-                            <span>+{gain} XP</span>
+                            <span>+{gain} {tr('经验')}</span>
                           </span>
                         </div>
                         <div className='mt-1 flex items-center justify-between text-[12px] text-txt-muted'>

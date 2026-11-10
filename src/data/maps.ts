@@ -4,7 +4,7 @@ export const MAPS: Record<MapId, MapSpec> = {
   Mirage: {
     id: 'Mirage',
     name: 'Mirage',
-    tagline: '中路控制、窗户对狙，永恒的 pug 路线',
+    tagline: '中路控制、窗户对狙，永恒的路人局路线',
     tBias: 0.4,
     ctBias: 0.2,
     awpFactor: 1.1,
