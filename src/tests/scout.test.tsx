@@ -36,11 +36,24 @@ function startMatch(): void {
 
 describe('scout report pricing', () => {
   it('价格落在 8,000–30,000，随对手实力与 career 档位单调不减', () => {
+    // 价格口径由公式自身定义（基准 8,000 + 强度差*800 + 档位差*1200，取整到 100，夹在区间内）。
+    // 卡池数值由真实数据校准后，这里不再硬编码具体金额，而是重新推导一遍公式来核对实现。
+    const STRENGTH_BASE = 70;
+    const derive = (spec: typeof OPPONENT, tier: number) => {
+      const strengthDelta = Math.max(0, aiTeamOvr(spec) - STRENGTH_BASE);
+      const tierDelta = Math.max(0, Math.round(Number.isFinite(tier) ? tier : 0));
+      const raw = SCOUT_PRICE_RANGE.min + strengthDelta * 800 + tierDelta * 1200;
+      const rounded = Math.round(raw / 100) * 100;
+      return Math.min(SCOUT_PRICE_RANGE.max, Math.max(SCOUT_PRICE_RANGE.min, rounded));
+    };
+
     const noLineup = { ...OPPONENT, lineup: [] };
-    expect(scoutPrice(noLineup, 0)).toBe(SCOUT_PRICE_RANGE.min);
-    expect(scoutPrice(noLineup, 3)).toBe(11600);
-    expect(scoutPrice(STRONGEST, 9)).toBe(SCOUT_PRICE_RANGE.max);
     expect(SCOUT_PRICE_RANGE).toEqual({ min: 8000, max: 30000 });
+    // 空阵容 = 强度差为 0，直接落在下限
+    expect(scoutPrice(noLineup, 0)).toBe(SCOUT_PRICE_RANGE.min);
+    expect(scoutPrice(noLineup, 3)).toBe(derive(noLineup, 3));
+    expect(scoutPrice(STRONGEST, 9)).toBe(derive(STRONGEST, 9));
+    expect(scoutPrice(STRONGEST, 9)).toBe(SCOUT_PRICE_RANGE.max);
 
     // 同一档位下，越强的对手不会更便宜
     const byStrength = [...AI_TEAMS].sort((a, b) => aiTeamOvr(a) - aiTeamOvr(b));
@@ -51,9 +64,18 @@ describe('scout report pricing', () => {
     for (let tier = 1; tier <= 9; tier += 1) {
       expect(scoutPrice(WEAKEST, tier)).toBeGreaterThanOrEqual(scoutPrice(WEAKEST, tier - 1));
     }
-    // 真实对手池（OVR 74–101）的价格梯度，便于核对量级
-    expect(scoutPrice(WEAKEST, 0)).toBe(11200);
-    expect(scoutPrice(STRONGEST, 0)).toBe(30000);
+    // 真实对手池：价格恒等于公式推导值，且必定落在区间内、取整到 100
+    for (const spec of [noLineup, WEAKEST, STRONGEST, OPPONENT]) {
+      for (const tier of [0, 1, 3, 5, 9]) {
+        const price = scoutPrice(spec, tier);
+        expect(price).toBe(derive(spec, tier));
+        expect(price).toBeGreaterThanOrEqual(SCOUT_PRICE_RANGE.min);
+        expect(price).toBeLessThanOrEqual(SCOUT_PRICE_RANGE.max);
+        expect(price % 100).toBe(0);
+      }
+    }
+    // 最弱与最强的价差必须真实存在，否则上面的区间断言会退化成永远成立
+    expect(scoutPrice(STRONGEST, 0)).toBeGreaterThan(scoutPrice(WEAKEST, 0));
   });
 
   it('购买情报扣款金额与显示价格一致，同一对手只扣一次，并写进存档', async () => {

@@ -23,16 +23,18 @@ export interface LegendEntry {
 }
 
 export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
+  /* --- 数据驱动（career_start_year <= 2015）：48 人；手工回退（数据缺该字段）：71 人 --- */
   acor: { since: 2015 },
   adren: { since: 2005 },
   advent: { since: 2013 },
+  alistair: { since: 2015 },
   allu: { since: 2009 },
   ange1: { since: 2005 },
   apex: { since: 2009 },
   azr: { since: 2013 },
+  bntet: { since: 2012 },
   boltz: { since: 2014 },
   bondik: { since: 2009 },
-
   byali: { since: 2013 },
   cajunb: { since: 2010 },
   calyx: { since: 2014 },
@@ -44,12 +46,14 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   device: { since: 2009, note: '丹麦狙击手，2009 年就在丹麦 CS 赛场出道' },
   dexter: { since: 2015 },
   dosia: { since: 2007 },
+  draken: { since: 2015 },
   dupreeh: { since: 2012 },
   edward: { since: 2001 },
   electronic: { since: 2015 },
   elige: { since: 2014 },
   emi: { since: 2008 },
   es3tag: { since: 2014 },
+  espiranto: { since: 2015 },
   ex6tenz: { since: 2005 },
   f0rest: { since: 2003 },
   fallen: { since: 2003 },
@@ -72,19 +76,22 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   hooch: { since: 2002 },
   hunter: { since: 2015 },
   hutji: { since: 2015 },
+  ins: { since: 2014 },
   jkaem: { since: 2013 },
   jks: { since: 2010 },
   jw: { since: 2009 },
   k0nfig: { since: 2015 },
-
   karrigan: { since: 2006 },
+  kaze: { since: 2010 },
   kennys: { since: 2011 },
   keshandr: { since: 2013 },
   kjaerbye: { since: 2014 },
+  kngv: { since: 2007 },
   krimz: { since: 2012 },
   kscerato: { since: 2013 },
-  lekr0: { since: 2014 },
   legija: { since: 2012 },
+  lekr0: { since: 2014 },
+  liazz: { since: 2015 },
   magisk: { since: 2015 },
   maikelele: { since: 2008 },
   maj3r: { since: 2006 },
@@ -94,6 +101,7 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   msl: { since: 2011 },
   nbk: { since: 2009 },
   neo: { since: 2000, note: '波兰 CS 1.6 时代的活化石' },
+  nertz: { since: 2015 },
   nex: { since: 2012 },
   nexa: { since: 2013 },
   niko: { since: 2009, note: '波黑枪王 2009 年就在巴尔干 CS 1.6 赛场出道' },
@@ -104,18 +112,19 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   ptr: { since: 2011 },
   pyth: { since: 2010 },
   qikert: { since: 2015 },
-
+  rickeh: { since: 2013 },
+  ropz: { since: 2015 },
   rpk: { since: 2006 },
   s1mple: { since: 2013 },
+  savage: { since: 2006 },
   scream: { since: 2010 },
-
   seized: { since: 2009 },
+  sergej: { since: 2015 },
+  shox: { since: 2006 },
   smithzz: { since: 2005 },
-
   snappi: { since: 2008 },
   snax: { since: 2010 },
   somebody: { since: 2013 },
-
   summer: { since: 2012 },
   sunny: { since: 2012 },
   syrson: { since: 2012 },
@@ -126,14 +135,14 @@ export const LEGEND_PLAYERS: Record<string, LegendEntry> = {
   twist: { since: 2012 },
   twistzz: { since: 2015 },
   worldedit: { since: 2010 },
+  woxic: { since: 2012 },
   xantares: { since: 2013 },
   xccurate: { since: 2015 },
+  xign: { since: 2014 },
   xizt: { since: 2008 },
   xyp9x: { since: 2011 },
-
   zeus: { since: 2002 },
   znajder: { since: 2009 },
-
 };
 
 /** 昵称 / playerId / templateId 都能解析到卡池里的 playerId。 */

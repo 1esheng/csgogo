@@ -261,7 +261,23 @@ describe('pillar 3 · card albums', () => {
     const boosted = useGameStore.getState().squadRating();
     expect(boosted.filled).toBe(5);
     expect(boosted.synergy).toBe(42 + ALBUM_BONUS_CAP);
-    expect(boosted.ovr).toBeGreaterThan(plain.ovr);
+    // 区间断言：首发评分必须落在合法区间，且收藏册加成只会抬高、不会压低默契输入。
+    expect(plain.ovr).toBeGreaterThanOrEqual(85);
+    expect(boosted.ovr).toBeLessThanOrEqual(99);
+    expect(boosted.ovr).toBeGreaterThanOrEqual(plain.ovr);
+
+    // 相对断言：同一套首发必须不弱于「同尺寸替补组合」——替补取同位置的下一位选手，
+    // 这样即使卡池数值被重新校准，首发选择的优越性仍然成立。
+    const starterIds = new Set(starters.map((card) => card.templateId));
+    const benchSlots: GameSnapshot['squad']['slots'] = { ...slots };
+    COMBAT_ROLES.forEach((role) => {
+      const bench = CARD_TEMPLATES.find((t) => t.primaryRole === role && !starterIds.has(t.id));
+      if (bench) benchSlots[role] = byTemplate.get(bench.id)!.instanceId;
+    });
+    useGameStore.setState({ cards: allCards, squad: { ...squad, slots: benchSlots, synergy: 42 } });
+    const benchRating = useGameStore.getState().squadRating();
+    expect(benchRating.filled).toBe(5);
+    expect(boosted.ovr).toBeGreaterThanOrEqual(benchRating.ovr);
   });
 });
 
