@@ -83,7 +83,7 @@ const GAMESENSE = 3;
 const ENTRY_PROF = 1;
 /** 无数据的 6 维：只按现有相对关系等比缩放，用来补齐目标 OVR。 */
 const FREE_ATTRS = [1, 2, 4, 5, 6, 7];
-const MAX_ROUNDS = 16;
+const MAX_ROUNDS = 40;
 
 /* ---------------------------------------------------------------- 公式读取 */
 
@@ -335,53 +335,142 @@ function clutchSignal(data) {
 
 /* -------------------------------------------------- 属性反解（只改数值） */
 
+/** 单卡触顶规则：默认每项 ≤96，最多 2 项可以到 99。 */
+const ATTR_SOFT_MAX = 96;
+const ATTR_TOP_MAX = 2;
+
 function marginal(i) {
   const key = ATTR_KEYS[i];
   return FORMULA.blend.attributes * (FORMULA.combat[key] || 0) + FORMULA.blend.team * (FORMULA.team[key] || 0);
 }
 
+/** band 窗口：A/B/C/D 互不重叠，A 最高、D 最低。 */
+const BAND_RANGE = { A: [89, 95], B: [83, 88], C: [76, 82], D: [66, 74] };
+const BAND_ORDER = ['A', 'B', 'C', 'D'];
+const BAND_LABEL = { A: 'VRS 1-10（现役）', B: 'VRS 11-30', C: 'VRS 31-100', D: '无排名/非活跃/不在数据里' };
+
+/**
+ * 活跃度门控：近 27 天有 rating_3_0，或 (is_active && current_team) —— 取两者可得的并集。
+ * 生涯 Rating 1.0 的 Top 里混着大量已退役/不活跃的人（smooya：生涯第 9、rating 1.17，
+ * 但 rating_3_0 / recent.rank / current_team 全是 null），不能拿生涯均值把现役打成陪衬。
+ */
+function isActivePlayer(row) {
+  if (!row) return false;
+  if (Number.isFinite(row.recent && row.recent.rating_3_0)) return true;
+  return row.is_active === true && row.current_team != null;
+}
+
+/** 选手所属战队 → 数据里的 VRS 排名 → band。规则 3：无近期数据不得进 A。 */
+function bandOf(row, teamIndex) {
+  const team = row && row.current_team ? teamIndex.byName(row.current_team) : null;
+  const rank = team && Number.isFinite(team.vrs_rank) ? team.vrs_rank : null;
+  if (rank === null) return 'D';
+  const hasRecent = Number.isFinite(row.recent && row.recent.rating_3_0);
+  if (rank <= 10) return hasRecent ? 'A' : 'B';
+  if (rank <= 30) return 'B';
+  if (rank <= 100) return 'C';
+  return 'D';
+}
+
+/**
+ * 全卡池条目：命中者与未命中者都要进档（「不在数据里」按规则属于 band D）。
+ * 档内排序：有真实数据的按数据信号；没有数据的按自身相对顺序垫底。
+ */
+function buildEntries(cards, matched, teamIndex) {
+  const byCard = new Map(matched.map((s) => [s.card, s]));
+  const entries = cards.map((card) => {
+    const m = byCard.get(card) || null;
+    return { card, m, band: m ? bandOf(m.data, teamIndex) : 'D', active: m ? m.active : false, ovrBefore: card.ovrBefore };
+  });
+  const noDataOvr = entries.filter((e) => !e.m).map((e) => e.ovrBefore);
+  for (const e of entries) {
+    e.perf = e.m ? 1 + e.m.rankKey : (noDataOvr.length > 1 ? percentileOf(noDataOvr, e.ovrBefore) : 0.5);
+  }
+  const ranges = {};
+  for (const band of BAND_ORDER) {
+    const list = entries.filter((e) => e.band === band);
+    if (!list.length) { ranges[band] = { n: 0, min: 0, max: 0, allRecent: true }; continue; }
+    list.sort((a, b) => (b.perf - a.perf) || (a.card.templateId < b.card.templateId ? -1 : 1));
+    const lo = BAND_RANGE[band][0];
+    const hi = BAND_RANGE[band][1];
+    const n = list.length;
+    list.forEach((e, i) => {
+      const v = n === 1 ? hi : Math.round(hi - (i * (hi - lo)) / (n - 1));
+      e.target = PRESERVE_OVR ? e.ovrBefore : v;
+    });
+    ranges[band] = {
+      n,
+      min: Math.min.apply(null, list.map((e) => e.target)),
+      max: Math.max.apply(null, list.map((e) => e.target)),
+      allRecent: list.filter((e) => e.m).every((e) => Number.isFinite(e.m.data.recent && e.m.data.recent.rating_3_0)),
+    };
+  }
+  return { entries, ranges };
+}
+
 /**
  * 反解：信号维度（aim / gameSense / Entry 熟练度）固定在重排值不动，
- * 其余 6 维按现有相对关系等比缩放，再用 ±1 贪心补齐目标 OVR。
+ * 其余维度按现有相对关系等比缩放，再用 ±1 贪心补齐目标 OVR。
+ * 触顶：默认全维 ≤96；目标够不到时按边际权重逐个放开，最多 2 项可以到 99。
  */
 function solveAttrs(card, base, profBase, aimTarget, gsTarget, entryProfTarget, target) {
   const prof = profBase.slice();
   prof[ENTRY_PROF] = entryProfTarget;
   const profMax = Math.max.apply(null, prof);
-  const build = (k) => {
-    const out = base.slice();
-    for (const i of FREE_ATTRS) out[i] = clamp(Math.round(base[i] * k), ATTR_MIN, ATTR_MAX);
-    out[AIM] = aimTarget;
-    out[GAMESENSE] = gsTarget;
-    return out;
-  };
-  let best = null;
-  for (let step = 0; step <= 1000; step += 1) {
-    const k = 0.6 + step * 0.001;
-    const cand = build(k);
-    const ovr = ovrOfCard(card, cand, profMax);
-    const diff = Math.abs(ovr - target);
-    let moved = 0;
-    for (const i of FREE_ATTRS) moved += Math.abs(cand[i] - base[i]);
-    if (!best || diff < best.diff || (diff === best.diff && moved < best.moved)) best = { diff, moved, cand };
-  }
-  const attrs = best.cand.slice();
-  let cur = ovrOfCard(card, attrs, profMax);
-  for (let guard = 0; guard < 400 && cur !== target; guard += 1) {
-    const dir = cur < target ? 1 : -1;
-    let pick = -1;
-    let pickScore = -1;
-    for (const i of FREE_ATTRS) {
-      const next = attrs[i] + dir;
-      if (next < ATTR_MIN || next > ATTR_MAX) continue;
-      const score = marginal(i);
-      if (score > pickScore) { pickScore = score; pick = i; }
+  const pinned = aimTarget !== undefined && gsTarget !== undefined;
+  const free = pinned ? FREE_ATTRS : ATTR_KEYS.map((_k, i) => i);
+  const attempt = (allow) => {
+    const capOf = (i) => (allow.has(i) ? ATTR_MAX : ATTR_SOFT_MAX);
+    const build = (k) => {
+      const out = base.slice();
+      for (const i of free) out[i] = clamp(Math.round(base[i] * k), ATTR_MIN, capOf(i));
+      if (pinned) {
+        out[AIM] = clamp(aimTarget, ATTR_MIN, capOf(AIM));
+        out[GAMESENSE] = clamp(gsTarget, ATTR_MIN, capOf(GAMESENSE));
+      }
+      return out;
+    };
+    let best = null;
+    for (let step = 0; step <= 1000; step += 1) {
+      const k = 0.6 + step * 0.001;
+      const cand = build(k);
+      const ovr = ovrOfCard(card, cand, profMax);
+      const diff = Math.abs(ovr - target);
+      let moved = 0;
+      for (const i of free) moved += Math.abs(cand[i] - base[i]);
+      if (!best || diff < best.diff || (diff === best.diff && moved < best.moved)) best = { diff, moved, cand };
     }
-    if (pick < 0) break; // 自由维已到边界：信号维绝不代偿，宁可差 1 分也要保住分维度口径
-    attrs[pick] += dir;
-    cur = ovrOfCard(card, attrs, profMax);
+    const attrs = best.cand.slice();
+    let cur = ovrOfCard(card, attrs, profMax);
+    for (let guard = 0; guard < 800 && cur !== target; guard += 1) {
+      const dir = cur < target ? 1 : -1;
+      let pick = -1;
+      let pickScore = -1;
+      for (const i of free) {
+        const next = attrs[i] + dir;
+        if (next < ATTR_MIN || next > capOf(i)) continue;
+        const score = marginal(i);
+        if (score > pickScore) { pickScore = score; pick = i; }
+      }
+      if (pick < 0) break;
+      attrs[pick] += dir;
+      cur = ovrOfCard(card, attrs, profMax);
+    }
+    return { attrs, achieved: cur };
+  };
+
+  let allow = new Set();
+  let res = attempt(allow);
+  while (res.achieved < target && allow.size < ATTR_TOP_MAX) {
+    const cands = free.filter((i) => !allow.has(i)).sort((a, b) => marginal(b) - marginal(a));
+    if (!cands.length) break;
+    const nextAllow = new Set([...allow, cands[0]]);
+    const next = attempt(nextAllow);
+    if (next.achieved <= res.achieved) { res = next; break; }
+    allow = nextAllow;
+    res = next;
   }
-  return { attrs, prof, profMax, achieved: cur };
+  return { attrs: res.attrs, prof, profMax, achieved: res.achieved };
 }
 
 /* --------------------------------------------------------- P0 选手计划 */
@@ -409,10 +498,9 @@ function planPlayers(cards, nickById, index) {
     const clutch = clutchSignal(m.hit);
     if (entry === null) stats.entryMissing = (stats.entryMissing || 0) + 1; else stats.entryUsed += 1;
     if (clutch === null) stats.clutchMissing = (stats.clutchMissing || 0) + 1; else stats.clutchUsed += 1;
-    matched.push({ card, nick, data: m.hit, signal, entry, clutch, via: m.via });
+    matched.push({ card, nick, data: m.hit, signal, entry, clutch, via: m.via, active: isActivePlayer(m.hit) });
   }
   assignRankKey(matched);
-  // 排序键：统一分位 → hltv_id → templateId（确定性）。
   matched.sort((a, b) =>
     (b.rankKey - a.rankKey) ||
     ((b.data.hltv_id || 0) - (a.data.hltv_id || 0)) ||
@@ -420,76 +508,87 @@ function planPlayers(cards, nickById, index) {
   return { matched, unmatched, stats };
 }
 
-/** 一轮求解：目标 OVR 与信号维都来自「当前已落地状态」，因此收敛后即为不动点。 */
-function solveRound(matched, state) {
-  const ovrNow = matched.map((s) => ovrOfCard(s.card, state.get(s).attrs, state.get(s).profMax));
-  const ovrPool = ovrNow.slice().sort((a, b) => b - a);
-  // 排序键：数据分位（主）与现有 OVR 分位（阻尼，避免单月样本掀翻梯队）加权。
-  const keyed = matched.map((s, i) => ({ s, key: (1 - BLEND_W) * s.rankKey + BLEND_W * percentileOf(ovrNow, ovrNow[i]) }))
-    .sort((a, b) => (b.key - a.key) || (a.s.card.templateId < b.s.card.templateId ? -1 : 1))
-    .map((x) => x.s);
-  // 分维度保序重排：只在有信号的子集内做，null 卡不参与也不被改动。
-  const withEntry = matched.filter((s) => s.entry !== null)
-    .sort((a, b) => (b.entry - a.entry) || (a.card.templateId < b.card.templateId ? -1 : 1));
-  const aimPool = withEntry.map((s) => state.get(s).attrs[AIM]).sort((a, b) => b - a);
-  const entryPool = withEntry.map((s) => state.get(s).prof[ENTRY_PROF]).sort((a, b) => b - a);
-  const withClutch = matched.filter((s) => s.clutch !== null)
-    .sort((a, b) => (b.clutch - a.clutch) || (a.card.templateId < b.card.templateId ? -1 : 1));
-  const gsPool = withClutch.map((s) => state.get(s).attrs[GAMESENSE]).sort((a, b) => b - a);
+/** 一轮求解：目标 OVR 由 band 分档给定，信号维来自组内保序重排。 */
+function solveRound(entries, state) {
+  const withEntry = entries.filter((e) => e.m && e.m.entry !== null)
+    .sort((a, b) => (b.m.entry - a.m.entry) || (a.card.templateId < b.card.templateId ? -1 : 1));
+  const aimPool = withEntry.map((e) => state.get(e).attrs[AIM]).sort((a, b) => b - a);
+  const entryPool = withEntry.map((e) => state.get(e).prof[ENTRY_PROF]).sort((a, b) => b - a);
+  const withClutch = entries.filter((e) => e.m && e.m.clutch !== null)
+    .sort((a, b) => (b.m.clutch - a.m.clutch) || (a.card.templateId < b.card.templateId ? -1 : 1));
+  const gsPool = withClutch.map((e) => state.get(e).attrs[GAMESENSE]).sort((a, b) => b - a);
 
   const aimT = new Map();
   const entryT = new Map();
   const gsT = new Map();
-  withEntry.forEach((s, i) => { aimT.set(s, aimPool[i]); entryT.set(s, entryPool[i]); });
-  withClutch.forEach((s, i) => { gsT.set(s, gsPool[i]); });
+  withEntry.forEach((e, i) => { aimT.set(e, aimPool[i]); entryT.set(e, entryPool[i]); });
+  withClutch.forEach((e, i) => { gsT.set(e, gsPool[i]); });
 
   let changed = 0;
-  let capped = 0;
+  let clamped = 0;
   let unmet = 0;
-  keyed.forEach((s, i) => {
-    const st = state.get(s);
+  for (const e of entries) {
+    const st = state.get(e);
     const prof = st.prof.slice();
-    prof[ENTRY_PROF] = entryT.has(s) ? entryT.get(s) : st.prof[ENTRY_PROF];
+    prof[ENTRY_PROF] = entryT.has(e) ? entryT.get(e) : st.prof[ENTRY_PROF];
     const profMax = Math.max.apply(null, prof);
-    const lo = ovrOfCard(s.card, st.attrs.map(() => ATTR_MIN), profMax);
-    const hi = ovrOfCard(s.card, st.attrs.map(() => ATTR_MAX), profMax);
-    const raw = PRESERVE_OVR ? s.card.ovrBefore : ovrPool[i];
-    const target = clamp(clamp(raw, OVR_CLAMP_MIN, OVR_CLAMP_MAX), lo, hi);
-    if (target !== raw) capped += 1;
-    const solved = solveAttrs(s.card, st.attrs, st.prof, aimT.has(s) ? aimT.get(s) : st.attrs[AIM],
-      gsT.has(s) ? gsT.get(s) : st.attrs[GAMESENSE], prof[ENTRY_PROF], target);
+    const pinned = aimT.has(e) && gsT.has(e);
+    // 可达上限必须按「至多 2 项 99、其余 ≤96」的真实口径算，否则目标会被高估成达不到。
+    const freeIdx = pinned ? FREE_ATTRS : ATTR_KEYS.map((_k, i) => i);
+    const topTwo = freeIdx.slice().sort((a, b) => marginal(b) - marginal(a)).slice(0, ATTR_TOP_MAX);
+    const hiAttrs = st.attrs.map(() => ATTR_SOFT_MAX);
+    for (const i of topTwo) hiAttrs[i] = ATTR_MAX;
+    const loAttrs = st.attrs.map(() => ATTR_MIN);
+    if (pinned) {
+      hiAttrs[AIM] = clamp(aimT.get(e), ATTR_MIN, ATTR_MAX);
+      hiAttrs[GAMESENSE] = clamp(gsT.get(e), ATTR_MIN, ATTR_MAX);
+      loAttrs[AIM] = clamp(aimT.get(e), ATTR_MIN, ATTR_MAX);
+      loAttrs[GAMESENSE] = clamp(gsT.get(e), ATTR_MIN, ATTR_MAX);
+    }
+    const lo = ovrOfCard(e.card, loAttrs, profMax);
+    const hi = ovrOfCard(e.card, hiAttrs, profMax);
+    const target = clamp(clamp(e.target, OVR_CLAMP_MIN, OVR_CLAMP_MAX), lo, hi);
+    if (target !== e.target) clamped += 1;
+    const solved = solveAttrs(e.card, st.attrs, st.prof, aimT.get(e), gsT.get(e), prof[ENTRY_PROF], target);
     if (solved.achieved !== target) unmet += 1;
     if (solved.attrs.some((v, k) => v !== st.attrs[k]) || solved.prof.some((v, k) => v !== st.prof[k])) changed += 1;
-    state.set(s, { attrs: solved.attrs, prof: solved.prof, profMax: solved.profMax, achieved: solved.achieved, target });
-  });
-  return { changed, capped, unmet };
+    state.set(e, { attrs: solved.attrs, prof: solved.prof, profMax: solved.profMax, achieved: solved.achieved, target });
+    e.targetFinal = target;
+  }
+  return { changed, clamped, unmet };
 }
 
-function iterateToFixpoint(matched) {
+function iterateToFixpoint(entries) {
   const state = new Map();
-  for (const s of matched) {
-    state.set(s, { attrs: s.card.attrsBefore.slice(), prof: s.card.profBefore.slice(), profMax: s.card.profMax, achieved: s.card.ovrBefore, target: s.card.ovrBefore });
+  for (const e of entries) {
+    state.set(e, { attrs: e.card.attrsBefore.slice(), prof: e.card.profBefore.slice(), profMax: e.card.profMax, achieved: e.card.ovrBefore, target: e.card.ovrBefore });
   }
   let rounds = 0;
-  let capped = 0;
+  let clamped = 0;
   let unmet = 0;
   let last = null;
   while (rounds < MAX_ROUNDS) {
     rounds += 1;
-    last = solveRound(matched, state);
-    capped = last.capped;
+    last = solveRound(entries, state);
+    clamped = last.clamped;
     unmet = last.unmet;
     if (last.changed === 0) break;
   }
-  for (const s of matched) {
-    const st = state.get(s);
-    s.attrsAfter = st.attrs;
-    s.profAfter = st.prof;
-    s.profMaxAfter = st.profMax;
-    s.ovrAfter = st.achieved;
-    s.target = st.target;
+  for (const e of entries) {
+    const st = state.get(e);
+    e.attrsAfter = st.attrs;
+    e.profAfter = st.prof;
+    e.profMaxAfter = st.profMax;
+    e.ovrAfter = st.achieved;
+    if (e.m) {
+      e.m.attrsAfter = st.attrs;
+      e.m.profAfter = st.prof;
+      e.m.profMaxAfter = st.profMax;
+      e.m.ovrAfter = st.achieved;
+      e.m.target = st.target;
+    }
   }
-  return { rounds, capped, unmet, converged: last.changed === 0 };
+  return { rounds, clamped, unmet, converged: last.changed === 0 };
 }
 
 /* ------------------------------------------------------------ 战队索引 */
@@ -851,7 +950,8 @@ function main() {
 
   /* ---- P0 ---- */
   const plan = planPlayers(cards, nickById, playerIndex);
-  const solve = iterateToFixpoint(plan.matched);
+  const bands = buildEntries(cards, plan.matched, teamIndex);
+  const solve = iterateToFixpoint(bands.entries);
   const matchedBefore = plan.matched.map((s) => s.card.ovrBefore);
   const matchedAfter = plan.matched.map((s) => s.ovrAfter);
   const rhoBefore = spearman(plan.matched.map((s) => s.rankKey), matchedBefore);
@@ -859,6 +959,26 @@ function main() {
   const r3Cohort = plan.matched.filter((s) => s.signal.group === 'r3');
   const rhoRawBefore = spearman(r3Cohort.map((s) => s.signal.value), r3Cohort.map((s) => s.card.ovrBefore));
   const rhoRawAfter = spearman(r3Cohort.map((s) => s.signal.value), r3Cohort.map((s) => s.ovrAfter));
+
+  /* ---- 新规则验收指标 ---- */
+  const entryList = bands.entries;
+  const vrsTop10 = (e) => {
+    if (!e.m || !e.m.data.current_team) return false;
+    const t = teamIndex.byName(e.m.data.current_team);
+    return Boolean(t && Number.isFinite(t.vrs_rank) && t.vrs_rank <= 10);
+  };
+  const top20Before = entryList.slice().sort((a, b) => (b.ovrBefore - a.ovrBefore) || (a.card.templateId < b.card.templateId ? -1 : 1)).slice(0, 20);
+  const top20After = entryList.slice().sort((a, b) => (b.ovrAfter - a.ovrAfter) || (a.card.templateId < b.card.templateId ? -1 : 1)).slice(0, 20);
+  const hitBefore = top20Before.filter(vrsTop10).length;
+  const hitAfter = top20After.filter(vrsTop10).length;
+  const count99 = (a) => a.filter((v) => v >= ATTR_MAX).length;
+  const many99Before = entryList.filter((e) => count99(e.card.attrsBefore) >= 3).length;
+  const many99After = entryList.filter((e) => count99(e.attrsAfter) >= 3).length;
+  const total99Before = entryList.reduce((a, e) => a + count99(e.card.attrsBefore), 0);
+  const total99After = entryList.reduce((a, e) => a + count99(e.attrsAfter), 0);
+  const activeMatched = plan.matched.filter((s) => s.active);
+  const rhoActiveBefore = spearman(activeMatched.map((s) => s.signal.value), activeMatched.map((s) => s.card.ovrBefore));
+  const rhoActiveAfter = spearman(activeMatched.map((s) => s.signal.value), activeMatched.map((s) => s.ovrAfter));
 
   /* ---- P1 ---- */
   const aiSrc = fs.readFileSync(AI_TEAMS_PATH, 'utf8');
@@ -885,13 +1005,13 @@ function main() {
   }
 
   /* ---- 写回 ---- */
-  const byTpl = new Map(plan.matched.map((s) => [s.card.templateId, s]));
+  const byTpl = new Map(bands.entries.map((e) => [e.card.templateId, e]));
   let cardsChanged = 0;
   const cardsOut = cardsSrc.replace(tplRe(), (full, id, season, rarity, role, secondary, attrsText, profText) => {
-    const s = byTpl.get('tpl-' + id + '-' + season);
-    if (!s) return full;
-    let next = full.replace('[' + attrsText + ']', '[' + s.attrsAfter.join(', ') + ']');
-    next = next.replace('[' + profText + ']', '[' + s.profAfter.join(', ') + ']');
+    const e = byTpl.get('tpl-' + id + '-' + season);
+    if (!e) return full;
+    let next = full.replace('[' + attrsText + ']', '[' + e.attrsAfter.join(', ') + ']');
+    next = next.replace('[' + profText + ']', '[' + e.profAfter.join(', ') + ']');
     if (next !== full) cardsChanged += 1;
     return next;
   });
@@ -937,6 +1057,7 @@ function main() {
     : '全量重排（--recalibrate-ovr）：OVR 多重集合按主信号重排'));
   log('  全部命中卡 (n=' + plan.matched.length + ', 排序键=组内分位): 前 ' + rhoBefore.toFixed(4) + ' → 后 ' + rhoAfter.toFixed(4) + ' (' + (rhoAfter - rhoBefore >= 0 ? '+' : '') + (rhoAfter - rhoBefore).toFixed(4) + ')');
   log('  rating_3_0 子集 (n=' + r3Cohort.length + ', 原始 rating): 前 ' + rhoRawBefore.toFixed(4) + ' → 后 ' + rhoRawAfter.toFixed(4) + ' (' + (rhoRawAfter - rhoRawBefore >= 0 ? '+' : '') + (rhoRawAfter - rhoRawBefore).toFixed(4) + ')');
+  log('  活跃子集 (n=' + activeMatched.length + ', 原始 rating): 前 ' + rhoActiveBefore.toFixed(4) + ' → 后 ' + rhoActiveAfter.toFixed(4) + ' (' + (rhoActiveAfter - rhoActiveBefore >= 0 ? '+' : '') + (rhoActiveAfter - rhoActiveBefore).toFixed(4) + ')');
   log('');
 
   log('[4] OVR 分布（多重集合形状）');
@@ -1030,21 +1151,52 @@ function main() {
   if (coachWrite) log('  教练归属: ' + (WRITE ? (coachWrite.changed ? '已写入 coaches.ts（' + coachWrite.changed + ' 位）' : '无变化，未写入') : '干跑，将改写 ' + coachWrite.changed + ' 位'));
   log('');
 
-  const attrChanged = plan.matched.filter((s) => s.attrsAfter.some((v, i) => v !== s.card.attrsBefore[i]) || s.profAfter.some((v, i) => v !== s.card.profBefore[i])).length;
+  const attrChanged = bands.entries.filter((e) => e.attrsAfter.some((v, i) => v !== e.card.attrsBefore[i]) || e.profAfter.some((v, i) => v !== e.card.profBefore[i])).length;
+  log('[12b] band 分档与触顶规则验收');
+  const actN = plan.matched.filter((s) => s.active).length;
+  log('  活跃度门控: 命中卡里活跃 ' + actN + ' / 非活跃 ' + (plan.matched.length - actN) + '（全库 ' + dataPlayers.length + ' 人：活跃 ' + dataPlayers.filter(isActivePlayer).length + ' / 非活跃 ' + dataPlayers.filter((p) => !isActivePlayer(p)).length + '）');
+  for (const b of BAND_ORDER) {
+    const r = bands.ranges[b];
+    if (!r || !r.n) { log('  band ' + b + '（' + BAND_LABEL[b] + '）: 0 人'); continue; }
+    log('  band ' + b + '（' + BAND_LABEL[b] + '）: ' + r.n + ' 人 → 目标 OVR [' + r.min + ', ' + r.max + ']'
+      + (b === 'A' ? '；全部有 rating_3_0: ' + (r.allRecent ? '是' : '否') : ''));
+  }
+  const overlap = [];
+  for (let i = 0; i + 1 < BAND_ORDER.length; i += 1) {
+    const hi = bands.ranges[BAND_ORDER[i]];
+    const lo = bands.ranges[BAND_ORDER[i + 1]];
+    if (!hi || !hi.n || !lo || !lo.n) continue;
+    if (!(hi.min > lo.max)) overlap.push(BAND_ORDER[i] + '.min(' + hi.min + ') <= ' + BAND_ORDER[i + 1] + '.max(' + lo.max + ')');
+  }
+  log('  band 目标区间不重叠: ' + (overlap.length ? '否 → ' + overlap.join('; ') : '是（A.min > B.max > C.max > D.max）'));
+  const ach = {};
+  for (const b of BAND_ORDER) {
+    const list = bands.entries.filter((e) => e.band === b);
+    ach[b] = list.length ? { n: list.length, min: Math.min.apply(null, list.map((e) => e.ovrAfter)), max: Math.max.apply(null, list.map((e) => e.ovrAfter)) } : null;
+  }
+  log('  band 实际 OVR: ' + BAND_ORDER.filter((b) => ach[b]).map((b) => b + ' [' + ach[b].min + ', ' + ach[b].max + ']').join(' / '));
+  const achOverlap = [];
+  for (let i = 0; i + 1 < BAND_ORDER.length; i += 1) {
+    const hi = ach[BAND_ORDER[i]];
+    const lo = ach[BAND_ORDER[i + 1]];
+    if (!hi || !lo) continue;
+    if (!(hi.min > lo.max)) achOverlap.push(BAND_ORDER[i] + '.min(' + hi.min + ') <= ' + BAND_ORDER[i + 1] + '.max(' + lo.max + ')');
+  }
+  log('  band 实际区间不重叠: ' + (achOverlap.length ? '否 → ' + achOverlap.join('; ') : '是（A.min > B.max > C.max > D.max）'));
+  log('  VRS 前 10 战队阵容落入 OVR Top 20: 前 ' + hitBefore + '/20 → 后 ' + hitAfter + '/20');
+  log('  单卡 99 属性数 ≥3 的卡: 前 ' + many99Before + ' → 后 ' + many99After + '（必须为 0）');
+  log('  全池 99 出现次数: 前 ' + total99Before + ' → 后 ' + total99After);
+  log('  被可达区间夹住的卡: ' + solve.clamped + '（应尽量为 0，否则 band 区间会被压扁）');
+  log('');
   log('[12] 自检');
   log('  不动点迭代: ' + solve.rounds + ' 轮 / ' + (solve.converged ? '已收敛（二次运行 0 改动）' : '未收敛（需检查）'));
   log('  未命中目标 OVR 的卡: ' + solve.unmet + '（自由维到边界；信号维不代偿）');
-  log('  被 OVR/可达区间夹住的卡: ' + solve.capped);
+  log('  被 OVR/可达区间夹住的卡: ' + solve.clamped);
   log('  实际改动卡数: ' + attrChanged + ' / 命中 ' + plan.matched.length);
   log('');
 
   // 未命中卡保持原值 → 梯队自检要用「校准后的全量状态」，否则会读到 undefined。
-  const afterByTpl = new Map(cards.map((c) => {
-    const s = byTpl.get(c.templateId);
-    return [c.templateId, s
-      ? { attrsAfter: s.attrsAfter, profAfter: s.profAfter }
-      : { attrsAfter: c.attrsBefore, profAfter: c.profBefore }];
-  }));
+  const afterByTpl = new Map(bands.entries.map((e) => [e.card.templateId, e]));
   const tier = tierCheck(aiSrc, cards, afterByTpl);
   const beforeTier = {};
   for (const r of tier.rows) { beforeTier[r.tier] = beforeTier[r.tier] || []; beforeTier[r.tier].push(r.before); }
